@@ -41,8 +41,4 @@ export function initPageMotion() {
     });
   }
 
-  // module grids: staggered rise
-  document.querySelectorAll<HTMLElement>('.mg__grid, .ihp__grid, .steps__list, .faq__list').forEach((g) => {
-    gsap.from(g.children, { autoAlpha: 0, y: 30, stagger: 0.07, duration: 0.9, scrollTrigger: { trigger: g, start: 'top 85%', once: true } });
-  });
 }

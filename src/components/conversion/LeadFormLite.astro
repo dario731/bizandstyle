@@ -97,13 +97,20 @@ const uid = formId.replace(/[^a-z0-9]/gi, '');
 <style>
   .lfl {
     display: grid;
-    gap: var(--space-6);
+    gap: var(--space-5);
     background: transparent;
   }
 
   .lfl__fields {
     display: grid;
-    gap: var(--space-5) var(--space-6);
+    gap: var(--space-4) var(--space-5);
+  }
+
+  @media (max-width: 720px) {
+    .lfl { gap: var(--space-4); }
+    .lfl__fields { gap: var(--space-3); }
+    .field input, .field select, .field textarea { padding: 0.55rem 0; }
+    .field label, .field legend { font-size: 0.64rem; }
   }
 
   .field {

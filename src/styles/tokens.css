@@ -5,17 +5,17 @@
    ========================================================================== */
 :root {
   /* colour */
-  --onyx: #0e0d0b;
-  --ink: #121110;
-  --paper: #faf6ef;
-  --ivory: #f3ede2;
+  --onyx: #0b0e13;
+  --ink: #0f1319;
+  --paper: #f4f6f8;
+  --ivory: #e9edf1;
   --sand: #e8dfce;
-  --stone: #a9a196;
-  --smoke: #6f6961;
-  --rule: #d9cfba;
-  --rule-deep: #2a2825;
-  --brass: #b8975a;
-  --brass-soft: rgba(184, 151, 90, 0.35);
+  --stone: #9aa4b1;
+  --smoke: #667080;
+  --rule: #cfd6de;
+  --rule-deep: #232a33;
+  --brass: #8ec5e8; /* "ice" accent — token name kept for compatibility */
+  --brass-soft: rgba(142, 197, 232, 0.35);
 
   /* ground-relative (set by .ground-paper / .ground-onyx) */
   --bg: var(--paper);
@@ -56,8 +56,8 @@
   --space-7: 3rem;
   --space-8: 4rem;
   --space-9: 6rem;
-  --space-section: clamp(6rem, 12vw, 12rem);
-  --space-section-sm: clamp(4rem, 8vw, 7rem);
+  --space-section: clamp(4rem, 9vw, 9rem);
+  --space-section-sm: clamp(3rem, 6vw, 5.5rem);
 
   /* layout */
   --container: 1440px;
@@ -113,5 +113,16 @@
   :root {
     --wdth-display: 104;
     --lh-display: 0.98;
+  }
+}
+
+/* mobile: tighter rhythm */
+@media (max-width: 720px) {
+  :root {
+    --space-section: 3.25rem;
+    --space-section-sm: 2.25rem;
+    --space-7: 2rem;
+    --space-8: 2.5rem;
+    --space-9: 3.5rem;
   }
 }

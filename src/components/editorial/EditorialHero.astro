@@ -17,8 +17,10 @@ interface Props {
   visual?: 'rings' | 'orbit' | 'flow' | 'grid';
   crumbs?: { name: string; path: string }[];
   size?: 'display' | 'display-2';
+  /** One plain sentence: what this page is for */
+  brief?: string;
 }
-const { eyebrow, title, lede, ground = 'onyx', mediaId, mediaAlt = '', crumbs = [], size = 'display', visual = 'orbit' } = Astro.props;
+const { eyebrow, title, lede, ground = 'onyx', mediaId, mediaAlt = '', crumbs = [], size = 'display', visual = 'orbit', brief } = Astro.props;
 const lines = Array.isArray(title) ? title : [title];
 const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
 ---
@@ -31,6 +33,7 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
       <h1 class:list={[size, 'eh__title']} data-reveal>
         {lines.map((l, i) => <span class:list={{ thin: i > 0 && lines.length > 1 }}>{l}</span>)}
       </h1>
+      {brief && <p class="eh__brief" data-reveal><span class="eh__brief-k">This page</span>{brief}</p>}
       {lede && <p class="lede eh__lede" data-reveal>{lede}</p>}
       <div class="eh__slot" data-reveal><slot /></div>
     </div>
@@ -42,11 +45,15 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
       )
     }
   </div>
+  <nav class="eh__toc container" aria-label="On this page" data-page-toc hidden>
+    <span class="eh__toc-k">On this page</span>
+    <ul role="list" data-page-toc-list></ul>
+  </nav>
 </section>
 
 <style>
   .eh {
-    padding-top: clamp(7rem, 16vh, 11rem);
+    padding-top: clamp(6rem, 11vh, 8rem);
     padding-bottom: var(--space-section-sm);
   }
 
@@ -69,6 +76,62 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
     color: var(--fg-muted);
   }
 
+  .eh__brief {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.8rem;
+    align-items: baseline;
+    padding: 0.7rem 0.9rem;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--brass);
+    font-size: 0.92rem;
+    max-width: 44rem;
+  }
+
+  .eh__brief-k {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+
+  .eh__toc {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.2rem;
+    align-items: center;
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .eh__toc-k {
+    color: var(--fg-muted);
+  }
+
+  .eh__toc ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.2rem;
+  }
+
+  .eh__toc a {
+    padding: 0.2rem 0;
+    border-bottom: 1px solid transparent;
+  }
+
+  .eh__toc a:hover {
+    border-bottom-color: currentColor;
+  }
+
+  @media (max-width: 720px) {
+    .eh { padding-top: 6rem; }
+    .eh__media { display: none; }
+  }
+
   .eh__slot:empty {
     display: none;
   }
@@ -77,10 +140,28 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
     .eh--media .eh__inner {
       grid-template-columns: 7fr 5fr;
       column-gap: calc(var(--gutter) * 2);
-      align-items: end;
+      align-items: center;
     }
     .eh--media :global(.crumbs) {
       grid-column: 1 / -1;
     }
   }
 </style>
+
+<script>
+  const toc = document.querySelector<HTMLElement>('[data-page-toc]');
+  if (toc) {
+    const list = toc.querySelector('[data-page-toc-list]')!;
+    const heads = Array.from(document.querySelectorAll<HTMLElement>('main section[id] h2')).filter((h) => !h.closest('.eh')).slice(0, 7);
+    for (const h of heads) {
+      const sec = h.closest('section')!;
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#' + sec.id;
+      a.textContent = (h.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 42);
+      li.appendChild(a);
+      list.appendChild(li);
+    }
+    toc.hidden = heads.length < 2;
+  }
+</script>

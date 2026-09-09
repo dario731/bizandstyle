@@ -18,11 +18,12 @@ const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.descripti
 ---
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="about" {jsonLd}>
-  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="INFRA-TEAM" mediaAlt="BIZ & STYLE executive team in the Miami office" crumbs={[{ name: 'About', path }]} />
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="INFRA-TEAM" mediaAlt="BIZ & STYLE executive team in the Miami office" crumbs={[{ name: 'About', path }]} brief="The story of BIZ & STYLE, how it is structured, what it believes, and who leads it." />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <Steps eyebrow={p.timeline.eyebrow} title={p.timeline.title} steps={p.timeline.steps} label="Chapter" ground="paper" id="timeline" />
   <FounderStory copy={t.home.founder} />
   <ModuleGrid eyebrow={p.values.eyebrow} title={p.values.title} items={p.values.items} columns={4} ground="paper" id="values" numbered={false} />
+  <Statement eyebrow="Structure" lines={['A combination', 'of companies.']} body={['BIZ & STYLE DNA INC., its three divisions, and dedicated entities and joint ventures created with strategic partners — one platform, several companies, the same team behind all of them.']} ground="paper" size="display-2" />
   <Statement lines={['Your vision is our mission.', 'Our vision is your success.']} ground="onyx" size="display-2" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} ground="paper" location="about_cta" />
 </BaseLayout>

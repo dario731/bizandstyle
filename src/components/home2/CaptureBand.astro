@@ -16,11 +16,6 @@ const personas = [
 ---
 
 <section class="cb ground-onyx" id="tell-us" aria-labelledby="cb-title" data-capture>
-  <div class="cb__bg" aria-hidden="true">
-    <video autoplay muted loop playsinline preload="metadata">
-      <source src="/media/test/miami-11816.mp4" type="video/mp4" />
-    </video>
-  </div>
   <div class="container cb__inner">
     <p class="eyebrow eyebrow--marker" data-cb-reveal>Start here</p>
     <h2 id="cb-title" class="cb__title" data-cb-reveal>
@@ -55,22 +50,6 @@ const personas = [
     padding-block: clamp(5rem, 12vh, 9rem);
     overflow: hidden;
     isolation: isolate;
-  }
-
-  .cb__bg {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    opacity: 0.35;
-    -webkit-mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
-    mask-image: linear-gradient(180deg, transparent, #000 30%, #000 70%, transparent);
-  }
-
-  .cb__bg video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: saturate(0.6);
   }
 
   .cb__inner {
@@ -110,9 +89,9 @@ const personas = [
     align-items: center;
     gap: 0.9rem;
     padding: 1rem 1.1rem;
-    border: 1px solid rgba(250, 246, 239, 0.14);
+    border: 1px solid rgba(244, 246, 248, 0.14);
     border-radius: 12px;
-    background: rgba(14, 13, 11, 0.55);
+    background: rgba(11, 14, 19, 0.55);
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     font-size: 0.9rem;
@@ -129,7 +108,7 @@ const personas = [
 
   .cb__door:hover {
     border-color: var(--brass);
-    background: rgba(184, 151, 90, 0.12);
+    background: rgba(142, 197, 232, 0.12);
     transform: translateY(-2px);
   }
 

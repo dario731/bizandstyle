@@ -6,12 +6,6 @@
 ---
 
 <section class="wc ground-onyx" id="miami" aria-labelledby="wc-title" data-world>
-  <div class="wc__bg" aria-hidden="true">
-    <video autoplay muted loop playsinline preload="metadata">
-      <source src="/media/test/miami-24549.mp4" type="video/mp4" />
-    </video>
-  </div>
-
   <div class="container wc__head">
     <p class="eyebrow eyebrow--marker" data-wc-reveal>Miami · Global reach</p>
     <h2 id="wc-title" class="wc__title" data-wc-reveal>
@@ -43,22 +37,6 @@
     padding-block: clamp(5rem, 12vh, 9rem) clamp(4rem, 8vh, 6rem);
     overflow: hidden;
     isolation: isolate;
-  }
-
-  .wc__bg {
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    opacity: 0.22;
-    -webkit-mask-image: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent);
-    mask-image: linear-gradient(180deg, transparent, #000 25%, #000 75%, transparent);
-  }
-
-  .wc__bg video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(1) contrast(1.1);
   }
 
   .wc__head {
@@ -107,7 +85,7 @@
     font-size: 0.58rem;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: rgba(250, 246, 239, 0.7);
+    color: rgba(244, 246, 248, 0.7);
     white-space: nowrap;
     opacity: 0;
     transition: opacity 0.8s ease;
@@ -285,7 +263,7 @@
         const [x, y] = project(lon, lat);
         if (y < -4 || y > H + 4) continue;
         const shimmer = still ? 0 : Math.sin(t * 0.8 + x * 0.02 + y * 0.03) * 0.05;
-        ctx.fillStyle = `rgba(250,246,239,${0.2 + shimmer})`;
+        ctx.fillStyle = `rgba(244,246,248,${0.2 + shimmer})`;
         ctx.beginPath(); ctx.arc(x, y, Math.max(0.9, view.scale * 0.19), 0, Math.PI * 2); ctx.fill();
       }
 
@@ -303,40 +281,40 @@
           ctx.lineTo(x, y);
         }
         const g = ctx.createLinearGradient(p0[0], p0[1], p1[0], p1[1]);
-        g.addColorStop(0, inbound ? 'rgba(250,246,239,0.25)' : 'rgba(184,151,90,0.9)');
-        g.addColorStop(1, inbound ? 'rgba(184,151,90,0.9)' : 'rgba(250,246,239,0.25)');
+        g.addColorStop(0, inbound ? 'rgba(244,246,248,0.25)' : 'rgba(142,197,232,0.9)');
+        g.addColorStop(1, inbound ? 'rgba(142,197,232,0.9)' : 'rgba(244,246,248,0.25)');
         ctx.strokeStyle = g;
         ctx.lineWidth = 1.1;
         ctx.stroke();
 
         const [ex, ey] = bez(p0, c, p1, a.progress);
-        ctx.fillStyle = 'rgba(184,151,90,1)';
+        ctx.fillStyle = 'rgba(142,197,232,1)';
         ctx.beginPath(); ctx.arc(ex, ey, 2.2, 0, Math.PI * 2); ctx.fill();
 
         if (a.progress >= 1 && !still) {
           for (let k = 0; k < a.particles.length; k++) {
             a.particles[k] = (a.particles[k] + 0.0035 + k * 0.001) % 1;
             const [px, py] = bez(p0, c, p1, a.particles[k]);
-            ctx.shadowBlur = 12; ctx.shadowColor = 'rgba(184,151,90,0.9)';
-            ctx.fillStyle = 'rgba(250,246,239,0.95)';
+            ctx.shadowBlur = 12; ctx.shadowColor = 'rgba(142,197,232,0.9)';
+            ctx.fillStyle = 'rgba(244,246,248,0.95)';
             ctx.beginPath(); ctx.arc(px, py, 1.8, 0, Math.PI * 2); ctx.fill();
             ctx.shadowBlur = 0;
           }
         }
         const target = inbound ? p0 : p1;
-        ctx.fillStyle = 'rgba(250,246,239,0.9)';
+        ctx.fillStyle = 'rgba(244,246,248,0.9)';
         ctx.beginPath(); ctx.arc(target[0], target[1], 2, 0, Math.PI * 2); ctx.fill();
       }
 
       const [mx, my] = project(MIAMI.lon, MIAMI.lat);
       for (let r = 0; r < 3; r++) {
         const ph = still ? 0.5 : (t * 0.5 + r / 3) % 1;
-        ctx.strokeStyle = `rgba(184,151,90,${(1 - ph) * 0.6})`;
+        ctx.strokeStyle = `rgba(142,197,232,${(1 - ph) * 0.6})`;
         ctx.lineWidth = 1;
         ctx.beginPath(); ctx.arc(mx, my, 6 + ph * 34, 0, Math.PI * 2); ctx.stroke();
       }
-      ctx.fillStyle = '#B8975A';
-      ctx.shadowBlur = 18; ctx.shadowColor = 'rgba(184,151,90,1)';
+      ctx.fillStyle = '#8EC5E8';
+      ctx.shadowBlur = 18; ctx.shadowColor = 'rgba(142,197,232,1)';
       ctx.beginPath(); ctx.arc(mx, my, 5, 0, Math.PI * 2); ctx.fill();
       ctx.shadowBlur = 0;
 

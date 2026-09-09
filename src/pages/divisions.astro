@@ -1,0 +1,126 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Statement from '@components/editorial/Statement.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { byDivision, divisionMeta, type Division } from '@data/services';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const path = '/divisions';
+const title = 'Divisions — Advisory, Commerce, Luxury | BIZ & STYLE';
+const description = 'Three operating divisions inside one platform: B&S Advisory (strategy & growth), B&S Commerce (trade & distribution), B&S Luxury (real estate & high-value ecosystems). Choose where to start.';
+const divisions: { id: Division; num: string; line: string; overview: string; visual: string }[] = [
+  { id: 'advisory', num: '01', line: 'Strategy that ends in execution.', overview: 'Business strategy, international expansion, fractional executive leadership, business development and digital growth — delivered by a team that operates in-market.', visual: 'orbit' },
+  { id: 'commerce', num: '02', line: 'From product to market.', overview: 'Import and export, distribution, marketplaces, domestic and bonded warehousing in Miami, fulfillment and brand representation for the Americas.', visual: 'flow' },
+  { id: 'luxury', num: '03', line: 'Business development at the highest level.', overview: 'Miami luxury and pre-construction real estate, developer partnerships and a seven-vertical ecosystem serving the same high-net-worth client.', visual: 'grid' },
+];
+const jsonLd = graph(webPageLd({ name: title, description, path, type: 'CollectionPage' }), breadcrumbLd([{ name: 'Divisions', path }]));
+---
+
+<BaseLayout {title} {description} {path} pageType="divisions" {jsonLd}>
+  <EditorialHero eyebrow="Divisions" title={['Three engines.', 'Choose where to start.']} lede="Advisory, Commerce and Luxury are three operating divisions within one platform — the same team, infrastructure and network in Miami." ground="onyx" crumbs={[{ name: 'Divisions', path }]} brief="A quick overview of the three divisions, what each one does, and a door into each." />
+
+  <section class="section ground-onyx dv" id="choose" aria-label="Choose a division">
+    <div class="container dv__grid" data-reveal-group>
+      {
+        divisions.map((d) => {
+          const meta = divisionMeta[d.id];
+          const services = byDivision(d.id);
+          return (
+            <a class="dv__card" href={meta.path} data-track="division_view" data-track-division={meta.name}>
+              <span class="dv__top"><span class="num">{d.num}</span><span class="dv__role">{meta.role}</span></span>
+              <span class="dv__name">{meta.name}</span>
+              <span class="dv__line editorial">{d.line}</span>
+              <span class="dv__overview">{d.overview}</span>
+              <ul class="dv__services" role="list">
+                {services.slice(0, 5).map((s) => <li>{s.title}</li>)}
+                {services.length > 5 && <li class="dv__more-count">+ {services.length - 5} more</li>}
+              </ul>
+              <span class="btn btn--solid dv__btn">Enter {meta.name.replace('B&S ', '')}</span>
+            </a>
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <Statement eyebrow="One platform" lines={['Not three companies.', 'One system — several entities.']} body={['The divisions share one team, one infrastructure and one network. Behind them sit BIZ & STYLE DNA INC. and dedicated entities and joint ventures created with strategic partners — so what starts as a market-entry project can become distribution, and what starts as a property can become a business.']} ground="paper" size="display-2" />
+
+  <ContextualCta eyebrow="Not sure which division?" title={['Tell us', "what you're building."]} primary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} secondary={{ label: 'Solutions', href: '/solutions', name: 'solutions' }} location="divisions_cta" />
+</BaseLayout>
+
+<style>
+  .dv {
+    padding-top: 0;
+  }
+  .dv__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .dv__card {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+    padding: clamp(1.2rem, 2vw, 1.8rem);
+    border: 1px solid rgba(244, 246, 248, 0.14);
+    border-radius: 2px;
+    background: linear-gradient(160deg, rgba(24, 30, 38, 0.9), rgba(11, 14, 19, 0.98));
+    color: var(--paper);
+    transition: border-color 0.3s, transform 0.4s var(--ease-out);
+  }
+  .dv__card:hover {
+    border-color: var(--brass);
+    transform: translateY(-4px);
+  }
+  .dv__top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .dv__role {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+  .dv__name {
+    margin-top: 1.2rem;
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 116, 'wght' 720;
+    font-stretch: 116%;
+    font-size: 1.6rem;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .dv__line {
+    font-size: 1.2rem;
+    color: var(--stone);
+  }
+  .dv__overview {
+    font-size: 0.92rem;
+    color: var(--stone);
+  }
+  .dv__services {
+    display: grid;
+    margin-top: 0.6rem;
+    border-top: 1px solid rgba(244, 246, 248, 0.12);
+  }
+  .dv__services li {
+    padding: 0.45rem 0;
+    border-bottom: 1px solid rgba(244, 246, 248, 0.08);
+    font-size: 0.85rem;
+  }
+  .dv__more-count {
+    color: var(--brass);
+  }
+  .dv__btn {
+    margin-top: var(--space-4);
+    justify-self: start;
+  }
+  @media (min-width: 900px) {
+    .dv__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+  }
+</style>

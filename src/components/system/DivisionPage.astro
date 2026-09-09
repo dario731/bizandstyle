@@ -36,7 +36,7 @@ const jsonLd = graph(
 ---
 
 <BaseLayout title={seo.title} description={seo.description} path={div.path} pageType="division" {jsonLd}>
-  <EditorialHero eyebrow={hero.eyebrow} title={hero.title} lede={hero.lede} ground={div.ground} mediaId={hero.mediaId} mediaAlt={div.name} crumbs={[{ name: div.name, path: div.path }]}>
+  <EditorialHero eyebrow={hero.eyebrow} title={hero.title} lede={hero.lede} ground={div.ground} mediaId={hero.mediaId} mediaAlt={div.name} crumbs={[{ name: div.name, path: div.path }]} brief={`What ${div.name} does, the ${list.length} services inside it, how they are delivered, and how to start.`}>
     <a class="btn btn--solid" href={cta.primary.href} data-track="cta_click" data-track-cta-name={cta.primary.name} data-track-cta-location="division_hero" data-track-division={division}>
       <span class="btn__ring" aria-hidden="true"></span>{cta.primary.label}
     </a>

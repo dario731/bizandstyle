@@ -32,7 +32,7 @@ const jsonLd = graph(
 ---
 
 <BaseLayout title={s.seoTitle} description={s.seoDescription} {path} pageType="service" {jsonLd}>
-  <EditorialHero eyebrow={s.eyebrow} title={s.title} lede={s.lede} ground={div.ground} mediaId={s.mediaId} mediaAlt={s.title} crumbs={[{ name: div.name, path: div.path }, { name: s.title, path }]}>
+  <EditorialHero eyebrow={s.eyebrow} title={s.title} lede={s.lede} ground={div.ground} mediaId={s.mediaId} mediaAlt={s.title} crumbs={[{ name: div.name, path: div.path }, { name: s.title, path }]} brief={`What ${s.title.toLowerCase()} means at BIZ & STYLE, what it includes, who delivers it, and how to start.`}>
     <a class="btn btn--solid" href={s.cta.href} data-track="cta_click" data-track-cta-name={s.cta.name} data-track-cta-location="service_hero" data-track-service={s.slug}>
       <span class="btn__ring" aria-hidden="true"></span>{s.cta.label}
     </a>

@@ -31,7 +31,7 @@ const jsonLd = graph(
 ---
 
 <BaseLayout title={p.seoTitle} description={p.seoDescription} {path} pageType="program" {jsonLd}>
-  <EditorialHero eyebrow={`Program ${p.num}`} title={p.name} lede={p.lede} ground="onyx" mediaId={p.mediaId} mediaAlt={p.name} crumbs={[{ name: 'Programs', path: '/programs' }, { name: p.name, path }]}>
+  <EditorialHero eyebrow={`Program ${p.num}`} title={p.name} lede={p.lede} ground="onyx" mediaId={p.mediaId} mediaAlt={p.name} crumbs={[{ name: 'Programs', path: '/programs' }, { name: p.name, path }]} brief={`What the ${p.name} program is, its components, who it is for, and how to start.`}>
     <p class="editorial prog__tag">{p.tagline}</p>
     <a class="btn btn--solid" href={p.cta.href} data-track="cta_click" data-track-cta-name={p.cta.name} data-track-cta-location="program_hero" data-track-program={p.slug}>
       <span class="btn__ring" aria-hidden="true"></span>{p.cta.label}
