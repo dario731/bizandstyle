@@ -57,7 +57,6 @@ const isActive = (href: string) => current === href || current.startsWith(href +
             </div>
           )
         }
-        <a class="btn hdr__build" href="/build" data-track="cta_click" data-track-cta-name="build_journey" data-track-cta-location="header">Build your journey</a>
         <button class="btn btn--flash hdr__cta" type="button" data-open-contact="message" data-track="cta_click" data-track-cta-name="lets_connect" data-track-cta-location="header">
           Let's connect
         </button>
@@ -188,12 +187,6 @@ const isActive = (href: string) => current === href || current.startsWith(href +
     text-underline-offset: 0.3em;
   }
 
-  .hdr__build {
-    display: none;
-    min-height: 2.6rem;
-    padding: 0.6em 1.1em;
-  }
-
   .hdr__cta {
     display: none;
     min-height: 2.6rem;
@@ -298,7 +291,6 @@ const isActive = (href: string) => current === href || current.startsWith(href +
   @media (min-width: 1100px) {
     .hdr__nav { display: block; }
     .hdr__cta { display: inline-flex; }
-    .hdr__build { display: inline-flex; }
     .hdr__burger { display: none; }
     .hdr__cta-m { display: none; }
     .hdr__lang { display: flex; }
