@@ -78,20 +78,11 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
     </div>
   </div>
 
-  <div class="container jl__stages" data-flow data-flow-wrap="true">
-    <div class="jl__flowhead">
-      <span class="snaprow__hint">Three stages · swipe</span>
-      <div class="snaprow__nav">
-        <button class="snaprow__btn" type="button" data-flow-prev aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
-        <span class="num" data-flow-counter>01 / 03</span>
-        <button class="snaprow__btn" type="button" data-flow-next aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
-      </div>
-    </div>
-    <div class="jl__flowstage" data-flow-stage tabindex="0" aria-roledescription="carousel">
+  <div class="container jl__stages">
     <div class="jl__cards">
     {
       stages.slice(0, 3).map((s, i) => (
-        <button class="jl__stage snapcard" type="button" data-jl-stage={i} data-flow-card aria-pressed={i === 0 ? 'true' : 'false'}>
+        <button class="jl__stage snapcard" type="button" data-jl-stage={i} aria-pressed={i === 0 ? 'true' : 'false'}>
           <span class="snapcard__top"><span class="num">0{i + 1}</span><span class="snapcard__tag">{s.name}</span></span>
           <span class="jl__verbs">{s.verbs.join(' · ')}</span>
           <span class="jl__examples">{s.examples.slice(0, 5).map((e) => <span>{e}</span>)}</span>
@@ -99,7 +90,6 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
         </button>
       ))
     }
-    </div>
     </div>
   </div>
 </section>
@@ -272,47 +262,32 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
     margin-top: var(--space-7);
   }
 
-  .jl__flowhead {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-4);
-  }
-
-  .jl__flowstage {
-    position: relative;
-    height: 17rem;
-    perspective: 1400px;
-    touch-action: pan-y;
-    cursor: grab;
-    user-select: none;
-    outline: none;
-    overflow: hidden;
-    margin-inline: calc(var(--gutter) * -1);
-  }
-
   .jl__cards {
-    position: absolute;
-    left: 50%;
-    top: 0.25rem;
-    height: 100%;
-    transform-style: preserve-3d;
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    padding-bottom: 0.5rem;
   }
 
-  .jl__stage {
-    --w: min(24rem, 78vw);
-    position: absolute;
-    left: calc(var(--w) / -2);
-    top: 0;
-    width: var(--w);
-    height: 16rem;
-    will-change: transform;
-  }
+  .jl__cards::-webkit-scrollbar { display: none; }
 
   .jl__stage {
+    flex: 0 0 min(20rem, 80vw);
+    scroll-snap-align: start;
     text-align: left;
     cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.5s, border-color 0.3s, transform 0.4s var(--ease-out);
   }
+
+  .jl__stage.is-active {
+    opacity: 1;
+  }
+
 
   .jl__verbs {
     font-family: var(--font-display);
@@ -345,7 +320,8 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
   }
 
   @media (min-width: 900px) {
-    .jl__flowstage { margin-inline: 0; }
+    .jl__cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); overflow: visible; margin-inline: 0; padding-inline: 0; }
+    .jl__stage { flex: none; }
   }
 
   @media (min-width: 1024px) {

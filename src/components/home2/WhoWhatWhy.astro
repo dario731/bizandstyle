@@ -1,114 +1,182 @@
 ---
 /**
- * WhoWhatWhy — the three questions every visitor has, answered in one screen,
- * right after the hero. Who we are · What we do · Why partner with us.
+ * WhoWhatWhy — a spotlight, not a carousel. Three questions on the left
+ * with a progress bar; the answer on the right. Auto-cycles, pauses on
+ * hover, any question can be selected.
  */
-import Flow from '@components/cinematic/Flow.astro';
 const cols = [
-  {
-    k: 'Who we are',
-    title: 'A business development platform in Miami.',
-    body: 'Founded in 2017 by Dario Picardi. Three divisions — Advisory, Commerce, Luxury — one team, one infrastructure, one network across the United States, Latin America and Europe.',
-    href: '/platform',
-    label: 'The platform',
-  },
-  {
-    k: 'What we do',
-    title: 'We make companies part of the Americas.',
-    body: 'Strategy and market entry, distribution from a bonded hub in Miami, digital acquisition, business development and luxury real estate — for companies, brands, founders and investors.',
-    href: '/solutions',
-    label: 'Solutions',
-  },
-  {
-    k: 'Why partner with us',
-    title: 'Operators, not advisors at a distance.',
-    body: 'Everything we offer was built and tested in our own ventures first. The infrastructure already exists. The right expert — licensed where required — is at every stage of the journey.',
-    href: '/platform/how-we-work',
-    label: 'How we work',
-  },
+  { k: 'Who we are', title: 'A business development platform in Miami.', body: 'Founded in 2017 by Dario Picardi. Three divisions — Advisory, Commerce, Luxury — one team, one infrastructure, one network across the United States, Latin America and Europe.', href: '/platform', label: 'The platform' },
+  { k: 'What we do', title: 'We make companies part of the Americas.', body: 'Strategy and market entry, distribution from a bonded hub in Miami, digital acquisition, business development and luxury real estate — for companies, brands, founders and investors.', href: '/solutions', label: 'Solutions' },
+  { k: 'Why partner with us', title: 'Operators, not advisors at a distance.', body: 'Everything we offer was built and tested in our own ventures first. The infrastructure already exists. The right expert — licensed where required — is at every stage of the journey.', href: '/platform/how-we-work', label: 'How we work' },
 ];
 ---
 
-<section class="www ground-onyx" id="who-what-why" aria-label="Who we are, what we do, why partner with us" data-www>
-  <div class="container">
-    <Flow size="lg" label="Who we are · what we do · why partner with us" numbered={false} items={cols.map((c) => ({ tag: c.k, name: c.title, line: c.body, href: c.href }))} />
+<section class="ww ground-onyx" id="who-what-why" aria-label="Who we are, what we do, why partner with us" data-spot>
+  <div class="container ww__grid">
+    <div class="ww__list" role="tablist" aria-label="Questions">
+      {
+        cols.map((c, i) => (
+          <button class="ww__q" role="tab" type="button" id={`ww-tab-${i}`} aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`ww-panel-${i}`} data-spot-tab={i}>
+            <span class="num">0{i + 1}</span>
+            <span class="ww__qk">{c.k}</span>
+            <span class="ww__bar" aria-hidden="true"><span class="ww__fill" data-spot-fill></span></span>
+          </button>
+        ))
+      }
+    </div>
+    <div class="ww__stage">
+      {
+        cols.map((c, i) => (
+          <article class="ww__panel" role="tabpanel" id={`ww-panel-${i}`} aria-labelledby={`ww-tab-${i}`} data-spot-panel={i} hidden={i !== 0}>
+            <p class="eyebrow eyebrow--marker">{c.k}</p>
+            <h2 class="ww__title">{c.title}</h2>
+            <p class="ww__body">{c.body}</p>
+            <a class="link" href={c.href} data-track="navigation_click" data-track-cta-name={c.label}>
+              {c.label}<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+            </a>
+          </article>
+        ))
+      }
+    </div>
   </div>
 </section>
 
 <style>
-  .www {
+  .ww {
     padding-block: var(--space-section-sm);
-    border-top: 1px solid var(--rule-deep);
   }
 
-  .www__grid {
+  .ww__grid {
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-6);
   }
 
-  .www__col {
+  .ww__list {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .ww__q {
     position: relative;
     display: grid;
-    gap: var(--space-3);
-    align-content: start;
-    padding: var(--space-5) var(--space-5) var(--space-6);
-    border: 1px solid var(--rule-deep);
-    border-radius: 2px;
-    background: linear-gradient(160deg, rgba(24, 30, 38, 0.6), rgba(8, 9, 11, 0.6));
-    overflow: hidden;
-  }
-
-  .www__k {
-    display: flex;
+    grid-template-columns: auto 1fr;
+    gap: 0.9rem;
     align-items: center;
-    gap: 0.7rem;
-    font-size: 0.66rem;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--brass);
-  }
-
-  .www__idx {
-    font-family: var(--font-body);
+    padding: 0.9rem 0 1rem;
+    text-align: left;
     color: var(--stone);
+    border-top: 1px solid var(--rule-deep);
+    transition: color 0.3s;
   }
 
-  .www__title {
+  .ww__q:last-child {
+    border-bottom: 1px solid var(--rule-deep);
+  }
+
+  .ww__qk {
     font-family: var(--font-display);
-    font-variation-settings: 'wdth' 116, 'wght' 720;
+    font-variation-settings: 'wdth' 116, 'wght' 700;
     font-stretch: 116%;
-    font-size: clamp(1.25rem, 1.8vw, 1.6rem);
-    line-height: 1.05;
+    font-size: clamp(1.1rem, 1.8vw, 1.5rem);
     text-transform: uppercase;
     letter-spacing: -0.01em;
   }
 
-  .www__body {
-    color: var(--stone);
-    font-size: 0.95rem;
+  .ww__q[aria-selected='true'] {
+    color: var(--paper);
   }
 
-  .www__bar {
-    position: absolute;
-    left: 0;
-    bottom: 0;
+  .ww__bar {
+    grid-column: 1 / -1;
     height: 2px;
+    background: rgba(244, 246, 248, 0.08);
+    overflow: hidden;
+  }
+
+  .ww__fill {
+    display: block;
+    height: 100%;
     width: 100%;
-    background: linear-gradient(90deg, var(--brass), transparent);
+    background: var(--brass);
     transform: scaleX(0);
     transform-origin: left;
-    transition: transform 1.2s var(--ease-out);
   }
 
-  .www__col.is-in .www__bar {
-    transform: scaleX(1);
-    transition-delay: calc(var(--i) * 0.15s);
+  .ww__q[aria-selected='true'] .ww__fill {
+    animation: ww-fill var(--ww-dur, 6s) linear forwards;
   }
 
-  @media (min-width: 900px) {
-    .www__grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+  .ww.is-paused .ww__fill {
+    animation-play-state: paused;
+  }
+
+  @keyframes ww-fill {
+    to { transform: scaleX(1); }
+  }
+
+  .ww__stage {
+    min-height: 16rem;
+  }
+
+  .ww__panel {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+    animation: ww-in 0.6s var(--ease-out);
+  }
+
+  @keyframes ww-in {
+    from { opacity: 0; transform: translateY(14px); }
+  }
+
+  .ww__title {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 118, 'wght' 760;
+    font-stretch: 118%;
+    font-weight: 760;
+    font-size: var(--fs-2);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    max-width: 16ch;
+  }
+
+  .ww__body {
+    color: var(--stone);
+    max-width: 44rem;
+    font-size: 1.05rem;
+  }
+
+  @media (min-width: 1024px) {
+    .ww__grid {
+      grid-template-columns: 4fr 8fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: start;
     }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ww__fill { animation: none; transform: scaleX(1); }
+    .ww__panel { animation: none; }
   }
 </style>
 
+<script>
+  const root = document.querySelector<HTMLElement>('[data-spot]');
+  if (root) {
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-spot-tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-spot-panel]'));
+    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let i = 0, timer = 0;
+    const select = (n: number) => {
+      i = n % tabs.length;
+      tabs.forEach((t, k) => { t.setAttribute('aria-selected', String(k === i)); const f = t.querySelector<HTMLElement>('[data-spot-fill]')!; f.style.animation = 'none'; void f.offsetWidth; f.style.animation = ''; });
+      panels.forEach((p, k) => (p.hidden = k !== i));
+    };
+    const arm = () => { clearInterval(timer); if (!still) timer = window.setInterval(() => select(i + 1), 6000); };
+    tabs.forEach((t, k) => t.addEventListener('click', () => { select(k); arm(); }));
+    root.addEventListener('pointerenter', () => { root.classList.add('is-paused'); clearInterval(timer); });
+    root.addEventListener('pointerleave', () => { root.classList.remove('is-paused'); arm(); });
+    new IntersectionObserver((es) => { if (es[0].isIntersecting) { select(i); arm(); } else clearInterval(timer); }).observe(root);
+  }
+</script>

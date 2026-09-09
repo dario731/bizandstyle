@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import CineHero from '@components/home2/CineHero.astro';
-import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import EnginesConnected from '@components/home2/EnginesConnected.astro';
+import ProofTicker from '@components/home2/ProofTicker.astro';
 import WorldConnect from '@components/home2/WorldConnect.astro';
 import WhoWhatWhy from '@components/home2/WhoWhatWhy.astro';
 import OrbitCarousel from '@components/cinematic/OrbitCarousel.astro';
@@ -30,12 +31,9 @@ const orbitItems = solutions.map((s) => ({ num: s.num, name: s.name, line: s.tag
 
 <BaseLayout title={t.meta.home.title} description={t.meta.home.description} path="/" pageType="home" {jsonLd}>
   <CineHero />
+  <ProofTicker />
   <WhoWhatWhy />
-  <ModuleGrid eyebrow="The platform" title={['One platform.', 'Three engines.']} lede="Advisory, Commerce and Luxury share one team, one infrastructure and one network in Miami." items={[
-    { name: 'B&S Advisory', line: 'Strategy that ends in execution — business strategy, international expansion, fractional executive, business development, digital growth.', href: '/advisory', tag: 'Strategy & growth' },
-    { name: 'B&S Commerce', line: 'From product to market — import/export, distribution, marketplaces, domestic and bonded warehousing, fulfillment, brand expansion.', href: '/commerce', tag: 'Trade & distribution' },
-    { name: 'B&S Luxury', line: 'Business development at the highest level — luxury real estate, developer partnerships and a seven-vertical HNWI ecosystem.', href: '/luxury', tag: 'Real estate & ecosystems' },
-  ]} ground="onyx" id="platform" trackAs="division_view" />
+  <EnginesConnected />
   <OrbitCarousel eyebrow="Solutions" title={['Five solutions.', 'Integrated or à la carte.']} items={orbitItems} id="orbit" />
   <WorldConnect />
   <JourneyLoop stages={t.home.journey.stages} />

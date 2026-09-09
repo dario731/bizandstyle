@@ -1,0 +1,80 @@
+---
+/**
+ * ProofTicker — operating proof as a continuous marquee. Every item traces to
+ * docs/01-AUDIT.md §A. Pauses on hover; static under reduced motion.
+ */
+const items = [
+  'Miami Beach headquarters since 2017',
+  'Executive team on the ground',
+  'Domestic + bonded warehouse in Miami',
+  'Fulfillment · customs · freight',
+  'Digital acquisition engine built in-house',
+  '200+ commercial partners across the U.S. and LATAM',
+  'Operating bases in Mexico and Brazil',
+  'Europe → Miami → the Americas',
+  'Three divisions · one platform',
+];
+---
+
+<div class="pt ground-onyx" aria-label="Operating proof">
+  <div class="pt__track" data-ticker>
+    {[0, 1].map((k) => (
+      <ul class="pt__list" role="list" aria-hidden={k === 1 ? 'true' : undefined}>
+        {items.map((it) => (
+          <li class="pt__item"><span class="pt__dot" aria-hidden="true"></span>{it}</li>
+        ))}
+      </ul>
+    ))}
+  </div>
+</div>
+
+<style>
+  .pt {
+    border-top: 1px solid var(--rule-deep);
+    border-bottom: 1px solid var(--rule-deep);
+    overflow: hidden;
+  }
+
+  .pt__track {
+    display: flex;
+    width: max-content;
+    animation: pt-scroll 42s linear infinite;
+  }
+
+  .pt:hover .pt__track {
+    animation-play-state: paused;
+  }
+
+  .pt__list {
+    display: flex;
+    flex: none;
+  }
+
+  .pt__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    padding: 0.95rem 2.2rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stone);
+    white-space: nowrap;
+  }
+
+  .pt__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--brass);
+    box-shadow: 0 0 10px rgba(142, 197, 232, 0.8);
+  }
+
+  @keyframes pt-scroll {
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pt__track { animation: none; }
+  }
+</style>
