@@ -13,7 +13,7 @@ interface Item {
 interface Props {
   items: readonly Item[];
   label?: string;
-  size?: 'sm' | 'md';
+  size?: 'sm' | 'md' | 'lg';
   trackAs?: string;
   numbered?: boolean;
 }
@@ -102,6 +102,9 @@ const { items, label, size = 'md', trackAs, numbered = true } = Astro.props;
     transition: border-color 0.3s;
   }
 
+  .fl--lg .fl__stage { height: 19rem; }
+  .fl--lg .fl__card { --w: min(24rem, 78vw); height: 18rem; }
+  .fl--lg :global(.snapcard__line) { font-size: 0.92rem; }
   .fl--sm .fl__stage { height: 11.5rem; }
   .fl--sm .fl__card { --w: min(16rem, 60vw); height: 10.5rem; }
 

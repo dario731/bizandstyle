@@ -3,6 +3,7 @@
  * WhoWhatWhy — the three questions every visitor has, answered in one screen,
  * right after the hero. Who we are · What we do · Why partner with us.
  */
+import Flow from '@components/cinematic/Flow.astro';
 const cols = [
   {
     k: 'Who we are',
@@ -29,20 +30,8 @@ const cols = [
 ---
 
 <section class="www ground-onyx" id="who-what-why" aria-label="Who we are, what we do, why partner with us" data-www>
-  <div class="container www__grid">
-    {
-      cols.map((c, i) => (
-        <article class="www__col" data-www-col style={`--i:${i}`}>
-          <p class="www__k"><span class="www__idx">0{i + 1}</span>{c.k}</p>
-          <h2 class="www__title">{c.title}</h2>
-          <p class="www__body">{c.body}</p>
-          <a class="link" href={c.href} data-track="navigation_click" data-track-cta-name={c.label}>
-            {c.label}<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
-          </a>
-          <span class="www__bar" aria-hidden="true"></span>
-        </article>
-      ))
-    }
+  <div class="container">
+    <Flow size="lg" label="Who we are · what we do · why partner with us" numbered={false} items={cols.map((c) => ({ tag: c.k, name: c.title, line: c.body, href: c.href }))} />
   </div>
 </section>
 
@@ -123,11 +112,3 @@ const cols = [
   }
 </style>
 
-<script>
-  import { gsap } from '@lib/motion';
-  const root = document.querySelector<HTMLElement>('[data-www]');
-  if (root) {
-    const cols = root.querySelectorAll<HTMLElement>('[data-www-col]');
-    gsap.from(cols, { autoAlpha: 0, y: 30, stagger: 0.15, duration: 1, scrollTrigger: { trigger: root, start: 'top 80%', once: true, onEnter: () => cols.forEach((c) => c.classList.add('is-in')) } });
-  }
-</script>

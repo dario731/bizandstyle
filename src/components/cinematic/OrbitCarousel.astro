@@ -30,7 +30,7 @@ interface Props {
 const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, details, id = 'orbit' } = Astro.props;
 ---
 
-<section class="cf ground-onyx" {id} aria-labelledby={`${id}-title`} data-flow data-flow-wrap="true" data-flow-auto={details ? undefined : '4500'}>
+<section class="cf ground-onyx" {id} aria-labelledby={`${id}-title`} data-flow data-flow-wrap="true" data-flow-hash={details ? 'true' : undefined} data-flow-auto={details ? undefined : '4500'}>
   <div class="container cf__head">
     <div>
       <p class="eyebrow eyebrow--marker" data-cf-reveal>{eyebrow}</p>
@@ -49,7 +49,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     <div class="cf__track">
       {
         items.map((it, i) => (
-          <a class="cf__card" href={details ? '#' : it.href} data-flow-card data-index={i} aria-label={it.name} data-track="navigation_click" data-track-cta-name={it.name}>
+          <a class="cf__card" href={details ? '#' : it.href} data-flow-card data-index={i} data-hash={details ? it.href.replace(/^#/, '') : undefined} aria-label={it.name} data-track="navigation_click" data-track-cta-name={it.name}>
             <span class="cf__top"><span class="num">{it.num ?? String(i + 1).padStart(2, '0')}</span>{it.tag && <span class="cf__tag">{it.tag}</span>}</span>
             <span class="cf__name">{it.name}</span>
             <span class="cf__line">{it.line}</span>

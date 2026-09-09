@@ -98,6 +98,16 @@ export function initFlows() {
     stage.addEventListener('pointercancel', end);
     stage.addEventListener('wheel', (e) => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) { e.preventDefault(); go(Math.round(target) + (e.deltaX > 0 ? 1 : -1)); } }, { passive: false });
     stage.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') go(Math.round(target) + 1); if (e.key === 'ArrowLeft') go(Math.round(target) - 1); });
+    // deep link: #slug selects the matching card and brings the row into view
+    const byHash = () => {
+      const h = decodeURIComponent(location.hash.replace('#', ''));
+      if (!h) return;
+      const i = cards.findIndex((c) => c.dataset.hash === h);
+      if (i < 0) return;
+      target = pos = i; render();
+      setTimeout(() => root.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+    };
+    if (root.dataset.flowHash) { byHash(); window.addEventListener('hashchange', byHash); }
     window.addEventListener('resize', render);
     new ResizeObserver(() => render()).observe(stage);
     new IntersectionObserver((es) => (es[0].isIntersecting ? restart() : clearInterval(timer))).observe(root);

@@ -33,7 +33,6 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
       <h1 class:list={[size, 'eh__title']} data-reveal>
         {lines.map((l, i) => <span class:list={{ thin: i > 0 && lines.length > 1 }}>{l}</span>)}
       </h1>
-      {brief && <p class="eh__brief" data-reveal><span class="eh__brief-k">This page</span>{brief}</p>}
       {lede && <p class="lede eh__lede" data-reveal>{lede}</p>}
       <div class="eh__slot" data-reveal><slot /></div>
     </div>

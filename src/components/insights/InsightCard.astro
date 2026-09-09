@@ -1,6 +1,5 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import FrameVisual from '@components/cinematic/FrameVisual.astro';
 
 interface Props {
   entry: CollectionEntry<'insights'>;
@@ -18,7 +17,13 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
 <article class="card">
   <a href={href} class="card__link" data-track="article_view" data-track-article-category={entry.data.category.id}>
     <div class="card__media">
-      {hero?.image ? <img src={hero.image.src} width={hero.image.width} height={hero.image.height} alt={hero.alt} loading="lazy" decoding="async" /> : <FrameVisual variant="flow" seed={entry.id} ratio="16 / 10" />}
+      {hero?.image ? <img src={hero.image.src} width={hero.image.width} height={hero.image.height} alt={hero.alt} loading="lazy" decoding="async" /> : (
+        <div class="card__cover" aria-hidden="true">
+          <span class="card__cover-k">{categoryName}</span>
+          <span class="card__cover-t">{title}</span>
+          <span class="card__cover-d">{date}</span>
+        </div>
+      )}
     </div>
     <div class="card__body">
       <p class="eyebrow">{categoryName}</p>
@@ -32,6 +37,43 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
 </article>
 
 <style>
+  .card__cover {
+    display: grid;
+    align-content: space-between;
+    gap: 1rem;
+    aspect-ratio: 16 / 10;
+    padding: 1.1rem 1.2rem;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: linear-gradient(160deg, rgba(24, 30, 38, 0.9), rgba(8, 9, 11, 0.95));
+    color: var(--paper);
+  }
+  .card__cover-k {
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+  .card__cover-t {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 114, 'wght' 720;
+    font-stretch: 114%;
+    font-size: 1.15rem;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .card__cover-d {
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
   .card__link {
     display: grid;
     gap: var(--space-4);
