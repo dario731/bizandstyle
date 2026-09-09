@@ -128,7 +128,7 @@ const { video } = Astro.props;
     font-variation-settings: 'wdth' 118, 'wght' 760;
     font-stretch: 118%;
     font-weight: 760;
-    font-size: clamp(2rem, 4.4vw, 4.2rem);
+    font-size: clamp(1.75rem, 4.4vw, 4.2rem);
     line-height: 0.95;
     letter-spacing: -0.025em;
     text-transform: uppercase;
@@ -139,6 +139,11 @@ const { video } = Astro.props;
     display: block;
     overflow: hidden;
     padding-bottom: 0.06em;
+  }
+
+  .ch__title :global(.ch__w) {
+    display: inline-block;
+    white-space: nowrap;
   }
 
   .ch__word--accent {
@@ -220,7 +225,7 @@ const { video } = Astro.props;
     const video = hero.querySelector<HTMLVideoElement>('[data-hero-video]');
 
     if (!reduced()) {
-      const split = new SplitText(title.querySelectorAll('.ch__word'), { type: 'chars' });
+      const split = new SplitText(title.querySelectorAll('.ch__word'), { type: 'words,chars', wordsClass: 'ch__w' });
       const tl = gsap.timeline({ delay: 0.15 });
       tl.from(eyebrow, { autoAlpha: 0, y: 12, duration: 0.8 }, 0)
         .from(split.chars, { yPercent: 120, rotateX: -40, autoAlpha: 0, stagger: { each: 0.028, from: 'start' }, duration: 1.2 }, 0.1)
