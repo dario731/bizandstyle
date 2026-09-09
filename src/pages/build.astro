@@ -257,7 +257,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
   }
 
   .bj__card:hover { border-color: var(--stone); transform: translateY(-2px); }
-  .bj__card[aria-pressed='true'] { border-color: var(--brass); background: linear-gradient(160deg, rgba(142, 197, 232, 0.18), rgba(8, 9, 11, 0.8)); }
+  .bj__card[aria-pressed='true'] { border-color: var(--brass); background: linear-gradient(160deg, rgba(211, 217, 225, 0.18), rgba(8, 9, 11, 0.8)); }
 
   .bj__mark {
     position: absolute;
@@ -288,7 +288,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
   }
 
   .bj__card.is-suggested .bj__sugg { display: block; }
-  .bj__card.is-suggested { border-color: rgba(142, 197, 232, 0.5); }
+  .bj__card.is-suggested { border-color: rgba(211, 217, 225, 0.5); }
 
   .bj__name {
     font-family: var(--font-display);
@@ -330,13 +330,13 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
   .bj__map { display: grid; gap: 0.5rem; }
   .bj__map svg { width: 100%; max-width: 320px; margin-inline: auto; overflow: visible; }
   .bj__orbit { fill: none; stroke: rgba(244, 246, 248, 0.12); stroke-dasharray: 2 6; }
-  .bj__orbit--inner { stroke: rgba(142, 197, 232, 0.25); }
-  .bj__you { fill: var(--brass); filter: drop-shadow(0 0 10px rgba(142, 197, 232, 0.9)); }
+  .bj__orbit--inner { stroke: rgba(211, 217, 225, 0.25); }
+  .bj__you { fill: var(--brass); filter: drop-shadow(0 0 10px rgba(211, 217, 225, 0.9)); }
   .bj__youlabel { font-size: 6px; letter-spacing: 0.2em; fill: var(--onyx); font-weight: 700; }
-  .bj__map :global(line) { stroke: rgba(142, 197, 232, 0.5); stroke-width: 1; }
+  .bj__map :global(line) { stroke: rgba(211, 217, 225, 0.5); stroke-width: 1; }
   .bj__map :global(circle.node) { fill: var(--paper); transform-box: fill-box; transform-origin: center; animation: bj-pop 0.5s var(--ease-out); }
   .bj__map :global(circle.node.c-advisory) { fill: #f5f7f9; }
-  .bj__map :global(circle.node.c-commerce) { fill: #8ec5e8; }
+  .bj__map :global(circle.node.c-commerce) { fill: #d3d9e1; }
   .bj__map :global(circle.node.c-luxury) { fill: #cfe4f4; }
   .bj__map :global(circle.node.c-solutions) { fill: #5ea7d6; }
   .bj__map :global(circle.node.c-programs) { fill: #ffffff; }

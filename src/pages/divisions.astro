@@ -18,7 +18,7 @@ const jsonLd = graph(webPageLd({ name: title, description, path, type: 'Collecti
 ---
 
 <BaseLayout {title} {description} {path} pageType="divisions" {jsonLd}>
-  <EditorialHero eyebrow="Divisions" title={['Three engines.', 'Choose where to start.']} ground="onyx" crumbs={[{ name: 'Divisions', path }]} size="display-2" />
+  <EditorialHero eyebrow="Divisions" title={['Three engines.', 'Choose where to start.']} ground="onyx" crumbs={[{ name: 'Divisions', path }]} size="display-2" toc={false} tight />
 
   <section class="section ground-onyx dv" id="choose" aria-label="Choose a division">
     <div class="container dv__grid" data-reveal-group>
@@ -65,12 +65,13 @@ const jsonLd = graph(webPageLd({ name: title, description, path, type: 'Collecti
     padding: clamp(1.2rem, 2vw, 1.8rem);
     border: 1px solid rgba(244, 246, 248, 0.14);
     border-radius: 2px;
-    background: linear-gradient(160deg, rgba(24, 30, 38, 0.9), rgba(11, 14, 19, 0.98));
+    background: linear-gradient(170deg, #1a1e25, #0b0d11 70%);
     color: var(--paper);
     transition: border-color 0.3s, transform 0.4s var(--ease-out);
   }
   .dv__card:hover {
-    border-color: var(--brass);
+    border-color: rgba(244, 246, 248, 0.4);
+    background: linear-gradient(170deg, #2a2f38, #12151a 70%);
     transform: translateY(-4px);
   }
   .dv__top {

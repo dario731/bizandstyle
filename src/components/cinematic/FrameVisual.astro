@@ -57,7 +57,7 @@ const { variant = 'orbit', seed = 'bs', ratio = '4 / 5', label, class: cls } = A
 
 <script>
   const PAPER = [244, 246, 248];
-  const BRASS = [142, 197, 232];
+  const BRASS = [211, 217, 225];
   const rgba = (c: number[], a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
   const hash = (s: string) => { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
   const rng = (seed: number) => () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };

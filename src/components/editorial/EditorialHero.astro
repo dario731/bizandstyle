@@ -19,13 +19,17 @@ interface Props {
   size?: 'display' | 'display-2';
   /** One plain sentence: what this page is for */
   brief?: string;
+  /** Render the auto "On this page" strip (default true) */
+  toc?: boolean;
+  /** Short hero: the page's first visual sits right under the title */
+  tight?: boolean;
 }
-const { eyebrow, title, lede, ground = 'onyx', mediaId, mediaAlt = '', crumbs = [], size = 'display', visual = 'orbit', brief } = Astro.props;
+const { eyebrow, title, lede, ground = 'onyx', mediaId, mediaAlt = '', crumbs = [], size = 'display', visual = 'orbit', brief, toc = true, tight = false } = Astro.props;
 const lines = Array.isArray(title) ? title : [title];
 const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
 ---
 
-<section class:list={['eh', groundClass, { 'eh--media': Boolean(mediaId) }]}>
+<section class:list={['eh', groundClass, { 'eh--media': Boolean(mediaId), 'eh--tight': tight }]}>
   <div class="container eh__inner">
     {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
     <div class="eh__text">
@@ -44,10 +48,12 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
       )
     }
   </div>
-  <nav class="eh__toc container" aria-label="On this page" data-page-toc hidden>
-    <span class="eh__toc-k">On this page</span>
-    <ul role="list" data-page-toc-list></ul>
-  </nav>
+  {toc && (
+    <nav class="eh__toc container" aria-label="On this page" data-page-toc hidden>
+      <span class="eh__toc-k">On this page</span>
+      <ul role="list" data-page-toc-list></ul>
+    </nav>
+  )}
 </section>
 
 <style>
@@ -60,6 +66,9 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
     display: grid;
     gap: var(--space-7);
   }
+  .eh--tight { padding-bottom: var(--space-6); }
+  .eh--tight .eh__inner { gap: var(--space-5); }
+  .eh--tight .eh__text { gap: var(--space-4); }
 
   .eh__text {
     display: grid;

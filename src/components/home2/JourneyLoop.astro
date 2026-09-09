@@ -42,8 +42,8 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
     <div class="jl__ring" data-jl-ring>
       <svg viewBox="0 0 480 480" aria-hidden="true">
         <defs>
-          <radialGradient id="jl-glow"><stop offset="0" stop-color="#8ec5e8" stop-opacity="0.28"></stop><stop offset="1" stop-color="#8ec5e8" stop-opacity="0"></stop></radialGradient>
-          <linearGradient id="jl-arc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8ec5e8" stop-opacity="0"></stop><stop offset="1" stop-color="#f5f7f9" stop-opacity="1"></stop></linearGradient>
+          <radialGradient id="jl-glow"><stop offset="0" stop-color="#d3d9e1" stop-opacity="0.28"></stop><stop offset="1" stop-color="#d3d9e1" stop-opacity="0"></stop></radialGradient>
+          <linearGradient id="jl-arc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#d3d9e1" stop-opacity="0"></stop><stop offset="1" stop-color="#f5f7f9" stop-opacity="1"></stop></linearGradient>
         </defs>
         <circle cx={C} cy={C} r={R + 30} fill="url(#jl-glow)" class="jl__halo"></circle>
         <circle class="jl__dash" cx={C} cy={C} r={R + 22}></circle>
@@ -70,7 +70,7 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
         }
         <g class="jl__traveller" data-jl-traveller>
           <circle r="6" fill="#f5f7f9"></circle>
-          <circle r="14" fill="none" stroke="#8ec5e8" stroke-opacity="0.7"></circle>
+          <circle r="14" fill="none" stroke="#d3d9e1" stroke-opacity="0.7"></circle>
         </g>
         <text x={C} y={C + 12} text-anchor="middle" class="jl__inf">∞</text>
       </svg>
@@ -132,7 +132,7 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
 
   .jl__word.is-active {
     color: var(--paper);
-    text-shadow: 0 0 40px rgba(142, 197, 232, 0.45);
+    text-shadow: 0 0 40px rgba(211, 217, 225, 0.45);
   }
 
   .jl__word--inf {
@@ -174,7 +174,7 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
 
   .jl__dash {
     fill: none;
-    stroke: rgba(142, 197, 232, 0.35);
+    stroke: rgba(211, 217, 225, 0.35);
     stroke-width: 1;
     stroke-dasharray: 2 10;
     transform-origin: 240px 240px;
@@ -193,7 +193,7 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
 
   .jl__draw {
     fill: none;
-    stroke: rgba(142, 197, 232, 0.55);
+    stroke: rgba(211, 217, 225, 0.55);
     stroke-width: 1.4;
   }
 
@@ -201,7 +201,7 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
     fill: none;
     stroke-width: 3;
     stroke-linecap: round;
-    filter: drop-shadow(0 0 6px rgba(142, 197, 232, 0.9));
+    filter: drop-shadow(0 0 6px rgba(211, 217, 225, 0.9));
   }
 
   .jl__arrow {
@@ -211,7 +211,7 @@ const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI
   }
 
   .jl__node-flare {
-    fill: rgba(142, 197, 232, 0.18);
+    fill: rgba(211, 217, 225, 0.18);
     transform-box: fill-box;
     transform-origin: center;
     transform: scale(0);
