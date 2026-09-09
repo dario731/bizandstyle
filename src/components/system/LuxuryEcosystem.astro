@@ -359,7 +359,8 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
   }
   /* lux-mobile-fit: everything inside the phone screen */
   @media (max-width: 720px) {
-    .lux__stage { overflow: hidden; }
+    .lux > .container { display: flex; flex-direction: column; }
+    .lux__stage { order: -1; overflow: hidden; margin-bottom: var(--space-6); }
     .lux__net { transform: scale(0.78); transform-origin: 50% 50%; margin-block: -8% 4%; margin-top: 2rem; }
     .lux__v-role { display: none; }
     .lux__v-name { font-size: 0.66rem; max-width: 6.5rem; white-space: normal; line-height: 1.1; }

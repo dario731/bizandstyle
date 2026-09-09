@@ -306,7 +306,7 @@ export const en = {
     },
 
     luxury: {
-      eyebrow: '08 — B&S Luxury ecosystem',
+      eyebrow: 'The seven verticals',
       title: 'Business development at the highest level.',
       not: 'This is not concierge.',
       body:
