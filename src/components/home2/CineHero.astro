@@ -27,13 +27,12 @@ const { video } = Astro.props;
   <div class="container ch__inner">
     <p class="eyebrow ch__eyebrow" data-hero-eyebrow>Miami · USA · LATAM · Europe</p>
     <h1 class="ch__title" data-hero-title>
-      <span class="ch__word">Business.</span>
-      <span class="ch__word">Wealth.</span>
-      <span class="ch__word">Lifestyle.</span>
+      <span class="ch__word">We build business.</span>
+      <span class="ch__word ch__word--accent">We drive growth.</span>
     </h1>
     <p class="ch__statement" data-hero-lede>
-      <span class="ch__statement-k">A business development platform</span>
-      <span>built around the Investor Journey™ — strategy, commerce, digital and luxury, executed from Miami across the Americas.</span>
+      <span class="ch__statement-k">Business. Wealth. Lifestyle.</span>
+      <span>A Miami-based business development platform integrating strategy, commerce, digital and luxury to build, scale and expand businesses across the U.S., Latin America and Europe.</span>
     </p>
     <div class="cta-row ch__cta" data-hero-cta>
       <a class="btn btn--solid" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="hero">
@@ -129,8 +128,8 @@ const { video } = Astro.props;
     font-variation-settings: 'wdth' 118, 'wght' 760;
     font-stretch: 118%;
     font-weight: 760;
-    font-size: clamp(2.2rem, 4.8vw, 4.6rem);
-    line-height: 0.92;
+    font-size: clamp(2rem, 4.4vw, 4.2rem);
+    line-height: 0.95;
     letter-spacing: -0.025em;
     text-transform: uppercase;
     display: grid;
@@ -142,19 +141,14 @@ const { video } = Astro.props;
     padding-bottom: 0.06em;
   }
 
-  .ch__word:nth-child(2) {
-    font-variation-settings: 'wdth' 118, 'wght' 300;
-    font-weight: 300;
-  }
-
-  .ch__word:nth-child(3) {
+  .ch__word--accent {
     color: var(--brass);
   }
 
   .ch__statement {
     display: grid;
     gap: 0.35rem;
-    max-width: 38rem;
+    max-width: 42rem;
     font-size: clamp(1.05rem, 1.4vw, 1.3rem);
     line-height: 1.45;
     color: rgba(244, 246, 248, 0.78);
