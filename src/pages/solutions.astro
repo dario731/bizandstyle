@@ -24,9 +24,24 @@ const jsonLd = graph(
 ---
 
 <BaseLayout {title} {description} {path} pageType="solutions" {jsonLd}>
-  <EditorialHero eyebrow="Solutions" title={solutionsIntro.title} lede={solutionsIntro.lede} ground="onyx" crumbs={[{ name: 'Solutions', path }]} brief="The five solution categories. Select a card to see everything inside it, then start with one or all of them.">
+  <EditorialHero eyebrow="Solutions" title={solutionsIntro.title} lede={solutionsIntro.lede} ground="onyx" crumbs={[{ name: 'Solutions', path }]} size="display-2">
     <button class="btn btn--flash" type="button" data-open-contact="call" data-track="calendar_click" data-track-cta-location="solutions_hero">Schedule a consultation</button>
   </EditorialHero>
+
+  <section class="section--tight ground-onyx sol-index" aria-label="The five solutions">
+    <ol class="container sol-index__list" role="list" data-reveal-group>
+      {solutions.map((s) => (
+        <li>
+          <a class="sol-index__item" href={`#${s.slug}`} data-track="navigation_click" data-track-cta-name={s.name}>
+            <span class="num">{s.num}</span>
+            <span class="sol-index__name">{s.name}</span>
+            <span class="sol-index__line">{s.tagline}</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
 
   <OrbitCarousel
     eyebrow="Five ways to start"
@@ -48,6 +63,32 @@ const jsonLd = graph(
 </BaseLayout>
 
 <style>
+  .sol-index { padding-block: 0 var(--space-5); }
+  .sol-index__list { display: grid; border-top: 1px solid var(--rule-deep); }
+  .sol-index__item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 0.4rem 1rem;
+    align-items: center;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--rule-deep);
+    transition: color 0.2s;
+  }
+  .sol-index__item:hover { color: var(--brass); }
+  .sol-index__name {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 114, 'wght' 700;
+    font-stretch: 114%;
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+  .sol-index__line { grid-column: 2; font-size: 0.82rem; color: var(--stone); }
+  .sol-index__item svg { width: 1rem; height: 1rem; grid-row: 1 / span 2; }
+  @media (min-width: 900px) {
+    .sol-index__item { grid-template-columns: 3rem 1fr 1.4fr auto; }
+    .sol-index__line { grid-column: auto; }
+    .sol-index__item svg { grid-row: auto; }
+  }
   .sol-intro {
     padding-block: var(--space-6);
     border-top: 1px solid var(--rule);

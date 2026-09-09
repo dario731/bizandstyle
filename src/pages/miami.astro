@@ -2,7 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import Definition from '@components/editorial/Definition.astro';
-import GlobalMap from '@components/system/GlobalMap.astro';
+import WorldConnect from '@components/home2/WorldConnect.astro';
 import Statement from '@components/editorial/Statement.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
@@ -23,7 +23,7 @@ const jsonLd = graph(
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
   <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="HOME-MIAMI-01" mediaAlt="Miami at night seen from above" crumbs={[{ name: 'Miami', path }]} />
-  <GlobalMap copy={{ ...t.home.miami, eyebrow: 'The platform to the Americas' }} />
+  <WorldConnect />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <Statement lines={p.statement.lines} body={p.statement.body} ground="onyx" />
   <RelatedInsights clusterOf={[path]} ground="paper" />

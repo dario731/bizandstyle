@@ -20,15 +20,20 @@ const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.descripti
   <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'Insights', path }]} />
   <section class="section ground-paper ix">
     <div class="container">
+      <div class="ix__grid" data-reveal-group data-paged="4">
+        {cards.map((c, i) => <div class="ix__item" data-page-item hidden={i >= 4}><InsightCard entry={c.entry} categoryName={c.categoryName} readingTime={c.readingTime} readingLabel={p.readingTime} /></div>)}
+      </div>
+      <nav class="ix__pager" aria-label="Pages" data-pager hidden>
+        <button class="snaprow__btn" type="button" data-pager-prev aria-label="Previous page"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
+        <span class="num" data-pager-label>1 / 1</span>
+        <button class="snaprow__btn" type="button" data-pager-next aria-label="Next page"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
+      </nav>
       <nav class="ix__cats" aria-label={p.categories} data-reveal>
         <span class="eyebrow">{p.categories}</span>
         <ul role="list">
           {categories.map((c) => <li><a href={`/insights/category/${c.id}`}>{c.data.name}</a></li>)}
         </ul>
       </nav>
-      <div class="ix__grid" data-reveal-group>
-        {cards.map((c) => <InsightCard entry={c.entry} categoryName={c.categoryName} readingTime={c.readingTime} readingLabel={p.readingTime} />)}
-      </div>
     </div>
   </section>
   <ContextualCta eyebrow="Reading is not the same as building" title={['Tell us', "what you're building."]} primary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} location="insights_cta" />
@@ -38,10 +43,20 @@ const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.descripti
   .ix__cats {
     display: grid;
     gap: var(--space-4);
-    padding-bottom: var(--space-6);
-    margin-bottom: var(--space-7);
-    border-bottom: 1px solid var(--line);
+    padding-top: var(--space-6);
+    margin-top: var(--space-7);
+    border-top: 1px solid var(--line);
   }
+
+  .ix__pager {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: var(--space-6);
+  }
+
+  .ix__item { display: grid; }
   .ix__cats ul {
     display: flex;
     flex-wrap: wrap;
@@ -67,7 +82,35 @@ const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.descripti
   }
   @media (min-width: 720px) {
     .ix__grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
 </style>
+
+<script>
+  const grid = document.querySelector<HTMLElement>('[data-paged]');
+  if (grid) {
+    const per = Number(grid.dataset.paged || 4);
+    const items = Array.from(grid.querySelectorAll<HTMLElement>('[data-page-item]'));
+    const pager = document.querySelector<HTMLElement>('[data-pager]')!;
+    const label = pager.querySelector<HTMLElement>('[data-pager-label]')!;
+    const prev = pager.querySelector<HTMLButtonElement>('[data-pager-prev]')!;
+    const next = pager.querySelector<HTMLButtonElement>('[data-pager-next]')!;
+    const pages = Math.ceil(items.length / per);
+    let page = Math.min(pages, Math.max(1, Number(new URLSearchParams(location.search).get('page') || 1)));
+    const show = (scroll = false) => {
+      items.forEach((it, i) => (it.hidden = Math.floor(i / per) !== page - 1));
+      label.textContent = `${page} / ${pages}`;
+      prev.disabled = page === 1;
+      next.disabled = page === pages;
+      const q = new URLSearchParams(location.search);
+      page === 1 ? q.delete('page') : q.set('page', String(page));
+      history.replaceState(null, '', q.toString() ? `?${q}` : location.pathname);
+      if (scroll) grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+    prev.addEventListener('click', () => { page = Math.max(1, page - 1); show(true); });
+    next.addEventListener('click', () => { page = Math.min(pages, page + 1); show(true); });
+    pager.hidden = pages <= 1;
+    show();
+  }
+</script>

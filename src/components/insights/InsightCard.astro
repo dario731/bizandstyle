@@ -19,9 +19,9 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
     <div class="card__media">
       {hero?.image ? <img src={hero.image.src} width={hero.image.width} height={hero.image.height} alt={hero.alt} loading="lazy" decoding="async" /> : (
         <div class="card__cover">
-          <span class="card__cover-k">{categoryName}</span>
+          <span class="card__cover-top"><span class="card__cover-k">{categoryName}</span><span class="card__cover-r">{readingTime} {readingLabel}</span></span>
           <h3 class="card__cover-t">{title}</h3>
-          <span class="card__cover-d">{date}</span>
+          <span class="card__cover-foot"><span class="card__cover-d">{date}</span><span class="card__cover-go">Read<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></span></span>
         </div>
       )}
     </div>
@@ -38,16 +38,36 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
 
 <style>
   .card__cover {
+    position: relative;
     display: grid;
     align-content: space-between;
     gap: 1rem;
-    aspect-ratio: 16 / 10;
-    padding: 1.1rem 1.2rem;
+    min-height: 15rem;
+    padding: 1.2rem 1.3rem 1.2rem 1.5rem;
     border: 1px solid var(--line);
+    border-left: 3px solid var(--brass);
     border-radius: 2px;
-    background: linear-gradient(160deg, rgba(24, 30, 38, 0.9), rgba(8, 9, 11, 0.95));
+    background:
+      radial-gradient(70% 60% at 100% 0%, rgba(142, 197, 232, 0.14), transparent 60%),
+      linear-gradient(160deg, rgba(24, 30, 38, 0.95), rgba(8, 9, 11, 0.98));
     color: var(--paper);
+    transition: border-color 0.3s, transform 0.4s var(--ease-out);
   }
+  .card__link:hover .card__cover { transform: translateY(-3px); border-color: var(--brass); }
+  .card__cover-top, .card__cover-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+  .card__cover-r, .card__cover-go {
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+  .card__cover-go { display: inline-flex; align-items: center; gap: 0.4em; color: var(--paper); }
+  .card__cover-go svg { width: 0.9em; height: 0.9em; }
   .card__cover-k {
     font-size: 0.6rem;
     letter-spacing: 0.18em;
@@ -58,7 +78,7 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
     font-family: var(--font-display);
     font-variation-settings: 'wdth' 114, 'wght' 720;
     font-stretch: 114%;
-    font-size: 1.15rem;
+    font-size: clamp(1.2rem, 1.6vw, 1.5rem);
     line-height: 1.05;
     text-transform: uppercase;
     letter-spacing: -0.01em;

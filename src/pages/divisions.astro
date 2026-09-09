@@ -18,7 +18,7 @@ const jsonLd = graph(webPageLd({ name: title, description, path, type: 'Collecti
 ---
 
 <BaseLayout {title} {description} {path} pageType="divisions" {jsonLd}>
-  <EditorialHero eyebrow="Divisions" title={['Three engines.', 'Choose where to start.']} lede="Advisory, Commerce and Luxury are three operating divisions within one platform — the same team, infrastructure and network in Miami." ground="onyx" crumbs={[{ name: 'Divisions', path }]} brief="A quick overview of the three divisions, what each one does, and a door into each." />
+  <EditorialHero eyebrow="Divisions" title={['Three engines.', 'Choose where to start.']} ground="onyx" crumbs={[{ name: 'Divisions', path }]} size="display-2" />
 
   <section class="section ground-onyx dv" id="choose" aria-label="Choose a division">
     <div class="container dv__grid" data-reveal-group>
@@ -53,6 +53,7 @@ const jsonLd = graph(webPageLd({ name: title, description, path, type: 'Collecti
   .dv {
     padding-top: 0;
   }
+  .dv :global(.eh) { padding-bottom: var(--space-4); }
   .dv__grid {
     display: grid;
     gap: var(--space-4);
