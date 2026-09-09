@@ -11,8 +11,11 @@ interface Props {
   copy: Copy['home']['tellUs'];
   compact?: boolean;
   id?: string;
+  /** h1 when the form is the page itself */
+  headingLevel?: 'h1' | 'h2';
 }
-const { copy, compact = false, id = 'tell-us' } = Astro.props;
+const { copy, compact = false, id = 'tell-us', headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
 
 // which fields each persona sees in step 2
 const fieldsFor: Record<string, string[]> = {
@@ -33,10 +36,10 @@ const o = copy.options;
   <div class="container">
     <div class="tell__head">
       <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
-      <h2 id={`${id}-title`} class="display tell__title" data-reveal>
+      <Heading id={`${id}-title`} class="display tell__title" data-reveal>
         <span>{copy.title[0]}</span>
         <span>{copy.title[1]}</span>
-      </h2>
+      </Heading>
       <p class="lede tell__lede" data-reveal>{copy.lede}</p>
     </div>
 

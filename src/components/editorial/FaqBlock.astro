@@ -1,0 +1,89 @@
+---
+/**
+ * FaqBlock — native disclosure list. Pair with faqLd() in the page's jsonLd so
+ * schema and on-page content always match.
+ */
+interface Props {
+  faqs: readonly { q: string; a: string }[];
+  title?: string;
+  ground?: 'onyx' | 'paper';
+  id?: string;
+}
+const { faqs, title = 'Questions', ground = 'paper', id = 'faq' } = Astro.props;
+---
+
+{
+  faqs.length > 0 && (
+    <section class:list={['section faq', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} id={id} aria-labelledby={`${id}-title`}>
+      <div class="container faq__grid">
+        <h2 id={`${id}-title`} class="display-2" data-reveal>{title}</h2>
+        <div class="faq__list" data-reveal>
+          {faqs.map((f) => (
+            <details class="faq__item">
+              <summary>
+                <span>{f.q}</span>
+                <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+              </summary>
+              <p class="faq__a prose muted">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .faq__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .faq__list {
+    border-top: 1px solid var(--line);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .faq__item summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-5);
+    padding: 1.1rem 0;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 1.05rem;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item summary svg {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .faq__item[open] summary svg {
+    transform: rotate(45deg);
+  }
+
+  .faq__a {
+    padding: 0 0 1.4rem;
+    max-width: 70ch;
+  }
+
+  @media (min-width: 1024px) {
+    .faq__grid {
+      grid-template-columns: 4fr 8fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: start;
+    }
+  }
+</style>

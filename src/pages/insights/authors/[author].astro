@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { getCollection } from 'astro:content';
+import { webPageLd, breadcrumbLd, personLd, graph } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const authors = await getCollection('authors');
+  return authors.map((a) => ({ params: { author: a.id }, props: { author: a } }));
+}
+const { author } = Astro.props;
+const path = `/insights/authors/${author.id}`;
+const list = (await getCollection('insights', ({ data }) => !data.draft && data.author.id === author.id)).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const title = `${author.data.name} — Insights | BIZ & STYLE`;
+const jsonLd = graph(webPageLd({ name: title, description: author.data.bio, path, type: 'ProfilePage' }), author.id === 'dario-picardi' ? personLd() : null, breadcrumbLd([{ name: 'Insights', path: '/insights' }, { name: author.data.name, path }]));
+---
+
+<BaseLayout {title} description={author.data.bio} {path} pageType="author" {jsonLd}>
+  <EditorialHero eyebrow={author.data.role} title={author.data.name} lede={author.data.bio} ground="onyx" size="display-2" crumbs={[{ name: 'Insights', path: '/insights' }, { name: author.data.name, path }]}>
+    {author.id === 'dario-picardi' && <a class="link" href="/about/dario-picardi">Leadership profile<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></a>}
+  </EditorialHero>
+  <RelatedInsights entries={list} title={`By ${author.data.name}`} ground="paper" limit={24} />
+  <ContextualCta title={['Tell us', "what you're building."]} primary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} secondary={{ label: 'All insights', href: '/insights', name: 'insights' }} location="author_cta" />
+</BaseLayout>

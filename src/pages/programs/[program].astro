@@ -1,0 +1,87 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { programs } from '@data/programs';
+import { services, divisionMeta } from '@data/services';
+import { breadcrumbLd, faqLd, serviceLd, webPageLd, graph } from '@lib/seo';
+
+export function getStaticPaths() {
+  return programs.map((p) => ({ params: { program: p.slug }, props: { program: p } }));
+}
+const { program: p } = Astro.props;
+const path = `/programs/${p.slug}`;
+const relatedServices = p.services
+  .map((sp) => {
+    const s = services.find((x) => `${divisionMeta[x.division].path}/${x.slug}` === sp);
+    return s ? { name: s.title, line: s.lede, href: sp } : sp === '/internationalization' ? { name: 'Internationalization', line: 'Export is not internationalization. Nine pillars, five phases.', href: sp } : sp === '/digital-engine' ? { name: 'Digital engine', line: 'From click to client — digital business infrastructure.', href: sp } : null;
+  })
+  .filter(Boolean) as { name: string; line: string; href: string }[];
+const jsonLd = graph(
+  webPageLd({ name: p.seoTitle, description: p.seoDescription, path }),
+  serviceLd({ name: p.name, description: p.definition.a[0], path, serviceType: 'Program' }),
+  breadcrumbLd([{ name: 'Programs', path: '/programs' }, { name: p.name, path }]),
+  faqLd([...p.faqs]),
+);
+---
+
+<BaseLayout title={p.seoTitle} description={p.seoDescription} {path} pageType="program" {jsonLd}>
+  <EditorialHero eyebrow={`Program ${p.num}`} title={p.name} lede={p.lede} ground="onyx" mediaId={p.mediaId} mediaAlt={p.name} crumbs={[{ name: 'Programs', path: '/programs' }, { name: p.name, path }]}>
+    <p class="editorial prog__tag">{p.tagline}</p>
+    <a class="btn btn--solid" href={p.cta.href} data-track="cta_click" data-track-cta-name={p.cta.name} data-track-cta-location="program_hero" data-track-program={p.slug}>
+      <span class="btn__ring" aria-hidden="true"></span>{p.cta.label}
+    </a>
+  </EditorialHero>
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <ModuleGrid eyebrow="Components" title="What the program includes." items={p.components} columns={p.components.length >= 8 ? 4 : 3} ground="paper" id="components" />
+  {
+    p.regulated && (
+      <section class="section--tight ground-paper reg">
+        <div class="container">
+          <p class="eyebrow eyebrow--marker" data-reveal>Delivered with licensed professionals</p>
+          <p class="reg__text" data-reveal>{p.regulated}</p>
+        </div>
+      </section>
+    )
+  }
+  <Statement lines={['Who it is for.']} ground="onyx" eyebrow={p.name} size="display-2">
+    <ul role="list" class="prog__who small">
+      {p.who.map((w) => <li>{w}</li>)}
+    </ul>
+  </Statement>
+  <ModuleGrid eyebrow="Connected capabilities" title="Inside the platform." items={relatedServices} columns={relatedServices.length >= 4 ? 4 : 3} ground="paper" numbered={false} trackAs="service_view" />
+  <RelatedInsights clusterOf={p.services} ground="paper" />
+  <FaqBlock faqs={p.faqs} ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={[p.name.replace('™', ''), 'starts with a conversation.']} primary={{ label: p.cta.label, href: p.cta.href, name: p.cta.name }} secondary={{ label: 'All programs', href: '/programs', name: 'programs' }} location="program_cta" />
+</BaseLayout>
+
+<style>
+  .prog__tag {
+    color: var(--stone);
+    margin-bottom: var(--space-4);
+  }
+  .reg {
+    padding-block: var(--space-7);
+    border-top: 1px solid var(--line);
+  }
+  .reg__text {
+    max-width: 70ch;
+    margin-top: var(--space-4);
+    font-size: 1.05rem;
+    color: var(--smoke);
+  }
+  .prog__who {
+    display: grid;
+    border-top: 1px solid var(--rule-deep);
+    color: var(--stone);
+  }
+  .prog__who li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--rule-deep);
+  }
+</style>

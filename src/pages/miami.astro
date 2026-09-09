@@ -1,0 +1,31 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import GlobalMap from '@components/system/GlobalMap.astro';
+import Statement from '@components/editorial/Statement.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { pages } from '@i18n/pages.en';
+import { getCopy } from '@i18n/index';
+import { site } from '@data/site';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.miami;
+const t = getCopy('en');
+const path = '/miami';
+const jsonLd = graph(
+  webPageLd({ name: p.seo.title, description: p.seo.description, path }),
+  breadcrumbLd([{ name: 'Miami', path }]),
+  { '@type': 'Place', name: 'BIZ & STYLE Headquarters', address: { '@type': 'PostalAddress', streetAddress: site.address.streetAddress, addressLocality: site.address.addressLocality, addressRegion: site.address.addressRegion, postalCode: site.address.postalCode, addressCountry: 'US' } },
+);
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="HOME-MIAMI-01" mediaAlt="Miami at night seen from above" crumbs={[{ name: 'Miami', path }]} />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <GlobalMap copy={{ ...t.home.miami, eyebrow: 'The platform to the Americas' }} />
+  <Statement lines={p.statement.lines} body={p.statement.body} ground="onyx" />
+  <RelatedInsights clusterOf={[path]} ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
+</BaseLayout>

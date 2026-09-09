@@ -1,0 +1,73 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import InsightCard from '@components/insights/InsightCard.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { getCollection, getEntry } from 'astro:content';
+import { readingTime } from '@lib/reading-time';
+import { pages } from '@i18n/pages.en';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.insightsIndex;
+const path = '/insights';
+const all = (await getCollection('insights', ({ data }) => !data.draft && data.locale === 'en')).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const cards = await Promise.all(all.map(async (entry) => ({ entry, categoryName: (await getEntry(entry.data.category))?.data.name ?? '', readingTime: readingTime(entry.body ?? '') })));
+const categories = (await getCollection('categories')).filter((c) => c.data.locale === 'en');
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'CollectionPage' }), breadcrumbLd([{ name: 'Insights', path }]));
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="insights" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'Insights', path }]} />
+  <section class="section ground-paper ix">
+    <div class="container">
+      <nav class="ix__cats" aria-label={p.categories} data-reveal>
+        <span class="eyebrow">{p.categories}</span>
+        <ul role="list">
+          {categories.map((c) => <li><a href={`/insights/category/${c.id}`}>{c.data.name}</a></li>)}
+        </ul>
+      </nav>
+      <div class="ix__grid" data-reveal-group>
+        {cards.map((c) => <InsightCard entry={c.entry} categoryName={c.categoryName} readingTime={c.readingTime} readingLabel={p.readingTime} />)}
+      </div>
+    </div>
+  </section>
+  <ContextualCta eyebrow="Reading is not the same as building" title={['Tell us', "what you're building."]} primary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} location="insights_cta" />
+</BaseLayout>
+
+<style>
+  .ix__cats {
+    display: grid;
+    gap: var(--space-4);
+    padding-bottom: var(--space-6);
+    margin-bottom: var(--space-7);
+    border-bottom: 1px solid var(--line);
+  }
+  .ix__cats ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .ix__cats a {
+    display: inline-block;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    padding: 0.45em 0.9em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--smoke);
+    transition: color var(--dur-1), border-color var(--dur-1);
+  }
+  .ix__cats a:hover {
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .ix__grid {
+    display: grid;
+    gap: var(--space-8) var(--gutter);
+  }
+  @media (min-width: 720px) {
+    .ix__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

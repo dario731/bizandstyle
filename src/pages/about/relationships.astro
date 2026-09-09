@@ -1,0 +1,25 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Statement from '@components/editorial/Statement.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { pages } from '@i18n/pages.en';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.relationships;
+const path = '/about/relationships';
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path }), breadcrumbLd([{ name: 'About', path: '/about' }, { name: 'Relationships & discretion', path }]));
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="about" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'About', path: '/about' }, { name: 'Relationships & discretion', path }]} />
+  <Statement lines={p.statement.lines} body={p.statement.body} ground="onyx" size="display-2" />
+  <ModuleGrid eyebrow="Track record" title="Selected credentials. Available when relevant." items={[
+    { name: 'Market entry', line: 'International companies entering the United States and Latin America.' },
+    { name: 'Distribution', line: 'Premium consumer brands across retail, travel retail and e-commerce.' },
+    { name: 'Luxury real estate', line: 'International buyers, private clients and developer relationships in Miami.' },
+    { name: 'Brand representation', line: 'Appointed commercial partner for the Americas.' },
+  ]} columns={4} ground="paper" numbered={false} />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="about_cta" />
+</BaseLayout>

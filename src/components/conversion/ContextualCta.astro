@@ -1,0 +1,79 @@
+---
+/**
+ * ContextualCta — intent-specific conversion band. Every page ends with one.
+ * The master idea stays "Tell us what you're building"; the label adapts.
+ */
+interface Props {
+  eyebrow?: string;
+  title: string | readonly string[];
+  body?: string;
+  primary: { label: string; href: string; name: string };
+  secondary?: { label: string; href: string; name?: string };
+  ground?: 'onyx' | 'paper';
+  location?: string;
+}
+const { eyebrow, title, body, primary, secondary, ground = 'onyx', location = 'page_cta' } = Astro.props;
+const lines = Array.isArray(title) ? title : [title];
+---
+
+<section class:list={['section cta', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} aria-labelledby="cta-title">
+  <div class="container cta__grid">
+    <div class="cta__main">
+      {eyebrow && <p class="eyebrow eyebrow--marker" data-reveal>{eyebrow}</p>}
+      <h2 id="cta-title" class="display cta__title" data-reveal>
+        {lines.map((l, i) => <span class:list={{ thin: i === lines.length - 1 && lines.length > 1 }}>{l}</span>)}
+      </h2>
+    </div>
+    <div class="cta__side" data-reveal>
+      {body && <p class="prose muted">{body}</p>}
+      <div class="cta-row">
+        <a class="btn btn--solid" href={primary.href} data-track="cta_click" data-track-cta-name={primary.name} data-track-cta-location={location}>
+          <span class="btn__ring" aria-hidden="true"></span>{primary.label}
+        </a>
+        {
+          secondary && (
+            <a class="btn" href={secondary.href} data-track="cta_click" data-track-cta-name={secondary.name ?? 'secondary'} data-track-cta-location={location}>
+              {secondary.label}
+            </a>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .cta__main {
+    display: grid;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+
+  .cta__title {
+    font-size: clamp(2.4rem, 6.4vw, 6.5rem);
+  }
+
+  .cta__title span {
+    display: block;
+  }
+
+  .cta__side {
+    display: grid;
+    gap: var(--space-5);
+    align-content: end;
+    min-width: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .cta__grid {
+      grid-template-columns: 7fr 5fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: end;
+    }
+  }
+</style>

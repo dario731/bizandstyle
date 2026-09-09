@@ -1,0 +1,80 @@
+---
+/**
+ * ServicePage — renders one service landing page from src/data/services.ts.
+ * Hero → Definition (GEO) → modules → regulated note → statement → related
+ * programmes → latest cluster insights → FAQ → contextual CTA.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { divisionMeta, type Service } from '@data/services';
+import { programs } from '@data/programs';
+import { breadcrumbLd, faqLd, serviceLd, webPageLd, graph } from '@lib/seo';
+
+interface Props {
+  service: Service;
+}
+const { service: s } = Astro.props;
+const div = divisionMeta[s.division];
+const path = `${div.path}/${s.slug}`;
+const related = (s.programs ?? []).map((slug) => programs.find((p) => p.slug === slug)).filter(Boolean);
+const jsonLd = graph(
+  webPageLd({ name: s.seoTitle, description: s.seoDescription, path }),
+  serviceLd({ name: s.title, description: s.definition.a[0], path, division: div.name }),
+  breadcrumbLd([{ name: div.name, path: div.path }, { name: s.title, path }]),
+  faqLd([...s.faqs]),
+);
+---
+
+<BaseLayout title={s.seoTitle} description={s.seoDescription} {path} pageType="service" {jsonLd}>
+  <EditorialHero eyebrow={s.eyebrow} title={s.title} lede={s.lede} ground={div.ground} mediaId={s.mediaId} mediaAlt={s.title} crumbs={[{ name: div.name, path: div.path }, { name: s.title, path }]}>
+    <a class="btn btn--solid" href={s.cta.href} data-track="cta_click" data-track-cta-name={s.cta.name} data-track-cta-location="service_hero" data-track-service={s.slug}>
+      <span class="btn__ring" aria-hidden="true"></span>{s.cta.label}
+    </a>
+  </EditorialHero>
+
+  <Definition question={s.definition.q} answer={s.definition.a} ground="paper" id="definition" />
+
+  <ModuleGrid eyebrow="What it includes" items={s.modules} columns={s.modules.length >= 6 ? 3 : s.modules.length === 4 ? 4 : 3} ground="paper" id="modules" />
+
+  {
+    s.regulated && (
+      <section class="section--tight ground-paper reg">
+        <div class="container">
+          <p class="eyebrow eyebrow--marker" data-reveal>Delivered with licensed professionals</p>
+          <p class="reg__text" data-reveal>{s.regulated}</p>
+        </div>
+      </section>
+    )
+  }
+
+  {s.statement && <Statement lines={s.statement} ground="onyx" eyebrow={div.name} />}
+
+  {
+    related.length > 0 && (
+      <ModuleGrid eyebrow="Signature programs" title="Start with a program." items={related.map((p) => ({ name: p!.name, line: p!.tagline, href: `/programs/${p!.slug}` }))} columns={related.length >= 3 ? 3 : 2} ground="paper" numbered={false} trackAs="program_view" />
+    )
+  }
+
+  <RelatedInsights clusterOf={[path, div.path]} ground="paper" />
+  <FaqBlock faqs={s.faqs} ground="paper" />
+  <ContextualCta eyebrow={s.cta.eyebrow} title={[s.title, 'in the Americas.']} primary={{ label: s.cta.label, href: s.cta.href, name: s.cta.name }} secondary={{ label: `Explore ${div.name}`, href: div.path, name: 'division' }} location="service_cta" />
+</BaseLayout>
+
+<style>
+  .reg {
+    padding-block: var(--space-7);
+    border-top: 1px solid var(--line);
+  }
+  .reg__text {
+    max-width: 70ch;
+    margin-top: var(--space-4);
+    font-size: 1.05rem;
+    color: var(--smoke);
+  }
+</style>

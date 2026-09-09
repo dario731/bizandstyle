@@ -513,6 +513,6 @@ export const en = {
     placeholder: 'Asset pending',
     placeholderNote: 'See docs/05-ASSET-MANIFEST.md',
   },
-} as const;
+};
 
 export type Copy = typeof en;

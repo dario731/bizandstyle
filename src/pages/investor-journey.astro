@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import InvestorJourney from '@components/system/InvestorJourney.astro';
+import Statement from '@components/editorial/Statement.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import LuxuryEcosystem from '@components/system/LuxuryEcosystem.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { pages } from '@i18n/pages.en';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.investorJourney;
+const t = getCopy('en');
+const path = '/investor-journey';
+const jsonLd = graph(
+  webPageLd({ name: p.seo.title, description: p.seo.description, path }),
+  breadcrumbLd([{ name: 'The Investor Journey™', path }]),
+  { '@type': 'DefinedTerm', name: 'The Investor Journey™', description: p.definition.a[0], url: `https://bizandstyledna.com${path}`, inDefinedTermSet: 'BIZ & STYLE frameworks' },
+);
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="signature" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'The Investor Journey™', path }]} />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <InvestorJourney copy={{ ...t.home.journey, eyebrow: 'The circle of growth', title: 'Business → Wealth → Lifestyle → ∞' }} />
+  <Statement eyebrow={p.how.eyebrow} lines={p.how.lines} body={p.how.body} ground="onyx" size="display-2" />
+  <Statement lines={p.experts.lines} body={p.experts.body} ground="paper" size="display-2" />
+  <ModuleGrid eyebrow={p.entry.eyebrow} title={p.entry.title} items={p.entry.items} columns={3} ground="paper" id="entry" trackAs="cta_click" />
+  <LuxuryEcosystem copy={{ ...t.home.luxury, eyebrow: 'The lifestyle stage · B&S Luxury' }} />
+  <RelatedInsights clusterOf={['/luxury', '/investor-journey']} ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="signature_cta" />
+</BaseLayout>

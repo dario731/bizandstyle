@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Statement from '@components/editorial/Statement.astro';
+import InvestorJourney from '@components/system/InvestorJourney.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { pages } from '@i18n/pages.en';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.platform;
+const t = getCopy('en');
+const path = '/platform';
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'AboutPage' }), breadcrumbLd([{ name: 'Platform', path }]));
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="hub" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="HOME-HERO-01-POSTER" mediaAlt="Miami skyline at dawn" crumbs={[{ name: 'Platform', path }]} />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <ModuleGrid eyebrow={p.engines.eyebrow} title={p.engines.title} items={p.engines.items} columns={3} ground="paper" id="engines" trackAs="division_view" />
+  <Statement eyebrow={p.mission.eyebrow} lines={p.mission.lines} body={p.mission.body} ground="onyx" size="display-2" />
+  <InvestorJourney copy={{ ...t.home.journey, eyebrow: 'The Investor Journey™' }} />
+  <ModuleGrid eyebrow={p.links.eyebrow} title="Inside the platform." items={p.links.items} columns={4} ground="onyx" id="explore" numbered={false} trackAs="navigation_click" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} ground="paper" location="hub_cta" />
+</BaseLayout>

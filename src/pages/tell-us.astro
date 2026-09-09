@@ -1,0 +1,43 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import DynamicLeadForm from '@components/conversion/DynamicLeadForm.astro';
+import { pages } from '@i18n/pages.en';
+import { getCopy } from '@i18n/index';
+import { site } from '@data/site';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.tellUs;
+const t = getCopy('en');
+const path = '/tell-us';
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'ContactPage' }), breadcrumbLd([{ name: "Tell us what you're building", path }]));
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="conversion" {jsonLd}>
+  <div class="tu-top ground-onyx"></div>
+  <DynamicLeadForm copy={{ ...t.home.tellUs, eyebrow: 'Start here' }} id="tell-us-page" headingLevel="h1" />
+  <section class="section--tight ground-onyx tu-alt">
+    <div class="container tu-alt__grid">
+      <p class="small muted">Prefer a conversation? <a class="link" href={site.calendly} rel="noopener" data-track="calendar_click" data-track-cta-location="tell_us">Book a call</a></p>
+      <p class="small muted"><a href={`mailto:${site.email}`} data-track="email_click">{site.email}</a> · <a href={site.phoneHref} data-track="phone_click">{site.phone}</a></p>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .tu-top {
+    height: 4.5rem;
+  }
+  .tu-alt {
+    padding-block: var(--space-6) var(--space-8);
+    border-top: 1px solid var(--rule-deep);
+  }
+  .tu-alt__grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+  .tu-alt .link {
+    margin-left: 0.5rem;
+  }
+</style>

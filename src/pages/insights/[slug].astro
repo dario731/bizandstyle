@@ -1,0 +1,287 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/editorial/Breadcrumbs.astro';
+import MediaPlaceholder from '@components/cinematic/MediaPlaceholder.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { getCollection, getEntry, render } from 'astro:content';
+import { readingTime } from '@lib/reading-time';
+import { pages } from '@i18n/pages.en';
+import { site } from '@data/site';
+import { services, divisionMeta } from '@data/services';
+import { articleLd, breadcrumbLd, faqLd, graph } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('insights', ({ data }) => !data.draft && data.locale === 'en');
+  return entries.map((entry) => ({ params: { slug: entry.id.split('/').pop() }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const p = pages.insightsIndex;
+const { Content, headings } = await render(entry);
+const d = entry.data;
+const author = await getEntry(d.author);
+const category = await getEntry(d.category);
+const slug = entry.id.split('/').pop()!;
+const path = `/insights/${slug}`;
+const minutes = readingTime(entry.body ?? '');
+const fmt = (x: Date) => x.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+const toc = headings.filter((h) => h.depth === 2);
+const relatedExplicit = d.related.length ? (await Promise.all(d.related.map((r) => getEntry(r)))).filter(Boolean) : null;
+const serviceLinks = d.relatedServices.map((sp) => {
+  const s = services.find((x) => `${divisionMeta[x.division].path}/${x.slug}` === sp);
+  const hub: Record<string, string> = { '/internationalization': 'Internationalization', '/digital-engine': 'Digital engine', '/miami': 'Miami', '/luxury': 'B&S Luxury', '/advisory': 'B&S Advisory', '/commerce': 'B&S Commerce', '/investor-journey': 'The Investor Journey™' };
+  return { href: sp, label: s?.title ?? hub[sp] ?? sp };
+});
+const authorPath = author?.id === 'dario-picardi' ? '/about/dario-picardi' : `/insights/authors/${author?.id}`;
+const jsonLd = graph(
+  articleLd({ title: d.title, description: d.excerpt, path, published: d.publishDate, modified: d.updatedDate, authorName: author?.data.name ?? site.name, authorPath, section: category?.data.name, tags: [...d.tags], image: d.hero?.image?.src ? `${site.url}${d.hero.image.src}` : undefined }),
+  breadcrumbLd([{ name: 'Insights', path: '/insights' }, ...(category ? [{ name: category.data.name, path: `/insights/category/${category.id}` }] : []), { name: d.title, path }]),
+  faqLd([...d.faqs]),
+);
+---
+
+<BaseLayout title={d.seo.title ?? `${d.title} | BIZ & STYLE Insights`} description={d.seo.description ?? d.excerpt} {path} pageType="article" type="article" {jsonLd} publishedTime={d.publishDate.toISOString()} modifiedTime={(d.updatedDate ?? d.publishDate).toISOString()} noindex={d.seo.noindex} headerOverlay={false}>
+  <article class="art" data-article data-category={category?.id}>
+    <header class="art__head ground-paper">
+      <div class="container art__head-grid">
+        <Breadcrumbs items={[{ name: 'Insights', path: '/insights' }, ...(category ? [{ name: category.data.name, path: `/insights/category/${category.id}` }] : []), { name: d.title, path }]} />
+        <p class="eyebrow eyebrow--marker" data-reveal>{category?.data.name}</p>
+        <h1 class="art__title" data-reveal>{d.title}</h1>
+        <p class="lede muted" data-reveal>{d.excerpt}</p>
+        <dl class="art__meta num" data-reveal>
+          <div><dt>{p.by}</dt><dd><a href={authorPath}>{author?.data.name}</a></dd></div>
+          <div><dt>{p.published}</dt><dd><time datetime={d.publishDate.toISOString()}>{fmt(d.publishDate)}</time></dd></div>
+          {d.updatedDate && <div><dt>{p.updated}</dt><dd><time datetime={d.updatedDate.toISOString()}>{fmt(d.updatedDate)}</time></dd></div>}
+          <div><dt>Reading</dt><dd>{minutes} {p.readingTime}</dd></div>
+        </dl>
+      </div>
+      <div class="container" data-reveal>
+        <div class="art__hero">
+          {d.hero?.image ? <img src={d.hero.image.src} width={d.hero.image.width} height={d.hero.image.height} alt={d.hero.alt} loading="eager" decoding="async" /> : <MediaPlaceholder id={d.hero?.manifestId ?? 'INSIGHT-COVER'} alt={d.hero?.alt ?? d.title} tone="paper" />}
+        </div>
+      </div>
+    </header>
+
+    <div class="ground-paper">
+      <div class="container art__grid">
+        <aside class="art__side">
+          {
+            toc.length > 1 && (
+              <nav class="art__toc" aria-label={p.toc}>
+                <p class="eyebrow">{p.toc}</p>
+                <ol role="list">{toc.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}</ol>
+              </nav>
+            )
+          }
+          {
+            serviceLinks.length > 0 && (
+              <div class="art__services">
+                <p class="eyebrow">{p.relatedServices}</p>
+                <ul role="list">{serviceLinks.map((l) => <li><a class="link" href={l.href} data-track="article_cta_click" data-track-cta-name={l.label}>{l.label}</a></li>)}</ul>
+              </div>
+            )
+          }
+        </aside>
+        <div class="art__body prose">
+          <Content />
+          {
+            d.sources.length > 0 && (
+              <section class="art__sources">
+                <p class="eyebrow">{p.sources}</p>
+                <ol>{d.sources.map((s) => <li>{s.url ? <a href={s.url} rel="noopener">{s.label}</a> : s.label}</li>)}</ol>
+              </section>
+            )
+          }
+          {
+            author && (
+              <section class="art__author">
+                {author.data.image && <img src={author.data.image} alt="" width="96" height="96" loading="lazy" />}
+                <div>
+                  <p class="eyebrow">{p.by}</p>
+                  <p class="art__author-name"><a href={authorPath}>{author.data.name}</a> · <span class="muted">{author.data.role}</span></p>
+                  <p class="small muted">{author.data.bio}</p>
+                </div>
+              </section>
+            )
+          }
+        </div>
+      </div>
+    </div>
+
+    <FaqBlock faqs={d.faqs} ground="paper" />
+    <RelatedInsights entries={relatedExplicit ?? undefined} clusterOf={relatedExplicit ? [] : [category?.data.clusterOf ?? '']} exclude={entry.id} title={p.related} ground="paper" />
+    {
+      d.cta ? (
+        <ContextualCta eyebrow="Next step" title={[d.cta.label + '.']} primary={{ label: d.cta.label, href: d.cta.href, name: d.cta.name }} secondary={{ label: 'All insights', href: '/insights', name: 'insights' }} location="article_cta" />
+      ) : (
+        <ContextualCta title={['Tell us', "what you're building."]} primary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} location="article_cta" />
+      )
+    }
+  </article>
+</BaseLayout>
+
+<style>
+  .art__head {
+    padding-top: clamp(7rem, 16vh, 10rem);
+  }
+  .art__head-grid {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 64rem;
+    padding-bottom: var(--space-7);
+  }
+  .art__title {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 100, 'wght' 640;
+    font-stretch: 100%;
+    font-size: clamp(2rem, 4.4vw, 4rem);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .art__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line);
+  }
+  .art__meta div {
+    display: grid;
+    gap: 0.2rem;
+  }
+  .art__meta dt {
+    opacity: 0.6;
+  }
+  .art__meta dd a {
+    color: var(--ink);
+  }
+  .art__hero {
+    position: relative;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+    margin-bottom: var(--space-8);
+  }
+  .art__hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .art__grid {
+    display: grid;
+    gap: var(--space-7);
+    padding-bottom: var(--space-section-sm);
+  }
+  .art__side {
+    display: grid;
+    gap: var(--space-6);
+    align-content: start;
+  }
+  .art__toc ol,
+  .art__services ul {
+    display: grid;
+    gap: 0.4rem;
+    margin-top: var(--space-3);
+  }
+  .art__toc a {
+    font-size: 0.9rem;
+    color: var(--smoke);
+  }
+  .art__toc a:hover {
+    color: var(--ink);
+  }
+  .art__body {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 68ch;
+  }
+  .art__body :global(h2) {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 108, 'wght' 650;
+    font-size: 1.5rem;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-top: 2.2em;
+    text-transform: uppercase;
+    scroll-margin-top: 6rem;
+  }
+  .art__body :global(h3) {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 1.8em;
+  }
+  .art__body :global(blockquote) {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 1.7rem;
+    line-height: 1.25;
+    padding-left: 1.2em;
+    border-left: 1px solid var(--brass);
+    margin-block: 1.6em;
+  }
+  .art__body :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--rule);
+  }
+  .art__sources {
+    margin-top: var(--space-8);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+    font-size: 0.9rem;
+    color: var(--smoke);
+  }
+  .art__sources ol {
+    padding-left: 1.2em;
+    margin-top: var(--space-3);
+  }
+  .art__author {
+    display: flex;
+    gap: var(--space-5);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+  .art__author img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: grayscale(1);
+    flex: none;
+  }
+  .art__author-name {
+    margin: 0.3em 0 0.4em;
+  }
+  @media (min-width: 1024px) {
+    .art__grid {
+      grid-template-columns: 3fr 8fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+    .art__side {
+      position: sticky;
+      top: 6.5rem;
+    }
+  }
+</style>
+
+<script>
+  import { track } from '@lib/track';
+  const art = document.querySelector<HTMLElement>('[data-article]');
+  if (art) {
+    track('article_view', { article_category: art.dataset.category });
+    let engaged = false;
+    const io = new IntersectionObserver((es) => {
+      if (!engaged && es.some((e) => e.isIntersecting)) {
+        engaged = true;
+        track('article_engaged', { article_category: art.dataset.category });
+        io.disconnect();
+      }
+    });
+    const marker = art.querySelector('.art__sources, .art__author');
+    if (marker) io.observe(marker);
+  }
+</script>

@@ -1,0 +1,69 @@
+---
+/**
+ * Statement — a LargeStatement with optional supporting prose beside it.
+ * The rhythm device of the site: short lines, big type, one idea.
+ */
+interface Props {
+  lines: readonly string[];
+  body?: string | readonly string[];
+  eyebrow?: string;
+  ground?: 'onyx' | 'paper';
+  size?: 'display' | 'display-2';
+  editorial?: string;
+  id?: string;
+}
+const { lines, body, eyebrow, ground = 'onyx', size = 'display', editorial, id } = Astro.props;
+const paras = body ? (Array.isArray(body) ? body : [body]) : [];
+---
+
+<section class:list={['section st', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} {id}>
+  <div class="container st__grid">
+    <div class="st__main">
+      {eyebrow && <p class="eyebrow eyebrow--marker" data-reveal>{eyebrow}</p>}
+      <p class:list={[size, 'st__lines']} data-reveal>
+        {lines.map((l, i) => <span class:list={{ thin: i === lines.length - 1 && lines.length > 1 }}>{l}</span>)}
+      </p>
+    </div>
+    {
+      (paras.length > 0 || editorial) && (
+        <div class="st__side" data-reveal>
+          {editorial && <p class="editorial st__editorial">{editorial}</p>}
+          {paras.length > 0 && <div class="prose muted">{paras.map((p) => <p>{p}</p>)}</div>}
+          <slot />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .st__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .st__main {
+    display: grid;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+
+  .st__lines span {
+    display: block;
+  }
+
+  .st__side {
+    display: grid;
+    gap: var(--space-5);
+    align-content: end;
+    min-width: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .st__grid {
+      grid-template-columns: 7fr 5fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: end;
+    }
+  }
+</style>

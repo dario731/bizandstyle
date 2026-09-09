@@ -1,0 +1,76 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Definition from '@components/editorial/Definition.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Statement from '@components/editorial/Statement.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { getCollection } from 'astro:content';
+import { pages } from '@i18n/pages.en';
+import { site } from '@data/site';
+import { webPageLd, breadcrumbLd, personLd, graph } from '@lib/seo';
+
+const p = pages.dario;
+const path = '/about/dario-picardi';
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'ProfilePage' }), personLd(), breadcrumbLd([{ name: 'About', path: '/about' }, { name: 'Dario Picardi', path }]));
+const byDario = (await getCollection('insights', ({ data }) => !data.draft && data.author.id === 'dario-picardi')).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="person" {jsonLd}>
+  <section class="dp ground-onyx">
+    <div class="container dp__grid">
+      <div class="dp__text">
+        <p class="eyebrow eyebrow--marker" data-reveal>{p.hero.eyebrow}</p>
+        <h1 class="display dp__title" data-reveal>{p.hero.title.map((l) => <span>{l}</span>)}</h1>
+        <p class="eyebrow" data-reveal>{site.founder.role} · {site.name}</p>
+        <p class="lede muted" data-reveal>{p.hero.lede}</p>
+      </div>
+      <figure class="dp__fig" data-reveal>
+        <img src="/media/founder-dario-picardi-tmp.jpg" alt={`${site.founder.name}, ${site.founder.role} of BIZ & STYLE`} width="1024" height="1024" loading="eager" decoding="async" />
+        <figcaption class="num">FOUNDER-01 · portrait pending editorial session</figcaption>
+      </figure>
+    </div>
+  </section>
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <ModuleGrid eyebrow={p.journey.eyebrow} title={p.journey.title} items={p.journey.items} columns={3} ground="paper" id="journey" />
+  <Statement lines={['Everything connects.']} editorial={p.quote} ground="onyx" />
+  <RelatedInsights entries={byDario} title="Written by Dario Picardi" ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="person_cta" />
+</BaseLayout>
+
+<style>
+  .dp {
+    padding-top: clamp(7rem, 16vh, 11rem);
+    padding-bottom: var(--space-section-sm);
+  }
+  .dp__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+  .dp__text {
+    display: grid;
+    gap: var(--space-5);
+    align-content: end;
+  }
+  .dp__title span {
+    display: block;
+  }
+  .dp__fig {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .dp__fig img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+    border-radius: var(--radius-media);
+  }
+  @media (min-width: 1024px) {
+    .dp__grid {
+      grid-template-columns: 7fr 5fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: end;
+    }
+  }
+</style>

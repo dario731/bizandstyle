@@ -21,7 +21,7 @@ export function localePath(path: string, locale: Locale = defaultLocale): string
 
 /** Alternate URLs for hreflang — only published locales plus x-default. */
 export function alternates(path: string): { hreflang: string; href: string }[] {
-  const list = published.map((l) => ({ hreflang: site.locales[l].hreflang, href: `${site.url}${localePath(path, l)}` }));
+  const list: { hreflang: string; href: string }[] = published.map((l) => ({ hreflang: site.locales[l].hreflang, href: `${site.url}${localePath(path, l)}` }));
   list.push({ hreflang: 'x-default', href: `${site.url}${path}` });
   return list;
 }

@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import InfrastructureGrid from '@components/system/InfrastructureGrid.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import InHouseVsPartners from '@components/editorial/InHouseVsPartners.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { pages } from '@i18n/pages.en';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.infrastructure;
+const t = getCopy('en');
+const path = '/infrastructure';
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path }), breadcrumbLd([{ name: 'Infrastructure', path }]));
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="INFRA-HQ" mediaAlt="BIZ & STYLE headquarters, Thyssen Building, Miami Beach" crumbs={[{ name: 'Infrastructure', path }]} />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <InfrastructureGrid copy={{ ...t.home.infrastructure, eyebrow: 'Already in place' }} />
+  <ModuleGrid eyebrow={p.presence.eyebrow} title={p.presence.title} items={p.presence.items} columns={3} ground="onyx" id="presence" />
+  <InHouseVsPartners ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
+</BaseLayout>

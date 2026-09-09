@@ -1,0 +1,117 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import LeadFormLite from '@components/conversion/LeadFormLite.astro';
+import { pages } from '@i18n/pages.en';
+import { site } from '@data/site';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.connect;
+const path = '/connect';
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'ContactPage' }), breadcrumbLd([{ name: "Let's connect", path }]));
+const f = p.fields;
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="conversion" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="paper" crumbs={[{ name: "Let's connect", path }]} />
+  <section class="section ground-paper cn">
+    <div class="container cn__grid">
+      <div class="cn__details" data-reveal-group>
+        <div class="cn__block">
+          <p class="eyebrow">{p.book}</p>
+          <a class="btn btn--solid" href={site.calendly} rel="noopener" data-track="calendar_click" data-track-cta-location="connect">
+            <span class="btn__ring" aria-hidden="true"></span>{p.book}
+          </a>
+        </div>
+        <div class="cn__block">
+          <p class="eyebrow">{p.email}</p>
+          <a class="cn__big" href={`mailto:${site.email}`} data-track="email_click" data-track-cta-location="connect">{site.email}</a>
+        </div>
+        <div class="cn__block">
+          <p class="eyebrow">{p.phone}</p>
+          <a class="cn__big" href={site.phoneHref} data-track="phone_click" data-track-cta-location="connect">{site.phone}</a>
+        </div>
+        <address class="cn__block">
+          <p class="eyebrow">{p.hq}</p>
+          <p class="cn__addr">
+            {site.legalName}<br />
+            {site.address.building}<br />
+            {site.address.streetAddress}<br />
+            {site.address.addressLocality}, {site.address.addressRegion} {site.address.postalCode}
+          </p>
+          <a class="link" href={site.address.mapsUrl} rel="noopener">{p.map}</a>
+        </address>
+        <div class="cn__block cn__alt">
+          <p class="display-3">{p.alt.title}</p>
+          <p class="small muted">{p.alt.body}</p>
+          <a class="link" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="connect">{p.alt.cta}</a>
+        </div>
+      </div>
+      <div class="cn__form">
+        <p class="eyebrow eyebrow--marker" data-reveal>{p.formTitle}</p>
+        <LeadFormLite
+          formId="connect"
+          persona="founder"
+          intent="other"
+          ground="paper"
+          fields={[
+            { name: 'name', label: f.name, required: true, autocomplete: 'name' },
+            { name: 'company', label: f.company, autocomplete: 'organization' },
+            { name: 'email', label: f.email, type: 'email', required: true, autocomplete: 'email' },
+            { name: 'phone', label: f.phone, type: 'tel', autocomplete: 'tel' },
+            { name: 'message', label: f.message, type: 'textarea', rows: 5, required: true },
+          ]}
+          submitLabel={p.submit}
+          consentLabel={p.consent}
+          successTitle={p.success.title}
+          successBody={p.success.body}
+          errorLabel={p.error}
+        />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cn {
+    padding-top: 0;
+  }
+  .cn__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+  .cn__details {
+    display: grid;
+    gap: var(--space-6);
+    align-content: start;
+  }
+  .cn__block {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: start;
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+    font-style: normal;
+  }
+  .cn__big {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 105, 'wght' 600;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    letter-spacing: -0.01em;
+    word-break: break-all;
+  }
+  .cn__addr {
+    line-height: 1.5;
+  }
+  .cn__form {
+    display: grid;
+    gap: var(--space-6);
+    align-content: start;
+  }
+  @media (min-width: 1024px) {
+    .cn__grid {
+      grid-template-columns: 5fr 7fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+  }
+</style>

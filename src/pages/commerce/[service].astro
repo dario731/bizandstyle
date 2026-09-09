@@ -1,0 +1,11 @@
+---
+import ServicePage from '@components/system/ServicePage.astro';
+import { byDivision } from '@data/services';
+
+export function getStaticPaths() {
+  return byDivision('commerce').map((s) => ({ params: { service: s.slug }, props: { service: s } }));
+}
+const { service } = Astro.props;
+---
+
+<ServicePage {service} />

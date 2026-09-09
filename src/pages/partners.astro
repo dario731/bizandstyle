@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Statement from '@components/editorial/Statement.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { pages } from '@i18n/pages.en';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.partners;
+const path = '/partners';
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path }), breadcrumbLd([{ name: 'Partner ecosystem', path }]));
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="paper" crumbs={[{ name: 'Partner ecosystem', path }]}>
+    <a class="btn btn--solid" href="/become-a-partner" data-track="partner_inquiry" data-track-cta-location="landing_hero">
+      <span class="btn__ring" aria-hidden="true"></span>Explore a partnership
+    </a>
+  </EditorialHero>
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <ModuleGrid eyebrow={p.audiences.eyebrow} title={p.audiences.title} items={p.audiences.items} columns={4} ground="onyx" id="audiences" />
+  <Statement lines={p.principles.lines} body={p.principles.body} ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
+</BaseLayout>

@@ -62,10 +62,29 @@ function isEmail(v: unknown): v is string {
 
 export const POST: APIRoute = async ({ request }) => {
   let body: Envelope;
+  const ct = request.headers.get('content-type') ?? '';
   try {
-    body = (await request.json()) as Envelope;
+    if (ct.includes('application/json')) {
+      body = (await request.json()) as Envelope;
+    } else {
+      // No-JS fallback: native form POST (urlencoded / multipart)
+      const fd = await request.formData();
+      const fields: Record<string, string | string[]> = {};
+      fd.forEach((v, k) => {
+        if (['persona', 'intent', 'consent', 'hp', 'formId'].includes(k) || typeof v !== 'string') return;
+        fields[k] = k in fields ? ([] as string[]).concat(fields[k], v) : v;
+      });
+      body = {
+        formId: String(fd.get('formId') ?? 'tell-us'),
+        persona: fd.get('persona')?.toString(),
+        intent: fd.get('intent')?.toString(),
+        fields,
+        consent: { privacy: fd.get('consent') === '1' },
+        hp: fd.get('hp')?.toString(),
+      };
+    }
   } catch {
-    return json({ ok: false, error: 'invalid_json' }, 400);
+    return json({ ok: false, error: 'invalid_body' }, 400);
   }
 
   if (body.hp) return json({ ok: true, id: 'ignored' }, 202); // bot filled the honeypot

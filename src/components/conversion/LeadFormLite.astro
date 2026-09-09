@@ -1,0 +1,314 @@
+---
+/**
+ * LeadFormLite — single-step form for partner inquiries, credential requests
+ * and direct contact. Posts the same envelope to /api/lead as the dynamic form.
+ * Fields are declared by the page; layout, validation, tracking are shared.
+ */
+type Field =
+  | { name: string; label: string; type?: 'text' | 'email' | 'tel' | 'url'; required?: boolean; wide?: boolean; autocomplete?: string }
+  | { name: string; label: string; type: 'select'; options: readonly string[]; required?: boolean; wide?: boolean }
+  | { name: string; label: string; type: 'textarea'; required?: boolean; rows?: number }
+  | { name: string; label: string; type: 'chips'; options: readonly { id: string; label: string }[]; multiple?: boolean };
+
+interface Props {
+  formId: string;
+  persona: string;
+  intent: string;
+  fields: readonly Field[];
+  submitLabel: string;
+  consentLabel: string;
+  successTitle: string;
+  successBody: string;
+  errorLabel: string;
+  ground?: 'onyx' | 'paper';
+}
+const { formId, persona, intent, fields, submitLabel, consentLabel, successTitle, successBody, errorLabel, ground = 'onyx' } = Astro.props;
+const uid = formId.replace(/[^a-z0-9]/gi, '');
+---
+
+<form class:list={['lfl', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} method="post" action="/api/lead" novalidate data-lead-lite data-form-id={formId} data-persona={persona} data-intent={intent} data-reveal>
+  <div class="lfl__fields">
+    {
+      fields.map((f) => {
+        const id = `${uid}-${f.name}`;
+        if (f.type === 'chips') {
+          return (
+            <fieldset class="field field--wide lfl__chips">
+              <legend>{f.label}</legend>
+              <div class="lfl__chiprow">
+                {f.options.map((o) => (
+                  <label class="chip">
+                    <input type={f.multiple ? 'checkbox' : 'radio'} name={f.name} value={o.id} />
+                    <span>{o.label}</span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+          );
+        }
+        if (f.type === 'textarea') {
+          return (
+            <div class="field field--wide">
+              <label for={id}>{f.label}</label>
+              <textarea id={id} name={f.name} rows={f.rows ?? 4} required={f.required} />
+            </div>
+          );
+        }
+        if (f.type === 'select') {
+          return (
+            <div class:list={['field', { 'field--wide': f.wide }]}>
+              <label for={id}>{f.label}</label>
+              <select id={id} name={f.name} required={f.required}>
+                <option value="">—</option>
+                {f.options.map((o) => <option>{o}</option>)}
+              </select>
+            </div>
+          );
+        }
+        return (
+          <div class:list={['field', { 'field--wide': f.wide }]}>
+            <label for={id}>{f.label}</label>
+            <input id={id} name={f.name} type={f.type ?? 'text'} required={f.required} autocomplete={f.autocomplete} inputmode={f.type === 'email' ? 'email' : f.type === 'tel' ? 'tel' : f.type === 'url' ? 'url' : undefined} />
+          </div>
+        );
+      })
+    }
+    <div class="field field--wide field--check">
+      <label>
+        <input type="checkbox" name="consent" value="1" required />
+        <span>{consentLabel}</span>
+      </label>
+    </div>
+    <input class="lfl__hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  </div>
+  <p class="lfl__error small" role="alert" hidden data-error>{errorLabel}</p>
+  <div class="lfl__nav">
+    <button class="btn btn--solid" type="submit" data-submit>
+      <span class="btn__ring" aria-hidden="true"></span>
+      {submitLabel}
+    </button>
+  </div>
+  <div class="lfl__success" hidden data-success tabindex="-1">
+    <p class="display-2">{successTitle}</p>
+    <p class="lede muted">{successBody}</p>
+  </div>
+</form>
+
+<style>
+  .lfl {
+    display: grid;
+    gap: var(--space-6);
+    background: transparent;
+  }
+
+  .lfl__fields {
+    display: grid;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  .field {
+    display: grid;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+
+  .field label,
+  .field legend {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--fg-muted);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 0.7rem 0;
+    color: var(--fg);
+    border-radius: 0;
+  }
+
+  .field select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--fg-muted) 50%), linear-gradient(135deg, var(--fg-muted) 50%, transparent 50%);
+    background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 1.5rem;
+  }
+
+  .field select option {
+    color: var(--onyx);
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--brass);
+  }
+
+  .field--check label {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .field--check input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.15rem;
+    accent-color: var(--brass);
+  }
+
+  .lfl__chips {
+    border: 0;
+    padding: 0;
+    margin: 0;
+  }
+
+  .lfl__chips legend {
+    padding: 0;
+    margin-bottom: 0.6rem;
+  }
+
+  .lfl__chiprow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .chip span {
+    display: inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    padding: 0.55em 1em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--fg-muted);
+    cursor: pointer;
+    transition: color var(--dur-1), border-color var(--dur-1), background var(--dur-1);
+  }
+
+  .chip:hover span {
+    color: var(--fg);
+    border-color: var(--fg-muted);
+  }
+
+  .chip input:checked + span {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+
+  .chip input:focus-visible + span {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+  }
+
+  .lfl__hp {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .lfl__error {
+    color: #c0553c;
+  }
+
+  .lfl__success {
+    display: grid;
+    gap: var(--space-4);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .lfl.is-sending [data-submit] {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  @media (min-width: 720px) {
+    .lfl__fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .field--wide {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
+
+<script>
+  import { track, getAttribution } from '@lib/track';
+
+  document.querySelectorAll<HTMLFormElement>('[data-lead-lite]').forEach((form) => {
+    const formId = form.dataset.formId!;
+    const success = form.querySelector<HTMLElement>('[data-success]')!;
+    const errorEl = form.querySelector<HTMLElement>('[data-error]')!;
+    let started = false;
+    form.addEventListener('focusin', () => {
+      if (!started) {
+        started = true;
+        track('form_start', { cta_name: formId });
+      }
+    });
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.hidden = true;
+      const invalid = Array.from(form.querySelectorAll<HTMLInputElement>('[required]')).find((i) => !i.checkValidity());
+      if (invalid) {
+        invalid.reportValidity();
+        return;
+      }
+      const fd = new FormData(form);
+      const fields: Record<string, unknown> = {};
+      fd.forEach((v, k) => {
+        if (['consent', 'hp'].includes(k)) return;
+        if (k in fields) fields[k] = ([] as unknown[]).concat(fields[k] as unknown[], v);
+        else fields[k] = typeof v === 'string' ? v.trim() : v;
+      });
+      const envelope = {
+        formId,
+        persona: form.dataset.persona,
+        intent: form.dataset.intent,
+        language: document.documentElement.lang,
+        geography: fields.country ?? fields.geography,
+        fields,
+        consent: { privacy: fd.get('consent') === '1', marketing: false, ts: new Date().toISOString() },
+        attribution: getAttribution() ?? {},
+        hp: fd.get('hp') ?? '',
+      };
+      form.classList.add('is-sending');
+      track('form_submit', { cta_name: formId, persona: form.dataset.persona, lead_type: form.dataset.persona === 'partner' ? 'partner' : 'client' });
+      if (formId === 'partner') track('partner_inquiry', { cta_location: 'form' });
+      if (formId === 'credentials') track('credentials_request', { cta_location: 'form' });
+      try {
+        const res = await fetch(form.action, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(envelope) });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error ?? 'failed');
+        form.querySelector<HTMLElement>('.lfl__fields')!.hidden = true;
+        form.querySelector<HTMLElement>('.lfl__nav')!.hidden = true;
+        success.hidden = false;
+        success.focus();
+      } catch {
+        errorEl.hidden = false;
+      } finally {
+        form.classList.remove('is-sending');
+      }
+    });
+  });
+</script>

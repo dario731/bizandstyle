@@ -1,0 +1,109 @@
+---
+/**
+ * InHouseVsPartners — the professional-discipline distinction (brief §5),
+ * written so machines can read it: two explicit lists, one sentence of policy.
+ */
+interface Props {
+  ground?: 'onyx' | 'paper';
+  id?: string;
+}
+const { ground = 'onyx', id = 'how-we-deliver' } = Astro.props;
+
+const inHouse = [
+  'Business strategy, go-to-market and international expansion',
+  'Business development, partnership engineering and trade missions',
+  'Fractional executive leadership and market representation',
+  'Commerce: import/export, distribution, marketplaces, brand representation',
+  'Domestic and bonded warehousing, fulfillment and logistics in Miami',
+  'Digital growth: websites, Google and Meta, SEO and GEO, lead generation, CRM and automation',
+  'Luxury real estate and the B&S Luxury business-development ecosystem',
+];
+const partners = [
+  'Corporate and commercial lawyers — entity formation, contracts, compliance',
+  'Tax advisors and accountants — tax filings, accounting, structuring',
+  'Immigration attorneys — visa strategy and filings',
+  'Banking partners — U.S. business accounts',
+  'Financial and wealth advisory — through independent third-party firms',
+];
+---
+
+<section class:list={['section ihp', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} {id} aria-labelledby={`${id}-title`}>
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--marker" data-reveal>How we deliver</p>
+      <h2 id={`${id}-title`} class="display-2" data-reveal>
+        <span>One journey.</span>
+        <span class="muted">The right expert at every stage.</span>
+      </h2>
+      <p class="lede" data-reveal>We do what we do best. For everything else, we work with professionals who do the same.</p>
+    </div>
+    <div class="ihp__grid">
+      <div class="ihp__col" data-reveal>
+        <p class="eyebrow">Delivered in-house</p>
+        <h3 class="display-3">What BIZ & STYLE executes directly</h3>
+        <p class="small muted">Our own team, our own infrastructure, our own systems.</p>
+        <ul role="list" class="ihp__list" data-reveal-group>
+          {inHouse.map((i) => <li>{i}</li>)}
+        </ul>
+      </div>
+      <div class="ihp__col" data-reveal>
+        <p class="eyebrow eyebrow--brass">Delivered by licensed specialists</p>
+        <h3 class="display-3">What qualified professionals deliver</h3>
+        <p class="small muted">We coordinate; vetted, independent, licensed professionals deliver — and remain responsible for their own services.</p>
+        <ul role="list" class="ihp__list" data-reveal-group>
+          {partners.map((i) => <li>{i}</li>)}
+        </ul>
+      </div>
+    </div>
+    <p class="ihp__policy small muted" data-reveal>
+      Understanding the complete journey does not mean pretending to be the specialist in every discipline. Regulated specialties — legal, tax, accounting, immigration, banking, financial and wealth advisory — are always handled by trusted, licensed professionals, so every engagement is in the right hands.
+    </p>
+  </div>
+</section>
+
+<style>
+  #how-we-deliver-title span,
+  .ihp h2 span {
+    display: block;
+  }
+
+  .ihp__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .ihp__col {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .eyebrow--brass {
+    color: var(--brass);
+  }
+
+  .ihp__list {
+    display: grid;
+    margin-top: var(--space-2);
+  }
+
+  .ihp__list li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+  }
+
+  .ihp__policy {
+    max-width: 78ch;
+    margin-top: var(--space-7);
+  }
+
+  @media (min-width: 900px) {
+    .ihp__grid {
+      grid-template-columns: 1fr 1fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+  }
+</style>

@@ -1,0 +1,95 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Steps from '@components/editorial/Steps.astro';
+import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { pages } from '@i18n/pages.en';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd, faqLd, serviceLd, graph } from '@lib/seo';
+
+const p = pages.internationalization;
+const t = getCopy('en');
+const path = '/internationalization';
+const jsonLd = graph(
+  webPageLd({ name: p.seo.title, description: p.seo.description, path }),
+  serviceLd({ name: 'Internationalization', description: p.definition.a[0], path, division: 'B&S Advisory' }),
+  breadcrumbLd([{ name: 'Internationalization', path }]),
+  faqLd([...p.faqs]),
+);
+const cmp = t.home.internationalization.compare;
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="HOME-MIAMI-01" mediaAlt="Miami at night" crumbs={[{ name: 'Internationalization', path }]}>
+    <a class="btn btn--solid" href={p.cta.primary.href} data-track="cta_click" data-track-cta-name="assess_expansion" data-track-cta-location="landing_hero">
+      <span class="btn__ring" aria-hidden="true"></span>{p.cta.primary.label}
+    </a>
+  </EditorialHero>
+
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+
+  <section class="section ground-paper cmp" aria-labelledby="cmp-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--marker" data-reveal>The core distinction</p>
+        <h2 id="cmp-title" class="display-2" data-reveal>Selling products vs. becoming part of the market.</h2>
+      </div>
+      <div class="cmp__grid" data-reveal>
+        {
+          [cmp.export, cmp.intl].map((col, i) => (
+            <div class:list={['cmp__col', { 'cmp__col--strong': i === 1 }]}>
+              <h3 class="display-3">{col.title}</h3>
+              <ul role="list">{col.rows.map((r) => <li>{r}</li>)}</ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ModuleGrid eyebrow={p.mistakes.eyebrow} title={p.mistakes.title} items={p.mistakes.items} columns={3} ground="onyx" id="mistakes" />
+  <Statement lines={[p.mistakes.result]} ground="onyx" size="display-2" />
+  <ModuleGrid eyebrow={p.ingredients.eyebrow} title={p.ingredients.title} items={p.ingredients.items} columns={3} ground="paper" id="ingredients" />
+  <ModuleGrid eyebrow={p.pillars.eyebrow} title={p.pillars.title} lede={p.pillars.lede} items={p.pillars.items} columns={3} ground="paper" id="pillars" />
+  <Steps eyebrow={p.model.eyebrow} title={p.model.title} steps={p.model.steps} ground="onyx" id="model" />
+  <Statement lines={['Not export.', 'Internationalization.']} body={[p.model.closing]} ground="onyx" />
+  <RelatedInsights clusterOf={[path]} ground="paper" />
+  <FaqBlock faqs={p.faqs} ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
+</BaseLayout>
+
+<style>
+  .cmp__grid {
+    display: grid;
+    gap: var(--space-6);
+    border-top: 1px solid var(--line);
+    padding-top: var(--space-6);
+  }
+  .cmp__col h3 {
+    margin-bottom: var(--space-4);
+    color: var(--smoke);
+  }
+  .cmp__col--strong h3 {
+    color: var(--ink);
+  }
+  .cmp__col li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+    color: var(--smoke);
+  }
+  .cmp__col--strong li {
+    color: var(--ink);
+  }
+  @media (min-width: 720px) {
+    .cmp__grid {
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-8);
+    }
+  }
+</style>

@@ -1,0 +1,85 @@
+---
+/**
+ * EditorialHero — the opening of every inner page. Eyebrow, large title,
+ * lede and an optional media slot (manifest-aware). Ground is configurable so
+ * divisions and landing pages can open on Onyx while hub pages open on Paper.
+ */
+import CinematicMedia from '@components/cinematic/CinematicMedia.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string | readonly string[];
+  lede?: string;
+  ground?: 'onyx' | 'paper';
+  mediaId?: string;
+  mediaAlt?: string;
+  crumbs?: { name: string; path: string }[];
+  size?: 'display' | 'display-2';
+}
+const { eyebrow, title, lede, ground = 'onyx', mediaId, mediaAlt = '', crumbs = [], size = 'display' } = Astro.props;
+const lines = Array.isArray(title) ? title : [title];
+const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
+---
+
+<section class:list={['eh', groundClass, { 'eh--media': Boolean(mediaId) }]}>
+  <div class="container eh__inner">
+    {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
+    <div class="eh__text">
+      {eyebrow && <p class="eyebrow eyebrow--marker" data-reveal>{eyebrow}</p>}
+      <h1 class:list={[size, 'eh__title']} data-reveal>
+        {lines.map((l, i) => <span class:list={{ thin: i > 0 && lines.length > 1 }}>{l}</span>)}
+      </h1>
+      {lede && <p class="lede eh__lede" data-reveal>{lede}</p>}
+      <div class="eh__slot" data-reveal><slot /></div>
+    </div>
+    {
+      mediaId && (
+        <div class="eh__media" data-reveal>
+          <CinematicMedia manifestId={mediaId} alt={mediaAlt} ratio="4 / 5" tone={ground} />
+        </div>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .eh {
+    padding-top: clamp(7rem, 16vh, 11rem);
+    padding-bottom: var(--space-section-sm);
+  }
+
+  .eh__inner {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .eh__text {
+    display: grid;
+    gap: var(--space-5);
+    min-width: 0;
+  }
+
+  .eh__title span {
+    display: block;
+  }
+
+  .eh__lede {
+    color: var(--fg-muted);
+  }
+
+  .eh__slot:empty {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .eh--media .eh__inner {
+      grid-template-columns: 7fr 5fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: end;
+    }
+    .eh--media :global(.crumbs) {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

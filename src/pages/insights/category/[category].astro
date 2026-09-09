@@ -1,0 +1,55 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import InsightCard from '@components/insights/InsightCard.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { getCollection } from 'astro:content';
+import { readingTime } from '@lib/reading-time';
+import { pages } from '@i18n/pages.en';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const cats = (await getCollection('categories')).filter((c) => c.data.locale === 'en');
+  return cats.map((c) => ({ params: { category: c.id }, props: { category: c } }));
+}
+const { category } = Astro.props;
+const p = pages.insightsIndex;
+const path = `/insights/category/${category.id}`;
+const list = (await getCollection('insights', ({ data }) => !data.draft && data.locale === 'en' && data.category.id === category.id)).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+const cards = list.map((entry) => ({ entry, readingTime: readingTime(entry.body ?? '') }));
+const title = `${category.data.name} — Insights | BIZ & STYLE`;
+const jsonLd = graph(webPageLd({ name: title, description: category.data.description, path, type: 'CollectionPage' }), breadcrumbLd([{ name: 'Insights', path: '/insights' }, { name: category.data.name, path }]));
+const clusterLabel: Record<string, string> = { '/internationalization': 'Internationalization', '/digital-engine': 'Digital engine', '/miami': 'Miami', '/luxury': 'B&S Luxury', '/commerce': 'B&S Commerce', '/advisory/business-development': 'Business development', '/advisory/fractional-executive': 'Fractional executive', '/advisory/lead-generation': 'Lead generation', '/advisory/ai-digital-transformation': 'AI & digital transformation' };
+---
+
+<BaseLayout {title} description={category.data.description} {path} pageType="insights_category" {jsonLd}>
+  <EditorialHero eyebrow="Insights · Topic" title={category.data.name} lede={category.data.description} ground="onyx" size="display-2" crumbs={[{ name: 'Insights', path: '/insights' }, { name: category.data.name, path }]}>
+    {category.data.clusterOf && <a class="link" href={category.data.clusterOf}>{clusterLabel[category.data.clusterOf] ?? 'On the platform'}<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></a>}
+  </EditorialHero>
+  <section class="section ground-paper">
+    <div class="container">
+      {
+        cards.length ? (
+          <div class="cat__grid" data-reveal-group>
+            {cards.map((c) => <InsightCard entry={c.entry} categoryName={category.data.name} readingTime={c.readingTime} readingLabel={p.readingTime} />)}
+          </div>
+        ) : (
+          <p class="lede muted" data-reveal>Articles in this topic are being written. In the meantime, explore <a class="link" href={category.data.clusterOf ?? '/platform'}>the platform</a>.</p>
+        )
+      }
+    </div>
+  </section>
+  <ContextualCta title={['Tell us', "what you're building."]} primary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} secondary={{ label: p.all, href: '/insights', name: 'insights' }} location="category_cta" />
+</BaseLayout>
+
+<style>
+  .cat__grid {
+    display: grid;
+    gap: var(--space-8) var(--gutter);
+  }
+  @media (min-width: 720px) {
+    .cat__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

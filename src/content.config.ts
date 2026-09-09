@@ -13,10 +13,10 @@ const seo = z
     title: z.string().optional(),
     description: z.string().optional(),
     ogImage: z.string().optional(),
-    canonical: z.string().url().optional(),
+    canonical: z.url().optional(),
     noindex: z.boolean().default(false),
   })
-  .default({});
+  .default({ noindex: false });
 
 const insights = defineCollection({
   loader: glob({ pattern: '**/*.mdx', base: './src/content/insights' }),
@@ -39,7 +39,7 @@ const insights = defineCollection({
       updatedDate: z.coerce.date().optional(),
       category: reference('categories'),
       tags: z.array(z.string()).default([]),
-      sources: z.array(z.object({ label: z.string(), url: z.string().url().optional() })).default([]),
+      sources: z.array(z.object({ label: z.string(), url: z.url().optional() })).default([]),
       faqs: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
       related: z.array(reference('insights')).default([]),
       relatedServices: z.array(z.string()).default([]), // service paths, e.g. /internationalization
@@ -69,7 +69,7 @@ const authors = defineCollection({
     role: z.string(),
     bio: z.string(),
     image: z.string().optional(),
-    sameAs: z.array(z.string().url()).default([]),
+    sameAs: z.array(z.url()).default([]),
   }),
 });
 

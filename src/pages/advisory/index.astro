@@ -1,0 +1,26 @@
+---
+import DivisionPage from '@components/system/DivisionPage.astro';
+import InHouseVsPartners from '@components/editorial/InHouseVsPartners.astro';
+---
+
+<DivisionPage
+  division="advisory"
+  seo={{ title: 'B&S Advisory — Strategy That Ends in Execution | BIZ & STYLE', description: 'B&S Advisory: business strategy, international expansion, fractional executive, temporary export management, business development, partnership engineering and digital growth — delivered by operators in Miami, not consultants at a distance.' }}
+  hero={{ eyebrow: 'Division 01 · B&S Advisory', title: ['Strategy that', 'ends in execution.'], lede: 'Business strategy, international expansion, fractional executive leadership, business development and digital growth — delivered by a team that operates in-market rather than advising from a distance.', mediaId: 'HOME-DIV-ADV' }}
+  definition={{
+    q: 'What is B&S Advisory?',
+    a: [
+      'B&S Advisory is the strategy and growth division of BIZ & STYLE. It covers business strategy and go-to-market, internationalization (U.S. market entry, LATAM expansion, temporary export management, local representation, trade missions, partner development), fractional executive services, business development and partnership engineering, and digital growth — websites, lead generation, Google and Meta, SEO and GEO, CRM, automation, analytics and AI-enabled workflows.',
+      'It is not PowerPoint strategy. The same team connects strategy with execution through B&S Commerce, the digital engine and the commercial network. Financial and wealth advisory, tax and legal are delivered through a vetted network of licensed professionals.',
+    ],
+  }}
+  statement={{ lines: ['We are not selling', 'PowerPoint strategy.'], body: ['The engine behind business transformation: helping companies navigate complexity with precision and agility, from first feasibility study to full international deployment — and staying to run it.'] }}
+  faqs={[
+    { q: 'Which industries does B&S Advisory serve?', a: 'Premium consumer goods (beauty, food and beverage, accessories, apparel), luxury and real estate, and companies of any sector expanding between Europe, the United States and Latin America.' },
+    { q: 'How does an engagement start?', a: 'With a strategic conversation. Once we understand your goals we design a roadmap and a clear proposal — scope, deliverables, timeline, and who delivers what.' },
+    { q: 'Does B&S Advisory provide financial, tax or legal advice?', a: 'No. Financial and wealth advisory, tax, accounting, legal and immigration are delivered by independent licensed professionals from our network, coordinated by us.' },
+  ]}
+  cta={{ eyebrow: 'Building something in the Americas?', title: ['Tell us', "what you're building."], primary: { label: "Tell us what you're building", href: '/tell-us?intent=business-development', name: 'tell_us' }, secondary: { label: 'Assess your market entry', href: '/tell-us?intent=market-entry&persona=international-company', name: 'assess_market_entry' } }}
+>
+  <InHouseVsPartners slot="after-services" ground="onyx" />
+</DivisionPage>

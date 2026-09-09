@@ -1,0 +1,134 @@
+---
+/**
+ * Steps — an ordered process (phases, flow). Horizontal with a drawn connecting
+ * line on desktop, vertical rail on mobile.
+ */
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  steps: readonly { name: string; line?: string; items?: readonly string[] }[];
+  ground?: 'onyx' | 'paper';
+  id?: string;
+  label?: string;
+}
+const { eyebrow, title, steps, ground = 'paper', id, label = 'Phase' } = Astro.props;
+---
+
+<section class:list={['section steps', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} {id}>
+  <div class="container">
+    {
+      (eyebrow || title) && (
+        <div class="section-head">
+          {eyebrow && <p class="eyebrow eyebrow--marker" data-reveal>{eyebrow}</p>}
+          {title && <h2 class="display-2" data-reveal>{title}</h2>}
+        </div>
+      )
+    }
+    <ol class="steps__list" style={`--n:${steps.length}`} role="list" data-reveal-group>
+      {
+        steps.map((s, i) => (
+          <li class="step">
+            <span class="step__dot" aria-hidden="true"></span>
+            <span class="num">{label} {String(i + 1).padStart(2, '0')}</span>
+            <span class="step__name display-3">{s.name}</span>
+            {s.line && <span class="step__line small muted">{s.line}</span>}
+            {s.items && (
+              <ul class="step__items small" role="list">
+                {s.items.map((it) => <li>{it}</li>)}
+              </ul>
+            )}
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .steps__list {
+    position: relative;
+    display: grid;
+    gap: var(--space-6);
+    padding-left: 1.5rem;
+  }
+
+  .steps__list::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .step {
+    position: relative;
+    display: grid;
+    gap: 0.45rem;
+    align-content: start;
+  }
+
+  .step__dot {
+    position: absolute;
+    left: -1.5rem;
+    top: 0.5rem;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1.5px solid var(--fg);
+  }
+
+  .step:last-child .step__dot {
+    background: var(--brass);
+    border-color: var(--brass);
+  }
+
+  .step__line {
+    max-width: 30ch;
+  }
+
+  .step__items {
+    display: grid;
+    gap: 0.2rem;
+    margin-top: 0.4rem;
+    color: var(--fg-muted);
+  }
+
+  .step__items li::before {
+    content: '— ';
+    opacity: 0.5;
+  }
+
+  @media (min-width: 1024px) {
+    .steps__list {
+      grid-template-columns: repeat(var(--n), 1fr);
+      gap: var(--space-5);
+      padding-left: 0;
+      padding-top: 1.6rem;
+    }
+    .steps__list::before {
+      left: 5px;
+      right: 0;
+      top: 5px;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1.6s var(--ease-out);
+    }
+    .steps__list.is-in::before {
+      transform: scaleX(1);
+    }
+    .step__dot {
+      left: 0;
+      top: -1.6rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .steps__list::before { transform: none; }
+  }
+</style>

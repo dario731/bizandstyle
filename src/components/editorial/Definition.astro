@@ -1,0 +1,53 @@
+---
+/**
+ * Definition — the GEO answer block. A question-shaped heading and a
+ * two-to-four sentence definition that search engines and AI systems can lift
+ * verbatim. Always server-rendered, always the first thing after the hero.
+ */
+interface Props {
+  question: string;
+  answer: string | readonly string[];
+  ground?: 'onyx' | 'paper';
+  id?: string;
+}
+const { question, answer, ground = 'paper', id } = Astro.props;
+const paras = Array.isArray(answer) ? answer : [answer];
+---
+
+<section class:list={['section--tight def', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} {id} aria-labelledby={id ? `${id}-q` : undefined}>
+  <div class="container def__grid">
+    <h2 id={id ? `${id}-q` : undefined} class="display-3 def__q" data-reveal>{question}</h2>
+    <div class="prose def__a" data-reveal>
+      {paras.map((p) => <p>{p}</p>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .def {
+    padding-block: var(--space-section-sm);
+    border-top: 1px solid var(--line);
+  }
+
+  .def__grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .def__q {
+    max-width: 18ch;
+  }
+
+  .def__a {
+    font-size: 1.1rem;
+    line-height: 1.55;
+  }
+
+  @media (min-width: 900px) {
+    .def__grid {
+      grid-template-columns: 5fr 7fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: start;
+    }
+  }
+</style>

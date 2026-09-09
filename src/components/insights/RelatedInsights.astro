@@ -1,0 +1,56 @@
+---
+/**
+ * RelatedInsights — pulls the latest articles whose category strengthens the
+ * given service path(s) (topic cluster), or explicit related refs.
+ */
+import { getCollection, getEntry, type CollectionEntry } from 'astro:content';
+import InsightCard from './InsightCard.astro';
+import { readingTime } from '@lib/reading-time';
+
+interface Props {
+  clusterOf?: readonly string[];
+  entries?: CollectionEntry<'insights'>[];
+  exclude?: string;
+  title?: string;
+  ground?: 'onyx' | 'paper';
+  limit?: number;
+}
+const { clusterOf = [], entries, exclude, title = 'Related insights', ground = 'paper', limit = 3 } = Astro.props;
+
+let list = entries ?? [];
+if (!entries) {
+  const cats = (await getCollection('categories')).filter((c) => c.data.clusterOf && clusterOf.includes(c.data.clusterOf)).map((c) => c.id);
+  const all = (await getCollection('insights', ({ data }) => !data.draft && data.locale === 'en')).filter((e) => cats.includes(e.data.category.id));
+  list = all.sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
+}
+list = list.filter((e) => e.id !== exclude).slice(0, limit);
+const cards = await Promise.all(list.map(async (entry) => ({ entry, categoryName: (await getEntry(entry.data.category))?.data.name ?? '', readingTime: readingTime(entry.body ?? '') })));
+---
+
+{
+  cards.length > 0 && (
+    <section class:list={['section ri', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} aria-labelledby="ri-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow eyebrow--marker" data-reveal>Insights</p>
+          <h2 id="ri-title" class="display-2" data-reveal>{title}</h2>
+        </div>
+        <div class="ri__grid" data-reveal-group>
+          {cards.map((c) => <InsightCard entry={c.entry} categoryName={c.categoryName} readingTime={c.readingTime} tone={ground} />)}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .ri__grid {
+    display: grid;
+    gap: var(--space-7) var(--gutter);
+  }
+  @media (min-width: 720px) {
+    .ri__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

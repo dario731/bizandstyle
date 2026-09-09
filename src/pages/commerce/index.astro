@@ -1,0 +1,30 @@
+---
+import DivisionPage from '@components/system/DivisionPage.astro';
+import Steps from '@components/editorial/Steps.astro';
+---
+
+<DivisionPage
+  division="commerce"
+  seo={{ title: 'B&S Commerce — From Product to Market | BIZ & STYLE', description: 'B&S Commerce: import/export, distribution across retail, travel retail and e-commerce, Amazon and marketplaces, domestic and bonded warehousing in Miami, B2B and B2C fulfillment, licensing and brand representation for the Americas.' }}
+  hero={{ eyebrow: 'Division 02 · B&S Commerce', title: ['From product', 'to market.'], lede: 'Import and export, distribution, marketplaces, domestic and bonded warehousing in Miami, B2B and B2C fulfillment and brand representation — the physical engine that lets an international brand operate in the Americas.', mediaId: 'HOME-DIV-COM' }}
+  definition={{
+    q: 'What is B&S Commerce?',
+    a: [
+      'B&S Commerce is the trade and distribution division of BIZ & STYLE. It bridges brands and markets — managing supply chains across duty-free, retail, e-commerce and direct-to-consumer — and acts as the plug-in for international brands entering the Americas: import and export, distribution, marketplace management (Amazon, Shopify, global marketplaces), licensing and representation, domestic and bonded warehousing with B2B and B2C fulfillment, and brand expansion in beauty, food and beverage, accessories and apparel.',
+    ],
+  }}
+  statement={{ lines: ['One warehouse.', 'Two markets.'], body: ['Sell into the U.S. when it makes sense, and distribute across Latin America duty-efficiently — all from a single Miami hub with domestic and bonded storage side by side.'] }}
+  faqs={[
+    { q: 'Which product categories does B&S Commerce work with?', a: 'Beauty and personal care, food and beverage, accessories (watches, jewelry, bags, lifestyle) and apparel — premium consumer brands.' },
+    { q: 'Which channels do you distribute through?', a: 'Domestic retail (department stores, malls, chains, drugstores), travel retail (duty-free, cruise lines, in-flight) and e-commerce (brand .com, marketplaces, social commerce).' },
+    { q: 'What is the advantage of a bonded warehouse in Miami?', a: 'Duty is deferred until goods enter U.S. commerce; goods re-exported to Latin America or the Caribbean never pay U.S. import duty; and goods can be stored, sorted, labelled and repackaged while still in bond.' },
+  ]}
+  cta={{ eyebrow: 'Looking for U.S. or LATAM distribution?', title: ['Talk to', 'B&S Commerce.'], primary: { label: 'Talk to B&S Commerce', href: '/tell-us?intent=distribution&persona=consumer-brand', name: 'talk_commerce' }, secondary: { label: 'The bonded warehouse', href: '/commerce/bonded-warehouse', name: 'bonded' } }}
+>
+  <Steps slot="after-services" eyebrow="The journey of a product" title="Europe → Miami bonded hub → U.S. · LATAM · Caribbean" label="Stage" ground="paper" steps={[
+    { name: 'Origin', line: 'Freight forwarding by air or ocean from Europe or anywhere in the world.' },
+    { name: 'Miami bonded hub', line: 'Held in bond: duty deferred, consolidated, labelled, repackaged.' },
+    { name: 'United States', line: 'Released into U.S. commerce when it makes sense — retail, marketplaces, DTC — from domestic storage.' },
+    { name: 'LATAM · Caribbean', line: 'Re-exported duty-efficiently to Mexico, the Caribbean, Brazil and the wider region.' },
+  ]} />
+</DivisionPage>

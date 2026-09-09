@@ -1,0 +1,38 @@
+---
+import DivisionPage from '@components/system/DivisionPage.astro';
+import LuxuryEcosystem from '@components/system/LuxuryEcosystem.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import { getCopy } from '@i18n/index';
+const t = getCopy('en');
+---
+
+<DivisionPage
+  division="luxury"
+  seo={{ title: 'B&S Luxury — Business Development at the Highest Level | BIZ & STYLE', description: 'B&S Luxury: Miami luxury and pre-construction real estate, developer partnerships and a seven-vertical business-development ecosystem serving the same high-net-worth client. This is not concierge.' }}
+  hero={{ eyebrow: 'Division 03 · B&S Luxury', title: ['Business development', 'at the highest level.'], lede: 'Real estate. Relationships. Business development. Luxury real estate in Miami, developer partnerships and an ecosystem across seven luxury verticals — not concierge, a platform where relationships compound.', mediaId: 'HOME-DIV-LUX' }}
+  definition={{
+    q: 'What is B&S Luxury?',
+    a: [
+      'B&S Luxury is the real-estate and high-value-ecosystem division of BIZ & STYLE — not an isolated real-estate team but a division of a business-development group. It focuses on luxury and ultra-luxury pre-construction opportunities in Miami for international buyers and private clients, develops strategic relationships with leading developers, and builds a business-development ecosystem across seven verticals — luxury real estate, private aviation, yachting, interior design, luxury goods, luxury media, and celebrity, sports and entertainment — that serve the same high-net-worth client.',
+      'Property search, neighbourhoods and new developments live on the dedicated B&S Luxury site, bns-luxury.com. Investment, wealth structuring and tax matters are coordinated through licensed professionals.',
+    ],
+  }}
+  statement={{ lines: ['This is not concierge.', 'This is an ecosystem.'], editorial: 'Business creates relationships. Relationships create opportunities. The ecosystem compounds.', body: ['We do not send a client to someone who needs a jet, a yacht or a table. We work with companies and strategic partners to create business — relationships, partnerships, visibility and commercial opportunity — because they serve the same client we do.'] }}
+  faqs={[
+    { q: 'Where can I search Miami properties?', a: 'On the dedicated B&S Luxury website, bns-luxury.com — listings, neighbourhood guides and new developments. This corporate site explains the business-development ecosystem behind it.' },
+    { q: 'Does B&S Luxury provide investment or tax advice?', a: 'No. Real estate is presented as a stage of the Investor Journey; investment, wealth structuring and tax matters are handled by independent licensed professionals.' },
+    { q: 'How do developers work with B&S Luxury?', a: 'Beyond buyer registration: dedicated business-development and marketing programmes with selected luxury developments — proprietary digital acquisition targeting international buyers, events and ecosystem introductions.' },
+  ]}
+  cta={{ eyebrow: 'Exploring Miami investment opportunities?', title: ['Start your', 'Investor Journey.'], primary: { label: 'Start your Investor Journey', href: '/tell-us?intent=investor&persona=investor', name: 'start_investor_journey' }, secondary: { label: 'Luxury real estate ↗', href: 'https://bns-luxury.com', name: 'bns_luxury' } }}
+  servicesTitle="Inside the division"
+>
+  <LuxuryEcosystem slot="before-services" copy={t.home.luxury} />
+  <ModuleGrid slot="after-services" eyebrow="Real estate" title="Luxury real estate. Miami." ground="paper" numbered={false} columns={3} items={[
+    { name: 'Luxury real estate', line: 'Curated acquisition for international buyers and private clients.', href: 'https://bns-luxury.com' },
+    { name: 'Pre-construction', line: 'Early access to luxury and ultra-luxury developments.', href: 'https://bns-luxury.com' },
+    { name: 'Developer partnerships', line: 'Strategic relationships with leading developers.', href: '/luxury/developer-partnerships' },
+    { name: 'Private clients', line: 'Discreet, deeply personal end-to-end representation.' },
+    { name: 'International buyer ecosystem', line: 'The buyer of Miami rarely lives in Miami — local, out of state, international.' },
+    { name: 'Digital lead generation & CRM', line: 'Proprietary acquisition and nurturing, built in-house.', href: '/luxury/ecosystem' },
+  ]} />
+</DivisionPage>

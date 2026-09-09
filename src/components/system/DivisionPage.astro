@@ -1,0 +1,52 @@
+---
+/**
+ * DivisionPage — hub for Advisory / Commerce / Luxury. Hero, definition,
+ * service grid (linked), a signature module slot, statement, insights, CTA.
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { byDivision, divisionMeta, type Division } from '@data/services';
+import { breadcrumbLd, faqLd, serviceLd, webPageLd, graph } from '@lib/seo';
+
+interface Props {
+  division: Division;
+  seo: { title: string; description: string };
+  hero: { eyebrow: string; title: readonly string[]; lede: string; mediaId: string };
+  definition: { q: string; a: readonly string[] };
+  statement: { lines: readonly string[]; body?: readonly string[]; editorial?: string };
+  faqs: readonly { q: string; a: string }[];
+  cta: { eyebrow: string; title: readonly string[]; primary: { label: string; href: string; name: string }; secondary?: { label: string; href: string; name: string } };
+  servicesTitle?: string;
+}
+const { division, seo, hero, definition, statement, faqs, cta, servicesTitle = 'Capabilities' } = Astro.props;
+const div = divisionMeta[division];
+const list = byDivision(division);
+const jsonLd = graph(
+  webPageLd({ name: seo.title, description: seo.description, path: div.path, type: 'CollectionPage' }),
+  serviceLd({ name: div.name, description: definition.a[0], path: div.path, serviceType: div.role }),
+  breadcrumbLd([{ name: div.name, path: div.path }]),
+  faqLd([...faqs]),
+);
+---
+
+<BaseLayout title={seo.title} description={seo.description} path={div.path} pageType="division" {jsonLd}>
+  <EditorialHero eyebrow={hero.eyebrow} title={hero.title} lede={hero.lede} ground={div.ground} mediaId={hero.mediaId} mediaAlt={div.name} crumbs={[{ name: div.name, path: div.path }]}>
+    <a class="btn btn--solid" href={cta.primary.href} data-track="cta_click" data-track-cta-name={cta.primary.name} data-track-cta-location="division_hero" data-track-division={division}>
+      <span class="btn__ring" aria-hidden="true"></span>{cta.primary.label}
+    </a>
+  </EditorialHero>
+  <Definition question={definition.q} answer={definition.a} ground="paper" id="definition" />
+  <slot name="before-services" />
+  <ModuleGrid eyebrow={div.role} title={servicesTitle} items={list.map((s) => ({ name: s.title, line: s.lede, href: `${div.path}/${s.slug}` }))} columns={list.length >= 8 ? 4 : list.length >= 6 ? 3 : 3} ground="paper" id="services" trackAs="service_view" />
+  <slot name="after-services" />
+  <Statement lines={statement.lines} body={statement.body} editorial={statement.editorial} ground="onyx" eyebrow={div.name} />
+  <RelatedInsights clusterOf={[div.path, ...list.map((s) => `${div.path}/${s.slug}`)]} ground="paper" />
+  <FaqBlock {faqs} ground="paper" />
+  <ContextualCta eyebrow={cta.eyebrow} title={cta.title} primary={cta.primary} secondary={cta.secondary} location="division_cta" />
+</BaseLayout>

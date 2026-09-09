@@ -1,0 +1,41 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import DigitalEngine from '@components/system/DigitalEngine.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { pages } from '@i18n/pages.en';
+import { getCopy } from '@i18n/index';
+import { byDivision } from '@data/services';
+import { webPageLd, breadcrumbLd, faqLd, serviceLd, graph } from '@lib/seo';
+
+const p = pages.digitalEngine;
+const t = getCopy('en');
+const path = '/digital-engine';
+const digitalServices = byDivision('advisory').filter((s) => ['digital-growth', 'lead-generation', 'crm-automation', 'ai-digital-transformation'].includes(s.slug));
+const jsonLd = graph(
+  webPageLd({ name: p.seo.title, description: p.seo.description, path }),
+  serviceLd({ name: 'Digital engine', description: p.definition.a[0], path, division: 'B&S Advisory' }),
+  breadcrumbLd([{ name: 'Digital engine', path }]),
+  faqLd([...p.faqs]),
+);
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'Digital engine', path }]}>
+    <a class="btn btn--solid" href={p.cta.primary.href} data-track="cta_click" data-track-cta-name="digital_growth_review" data-track-cta-location="landing_hero">
+      <span class="btn__ring" aria-hidden="true"></span>{p.cta.primary.label}
+    </a>
+  </EditorialHero>
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <DigitalEngine copy={{ ...t.home.digital, eyebrow: 'The system' }} />
+  <ModuleGrid eyebrow="Capabilities" title="Digital growth services." items={digitalServices.map((s) => ({ name: s.title, line: s.lede, href: `/advisory/${s.slug}` }))} columns={4} ground="paper" numbered={false} trackAs="service_view" />
+  <Statement lines={['Built in-house.', 'Owned in-house.', 'Optimized in-house.']} ground="onyx" body={['B&S Luxury runs on this engine. Proprietary digital acquisition generated high-net-worth opportunities in some of the most relationship-driven segments of the Miami market — proof that the system works before it is offered to clients.']} />
+  <RelatedInsights clusterOf={[path, '/advisory/lead-generation', '/advisory/ai-digital-transformation']} ground="paper" />
+  <FaqBlock faqs={p.faqs} ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
+</BaseLayout>

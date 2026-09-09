@@ -1,0 +1,19 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import SignaturePrograms from '@components/system/SignaturePrograms.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import { pages } from '@i18n/pages.en';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const p = pages.programsIndex;
+const t = getCopy('en');
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path: '/programs', type: 'CollectionPage' }), breadcrumbLd([{ name: 'Programs', path: '/programs' }]));
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} path="/programs" pageType="programs" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'Programs', path: '/programs' }]} />
+  <SignaturePrograms copy={{ ...t.home.programs, eyebrow: 'Signature programs', title: 'Expansion · Digital · Fractional' }} />
+  <ContextualCta eyebrow="Not sure which one?" title={['Tell us', "what you're building."]} primary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} secondary={{ label: "Let's connect", href: '/connect', name: 'connect' }} location="programs_cta" />
+</BaseLayout>

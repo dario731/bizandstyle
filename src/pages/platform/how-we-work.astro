@@ -1,0 +1,26 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import InHouseVsPartners from '@components/editorial/InHouseVsPartners.astro';
+import Steps from '@components/editorial/Steps.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RealWorld from '@components/home/RealWorld.astro';
+import { pages } from '@i18n/pages.en';
+import { getCopy } from '@i18n/index';
+import { webPageLd, breadcrumbLd, faqLd, graph } from '@lib/seo';
+
+const p = pages.howWeWork;
+const t = getCopy('en');
+const path = '/platform/how-we-work';
+const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path }), breadcrumbLd([{ name: 'Platform', path: '/platform' }, { name: 'How we work', path }]), faqLd([...p.faqs]));
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="hub" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="paper" crumbs={[{ name: 'Platform', path: '/platform' }, { name: 'How we work', path }]} />
+  <RealWorld copy={{ ...t.home.realWorld, eyebrow: 'The operator philosophy' }} />
+  <InHouseVsPartners ground="paper" />
+  <Steps eyebrow={p.process.eyebrow} title={p.process.title} steps={p.process.steps} label="Step" ground="onyx" id="process" />
+  <FaqBlock faqs={p.faqs} ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="hub_cta" />
+</BaseLayout>

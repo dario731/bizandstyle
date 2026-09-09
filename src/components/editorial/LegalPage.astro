@@ -1,0 +1,84 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  updated: string;
+}
+const { title, description, path, updated } = Astro.props;
+const jsonLd = graph(webPageLd({ name: title, description, path }), breadcrumbLd([{ name: title, path }]));
+---
+
+<BaseLayout title={`${title} | BIZ & STYLE`} {description} {path} pageType="legal" {jsonLd} headerOverlay={false}>
+  <section class="legal ground-paper">
+    <div class="container legal__grid">
+      <header class="legal__head">
+        <p class="eyebrow eyebrow--marker">BIZ & STYLE DNA INC.</p>
+        <h1 class="display-2">{title}</h1>
+        <p class="num">Effective {updated}</p>
+      </header>
+      <div class="legal__body prose">
+        <slot />
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal {
+    padding-top: clamp(7rem, 16vh, 10rem);
+    padding-bottom: var(--space-section);
+  }
+  .legal__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+  .legal__head {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+  }
+  .legal__body {
+    max-width: 72ch;
+    color: var(--smoke);
+  }
+  .legal__body :global(h2) {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 110, 'wght' 650;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    margin-top: 2.2em;
+  }
+  .legal__body :global(h3) {
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-top: 1.6em;
+  }
+  .legal__body :global(ul) {
+    padding-left: 1.2em;
+  }
+  .legal__body :global(li) {
+    margin-top: 0.35em;
+  }
+  .legal__body :global(strong) {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  @media (min-width: 1024px) {
+    .legal__grid {
+      grid-template-columns: 4fr 8fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+    .legal__head {
+      position: sticky;
+      top: 7rem;
+    }
+  }
+</style>
