@@ -10,9 +10,12 @@
       <span class="lb__dot" aria-hidden="true"></span>
       <span>Business. Wealth. Lifestyle. — Miami</span>
     </p>
-    <a class="btn btn--flash lb__cta" href="/build" data-lb-cta data-track="cta_click" data-track-cta-name="build_journey" data-track-cta-location="lead_bar">
-      Build your journey
-    </a>
+    <div class="lb__actions">
+      <button class="btn lb__view" type="button" data-lb-view hidden>0 selected · View</button>
+      <a class="btn btn--flash lb__cta" href="/build" data-lb-cta data-track="cta_click" data-track-cta-name="build_journey" data-track-cta-location="lead_bar">
+        Build your journey
+      </a>
+    </div>
   </div>
 </div>
 
@@ -66,15 +69,24 @@
     to { box-shadow: 0 0 0 12px rgba(142, 197, 232, 0); }
   }
 
-  .lb__cta {
+  .lb__actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .lb__cta,
+  .lb__view {
     min-height: 2.5rem;
     padding: 0.55em 1.2em;
+    justify-content: center;
   }
 
   @media (max-width: 720px) {
     .lb__text { display: none; }
     .lb__inner { justify-content: stretch; }
-    .lb__cta { width: calc(100% - 3.2rem); }
+    .lb__actions { width: 100%; }
+    .lb__actions .btn { flex: 1 1 0; padding-inline: 0.6em; }
   }
 
   @media (prefers-reduced-motion: reduce) {

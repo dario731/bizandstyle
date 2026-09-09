@@ -20,7 +20,7 @@ interface Props {
 const { items, label, size = 'md', trackAs, numbered = true } = Astro.props;
 ---
 
-<div class:list={['fl', `fl--${size}`]} data-flow>
+<div class:list={['fl', `fl--${size}`]} data-flow data-flow-wrap={items.length > 2 ? 'true' : undefined}>
   <div class="fl__head">
     <span class="snaprow__hint">{label ?? `${items.length} · swipe`}</span>
     <div class="snaprow__nav">
@@ -92,7 +92,7 @@ const { items, label, size = 'md', trackAs, numbered = true } = Astro.props;
   }
 
   .fl__card {
-    --w: min(19rem, 74vw);
+    --w: min(19rem, 64vw);
     position: absolute;
     left: calc(var(--w) / -2);
     top: 0;
@@ -103,7 +103,7 @@ const { items, label, size = 'md', trackAs, numbered = true } = Astro.props;
   }
 
   .fl--sm .fl__stage { height: 11.5rem; }
-  .fl--sm .fl__card { --w: min(16rem, 70vw); height: 10.5rem; }
+  .fl--sm .fl__card { --w: min(16rem, 60vw); height: 10.5rem; }
 
   @media (min-width: 900px) {
     .fl__stage { margin-inline: 0; }

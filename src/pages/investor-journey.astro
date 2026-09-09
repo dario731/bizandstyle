@@ -23,9 +23,9 @@ const jsonLd = graph(
 ---
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="signature" {jsonLd}>
-  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'The Investor Journey™', path }]} />
-  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'The Investor Journey™', path }]} size="display-2" />
   <JourneyLoop stages={t.home.journey.stages} eyebrow="The circle of growth" />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <Statement eyebrow={p.how.eyebrow} lines={p.how.lines} body={p.how.body} ground="onyx" size="display-2" />
   <Statement lines={p.experts.lines} body={p.experts.body} ground="paper" size="display-2" />
   <ModuleGrid eyebrow={p.entry.eyebrow} title={p.entry.title} items={p.entry.items} columns={3} ground="paper" id="entry" trackAs="cta_click" />

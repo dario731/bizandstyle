@@ -189,8 +189,21 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
     display: flex;
     gap: 0.4rem;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
     scrollbar-width: none;
     border-bottom: 1px solid var(--rule);
+    background: var(--onyx);
+  }
+
+  @media (max-width: 1099px) {
+    .bj__tabs {
+      position: sticky;
+      top: 4.5rem;
+      z-index: 5;
+      margin-inline: calc(var(--gutter) * -1);
+      padding-inline: var(--gutter);
+    }
   }
 
   .bj__tabs::-webkit-scrollbar { display: none; }
@@ -216,7 +229,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
 
   .bj__tabcount:empty { display: none; }
 
-  .bj__panel { display: grid; gap: var(--space-4); }
+  .bj__panel { display: grid; gap: var(--space-4); min-height: 60vh; }
 
   .bj__role { color: var(--stone); }
 
@@ -424,6 +437,8 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
     const suggestCount = root.querySelector<HTMLElement>('[data-suggest-count]')!;
     const KEY = 'bs-build';
     const lbCta = document.querySelector<HTMLAnchorElement>('[data-lb-cta]');
+    const lbView = document.querySelector<HTMLButtonElement>('[data-lb-view]');
+    if (lbView) { lbView.hidden = false; lbView.addEventListener('click', () => { if (window.innerWidth < 1100) { side.classList.add('is-open'); side.querySelector('[data-side-toggle]')!.setAttribute('aria-expanded', 'true'); } side.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }); }
     if (lbCta) { lbCta.addEventListener('click', (e) => { if (picked.size) { e.preventDefault(); document.dispatchEvent(new CustomEvent('bs:open-contact', { detail: { tab: 'message', message: message() } })); } else { e.preventDefault(); document.querySelector('#pick')?.scrollIntoView({ behavior: 'smooth' }); } }); }
     const CATS = ['advisory', 'commerce', 'luxury', 'solutions', 'programs'];
     const CAT_LABEL: Record<string, string> = { advisory: 'Advisory', commerce: 'Commerce', luxury: 'Luxury', solutions: 'Solutions', programs: 'Programs' };
@@ -434,13 +449,11 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
     const load = () => {
       const q = new URLSearchParams(location.search);
       const fromUrl = q.get('pick');
-      const fromStore = (() => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; } })();
-      const ids: string[] = fromUrl ? fromUrl.split(',') : fromStore?.picks || [];
-      persona = q.get('who') || fromStore?.persona || '';
+      const ids: string[] = fromUrl ? fromUrl.split(',') : [];
+      persona = q.get('who') || '';
       picked = new Set(ids.filter((id) => byId.has(id)));
     };
     const save = () => {
-      try { localStorage.setItem(KEY, JSON.stringify({ picks: [...picked], persona })); } catch {}
       const q = new URLSearchParams();
       if (persona) q.set('who', persona);
       if (picked.size) q.set('pick', [...picked].join(','));
@@ -496,7 +509,8 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
         }
         k++;
       }
-      if (lbCta) { lbCta.textContent = total ? `Send to the team · ${total}` : 'Pick what you want to explore'; lbCta.classList.toggle('is-armed', total > 0); }
+      if (lbCta) { lbCta.textContent = total ? 'Send to the team' : 'Pick what you want to explore'; lbCta.classList.toggle('is-armed', total > 0); }
+      if (lbView) { lbView.textContent = `${total} selected · View`; lbView.disabled = total === 0; }
       summary.textContent = total === 0
         ? 'Select anything to start building.'
         : `You are building with ${total} element${total > 1 ? 's' : ''} across ${cats.map((c) => CAT_LABEL[c]).join(', ')}.`;

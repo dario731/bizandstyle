@@ -501,7 +501,10 @@ const o = copy.options;
     applyPersona();
 
     form.addEventListener('change', (e) => {
-      if ((e.target as HTMLInputElement).name === 'persona') applyPersona();
+      if ((e.target as HTMLInputElement).name === 'persona') {
+        applyPersona();
+        if (current === 0) setTimeout(() => show(1), 160); // choosing who you are advances immediately
+      }
       if (!started) {
         started = true;
         track('form_start', { cta_name: formId });

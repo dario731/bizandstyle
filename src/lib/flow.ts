@@ -24,7 +24,7 @@ export function initFlows() {
     let dragging = false, x0 = 0, p0 = 0, moved = false, lastX = 0, lastT = 0, vel = 0;
     let raf = 0, timer = 0;
 
-    const gap = () => { const w = cards[0].offsetWidth || Math.min(352, window.innerWidth * 0.78); return Math.min(w * 0.84, window.innerWidth * 0.46); };
+    const gap = () => { const w = cards[0].offsetWidth || Math.min(352, window.innerWidth * 0.64); return Math.min(w * 0.86, window.innerWidth * 0.6); };
     const clamp = (v: number) => (wrap ? v : Math.max(0, Math.min(N - 1, v)));
     const norm = (i: number) => ((i % N) + N) % N;
 
@@ -85,8 +85,13 @@ export function initFlows() {
       if (!dragging) return;
       dragging = false;
       stage.classList.remove('is-dragging');
-      const fling = -vel * 12; // px/ms → cards
-      go(Math.round(pos + Math.max(-1.5, Math.min(1.5, fling))));
+      // move only when the swipe clearly meant it: a third of a card, or a real flick
+      const delta = pos - p0;
+      const flick = Math.abs(vel) > 0.55 ? -Math.sign(vel) : 0;
+      let steps = 0;
+      if (flick) steps = flick;
+      else if (Math.abs(delta) >= 0.34) steps = Math.sign(delta) * Math.max(1, Math.round(Math.abs(delta)));
+      go(Math.round(p0) + steps);
       setTimeout(() => (moved = false), 50);
     };
     stage.addEventListener('pointerup', end);
