@@ -1,0 +1,111 @@
+---
+/**
+ * FloatingContacts — the three widgets at bottom right: WhatsApp, chat, call.
+ */
+import { site } from '@data/site';
+const wa = `https://wa.me/${site.phoneHref.replace(/\D/g, '')}?text=${encodeURIComponent("Hi BIZ & STYLE — I'd like to talk about what I'm building.")}`;
+---
+
+<div class="fc" data-floating-contacts aria-label="Quick contact">
+  <a class="fc__btn fc__btn--wa" href={wa} target="_blank" rel="noopener" aria-label="WhatsApp" data-track="whatsapp_click" data-track-cta-location="floating">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 1.8a8.2 8.2 0 0 1 0 16.4c-1.5 0-2.9-.4-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 0 1 12 3.8zm-3.3 4.4c-.2 0-.5 0-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.2 5 4.4 2.5 1 3 .8 3.5.7.5 0 1.7-.7 2-1.4.2-.7.2-1.2.2-1.3-.1-.1-.3-.2-.6-.3l-2-1c-.3-.1-.5-.2-.7.1l-.9 1.1c-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.4-1.5-.9-.8-1.5-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.5-.4-.5-.6-.5h-.5z"/></svg>
+    <span class="fc__label">WhatsApp</span>
+  </a>
+  <button class="fc__btn fc__btn--chat" type="button" aria-label="Chat with us" data-open-contact="message" data-track="cta_click" data-track-cta-name="chat" data-track-cta-location="floating">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v9a1.5 1.5 0 0 1-1.5 1.5H9l-4.5 4v-4A1.5 1.5 0 0 1 4 14.5z"/><path stroke="currentColor" stroke-width="1.6" stroke-linecap="round" d="M8 9h8M8 12.5h5"/></svg>
+    <span class="fc__label">Chat</span>
+    <span class="fc__pulse" aria-hidden="true"></span>
+  </button>
+  <a class="fc__btn fc__btn--call" href={site.phoneHref} aria-label={`Call ${site.phone}`} data-track="phone_click" data-track-cta-location="floating">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M5 3h3.2l1.6 4.4-2.2 1.8a12 12 0 0 0 6.7 6.7l1.8-2.2L20.5 15v3.2A2.3 2.3 0 0 1 18.1 21 17 17 0 0 1 3 5.9 2.3 2.3 0 0 1 5 3z"/></svg>
+    <span class="fc__label">Call</span>
+  </a>
+</div>
+
+<style>
+  .fc {
+    position: fixed;
+    right: max(var(--gutter), env(safe-area-inset-right));
+    bottom: calc(4.75rem + env(safe-area-inset-bottom));
+    z-index: calc(var(--z-header) - 1);
+    display: grid;
+    gap: 0.5rem;
+    justify-items: end;
+  }
+
+  .fc__btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    height: 3rem;
+    padding: 0 0.9rem;
+    border-radius: 2px;
+    background: rgba(18, 17, 16, 0.92);
+    border: 1px solid rgba(250, 246, 239, 0.18);
+    color: var(--paper);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    transition: transform var(--dur-2) var(--ease-out), border-color 0.2s, background 0.2s;
+  }
+
+  .fc__btn svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex: none;
+  }
+
+  .fc__label {
+    font-size: 0.66rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.4s var(--ease-out);
+  }
+
+  .fc:hover .fc__label,
+  .fc__btn:focus-visible .fc__label {
+    max-width: 8rem;
+  }
+
+  .fc__btn:hover {
+    transform: translateX(-3px);
+    border-color: var(--brass);
+  }
+
+  .fc__btn--wa { color: #5fd26a; }
+  .fc__btn--wa:hover { background: rgba(37, 211, 102, 0.12); border-color: #5fd26a; }
+
+  .fc__btn--chat {
+    background: var(--brass);
+    border-color: var(--brass);
+    color: var(--onyx);
+  }
+
+  .fc__pulse {
+    position: absolute;
+    inset: -1px;
+    border-radius: 2px;
+    box-shadow: 0 0 0 0 rgba(184, 151, 90, 0.6);
+    animation: fc-pulse 2s ease-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes fc-pulse {
+    70% { box-shadow: 0 0 0 12px rgba(184, 151, 90, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(184, 151, 90, 0); }
+  }
+
+  @media (max-width: 720px) {
+    .fc { bottom: calc(4.5rem + env(safe-area-inset-bottom)); right: 0.75rem; gap: 0.4rem; }
+    .fc__btn { height: 2.7rem; width: 2.7rem; padding: 0; justify-content: center; }
+    .fc__label { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fc__pulse { animation: none; }
+  }
+</style>

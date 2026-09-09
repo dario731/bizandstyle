@@ -7,6 +7,8 @@ import Seo from '@components/layout/Seo.astro';
 import GlobalHeader from '@components/layout/GlobalHeader.astro';
 import GlobalFooter from '@components/layout/GlobalFooter.astro';
 import LeadBar from '@components/layout/LeadBar.astro';
+import FloatingContacts from '@components/layout/FloatingContacts.astro';
+import ContactDrawer from '@components/conversion/ContactDrawer.astro';
 import { site, type Locale } from '@data/site';
 
 interface Props {
@@ -69,6 +71,8 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID as string | undefined;
     </main>
     <GlobalFooter {locale} />
     <LeadBar />
+    <FloatingContacts />
+    <ContactDrawer />
     <script>
       import { initReveal } from '@lib/reveal';
       import { initPageMotion } from '@lib/page-motion';

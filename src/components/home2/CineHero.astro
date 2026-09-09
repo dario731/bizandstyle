@@ -4,16 +4,20 @@
  * and a headline that assembles itself. Test footage: /media/test (Mixkit).
  */
 interface Props {
+  /** Cinematic footage — omitted until the licensed hero clip arrives */
   video?: string;
 }
-const { video = '/media/test/miami-12028.mp4' } = Astro.props;
+const { video } = Astro.props;
 ---
 
 <section class="ch ground-onyx" id="top" data-cine-hero>
   <div class="ch__media" aria-hidden="true">
-    <video class="ch__video" autoplay muted loop playsinline preload="auto" data-hero-video>
-      <source src={video} type="video/mp4" />
-    </video>
+    {video && (
+      <video class="ch__video" autoplay muted loop playsinline preload="auto" data-hero-video>
+        <source src={video} type="video/mp4" />
+      </video>
+    )}
+    <div class="ch__glow"></div>
     <canvas class="ch__net" data-net></canvas>
     <div class="ch__veil"></div>
     <div class="ch__grain"></div>
@@ -74,6 +78,15 @@ const { video = '/media/test/miami-12028.mp4' } = Astro.props;
     will-change: transform;
   }
 
+  .ch__glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(60% 55% at 70% 30%, rgba(184, 151, 90, 0.16), transparent 70%),
+      radial-gradient(50% 60% at 20% 80%, rgba(250, 246, 239, 0.05), transparent 70%),
+      linear-gradient(180deg, #14120f 0%, #0e0d0b 100%);
+  }
+
   .ch__net {
     position: absolute;
     inset: 0;
@@ -115,8 +128,8 @@ const { video = '/media/test/miami-12028.mp4' } = Astro.props;
     font-variation-settings: 'wdth' 118, 'wght' 760;
     font-stretch: 118%;
     font-weight: 760;
-    font-size: clamp(2.6rem, 6.2vw, 6.4rem);
-    line-height: 0.9;
+    font-size: clamp(2.2rem, 4.8vw, 4.6rem);
+    line-height: 0.92;
     letter-spacing: -0.025em;
     text-transform: uppercase;
     display: grid;
@@ -219,7 +232,7 @@ const { video = '/media/test/miami-12028.mp4' } = Astro.props;
         .from(lede, { autoAlpha: 0, y: 18, duration: 0.9 }, 0.9)
         .from(cta ? Array.from(cta.children) : [], { autoAlpha: 0, y: 14, stagger: 0.1, duration: 0.8 }, 1.05);
 
-      gsap.to(video, { yPercent: 12, scale: 1.08, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
+      if (video) gsap.to(video, { yPercent: 12, scale: 1.08, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
       gsap.to(hero.querySelector('.ch__inner'), { yPercent: -18, autoAlpha: 0, ease: 'none', scrollTrigger: { trigger: hero, start: '35% top', end: 'bottom top', scrub: true } });
     }
 

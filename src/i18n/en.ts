@@ -38,6 +38,7 @@ export const en = {
           },
         ],
       },
+      { label: 'Solutions', href: '/solutions' },
       {
         label: 'Advisory',
         href: '/advisory',

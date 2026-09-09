@@ -24,7 +24,7 @@ const N = frames.length + (outro ? 1 : 0);
 <section class="hf ground-onyx" {id} data-hyperframes style={`--n:${N}`} aria-label={eyebrow}>
   <div class="hf__sticky">
     <div class="hf__stage" data-hf-stage>
-      {Array.from({ length: N * 2 + 2 }, (_, k) => <span class="hf__ring" data-hf-ring={k} aria-hidden="true"></span>)}
+      {Array.from({ length: 48 }, (_, k) => <span class="hf__dust" data-hf-dust={k} style={`--x:${(k * 37) % 100}%; --y:${(k * 53) % 100}%; --s:${0.6 + ((k * 7) % 5) * 0.3}`} aria-hidden="true"></span>)}
       {
         frames.map((f, i) => (
           <article class="hf__frame" data-hf-frame={i}>
@@ -90,21 +90,20 @@ const N = frames.length + (outro ? 1 : 0);
     transform-style: preserve-3d;
   }
 
-  .hf__ring {
+  .hf__dust {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    width: min(80vmin, 900px);
-    aspect-ratio: 1;
-    margin: calc(min(80vmin, 900px) / -2) 0 0 calc(min(80vmin, 900px) / -2);
+    left: var(--x);
+    top: var(--y);
+    width: calc(3px * var(--s));
+    height: calc(3px * var(--s));
     border-radius: 50%;
-    border: 1px solid rgba(250, 246, 239, 0.1);
-    box-shadow: 0 0 60px rgba(184, 151, 90, 0.06) inset;
+    background: rgba(250, 246, 239, 0.7);
     will-change: transform, opacity;
   }
 
-  .hf__ring:nth-child(4n) {
-    border-color: rgba(184, 151, 90, 0.35);
+  .hf__dust:nth-child(5n) {
+    background: var(--brass);
+    box-shadow: 0 0 8px rgba(184, 151, 90, 0.8);
   }
 
   .hf__frame {
@@ -139,8 +138,8 @@ const N = frames.length + (outro ? 1 : 0);
     font-variation-settings: 'wdth' 118, 'wght' 760;
     font-stretch: 118%;
     font-weight: 760;
-    font-size: clamp(2.2rem, 6.2vw, 6rem);
-    line-height: 0.92;
+    font-size: clamp(1.9rem, 4.2vw, 3.8rem);
+    line-height: 0.95;
     letter-spacing: -0.025em;
     text-transform: uppercase;
     text-wrap: balance;
@@ -148,7 +147,7 @@ const N = frames.length + (outro ? 1 : 0);
   }
 
   .hf__title--big {
-    font-size: clamp(2.6rem, 8vw, 8rem);
+    font-size: clamp(2.2rem, 5vw, 4.6rem);
   }
 
   .hf__line {
@@ -208,7 +207,7 @@ const N = frames.length + (outro ? 1 : 0);
     .hf { height: auto; }
     .hf__sticky { position: relative; height: auto; overflow: visible; padding-block: var(--space-section); }
     .hf__stage { position: relative; perspective: none; display: grid; gap: var(--space-8); }
-    .hf__ring { display: none; }
+    .hf__dust { display: none; }
     .hf__frame { position: relative; left: auto; top: auto; transform: none; opacity: 1 !important; pointer-events: auto; }
     .hf__hud { position: relative; top: auto; left: auto; right: auto; margin-bottom: var(--space-7); }
     .hf__rail, .hf__hint { display: none; }
@@ -220,11 +219,10 @@ const N = frames.length + (outro ? 1 : 0);
   document.querySelectorAll<HTMLElement>('[data-hyperframes]').forEach((root) => {
     if (still) return;
     const frames = Array.from(root.querySelectorAll<HTMLElement>('[data-hf-frame]'));
-    const rings = Array.from(root.querySelectorAll<HTMLElement>('[data-hf-ring]'));
+    const dust = Array.from(root.querySelectorAll<HTMLElement>('[data-hf-dust]'));
     const ticks = Array.from(root.querySelectorAll<HTMLElement>('[data-hf-tick]'));
     const N = frames.length;
     const D = 1400; // depth between frames (px)
-    const RING_STEP = D / 2;
     let active = false;
 
     const render = () => {
@@ -250,13 +248,13 @@ const N = frames.length + (outro ? 1 : 0);
       const cur = Math.round(p * (N - 1));
       ticks.forEach((t, i) => t.classList.toggle('is-active', i === cur));
 
-      const span = rings.length * RING_STEP;
-      rings.forEach((ring, k) => {
-        let z = ((cam - k * RING_STEP) % span + span) % span; // 0..span, wraps
-        z = z - span + 900; // -span+900 .. 900
-        const o = z > 700 ? 0 : z < -3200 ? 0 : z < -2000 ? (z + 3200) / 1200 * 0.6 : 0.6;
-        ring.style.transform = `translateZ(${z}px)`;
-        ring.style.opacity = String(o);
+      const span = 6000;
+      dust.forEach((d, k) => {
+        let z = ((cam * 1.4 - k * (span / dust.length)) % span + span) % span;
+        z = z - span + 700; // far .. near
+        const o = z > 500 ? 0 : z < -5000 ? 0 : Math.min(0.8, (z + 5000) / 2500);
+        d.style.transform = `translateZ(${z}px)`;
+        d.style.opacity = String(o);
       });
     };
 

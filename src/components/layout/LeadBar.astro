@@ -1,24 +1,25 @@
 ---
 /**
- * LeadBar — sticky bottom bar with the three ways in. Appears after the hero.
+ * LeadBar — sticky bottom bar. Every button opens the contact panel
+ * (message form, embedded Calendly, or direct call). Appears after the hero.
  */
 import { site } from '@data/site';
 ---
 
 <div class="lb ground-onyx" data-leadbar aria-label="Contact options">
   <div class="container lb__inner">
-    <p class="lb__text">
+    <button class="lb__text" type="button" data-open-contact="message">
       <span class="lb__dot" aria-hidden="true"></span>
-      Start a conversation
-    </p>
+      <span>Start a conversation</span>
+    </button>
     <div class="lb__actions">
-      <a class="btn btn--solid" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="lead_bar">
-        <span class="btn__ring" aria-hidden="true"></span><span class="lb__long">Tell us what you're building</span><span class="lb__short">Tell us</span>
-      </a>
-      <a class="btn" href={site.calendly} rel="noopener" data-track="calendar_click" data-track-cta-location="lead_bar">
-        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3"></rect><path d="M2 7h12M5 1.5v3M11 1.5v3" stroke="currentColor" stroke-width="1.3"></path></svg>
-        <span class="lb__long">Book a call</span><span class="lb__short">Book call</span>
-      </a>
+      <button class="btn btn--flash" type="button" data-open-contact="message" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="lead_bar">
+        <span class="lb__long">Tell us what you're building</span><span class="lb__short">Tell us</span>
+      </button>
+      <button class="btn" type="button" data-open-contact="call" data-track="calendar_click" data-track-cta-location="lead_bar">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><rect x="2" y="3" width="12" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.3"></rect><path d="M2 7h12M5 1.5v3M11 1.5v3" stroke="currentColor" stroke-width="1.3"></path></svg>
+        <span class="lb__long">Book a call</span><span class="lb__short">Book</span>
+      </button>
       <a class="btn" href={site.phoneHref} data-track="phone_click" data-track-cta-location="lead_bar">
         <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3.5 2h2.2l1.1 3-1.5 1.2a8 8 0 0 0 4.5 4.5L11 9.2l3 1.1v2.2a1.5 1.5 0 0 1-1.6 1.5A11.5 11.5 0 0 1 2 3.6 1.5 1.5 0 0 1 3.5 2z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"></path></svg>
         <span class="lb__long">{site.phone}</span><span class="lb__short">Call</span>
@@ -32,7 +33,7 @@ import { site } from '@data/site';
     position: fixed;
     inset: auto 0 0 0;
     z-index: calc(var(--z-header) - 1);
-    background: rgba(14, 13, 11, 0.9);
+    background: rgba(14, 13, 11, 0.92);
     -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     border-top: 1px solid rgba(250, 246, 239, 0.1);
@@ -61,20 +62,25 @@ import { site } from '@data/site';
     font-size: 0.72rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--stone);
+    color: var(--paper);
+  }
+
+  .lb__text:hover span:last-child {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
   }
 
   .lb__dot {
-    width: 7px;
-    height: 7px;
+    width: 8px;
+    height: 8px;
     border-radius: 50%;
     background: var(--brass);
-    box-shadow: 0 0 0 0 rgba(184, 151, 90, 0.6);
-    animation: lb-pulse 2s ease-out infinite;
+    box-shadow: 0 0 0 0 rgba(184, 151, 90, 0.7);
+    animation: lb-pulse 1.6s ease-out infinite;
   }
 
   @keyframes lb-pulse {
-    to { box-shadow: 0 0 0 10px rgba(184, 151, 90, 0); }
+    to { box-shadow: 0 0 0 12px rgba(184, 151, 90, 0); }
   }
 
   .lb__actions {
@@ -102,12 +108,11 @@ import { site } from '@data/site';
 
   @media (max-width: 720px) {
     .lb__text { display: none; }
-    .lb__actions { width: 100%; display: grid; grid-template-columns: 1.25fr 1fr 0.8fr; gap: 0.4rem; }
+    .lb__actions { width: calc(100% - 3.4rem); display: grid; grid-template-columns: 1.25fr 1fr 0.8fr; gap: 0.4rem; }
     .lb__long { display: none; }
     .lb__short { display: inline; }
     .lb__actions .btn { padding-inline: 0.5em; font-size: 0.64rem; letter-spacing: 0.06em; gap: 0.4em; }
     .lb__actions .btn svg { display: none; }
-    .lb__actions .btn__ring { display: none; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -126,7 +131,7 @@ import { site } from '@data/site';
   const bar = document.querySelector<HTMLElement>('[data-leadbar]');
   if (bar) {
     document.body.classList.add('has-leadbar');
-    const show = () => bar.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.55);
+    const show = () => bar.classList.toggle('is-visible', window.scrollY > window.innerHeight * 0.4);
     window.addEventListener('scroll', show, { passive: true });
     show();
   }

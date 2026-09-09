@@ -25,6 +25,8 @@ export type TrackEvent =
   | 'article_engaged'
   | 'article_cta_click'
   | 'language_change'
+  | 'contact_drawer_open'
+  | 'whatsapp_click'
   | 'outbound_click';
 
 export interface TrackParams {

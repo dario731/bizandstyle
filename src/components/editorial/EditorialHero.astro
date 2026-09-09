@@ -18,7 +18,7 @@ interface Props {
   crumbs?: { name: string; path: string }[];
   size?: 'display' | 'display-2';
 }
-const { eyebrow, title, lede, ground = 'onyx', mediaId, mediaAlt = '', crumbs = [], size = 'display', visual = 'rings' } = Astro.props;
+const { eyebrow, title, lede, ground = 'onyx', mediaId, mediaAlt = '', crumbs = [], size = 'display', visual = 'orbit' } = Astro.props;
 const lines = Array.isArray(title) ? title : [title];
 const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
 ---

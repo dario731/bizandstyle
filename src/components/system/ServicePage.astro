@@ -12,7 +12,6 @@ import Statement from '@components/editorial/Statement.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
-import HyperFrames from '@components/cinematic/HyperFrames.astro';
 import { divisionMeta, type Service } from '@data/services';
 import { programs } from '@data/programs';
 import { breadcrumbLd, faqLd, serviceLd, webPageLd, graph } from '@lib/seo';
@@ -40,7 +39,6 @@ const jsonLd = graph(
   </EditorialHero>
 
   <Definition question={s.definition.q} answer={s.definition.a} ground="paper" id="definition" />
-  <HyperFrames eyebrow={`Inside ${s.title}`} intro={div.name} frames={s.modules.slice(0, 5).map((m) => ({ title: m.name, line: m.line, eyebrow: s.title }))} outro={{ title: s.cta.eyebrow, href: s.cta.href, label: s.cta.label }} id="enter" />
 
   <ModuleGrid eyebrow="What it includes" items={s.modules} columns={s.modules.length >= 6 ? 3 : s.modules.length === 4 ? 4 : 3} ground="paper" id="modules" />
 
