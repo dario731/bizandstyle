@@ -1,0 +1,111 @@
+---
+/**
+ * Flow — a compact centred card carousel (one in the middle, neighbours to
+ * each side, follows the finger). Driven by src/lib/flow.ts.
+ */
+interface Item {
+  num?: string;
+  name: string;
+  line?: string;
+  href?: string;
+  tag?: string;
+}
+interface Props {
+  items: readonly Item[];
+  label?: string;
+  size?: 'sm' | 'md';
+  trackAs?: string;
+  numbered?: boolean;
+}
+const { items, label, size = 'md', trackAs, numbered = true } = Astro.props;
+---
+
+<div class:list={['fl', `fl--${size}`]} data-flow>
+  <div class="fl__head">
+    <span class="snaprow__hint">{label ?? `${items.length} · swipe`}</span>
+    <div class="snaprow__nav">
+      <button class="snaprow__btn" type="button" data-flow-prev aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
+      <span class="num" data-flow-counter>01 / {String(items.length).padStart(2, '0')}</span>
+      <button class="snaprow__btn" type="button" data-flow-next aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
+    </div>
+  </div>
+  <div class="fl__stage" data-flow-stage tabindex="0" aria-roledescription="carousel">
+    <div class="fl__track">
+      {
+        items.map((it, i) => {
+          const inner = (
+            <>
+              <span class="snapcard__top">
+                {numbered ? <span class="num">{it.num ?? String(i + 1).padStart(2, '0')}</span> : <span />}
+                {it.tag && <span class="snapcard__tag">{it.tag}</span>}
+              </span>
+              <span class="snapcard__name">{it.name}</span>
+              {it.line && <span class="snapcard__line">{it.line}</span>}
+              {it.href && <svg class="snapcard__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>}
+            </>
+          );
+          return it.href ? (
+            <a class="snapcard fl__card" href={it.href} data-flow-card data-track={trackAs} data-track-service={it.href.split('/').pop()}>{inner}</a>
+          ) : (
+            <div class="snapcard fl__card" data-flow-card>{inner}</div>
+          );
+        })
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .fl {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .fl__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .fl__stage {
+    position: relative;
+    height: 13.5rem;
+    perspective: 1400px;
+    touch-action: pan-y;
+    cursor: grab;
+    user-select: none;
+    outline: none;
+    overflow: hidden;
+    margin-inline: calc(var(--gutter) * -1);
+  }
+
+  .fl__stage.is-dragging { cursor: grabbing; }
+  .fl__stage:focus-visible { box-shadow: inset 0 0 0 2px var(--brass); }
+
+  .fl__track {
+    position: absolute;
+    left: 50%;
+    top: 0.25rem;
+    height: 100%;
+    transform-style: preserve-3d;
+  }
+
+  .fl__card {
+    --w: min(19rem, 74vw);
+    position: absolute;
+    left: calc(var(--w) / -2);
+    top: 0;
+    width: var(--w);
+    height: 12.5rem;
+    will-change: transform;
+    transition: border-color 0.3s;
+  }
+
+  .fl--sm .fl__stage { height: 11.5rem; }
+  .fl--sm .fl__card { --w: min(16rem, 70vw); height: 10.5rem; }
+
+  @media (min-width: 900px) {
+    .fl__stage { margin-inline: 0; }
+  }
+</style>

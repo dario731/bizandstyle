@@ -1,10 +1,11 @@
 ---
 /**
- * OrbitCarousel — now a coverflow. Three cards visible at once: the active
- * one centred and bright, the neighbours to each side. Arrows, drag, swipe,
- * keyboard. Optional `details`: a panel under the row that shows the active
- * card's content (used on /solutions).
+ * OrbitCarousel — the big coverflow. Three cards visible, the active one
+ * centred; follows the finger; snaps fast. Optional `details`: the active
+ * card's content appears underneath as its own Flow of cards.
  */
+import Flow from './Flow.astro';
+
 interface Item {
   num?: string;
   name: string;
@@ -29,7 +30,7 @@ interface Props {
 const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, details, id = 'orbit' } = Astro.props;
 ---
 
-<section class="cf ground-onyx" {id} aria-labelledby={`${id}-title`} data-coverflow data-has-details={details ? 'true' : undefined}>
+<section class="cf ground-onyx" {id} aria-labelledby={`${id}-title`} data-flow data-flow-wrap="true" data-flow-auto={details ? undefined : '4500'}>
   <div class="container cf__head">
     <div>
       <p class="eyebrow eyebrow--marker" data-cf-reveal>{eyebrow}</p>
@@ -38,17 +39,17 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
       </h2>
     </div>
     <div class="cf__nav" data-cf-reveal>
-      <button class="cf__btn" type="button" data-cf-prev aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
-      <span class="num" data-cf-counter>01 / {String(items.length).padStart(2, '0')}</span>
-      <button class="cf__btn" type="button" data-cf-next aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
+      <button class="cf__btn" type="button" data-flow-prev aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
+      <span class="num" data-flow-counter>01 / {String(items.length).padStart(2, '0')}</span>
+      <button class="cf__btn" type="button" data-flow-next aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
     </div>
   </div>
 
-  <div class="cf__stage" data-cf-stage tabindex="0" aria-roledescription="carousel">
-    <div class="cf__track" data-cf-track>
+  <div class="cf__stage" data-flow-stage tabindex="0" aria-roledescription="carousel">
+    <div class="cf__track">
       {
         items.map((it, i) => (
-          <a class="cf__card" href={details ? '#' : it.href} data-cf-card data-index={i} aria-label={it.name} data-track="navigation_click" data-track-cta-name={it.name}>
+          <a class="cf__card" href={details ? '#' : it.href} data-flow-card data-index={i} aria-label={it.name} data-track="navigation_click" data-track-cta-name={it.name}>
             <span class="cf__top"><span class="num">{it.num ?? String(i + 1).padStart(2, '0')}</span>{it.tag && <span class="cf__tag">{it.tag}</span>}</span>
             <span class="cf__name">{it.name}</span>
             <span class="cf__line">{it.line}</span>
@@ -58,30 +59,15 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
       }
     </div>
   </div>
+  <p class="cf__hint num" aria-hidden="true">Swipe · drag · arrows</p>
 
   {
     details && (
-      <div class="container cf__details" data-cf-details aria-live="polite">
+      <div class="container cf__details" aria-live="polite">
         {details.map((d, i) => (
-          <div class="cf__detail" data-cf-detail={i} hidden={i !== 0}>
+          <div class="cf__detail" data-flow-detail={i} hidden={i !== 0}>
             <p class="cf__intro">{d.intro}</p>
-            <div class="snaprow" data-snaprow>
-              <div class="cf__rowhead">
-                <span class="snaprow__hint">Swipe · everything inside</span>
-                <div class="snaprow__nav">
-                  <button class="snaprow__btn" type="button" data-snap-prev aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
-                  <button class="snaprow__btn" type="button" data-snap-next aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
-                </div>
-              </div>
-              <div class="snaprow__track" style="--snap-w: min(16rem, 72vw)">
-                {d.groups.flatMap((g) => g.items.map((it, k) => (
-                  <div class="snapcard">
-                    <span class="snapcard__top"><span class="num">{String(k + 1).padStart(2, '0')}</span><span class="snapcard__tag">{g.title}</span></span>
-                    <span class="snapcard__name">{it}</span>
-                  </div>
-                )))}
-              </div>
-            </div>
+            <Flow size="sm" label="Everything inside · swipe" numbered={false} items={d.groups.flatMap((g) => g.items.map((it) => ({ name: it, tag: g.title })))} />
             {d.note && <p class="cf__note small">{d.note}</p>}
             {d.href && (
               <a class="link" href={d.href}>
@@ -121,9 +107,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     margin-top: var(--space-3);
   }
 
-  .cf__title span {
-    display: block;
-  }
+  .cf__title span { display: block; }
 
   .cf__nav {
     display: flex;
@@ -143,15 +127,8 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     transition: border-color 0.2s, background 0.2s;
   }
 
-  .cf__btn:hover {
-    border-color: var(--brass);
-    background: rgba(142, 197, 232, 0.1);
-  }
-
-  .cf__btn svg {
-    width: 1rem;
-    height: 1rem;
-  }
+  .cf__btn:hover { border-color: var(--brass); background: rgba(142, 197, 232, 0.1); }
+  .cf__btn svg { width: 1rem; height: 1rem; }
 
   .cf__stage {
     position: relative;
@@ -163,13 +140,8 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     outline: none;
   }
 
-  .cf__stage.is-dragging {
-    cursor: grabbing;
-  }
-
-  .cf__stage:focus-visible {
-    box-shadow: inset 0 0 0 2px var(--brass);
-  }
+  .cf__stage.is-dragging { cursor: grabbing; }
+  .cf__stage:focus-visible { box-shadow: inset 0 0 0 2px var(--brass); }
 
   .cf__track {
     position: absolute;
@@ -195,19 +167,13 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     background: linear-gradient(160deg, rgba(24, 30, 38, 0.96), rgba(11, 14, 19, 0.98));
     box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
     color: var(--paper);
-    transition: transform 0.55s var(--ease-out), opacity 0.4s, filter 0.4s, border-color 0.3s;
     will-change: transform;
+    transition: border-color 0.3s;
   }
 
-  .cf__card.is-active {
-    border-color: var(--brass);
-  }
+  .cf__card.is-active { border-color: var(--brass); }
 
-  .cf__top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  .cf__top { display: flex; justify-content: space-between; align-items: center; }
 
   .cf__tag {
     font-size: 0.6rem;
@@ -227,10 +193,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     letter-spacing: -0.01em;
   }
 
-  .cf__line {
-    color: var(--stone);
-    font-size: 0.88rem;
-  }
+  .cf__line { color: var(--stone); font-size: 0.88rem; }
 
   .cf__more {
     margin-top: auto;
@@ -243,9 +206,12 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     color: var(--brass);
   }
 
-  .cf__more .btn__arrow {
-    width: 0.9em;
-    height: 0.9em;
+  .cf__more .btn__arrow { width: 0.9em; height: 0.9em; }
+
+  .cf__hint {
+    text-align: center;
+    color: rgba(244, 246, 248, 0.4);
+    margin-top: var(--space-3);
   }
 
   .cf__details {
@@ -260,35 +226,9 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     animation: cf-in 0.45s var(--ease-out);
   }
 
-  @keyframes cf-in {
-    from { opacity: 0; transform: translateY(10px); }
-  }
+  @keyframes cf-in { from { opacity: 0; transform: translateY(10px); } }
 
-  .cf__intro {
-    max-width: 70ch;
-    color: var(--stone);
-  }
-
-  .cf__rowhead {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: var(--space-4);
-    margin-bottom: 0.5rem;
-  }
-
-  .cf__group {
-    display: grid;
-    gap: 0.4rem;
-    padding-top: var(--space-3);
-    border-top: 1px solid rgba(244, 246, 248, 0.12);
-  }
-
-  .cf__group li {
-    padding: 0.45rem 0;
-    border-bottom: 1px solid rgba(244, 246, 248, 0.08);
-    font-size: 0.92rem;
-  }
+  .cf__intro { max-width: 70ch; color: var(--stone); }
 
   .cf__note {
     padding: var(--space-4);
@@ -296,13 +236,6 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     background: rgba(244, 246, 248, 0.04);
     color: var(--stone);
     max-width: 78ch;
-  }
-
-  @media (min-width: 900px) {
-    .cf__groups {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      column-gap: var(--space-6);
-    }
   }
 
   @media (max-width: 720px) {
@@ -314,61 +247,8 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
 
 <script>
   import { gsap } from '@lib/motion';
-
-  document.querySelectorAll<HTMLElement>('[data-coverflow]').forEach((root) => {
-    const stage = root.querySelector<HTMLElement>('[data-cf-stage]')!;
-    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-cf-card]'));
-    const details = Array.from(root.querySelectorAll<HTMLElement>('[data-cf-detail]'));
-    const counter = root.querySelector<HTMLElement>('[data-cf-counter]');
-    const N = cards.length;
-    const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let active = 0;
-    let timer = 0;
-
+  document.querySelectorAll<HTMLElement>('.cf').forEach((root) => {
     gsap.from(root.querySelectorAll('[data-cf-reveal]'), { autoAlpha: 0, y: 20, stagger: 0.1, scrollTrigger: { trigger: root, start: 'top 78%' } });
-    gsap.from(stage, { autoAlpha: 0, y: 40, duration: 1.1, scrollTrigger: { trigger: root, start: 'top 70%' } });
-
-    const gap = () => Math.min(cards[0].offsetWidth * 0.86, window.innerWidth * 0.42);
-    const render = () => {
-      cards.forEach((c, i) => {
-        let d = i - active;
-        if (d > N / 2) d -= N;
-        if (d < -N / 2) d += N;
-        const ad = Math.abs(d);
-        const visible = ad <= 2;
-        c.style.transform = `translateX(${d * gap()}px) translateZ(${-ad * 160}px) rotateY(${-d * 14}deg) scale(${1 - ad * 0.08})`;
-        c.style.opacity = visible ? String(1 - ad * 0.32) : '0';
-        c.style.filter = ad > 0 ? `blur(${ad * 0.6}px)` : 'none';
-        c.style.zIndex = String(10 - ad);
-        c.style.pointerEvents = visible ? 'auto' : 'none';
-        c.classList.toggle('is-active', d === 0);
-        c.tabIndex = d === 0 ? 0 : -1;
-      });
-      details.forEach((p, i) => (p.hidden = i !== active));
-      if (counter) counter.textContent = `${String(active + 1).padStart(2, '0')} / ${String(N).padStart(2, '0')}`;
-    };
-    const go = (i: number) => { active = ((i % N) + N) % N; render(); restart(); };
-    const restart = () => { clearInterval(timer); if (!still && !root.dataset.hasDetails) timer = window.setInterval(() => go(active + 1), 4500); };
-
-    root.querySelector('[data-cf-prev]')?.addEventListener('click', () => go(active - 1));
-    root.querySelector('[data-cf-next]')?.addEventListener('click', () => go(active + 1));
-    cards.forEach((c, i) => c.addEventListener('click', (e) => {
-      if (i !== active) { e.preventDefault(); go(i); return; }
-      if (root.dataset.hasDetails) { e.preventDefault(); root.querySelector<HTMLElement>('[data-cf-details]')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-    }));
-    stage.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') go(active + 1); if (e.key === 'ArrowLeft') go(active - 1); });
-
-    let x0 = 0, dragging = false, moved = false;
-    stage.addEventListener('pointerdown', (e) => { dragging = true; moved = false; x0 = e.clientX; stage.classList.add('is-dragging'); });
-    stage.addEventListener('pointermove', (e) => { if (dragging && Math.abs(e.clientX - x0) > 8) moved = true; });
-    const end = (e: PointerEvent) => { if (!dragging) return; dragging = false; stage.classList.remove('is-dragging'); const dx = e.clientX - x0; if (Math.abs(dx) > 40) go(active + (dx < 0 ? 1 : -1)); };
-    stage.addEventListener('pointerup', end);
-    stage.addEventListener('pointercancel', end);
-    stage.addEventListener('click', (e) => { if (moved) { e.preventDefault(); e.stopPropagation(); } }, true);
-    stage.addEventListener('wheel', (e) => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) { e.preventDefault(); go(active + (e.deltaX > 0 ? 1 : -1)); } }, { passive: false });
-
-    window.addEventListener('resize', render);
-    new IntersectionObserver((es) => (es[0].isIntersecting ? restart() : clearInterval(timer))).observe(root);
-    render();
+    gsap.from(root.querySelector('.cf__stage'), { autoAlpha: 0, y: 40, duration: 1.1, scrollTrigger: { trigger: root, start: 'top 70%' } });
   });
 </script>

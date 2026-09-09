@@ -127,8 +127,8 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
 </BaseLayout>
 
 <style is:global>
-  body[data-page-type='build'] .lb { display: none; }
-  body[data-page-type='build'].has-leadbar { padding-bottom: 0; }
+  body[data-page-type='build'] .lb { transform: none; }
+  body[data-page-type='build'] .lb__cta.is-armed { animation-duration: 1.1s; }
 </style>
 
 <style>
@@ -399,6 +399,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
     .bj__side.is-open .bj__sidebody { display: grid; }
     .bj__side.is-open .bj__chev { transform: rotate(180deg); }
     .bj { padding-bottom: 8rem; }
+    .bj__side { bottom: 3.75rem; }
   }
 </style>
 
@@ -422,6 +423,8 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
     const suggest = root.querySelector<HTMLElement>('[data-suggest]')!;
     const suggestCount = root.querySelector<HTMLElement>('[data-suggest-count]')!;
     const KEY = 'bs-build';
+    const lbCta = document.querySelector<HTMLAnchorElement>('[data-lb-cta]');
+    if (lbCta) { lbCta.addEventListener('click', (e) => { if (picked.size) { e.preventDefault(); document.dispatchEvent(new CustomEvent('bs:open-contact', { detail: { tab: 'message', message: message() } })); } else { e.preventDefault(); document.querySelector('#pick')?.scrollIntoView({ behavior: 'smooth' }); } }); }
     const CATS = ['advisory', 'commerce', 'luxury', 'solutions', 'programs'];
     const CAT_LABEL: Record<string, string> = { advisory: 'Advisory', commerce: 'Commerce', luxury: 'Luxury', solutions: 'Solutions', programs: 'Programs' };
     let picked = new Set<string>();
@@ -493,6 +496,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
         }
         k++;
       }
+      if (lbCta) { lbCta.textContent = total ? `Send to the team · ${total}` : 'Pick what you want to explore'; lbCta.classList.toggle('is-armed', total > 0); }
       summary.textContent = total === 0
         ? 'Select anything to start building.'
         : `You are building with ${total} element${total > 1 ? 's' : ''} across ${cats.map((c) => CAT_LABEL[c]).join(', ')}.`;

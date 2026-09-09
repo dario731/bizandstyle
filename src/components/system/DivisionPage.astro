@@ -41,6 +41,7 @@ const jsonLd = graph(
       <span class="btn__ring" aria-hidden="true"></span>{cta.primary.label}
     </a>
   </EditorialHero>
+  <slot name="after-hero" />
   <Definition question={definition.q} answer={definition.a} ground="paper" id="definition" />
   <slot name="before-services" />
   <ModuleGrid eyebrow={div.role} title={servicesTitle} items={list.map((s) => ({ name: s.title, line: s.lede, href: `${div.path}/${s.slug}` }))} columns={list.length >= 8 ? 4 : list.length >= 6 ? 3 : 3} ground="paper" id="services" trackAs="service_view" />

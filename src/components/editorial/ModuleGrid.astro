@@ -3,6 +3,7 @@
  * ModuleGrid — now a swipeable card row (the carousel logic used across the
  * site). Numbered cards, arrows, drag, snap. Items may link.
  */
+import Flow from '@components/cinematic/Flow.astro';
 interface Item {
   name: string;
   line?: string;
@@ -38,45 +39,9 @@ const lines = title ? (Array.isArray(title) ? title : [title]) : [];
         }
         {lede && <p class="lede" data-reveal>{lede}</p>}
       </div>
-      <div class="snaprow__nav mg__nav" data-reveal>
-        <span class="snaprow__hint">{items.length} · swipe</span>
-        <button class="snaprow__btn" type="button" data-snap-prev aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
-        <button class="snaprow__btn" type="button" data-snap-next aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
-      </div>
     </div>
-    <div class="snaprow" data-snaprow data-reveal>
-      <ol class="snaprow__track mg__track" role="list">
-        {
-          items.map((m, i) => {
-            const inner = (
-              <>
-                <span class="snapcard__top">
-                  {numbered ? <span class="num">{String(i + 1).padStart(2, '0')}</span> : <span />}
-                  {m.tag && <span class="snapcard__tag">{m.tag}</span>}
-                </span>
-                <span class="snapcard__name">{m.name}</span>
-                {m.line && <span class="snapcard__line">{m.line}</span>}
-                {m.href && (
-                  <svg class="snapcard__arrow" viewBox="0 0 16 16" aria-hidden="true">
-                    <path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" />
-                  </svg>
-                )}
-              </>
-            );
-            return (
-              <li>
-                {m.href ? (
-                  <a class="snapcard" href={m.href} data-track={trackAs} data-track-service={m.href.split('/').pop()}>
-                    {inner}
-                  </a>
-                ) : (
-                  <div class="snapcard">{inner}</div>
-                )}
-              </li>
-            );
-          })
-        }
-      </ol>
+    <div data-reveal>
+      <Flow items={items.map((m) => ({ name: m.name, line: m.line, href: m.href, tag: m.tag }))} numbered={numbered} trackAs={trackAs} />
     </div>
   </div>
 </section>
@@ -100,20 +65,4 @@ const lines = title ? (Array.isArray(title) ? title : [title]) : [];
     display: block;
   }
 
-  .mg__nav {
-    flex: none;
-  }
-
-  .mg__track > li {
-    display: grid;
-  }
-
-  .mg__track .snapcard {
-    height: 100%;
-    padding-bottom: 2.2rem;
-  }
-
-  @media (max-width: 720px) {
-    .mg__head { flex-direction: column; align-items: start; }
-  }
 </style>

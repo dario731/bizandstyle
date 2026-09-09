@@ -61,6 +61,7 @@ const isActive = (href: string) => current === href || current.startsWith(href +
         <button class="btn btn--flash hdr__cta" type="button" data-open-contact="message" data-track="cta_click" data-track-cta-name="lets_connect" data-track-cta-location="header">
           Let's connect
         </button>
+        <button class="btn btn--flash hdr__cta-m" type="button" data-open-contact="message" data-track="cta_click" data-track-cta-name="lets_connect" data-track-cta-location="header_mobile">Let's connect</button>
         <button class="hdr__burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-mobile-trigger>
           <span class="sr-only">Menu</span>
           <span class="hdr__burger-line"></span>
@@ -171,7 +172,7 @@ const isActive = (href: string) => current === href || current.startsWith(href +
     margin-left: auto;
     display: flex;
     align-items: center;
-    gap: var(--space-4);
+    gap: var(--space-3);
   }
 
   .hdr__lang {
@@ -198,6 +199,12 @@ const isActive = (href: string) => current === href || current.startsWith(href +
     min-height: 2.6rem;
     padding: 0.6em 1.2em;
     gap: 0.6em;
+  }
+
+  .hdr__cta-m {
+    min-height: 2.5rem;
+    padding: 0.5em 0.9em;
+    font-size: 0.66rem;
   }
 
   .hdr__burger {
@@ -293,6 +300,7 @@ const isActive = (href: string) => current === href || current.startsWith(href +
     .hdr__cta { display: inline-flex; }
     .hdr__build { display: inline-flex; }
     .hdr__burger { display: none; }
+    .hdr__cta-m { display: none; }
     .hdr__lang { display: flex; }
   }
 </style>
