@@ -1,0 +1,277 @@
+---
+/**
+ * CineHero — full-screen Miami footage, a living network canvas over it,
+ * and a headline that assembles itself. Test footage: /media/test (Mixkit).
+ */
+interface Props {
+  video?: string;
+}
+const { video = '/media/test/miami-12028.mp4' } = Astro.props;
+---
+
+<section class="ch" id="top" data-cine-hero>
+  <div class="ch__media" aria-hidden="true">
+    <video class="ch__video" autoplay muted loop playsinline preload="auto" data-hero-video>
+      <source src={video} type="video/mp4" />
+    </video>
+    <canvas class="ch__net" data-net></canvas>
+    <div class="ch__veil"></div>
+    <div class="ch__grain"></div>
+  </div>
+
+  <div class="container ch__inner">
+    <p class="eyebrow ch__eyebrow" data-hero-eyebrow>Miami · United States · Latin America · Europe</p>
+    <h1 class="ch__title" data-hero-title>
+      <span class="ch__word">Business.</span>
+      <span class="ch__word">Wealth.</span>
+      <span class="ch__word">Lifestyle.</span>
+    </h1>
+    <p class="ch__lede" data-hero-lede>Business development without borders. One platform connecting strategy, execution, commerce, technology and relationships across the Americas.</p>
+    <div class="cta-row ch__cta" data-hero-cta>
+      <a class="btn btn--solid" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="hero">
+        <span class="btn__ring" aria-hidden="true"></span>Tell us what you're building
+      </a>
+      <a class="btn" href="#platform" data-track="cta_click" data-track-cta-name="explore" data-track-cta-location="hero">Explore the platform ↓</a>
+    </div>
+  </div>
+
+  <div class="ch__foot" aria-hidden="true">
+    <span class="ch__scroll">Scroll</span>
+    <span class="ch__scroll-line"></span>
+  </div>
+</section>
+
+<style>
+  .ch {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    align-items: end;
+    padding-top: 4.5rem;
+    padding-bottom: clamp(5rem, 12vh, 8rem);
+    overflow: hidden;
+    background: var(--onyx);
+    color: var(--paper);
+    isolation: isolate;
+  }
+
+  .ch__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .ch__video {
+    position: absolute;
+    inset: -8% 0;
+    width: 100%;
+    height: 116%;
+    object-fit: cover;
+    filter: saturate(0.75) contrast(1.05);
+    will-change: transform;
+  }
+
+  .ch__net {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    mix-blend-mode: screen;
+    opacity: 0.9;
+  }
+
+  .ch__veil {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(14, 13, 11, 0.55) 0%, rgba(14, 13, 11, 0.15) 35%, rgba(14, 13, 11, 0.35) 65%, rgba(14, 13, 11, 0.92) 100%),
+      radial-gradient(70% 60% at 25% 65%, rgba(14, 13, 11, 0.55), transparent 70%);
+  }
+
+  .ch__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.08;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+  }
+
+  .ch__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .ch__eyebrow {
+    color: rgba(250, 246, 239, 0.7);
+  }
+
+  .ch__title {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 118, 'wght' 760;
+    font-stretch: 118%;
+    font-weight: 760;
+    font-size: clamp(3.2rem, 9.6vw, 10rem);
+    line-height: 0.88;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    display: grid;
+  }
+
+  .ch__word {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+  }
+
+  .ch__word:nth-child(2) {
+    font-variation-settings: 'wdth' 118, 'wght' 300;
+    font-weight: 300;
+  }
+
+  .ch__word:nth-child(3) {
+    color: var(--brass);
+  }
+
+  .ch__lede {
+    max-width: 30rem;
+    font-size: clamp(1rem, 1.3vw, 1.2rem);
+    line-height: 1.45;
+    color: rgba(250, 246, 239, 0.78);
+  }
+
+  .ch__cta {
+    margin-top: var(--space-2);
+  }
+
+  .ch__foot {
+    position: absolute;
+    right: var(--gutter);
+    bottom: clamp(5rem, 12vh, 8rem);
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 0.6rem;
+    color: rgba(250, 246, 239, 0.55);
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    writing-mode: vertical-rl;
+  }
+
+  .ch__scroll-line {
+    width: 1px;
+    height: 4rem;
+    background: linear-gradient(180deg, currentColor, transparent);
+    animation: ch-scroll 2.2s ease-in-out infinite;
+    transform-origin: top;
+  }
+
+  @keyframes ch-scroll {
+    0% { transform: scaleY(0); opacity: 0; }
+    30% { transform: scaleY(1); opacity: 1; }
+    100% { transform: scaleY(1) translateY(1.5rem); opacity: 0; }
+  }
+
+  @media (max-width: 720px) {
+    .ch__foot { display: none; }
+    .ch { padding-bottom: 7rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ch__scroll-line { animation: none; }
+  }
+</style>
+
+<script>
+  import { gsap, SplitText, reduced } from '@lib/motion';
+
+  const hero = document.querySelector<HTMLElement>('[data-cine-hero]');
+  if (hero) {
+    const title = hero.querySelector<HTMLElement>('[data-hero-title]')!;
+    const eyebrow = hero.querySelector('[data-hero-eyebrow]');
+    const lede = hero.querySelector('[data-hero-lede]');
+    const cta = hero.querySelector<HTMLElement>('[data-hero-cta]');
+    const video = hero.querySelector<HTMLVideoElement>('[data-hero-video]');
+
+    if (!reduced()) {
+      const split = new SplitText(title.querySelectorAll('.ch__word'), { type: 'chars' });
+      const tl = gsap.timeline({ delay: 0.15 });
+      tl.from(eyebrow, { autoAlpha: 0, y: 12, duration: 0.8 }, 0)
+        .from(split.chars, { yPercent: 120, rotateX: -40, autoAlpha: 0, stagger: { each: 0.028, from: 'start' }, duration: 1.2 }, 0.1)
+        .from(lede, { autoAlpha: 0, y: 18, duration: 0.9 }, 0.9)
+        .from(cta ? Array.from(cta.children) : [], { autoAlpha: 0, y: 14, stagger: 0.1, duration: 0.8 }, 1.05);
+
+      gsap.to(video, { yPercent: 12, scale: 1.08, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
+      gsap.to(hero.querySelector('.ch__inner'), { yPercent: -18, autoAlpha: 0, ease: 'none', scrollTrigger: { trigger: hero, start: '35% top', end: 'bottom top', scrub: true } });
+    }
+
+    // ---- living network canvas -------------------------------------------
+    const canvas = hero.querySelector<HTMLCanvasElement>('[data-net]')!;
+    const ctx = canvas.getContext('2d')!;
+    let W = 0, H = 0;
+    type Node = { x: number; y: number; vx: number; vy: number; r: number; brass: boolean };
+    let nodes: Node[] = [];
+    const mouse = { x: -9999, y: -9999 };
+    const LINK = 150;
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(Math.min(110, Math.max(40, (W * H) / 16000)));
+      nodes = Array.from({ length: n }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22,
+        r: Math.random() * 1.6 + 0.6, brass: Math.random() < 0.18,
+      }));
+    };
+    resize();
+    window.addEventListener('resize', resize);
+    hero.addEventListener('pointermove', (e) => { const b = canvas.getBoundingClientRect(); mouse.x = e.clientX - b.left; mouse.y = e.clientY - b.top; });
+    hero.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
+
+    let running = true;
+    new IntersectionObserver((es) => { running = es[0].isIntersecting; if (running) requestAnimationFrame(frame); }).observe(hero);
+
+    let t = 0;
+    function frame() {
+      if (!running) return;
+      t += 0.005;
+      ctx.clearRect(0, 0, W, H);
+      const still = reduced();
+      for (const n of nodes) {
+        if (!still) { n.x += n.vx; n.y += n.vy; }
+        if (n.x < -20) n.x = W + 20; if (n.x > W + 20) n.x = -20;
+        if (n.y < -20) n.y = H + 20; if (n.y > H + 20) n.y = -20;
+      }
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < LINK) {
+            const near = Math.min(1, 220 / (Math.hypot(mouse.x - a.x, mouse.y - a.y) + 1));
+            const alpha = (1 - d / LINK) * (0.16 + near * 0.35);
+            ctx.strokeStyle = a.brass || b.brass ? `rgba(184,151,90,${alpha})` : `rgba(250,246,239,${alpha * 0.8})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+      }
+      for (const n of nodes) {
+        const pulse = 1 + Math.sin(t * 6 + n.x * 0.01) * 0.25;
+        ctx.fillStyle = n.brass ? 'rgba(184,151,90,0.95)' : 'rgba(250,246,239,0.75)';
+        ctx.beginPath(); ctx.arc(n.x, n.y, n.r * pulse, 0, Math.PI * 2); ctx.fill();
+        if (n.brass) {
+          ctx.strokeStyle = 'rgba(184,151,90,0.25)';
+          ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 4 * pulse, 0, Math.PI * 2); ctx.stroke();
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+</script>

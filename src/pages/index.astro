@@ -1,44 +1,34 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import CineHero from '@components/home2/CineHero.astro';
+import EnginesConnected from '@components/home2/EnginesConnected.astro';
+import WorldConnect from '@components/home2/WorldConnect.astro';
+import JourneyLoop from '@components/home2/JourneyLoop.astro';
+import CaptureBand from '@components/home2/CaptureBand.astro';
+import LeadBar from '@components/layout/LeadBar.astro';
 import { getCopy } from '@i18n/index';
-import CinematicHero from '@components/cinematic/CinematicHero.astro';
-import PlatformIntro from '@components/home/PlatformIntro.astro';
-import RealWorld from '@components/home/RealWorld.astro';
-import InvestorJourney from '@components/system/InvestorJourney.astro';
-import DivisionTransition from '@components/system/DivisionTransition.astro';
-import InternationalizationTimeline from '@components/system/InternationalizationTimeline.astro';
-import DigitalEngine from '@components/system/DigitalEngine.astro';
-import InfrastructureGrid from '@components/system/InfrastructureGrid.astro';
-import LuxuryEcosystem from '@components/system/LuxuryEcosystem.astro';
-import Relationships from '@components/home/Relationships.astro';
-import GlobalMap from '@components/system/GlobalMap.astro';
-import SignaturePrograms from '@components/system/SignaturePrograms.astro';
-import InsightGrid from '@components/insights/InsightGrid.astro';
-import DynamicLeadForm from '@components/conversion/DynamicLeadForm.astro';
-import PartnerCta from '@components/home/PartnerCta.astro';
-import FounderStory from '@components/story/FounderStory.astro';
-import FinalCta from '@components/home/FinalCta.astro';
+import { site } from '@data/site';
 
 const t = getCopy('en');
-const h = t.home;
+const jsonLd = [
+  {
+    '@type': 'WebPage',
+    '@id': `${site.url}/#webpage`,
+    url: site.url,
+    name: t.meta.home.title,
+    description: t.meta.home.description,
+    isPartOf: { '@id': `${site.url}/#website` },
+    about: { '@id': `${site.url}/#organization` },
+    inLanguage: 'en',
+  },
+];
 ---
 
-<BaseLayout title={t.meta.home.title} description={t.meta.home.description} path="/" pageType="home">
-  <CinematicHero copy={h.hero} />
-  <PlatformIntro copy={h.platform} />
-  <RealWorld copy={h.realWorld} />
-  <InvestorJourney copy={h.journey} />
-  {h.divisions.items.map((item, i) => <DivisionTransition {item} index={i} eyebrow={h.divisions.eyebrow} />)}
-  <InternationalizationTimeline copy={h.internationalization} />
-  <DigitalEngine copy={h.digital} />
-  <InfrastructureGrid copy={h.infrastructure} />
-  <LuxuryEcosystem copy={h.luxury} />
-  <Relationships copy={h.relationships} />
-  <GlobalMap copy={h.miami} />
-  <SignaturePrograms copy={h.programs} />
-  <InsightGrid copy={h.insights} />
-  <DynamicLeadForm copy={h.tellUs} />
-  <PartnerCta copy={h.partner} />
-  <FounderStory copy={h.founder} />
-  <FinalCta copy={h.final} />
+<BaseLayout title={t.meta.home.title} description={t.meta.home.description} path="/" pageType="home" {jsonLd}>
+  <CineHero />
+  <EnginesConnected />
+  <WorldConnect />
+  <JourneyLoop />
+  <CaptureBand />
+  <LeadBar />
 </BaseLayout>

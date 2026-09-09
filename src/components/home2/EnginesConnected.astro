@@ -1,0 +1,325 @@
+---
+/**
+ * EnginesConnected — a hub node connected to three engine cards. Lines draw
+ * on scroll, pulses travel along them, cards carry a rotating light border.
+ */
+const engines = [
+  { num: '01', name: 'B&S Advisory', role: 'Strategy & growth', line: 'Strategy that ends in execution.', href: '/advisory' },
+  { num: '02', name: 'B&S Commerce', role: 'Trade & distribution', line: 'From product to market.', href: '/commerce' },
+  { num: '03', name: 'B&S Luxury', role: 'Real estate & ecosystems', line: 'Business development at the highest level.', href: '/luxury' },
+];
+---
+
+<section class="en ground-onyx" id="platform" aria-labelledby="en-title" data-engines>
+  <div class="container">
+    <div class="en__head">
+      <p class="eyebrow eyebrow--marker" data-en-reveal>The platform</p>
+      <h2 id="en-title" class="en__title" data-en-reveal>
+        <span>One platform.</span>
+        <span class="thin">Three engines.</span>
+      </h2>
+      <p class="en__lede" data-en-reveal>Advisory, Commerce and Luxury share one team, one infrastructure and one network in Miami.</p>
+    </div>
+
+    <div class="en__stage">
+      <div class="en__hub" data-en-hub>
+        <span class="en__hub-label">BIZ & STYLE</span>
+        <span class="en__hub-ring" aria-hidden="true"></span>
+        <span class="en__hub-dot" aria-hidden="true"></span>
+      </div>
+
+      <div class="en__links" aria-hidden="true">
+        <svg class="en__svg" viewBox="0 0 1200 180" preserveAspectRatio="none" data-en-svg>
+          <path data-en-path d="M600 0 C600 90 200 70 200 180" pathLength="1"></path>
+          <path data-en-path d="M600 0 C600 90 600 90 600 180" pathLength="1"></path>
+          <path data-en-path d="M600 0 C600 90 1000 70 1000 180" pathLength="1"></path>
+        </svg>
+        <span class="en__pulse" data-en-pulse></span>
+        <span class="en__pulse" data-en-pulse></span>
+        <span class="en__pulse" data-en-pulse></span>
+      </div>
+
+      <ul class="en__cards" role="list">
+        {
+          engines.map((e) => (
+            <li class="en__card" data-en-card>
+              <a href={e.href} data-track="division_view" data-track-division={e.name}>
+                <span class="en__card-top"><span class="num">{e.num}</span><span class="en__card-role">{e.role}</span></span>
+                <span class="en__card-name">{e.name}</span>
+                <span class="en__card-line">{e.line}</span>
+                <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .en {
+    padding-block: clamp(5rem, 12vh, 9rem);
+    overflow: hidden;
+  }
+
+  .en__head {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 40rem;
+    margin-bottom: clamp(3rem, 7vh, 5rem);
+  }
+
+  .en__title {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 118, 'wght' 760;
+    font-stretch: 118%;
+    font-weight: 760;
+    font-size: clamp(2.4rem, 5.6vw, 5.4rem);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .en__title span {
+    display: block;
+  }
+
+  .en__lede {
+    color: var(--stone);
+    max-width: 34rem;
+  }
+
+  .en__stage {
+    display: grid;
+  }
+
+  .en__hub {
+    position: relative;
+    justify-self: center;
+    display: grid;
+    justify-items: center;
+    gap: 0.75rem;
+  }
+
+  .en__hub-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--brass);
+    box-shadow: 0 0 24px 4px rgba(184, 151, 90, 0.45);
+  }
+
+  .en__hub-ring {
+    position: absolute;
+    bottom: -10px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid rgba(184, 151, 90, 0.5);
+    animation: en-ring 2.4s ease-out infinite;
+  }
+
+  @keyframes en-ring {
+    0% { transform: scale(0.4); opacity: 1; }
+    100% { transform: scale(2.6); opacity: 0; }
+  }
+
+  .en__hub-label {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 112, 'wght' 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--paper);
+  }
+
+  .en__links {
+    position: relative;
+    height: 180px;
+  }
+
+  .en__svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: visible;
+  }
+
+  .en__svg path {
+    fill: none;
+    stroke: rgba(184, 151, 90, 0.75);
+    stroke-width: 1.2;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .en__pulse {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 7px;
+    height: 7px;
+    margin: -3.5px 0 0 -3.5px;
+    border-radius: 50%;
+    background: var(--paper);
+    box-shadow: 0 0 14px 3px rgba(184, 151, 90, 0.7);
+    opacity: 0;
+  }
+
+  .en__cards {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @property --angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
+
+  .en__card {
+    --angle: 0deg;
+    position: relative;
+    border-radius: 14px;
+    padding: 1px;
+    background: linear-gradient(180deg, rgba(250, 246, 239, 0.14), rgba(250, 246, 239, 0.04));
+    isolation: isolate;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .en__card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: conic-gradient(from var(--angle), transparent 0 60%, rgba(184, 151, 90, 0.9) 78%, transparent 92%);
+    opacity: 0;
+    transition: opacity var(--dur-2);
+    z-index: -1;
+  }
+
+  .en__card:hover {
+    transform: translateY(-4px);
+  }
+
+  .en__card:hover::before,
+  .en__card.is-lit::before {
+    opacity: 1;
+    animation: en-spin 3.2s linear infinite;
+  }
+
+  @keyframes en-spin {
+    to { --angle: 360deg; }
+  }
+
+  .en__card a {
+    position: relative;
+    display: grid;
+    gap: 0.6rem;
+    min-height: 13rem;
+    padding: clamp(1.2rem, 2vw, 1.8rem);
+    border-radius: 13px;
+    background: linear-gradient(180deg, #171613, #0f0e0c);
+    color: var(--paper);
+  }
+
+  .en__card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .en__card-role {
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+
+  .en__card-name {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 118, 'wght' 720;
+    font-stretch: 118%;
+    font-size: clamp(1.4rem, 2.2vw, 2rem);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-top: auto;
+  }
+
+  .en__card-line {
+    color: var(--stone);
+    font-size: 0.95rem;
+  }
+
+  .en__card .btn__arrow {
+    position: absolute;
+    right: 1.4rem;
+    bottom: 1.4rem;
+    width: 1.1rem;
+    height: 1.1rem;
+    opacity: 0.6;
+  }
+
+  .en__card:hover .btn__arrow {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+
+  @media (max-width: 899px) {
+    .en__links { display: none; }
+    .en__hub { margin-bottom: var(--space-6); }
+  }
+
+  @media (min-width: 900px) {
+    .en__cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-5);
+    }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, reduced } from '@lib/motion';
+
+  const root = document.querySelector<HTMLElement>('[data-engines]');
+  if (root) {
+    const paths = Array.from(root.querySelectorAll<SVGPathElement>('[data-en-path]'));
+    const pulses = Array.from(root.querySelectorAll<HTMLElement>('[data-en-pulse]'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-en-card]'));
+    const svg = root.querySelector<SVGSVGElement>('[data-en-svg]')!;
+    const links = root.querySelector<HTMLElement>('.en__links')!;
+
+    gsap.from(root.querySelectorAll('[data-en-reveal]'), { autoAlpha: 0, y: 24, stagger: 0.12, scrollTrigger: { trigger: root, start: 'top 75%' } });
+    gsap.from(root.querySelector('[data-en-hub]'), { autoAlpha: 0, scale: 0.6, duration: 0.9, scrollTrigger: { trigger: root, start: 'top 60%' } });
+    gsap.from(cards, { autoAlpha: 0, y: 40, stagger: 0.14, scrollTrigger: { trigger: root.querySelector('.en__cards'), start: 'top 85%' } });
+
+    if (!reduced()) {
+      gsap.to(paths, { strokeDashoffset: 0, ease: 'none', stagger: 0.05, scrollTrigger: { trigger: links, start: 'top 80%', end: 'bottom 55%', scrub: 0.6 } });
+
+      const travel = (i: number) => {
+        const path = paths[i];
+        const len = path.getTotalLength();
+        const obj = { t: 0 };
+        gsap.to(obj, {
+          t: 1, duration: 2.2 + i * 0.3, repeat: -1, repeatDelay: 1.4 + i * 0.6, ease: 'power1.inOut', delay: i * 0.7,
+          onUpdate() {
+            const p = path.getPointAtLength(obj.t * len);
+            const box = svg.viewBox.baseVal;
+            const r = links.getBoundingClientRect();
+            pulses[i].style.transform = `translate(${(p.x / box.width) * r.width}px, ${(p.y / box.height) * r.height}px)`;
+            pulses[i].style.opacity = String(Math.sin(obj.t * Math.PI));
+            if (obj.t > 0.96) cards[i].classList.add('is-lit');
+            if (obj.t < 0.05) cards[i].classList.remove('is-lit');
+          },
+        });
+      };
+      ScrollTrigger.create({ trigger: links, start: 'top 85%', once: true, onEnter: () => paths.forEach((_, i) => travel(i)) });
+    } else {
+      gsap.set(paths, { strokeDashoffset: 0 });
+    }
+  }
+</script>

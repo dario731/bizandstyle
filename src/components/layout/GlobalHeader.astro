@@ -1,6 +1,6 @@
 ---
 /**
- * GlobalHeader — bar (mix-blend difference so it reads on Paper and Onyx),
+ * GlobalHeader — solid Onyx sticky bar (always visible),
  * MegaMenu panels for items with columns, and a full-screen MobileMenu.
  */
 import { getCopy, localePath, published } from '@i18n/index';
@@ -157,7 +157,10 @@ const isActive = (href: string) => href !== '/' && current.startsWith(href);
     z-index: 2;
     height: var(--hdr-h);
     color: #fff;
-    mix-blend-mode: difference;
+    background: rgba(14, 13, 11, 0.92);
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(250, 246, 239, 0.08);
     transition: background var(--dur-2) var(--ease-out);
   }
 
@@ -534,7 +537,6 @@ const isActive = (href: string) => href !== '/' && current.startsWith(href);
     const onScroll = () => {
       const y = window.scrollY;
       header.classList.toggle('is-scrolled', y > 24);
-      header.classList.toggle('is-hidden', y > last && y > 240 && open === null);
       last = y;
     };
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -545,8 +547,5 @@ const isActive = (href: string) => href !== '/' && current.startsWith(href);
 <style is:global>
   [data-header] {
     transition: transform var(--dur-2) var(--ease-out);
-  }
-  [data-header].is-hidden:not(.is-menu-open) {
-    transform: translateY(-100%);
   }
 </style>

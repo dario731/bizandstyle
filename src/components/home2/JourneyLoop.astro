@@ -1,0 +1,245 @@
+---
+/**
+ * JourneyLoop — Business → Wealth → Lifestyle → ∞ as a living ring.
+ * The ring draws on scroll, a traveller orbits, each word lights as it passes.
+ */
+const C = 240;
+const R = 186;
+const angles = [-90, 30, 150];
+const stages = ['Business', 'Wealth', 'Lifestyle'];
+const nodes = stages.map((name, i) => {
+  const a = (angles[i] * Math.PI) / 180;
+  return { name, x: C + R * Math.cos(a), y: C + R * Math.sin(a) };
+});
+const circ = 2 * Math.PI * R;
+---
+
+<section class="jl ground-onyx" id="investor-journey" aria-labelledby="jl-title" data-journey-loop>
+  <div class="container jl__grid">
+    <div class="jl__text">
+      <p class="eyebrow eyebrow--marker" data-jl-reveal>The Investor Journey™</p>
+      <h2 id="jl-title" class="jl__title" data-jl-reveal>
+        {stages.map((s, i) => <span class="jl__word" data-jl-word={i}>{s}.</span>)}
+        <span class="jl__word jl__word--inf" data-jl-word="3">∞</span>
+      </h2>
+      <p class="jl__lede editorial" data-jl-reveal>Business creates wealth. Wealth shapes lifestyle. Lifestyle opens new business.</p>
+      <a class="link" href="/investor-journey" data-jl-reveal data-track="navigation_click" data-track-cta-name="investor_journey">Explore the journey<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></a>
+    </div>
+
+    <div class="jl__ring" data-jl-ring>
+      <svg viewBox="0 0 480 480" aria-hidden="true">
+        <defs>
+          <radialGradient id="jl-glow"><stop offset="0" stop-color="#B8975A" stop-opacity="0.35"></stop><stop offset="1" stop-color="#B8975A" stop-opacity="0"></stop></radialGradient>
+        </defs>
+        <circle cx={C} cy={C} r={R + 40} fill="url(#jl-glow)"></circle>
+        <circle class="jl__track" cx={C} cy={C} r={R}></circle>
+        <circle class="jl__draw" cx={C} cy={C} r={R} stroke-dasharray={circ} stroke-dashoffset={circ} transform={`rotate(-90 ${C} ${C})`} data-jl-draw></circle>
+        <path id="jl-orbit" d={`M ${C} ${C - R} a ${R} ${R} 0 1 1 -0.01 0`} fill="none" stroke="none"></path>
+        {
+          [-30, 90, 210].map((deg) => {
+            const a = (deg * Math.PI) / 180;
+            return <path class="jl__arrow" d="M-6 -5 L2 0 L-6 5" transform={`translate(${C + R * Math.cos(a)} ${C + R * Math.sin(a)}) rotate(${deg + 90})`}></path>;
+          })
+        }
+        {
+          nodes.map((n, i) => (
+            <g class="jl__node" data-jl-node={i}>
+              <circle cx={n.x} cy={n.y} r="22" class="jl__node-bg"></circle>
+              <circle cx={n.x} cy={n.y} r="6" class="jl__node-core"></circle>
+            </g>
+          ))
+        }
+        <g class="jl__traveller" data-jl-traveller>
+          <circle r="7" fill="#FAF6EF"></circle>
+          <circle r="16" fill="none" stroke="#B8975A" stroke-opacity="0.6"></circle>
+        </g>
+        <text x={C} y={C + 12} text-anchor="middle" class="jl__inf">∞</text>
+      </svg>
+      {nodes.map((n, i) => <span class="jl__label" style={`left:${(n.x / 480) * 100}%; top:${(n.y / 480) * 100}%`} data-jl-label={i}>{n.name}</span>)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .jl {
+    padding-block: clamp(5rem, 12vh, 9rem);
+    overflow: hidden;
+  }
+
+  .jl__grid {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .jl__text {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+  }
+
+  .jl__title {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 118, 'wght' 760;
+    font-stretch: 118%;
+    font-weight: 760;
+    font-size: clamp(2.6rem, 6.4vw, 6.2rem);
+    line-height: 0.9;
+    letter-spacing: -0.025em;
+    text-transform: uppercase;
+    display: grid;
+  }
+
+  .jl__word {
+    color: rgba(250, 246, 239, 0.22);
+    transition: color 0.6s ease, text-shadow 0.6s ease;
+  }
+
+  .jl__word.is-active {
+    color: var(--paper);
+    text-shadow: 0 0 40px rgba(184, 151, 90, 0.35);
+  }
+
+  .jl__word--inf {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.2em;
+    line-height: 0.8;
+    color: var(--brass);
+    text-transform: none;
+  }
+
+  .jl__lede {
+    color: var(--stone);
+    max-width: 24ch;
+  }
+
+  .jl__ring {
+    position: relative;
+    width: min(100%, 560px);
+    justify-self: center;
+    aspect-ratio: 1;
+  }
+
+  .jl__ring svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .jl__track {
+    fill: none;
+    stroke: rgba(250, 246, 239, 0.14);
+    stroke-width: 1;
+  }
+
+  .jl__draw {
+    fill: none;
+    stroke: var(--brass);
+    stroke-width: 1.6;
+  }
+
+  .jl__arrow {
+    fill: none;
+    stroke: rgba(250, 246, 239, 0.6);
+    stroke-width: 1.4;
+  }
+
+  .jl__node-bg {
+    fill: #0e0d0b;
+    stroke: rgba(250, 246, 239, 0.5);
+    stroke-width: 1.2;
+    transition: stroke 0.5s;
+  }
+
+  .jl__node-core {
+    fill: rgba(250, 246, 239, 0.8);
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 0.5s var(--ease-out), fill 0.5s;
+  }
+
+  .jl__node.is-active .jl__node-bg {
+    stroke: var(--brass);
+  }
+
+  .jl__node.is-active .jl__node-core {
+    fill: var(--brass);
+    transform: scale(1.6);
+  }
+
+  .jl__inf {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 96px;
+    fill: var(--brass);
+  }
+
+  .jl__label {
+    position: absolute;
+    transform: translate(-50%, 34px);
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(250, 246, 239, 0.6);
+    transition: color 0.5s;
+  }
+
+  .jl__label.is-active {
+    color: var(--paper);
+  }
+
+  .jl__label[data-jl-label='0'] {
+    transform: translate(-50%, -52px);
+  }
+
+  @media (min-width: 1024px) {
+    .jl__grid {
+      grid-template-columns: 6fr 6fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+  }
+</style>
+
+<script>
+  import { gsap, ScrollTrigger, reduced } from '@lib/motion';
+
+  const root = document.querySelector<HTMLElement>('[data-journey-loop]');
+  if (root) {
+    const words = Array.from(root.querySelectorAll<HTMLElement>('[data-jl-word]'));
+    const nodes = Array.from(root.querySelectorAll<SVGGElement>('[data-jl-node]'));
+    const labels = Array.from(root.querySelectorAll<HTMLElement>('[data-jl-label]'));
+    const traveller = root.querySelector<SVGGElement>('[data-jl-traveller]')!;
+    const draw = root.querySelector<SVGCircleElement>('[data-jl-draw]')!;
+
+    gsap.from(root.querySelectorAll('[data-jl-reveal]'), { autoAlpha: 0, y: 24, stagger: 0.12, scrollTrigger: { trigger: root, start: 'top 75%' } });
+    gsap.from(root.querySelector('[data-jl-ring]'), { autoAlpha: 0, scale: 0.92, duration: 1.2, scrollTrigger: { trigger: root, start: 'top 70%' } });
+
+    const setStage = (i: number) => {
+      words.forEach((w, k) => w.classList.toggle('is-active', k === i));
+      nodes.forEach((n, k) => n.classList.toggle('is-active', k === i));
+      labels.forEach((l, k) => l.classList.toggle('is-active', k === i));
+    };
+
+    if (reduced()) {
+      gsap.set(draw, { strokeDashoffset: 0 });
+      setStage(0);
+    } else {
+      gsap.to(draw, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: root, start: 'top 80%', end: 'center 45%', scrub: 0.5 } });
+
+      const orbit = gsap.to(traveller, {
+        motionPath: { path: '#jl-orbit', align: '#jl-orbit', alignOrigin: [0.5, 0.5] },
+        duration: 14,
+        repeat: -1,
+        ease: 'none',
+        paused: true,
+        onUpdate() {
+          const p = orbit.progress();
+          setStage(p < 0.3 ? 0 : p < 0.63 ? 1 : p < 0.96 ? 2 : 3);
+        },
+      });
+      ScrollTrigger.create({ trigger: root, start: 'top 80%', end: 'bottom 20%', onToggle: (s) => (s.isActive ? orbit.play() : orbit.pause()) });
+    }
+  }
+</script>
