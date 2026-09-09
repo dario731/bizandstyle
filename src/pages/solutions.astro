@@ -28,13 +28,6 @@ const jsonLd = graph(
     <button class="btn btn--flash" type="button" data-open-contact="call" data-track="calendar_click" data-track-cta-location="solutions_hero">Schedule a consultation</button>
   </EditorialHero>
 
-  <section class="section--tight ground-onyx sol-intro" id="capabilities" aria-labelledby="cap-title">
-    <div class="container sol-intro__grid">
-      <h2 id="cap-title" class="display-3" data-reveal>Our core capabilities</h2>
-      <p class="prose muted" data-reveal>{solutionsIntro.capabilities}</p>
-    </div>
-  </section>
-
   <OrbitCarousel
     eyebrow="Five ways to start"
     title={['Select a solution.', 'See what is inside.']}
@@ -43,6 +36,13 @@ const jsonLd = graph(
     id="five-ways"
   />
 
+  <section class="section--tight ground-paper sol-intro" id="capabilities" aria-labelledby="cap-title">
+    <div class="container sol-intro__grid">
+      <h2 id="cap-title" class="display-3" data-reveal>Our core capabilities</h2>
+      <p class="prose muted" data-reveal>{solutionsIntro.capabilities}</p>
+    </div>
+  </section>
+
   <FaqBlock {faqs} ground="paper" />
   <ContextualCta eyebrow="Ready to transform ambition into reality?" title={['Schedule', 'a consultation.']} body="Our team is ready to build your customised growth solution. Whether you need a single service or a fully integrated program, we provide the expertise and infrastructure to help you succeed in new markets." primary={{ label: 'Schedule a consultation', href: '#connect', name: 'schedule_consultation' }} secondary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} location="solutions_cta" />
 </BaseLayout>
@@ -50,7 +50,7 @@ const jsonLd = graph(
 <style>
   .sol-intro {
     padding-block: var(--space-6);
-    border-top: 1px solid var(--rule-deep);
+    border-top: 1px solid var(--rule);
   }
   .sol-intro__grid {
     display: grid;

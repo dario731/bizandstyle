@@ -2,6 +2,7 @@
 import DivisionPage from '@components/system/DivisionPage.astro';
 import LuxuryEcosystem from '@components/system/LuxuryEcosystem.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Statement from '@components/editorial/Statement.astro';
 import { getCopy } from '@i18n/index';
 const t = getCopy('en');
 ---
@@ -27,6 +28,9 @@ const t = getCopy('en');
   servicesTitle="Inside the division"
 >
   <LuxuryEcosystem slot="after-hero" copy={t.home.luxury} />
+  <Statement slot="after-services" eyebrow="Official website" lines={['Luxury real estate', 'lives on bns-luxury.com.']} body={['Listings, neighbourhood guides, new developments and the B&S Luxury team — on the dedicated site of the division.']} ground="onyx" size="display-2">
+    <a class="btn btn--flash" href="https://bns-luxury.com" target="_blank" rel="noopener" data-track="outbound_click" data-track-cta-name="bns_luxury_site">Visit bns-luxury.com</a>
+  </Statement>
   <ModuleGrid slot="after-services" eyebrow="Real estate" title="Luxury real estate. Miami." ground="paper" numbered={false} columns={3} items={[
     { name: 'Luxury real estate', line: 'Curated acquisition for international buyers and private clients.', href: 'https://bns-luxury.com' },
     { name: 'Pre-construction', line: 'Early access to luxury and ultra-luxury developments.', href: 'https://bns-luxury.com' },

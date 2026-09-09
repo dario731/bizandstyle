@@ -31,6 +31,7 @@ const cmp = t.home.internationalization.compare;
     </a>
   </EditorialHero>
 
+  <ModuleGrid eyebrow={p.pillars.eyebrow} title={p.pillars.title} lede={p.pillars.lede} items={p.pillars.items} columns={3} ground="onyx" id="pillars" />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
 
   <section class="section ground-paper cmp" aria-labelledby="cmp-title">
@@ -55,7 +56,6 @@ const cmp = t.home.internationalization.compare;
   <ModuleGrid eyebrow={p.mistakes.eyebrow} title={p.mistakes.title} items={p.mistakes.items} columns={3} ground="onyx" id="mistakes" />
   <Statement lines={[p.mistakes.result]} ground="onyx" size="display-2" />
   <ModuleGrid eyebrow={p.ingredients.eyebrow} title={p.ingredients.title} items={p.ingredients.items} columns={3} ground="paper" id="ingredients" />
-  <ModuleGrid eyebrow={p.pillars.eyebrow} title={p.pillars.title} lede={p.pillars.lede} items={p.pillars.items} columns={3} ground="paper" id="pillars" />
   <Steps eyebrow={p.model.eyebrow} title={p.model.title} steps={p.model.steps} ground="onyx" id="model" />
   <Statement lines={['Not export.', 'Internationalization.']} body={[p.model.closing]} ground="onyx" />
   <RelatedInsights clusterOf={[path]} ground="paper" />

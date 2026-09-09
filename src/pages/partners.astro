@@ -19,8 +19,8 @@ const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.descripti
       <span class="btn__ring" aria-hidden="true"></span>Explore a partnership
     </a>
   </EditorialHero>
-  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <ModuleGrid eyebrow={p.audiences.eyebrow} title={p.audiences.title} items={p.audiences.items} columns={4} ground="onyx" id="audiences" />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <Statement lines={p.principles.lines} body={p.principles.body} ground="paper" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
 </BaseLayout>

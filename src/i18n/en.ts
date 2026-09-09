@@ -311,7 +311,7 @@ export const en = {
       not: 'This is not concierge.',
       body:
         'We do not send a client to someone who needs a jet, a yacht or a table. B&S Luxury develops structured, long-term relationships among companies that serve the same high-net-worth client — governed, where appropriate, by business-development agreements.',
-      centre: 'HNWI / UHNWI',
+      centre: 'HNWI',
       sameClient: ['Different industries.', 'The same client.'],
       verticals: [
         { id: 'real-estate', name: 'Luxury real estate', role: 'Core operating division' },

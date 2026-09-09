@@ -2,7 +2,6 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import Definition from '@components/editorial/Definition.astro';
-import Steps from '@components/editorial/Steps.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
 import FounderStory from '@components/story/FounderStory.astro';
 import Statement from '@components/editorial/Statement.astro';
@@ -19,9 +18,9 @@ const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.descripti
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="about" {jsonLd}>
   <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="INFRA-TEAM" mediaAlt="BIZ & STYLE executive team in the Miami office" crumbs={[{ name: 'About', path }]} brief="The story of BIZ & STYLE, how it is structured, what it believes, and who leads it." />
-  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
-  <Steps eyebrow={p.timeline.eyebrow} title={p.timeline.title} steps={p.timeline.steps} label="Chapter" ground="paper" id="timeline" />
+  <ModuleGrid eyebrow={p.timeline.eyebrow} title={p.timeline.title} items={p.timeline.steps.map((st, i) => ({ name: st.name, line: st.line, tag: `Chapter 0${i + 1}` }))} columns={3} ground="onyx" id="timeline" numbered={false} />
   <FounderStory copy={t.home.founder} />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <ModuleGrid eyebrow={p.values.eyebrow} title={p.values.title} items={p.values.items} columns={4} ground="paper" id="values" numbered={false} />
   <Statement eyebrow="Structure" lines={['A combination', 'of companies.']} body={['BIZ & STYLE DNA INC., its three divisions, and dedicated entities and joint ventures created with strategic partners — one platform, several companies, the same team behind all of them.']} ground="paper" size="display-2" />
   <Statement lines={['Your vision is our mission.', 'Our vision is your success.']} ground="onyx" size="display-2" />

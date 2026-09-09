@@ -52,7 +52,7 @@ export function initFlows() {
       const step = () => {
         const diff = target - pos;
         if (Math.abs(diff) < 0.002) { pos = target; render(); return; }
-        pos += diff * 0.22;
+        pos += diff * 0.28;
         render();
         raf = requestAnimationFrame(step);
       };

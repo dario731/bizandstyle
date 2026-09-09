@@ -23,8 +23,8 @@ const jsonLd = graph(
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
   <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="HOME-MIAMI-01" mediaAlt="Miami at night seen from above" crumbs={[{ name: 'Miami', path }]} />
-  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <GlobalMap copy={{ ...t.home.miami, eyebrow: 'The platform to the Americas' }} />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <Statement lines={p.statement.lines} body={p.statement.body} ground="onyx" />
   <RelatedInsights clusterOf={[path]} ground="paper" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />

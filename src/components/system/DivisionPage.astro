@@ -42,9 +42,9 @@ const jsonLd = graph(
     </a>
   </EditorialHero>
   <slot name="after-hero" />
+  <ModuleGrid eyebrow={div.role} title={servicesTitle} items={list.map((s) => ({ name: s.title, line: s.lede, href: `${div.path}/${s.slug}` }))} columns={list.length >= 8 ? 4 : list.length >= 6 ? 3 : 3} ground="onyx" id="services" trackAs="service_view" />
   <Definition question={definition.q} answer={definition.a} ground="paper" id="definition" />
   <slot name="before-services" />
-  <ModuleGrid eyebrow={div.role} title={servicesTitle} items={list.map((s) => ({ name: s.title, line: s.lede, href: `${div.path}/${s.slug}` }))} columns={list.length >= 8 ? 4 : list.length >= 6 ? 3 : 3} ground="paper" id="services" trackAs="service_view" />
   <slot name="after-services" />
   <Statement lines={statement.lines} body={statement.body} editorial={statement.editorial} ground="onyx" eyebrow={div.name} />
   <RelatedInsights clusterOf={[div.path, ...list.map((s) => `${div.path}/${s.slug}`)]} ground="paper" />

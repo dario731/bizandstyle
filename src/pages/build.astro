@@ -115,6 +115,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
           <div class="bj__actions">
             <button class="btn btn--flash" type="button" data-send>Send to the team</button>
             <button class="btn" type="button" data-book>Book a call</button>
+            <button class="btn bj__keep" type="button" data-keep>Keep building</button>
             <div class="bj__minor">
               <button class="link" type="button" data-copy>Copy link</button>
               <button class="link" type="button" data-clear>Start over</button>
@@ -376,6 +377,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
 
   .bj__actions { display: grid; gap: 0.5rem; }
   .bj__actions .btn { width: 100%; }
+  .bj__keep { border-color: var(--rule); color: var(--stone); }
   .bj__minor { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.25rem; }
 
   @media (min-width: 720px) {
@@ -544,6 +546,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
     root.querySelector('[data-book]')?.addEventListener('click', () => document.dispatchEvent(new CustomEvent('bs:open-contact', { detail: { tab: 'call' } })));
     root.querySelector('[data-copy]')?.addEventListener('click', async (e) => { try { await navigator.clipboard.writeText(location.href); (e.target as HTMLElement).textContent = 'Link copied'; setTimeout(() => ((e.target as HTMLElement).textContent = 'Copy link'), 1800); } catch {} });
     root.querySelector('[data-clear]')?.addEventListener('click', () => { picked.clear(); persona = ''; render(); });
+    root.querySelector('[data-keep]')?.addEventListener('click', () => { side.classList.remove('is-open'); side.querySelector('[data-side-toggle]')!.setAttribute('aria-expanded', 'false'); document.querySelector('#pick')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 
     load();
     render();

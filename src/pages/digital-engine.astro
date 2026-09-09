@@ -31,8 +31,8 @@ const jsonLd = graph(
       <span class="btn__ring" aria-hidden="true"></span>{p.cta.primary.label}
     </a>
   </EditorialHero>
-  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <DigitalEngine copy={{ ...t.home.digital, eyebrow: 'The system' }} />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <ModuleGrid eyebrow="Capabilities" title="Digital growth services." items={digitalServices.map((s) => ({ name: s.title, line: s.lede, href: `/advisory/${s.slug}` }))} columns={4} ground="paper" numbered={false} trackAs="service_view" />
   <Statement lines={['Built in-house.', 'Owned in-house.', 'Optimized in-house.']} ground="onyx" body={['B&S Luxury runs on this engine. Proprietary digital acquisition generated high-net-worth opportunities in some of the most relationship-driven segments of the Miami market — proof that the system works before it is offered to clients.']} />
   <RelatedInsights clusterOf={[path, '/advisory/lead-generation', '/advisory/ai-digital-transformation']} ground="paper" />

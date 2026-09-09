@@ -18,8 +18,8 @@ const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.descripti
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
   <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="INFRA-HQ" mediaAlt="BIZ & STYLE headquarters, Thyssen Building, Miami Beach" crumbs={[{ name: 'Infrastructure', path }]} />
-  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <InfrastructureGrid copy={{ ...t.home.infrastructure, eyebrow: 'Already in place' }} />
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <ModuleGrid eyebrow={p.presence.eyebrow} title={p.presence.title} items={p.presence.items} columns={3} ground="onyx" id="presence" />
   <InHouseVsPartners ground="paper" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />

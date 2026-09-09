@@ -37,8 +37,8 @@ const jsonLd = graph(
       <span class="btn__ring" aria-hidden="true"></span>{p.cta.label}
     </a>
   </EditorialHero>
+  <ModuleGrid eyebrow="Components" title="What the program includes." items={p.components} columns={p.components.length >= 8 ? 4 : 3} ground="onyx" id="components" />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
-  <ModuleGrid eyebrow="Components" title="What the program includes." items={p.components} columns={p.components.length >= 8 ? 4 : 3} ground="paper" id="components" />
   {
     p.regulated && (
       <section class="section--tight ground-paper reg">

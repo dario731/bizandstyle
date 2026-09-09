@@ -38,9 +38,9 @@ const jsonLd = graph(
     </a>
   </EditorialHero>
 
-  <Definition question={s.definition.q} answer={s.definition.a} ground="paper" id="definition" />
+  <ModuleGrid eyebrow="What it includes" items={s.modules} columns={s.modules.length >= 6 ? 3 : s.modules.length === 4 ? 4 : 3} ground="onyx" id="modules" />
 
-  <ModuleGrid eyebrow="What it includes" items={s.modules} columns={s.modules.length >= 6 ? 3 : s.modules.length === 4 ? 4 : 3} ground="paper" id="modules" />
+  <Definition question={s.definition.q} answer={s.definition.a} ground="paper" id="definition" />
 
   {
     s.regulated && (

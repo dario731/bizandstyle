@@ -4,7 +4,6 @@ import CineHero from '@components/home2/CineHero.astro';
 import EnginesConnected from '@components/home2/EnginesConnected.astro';
 import WhoWhatWhy from '@components/home2/WhoWhatWhy.astro';
 import OrbitCarousel from '@components/cinematic/OrbitCarousel.astro';
-import WorldConnect from '@components/home2/WorldConnect.astro';
 import JourneyLoop from '@components/home2/JourneyLoop.astro';
 import CaptureBand from '@components/home2/CaptureBand.astro';
 import { getCopy } from '@i18n/index';
@@ -33,7 +32,6 @@ const orbitItems = solutions.map((s) => ({ num: s.num, name: s.name, line: s.tag
   <WhoWhatWhy />
   <EnginesConnected />
   <OrbitCarousel eyebrow="Solutions" title={['Five solutions.', 'Integrated or à la carte.']} items={orbitItems} id="orbit" />
-  <WorldConnect />
   <JourneyLoop stages={t.home.journey.stages} />
   <CaptureBand />
 </BaseLayout>
