@@ -18,9 +18,10 @@ interface Props {
   numbered?: boolean;
 }
 const { items, label, size = 'md', trackAs, numbered = true } = Astro.props;
+const dims = { sm: '--fl-stage:11.5rem;--fl-h:10.5rem;--fl-w:min(16rem, 60vw)', md: '--fl-stage:13.5rem;--fl-h:12.5rem;--fl-w:min(19rem, 64vw)', lg: '--fl-stage:19.5rem;--fl-h:18.5rem;--fl-w:min(24rem, 78vw)' }[size];
 ---
 
-<div class:list={['fl', `fl--${size}`]} data-flow data-flow-wrap={items.length > 2 ? 'true' : undefined}>
+<div class:list={['fl', `fl--${size}`]} style={dims} data-flow data-flow-wrap={items.length > 2 ? 'true' : undefined}>
   <div class="fl__head">
     <span class="snaprow__hint">{label ?? `${items.length} · swipe`}</span>
     <div class="snaprow__nav">
@@ -70,7 +71,7 @@ const { items, label, size = 'md', trackAs, numbered = true } = Astro.props;
 
   .fl__stage {
     position: relative;
-    height: 13.5rem;
+    height: var(--fl-stage, 13.5rem);
     perspective: 1400px;
     touch-action: pan-y;
     cursor: grab;
@@ -92,21 +93,17 @@ const { items, label, size = 'md', trackAs, numbered = true } = Astro.props;
   }
 
   .fl__card {
-    --w: min(19rem, 64vw);
+    --w: var(--fl-w, min(19rem, 64vw));
     position: absolute;
     left: calc(var(--w) / -2);
     top: 0;
     width: var(--w);
-    height: 12.5rem;
+    height: var(--fl-h, 12.5rem);
     will-change: transform;
     transition: border-color 0.3s;
   }
 
-  .fl--lg .fl__stage { height: 19rem; }
-  .fl--lg .fl__card { --w: min(24rem, 78vw); height: 18rem; }
   .fl--lg :global(.snapcard__line) { font-size: 0.92rem; }
-  .fl--sm .fl__stage { height: 11.5rem; }
-  .fl--sm .fl__card { --w: min(16rem, 60vw); height: 10.5rem; }
 
   @media (min-width: 900px) {
     .fl__stage { margin-inline: 0; }
