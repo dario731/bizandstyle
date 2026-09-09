@@ -1,0 +1,200 @@
+---
+import { getCopy, localePath, published } from '@i18n/index';
+import { site, type Locale } from '@data/site';
+
+interface Props {
+  locale?: Locale;
+}
+const { locale = 'en' } = Astro.props;
+const { footer } = getCopy(locale);
+const year = new Date().getFullYear();
+---
+
+<footer class="ftr ground-onyx" aria-labelledby="footer-heading">
+  <h2 id="footer-heading" class="sr-only">Footer</h2>
+  <div class="container">
+    <div class="ftr__top">
+      <a href={localePath('/', locale)} class="ftr__logo" aria-label={`${site.name} — home`}>
+        <img src="/brand/wordmark-white.svg" alt="" width="280" height="62" loading="lazy" decoding="async" />
+      </a>
+      <p class="ftr__statement display-3">{footer.statement}</p>
+    </div>
+
+    <hr class="rule" />
+
+    <div class="ftr__grid">
+      {
+        footer.groups.map((g) => (
+          <nav class="ftr__group" aria-label={g.title}>
+            <h3 class="eyebrow">{g.title}</h3>
+            <ul role="list">
+              {g.links.map(([label, href]) => (
+                <li>
+                  <a href={href.startsWith('http') ? href : localePath(href, locale)} rel={href.startsWith('http') ? 'noopener' : undefined}>
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ))
+      }
+      <address class="ftr__group ftr__hq">
+        <h3 class="eyebrow">{footer.hq}</h3>
+        <p>
+          {site.legalName}<br />
+          {site.address.building}<br />
+          {site.address.streetAddress}<br />
+          {site.address.addressLocality}, {site.address.addressRegion} {site.address.postalCode}
+        </p>
+        <p>
+          <a href={`mailto:${site.email}`} data-track="email_click" data-track-cta-location="footer">{site.email}</a><br />
+          <a href={site.phoneHref} data-track="phone_click" data-track-cta-location="footer">{site.phone}</a>
+        </p>
+        <a class="link" href={site.calendly} rel="noopener" data-track="calendar_click" data-track-cta-location="footer">
+          Book a call
+          <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+        </a>
+      </address>
+    </div>
+
+    <hr class="rule" />
+
+    <div class="ftr__bottom small">
+      <p class="ftr__disclaimer muted">{footer.disclaimer}</p>
+      <div class="ftr__meta">
+        <p class="muted">© {year} {site.legalName} {footer.rights}</p>
+        <ul role="list" class="ftr__legal">
+          {footer.legal.map(([label, href]) => <li><a href={localePath(href, locale)}>{label}</a></li>)}
+          {
+            published.length > 1 && (
+              <li class="ftr__lang">
+                {published.map((l) => (
+                  <a href={localePath('/', l)} hreflang={l} lang={l} aria-current={l === locale ? 'true' : undefined}>
+                    {site.locales[l].label}
+                  </a>
+                ))}
+              </li>
+            )
+          }
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr {
+    padding-block: var(--space-9) var(--space-6);
+    border-top: 1px solid var(--rule-deep);
+  }
+
+  .ftr__top {
+    display: grid;
+    gap: var(--space-6);
+    padding-bottom: var(--space-8);
+  }
+
+  .ftr__logo img {
+    width: clamp(180px, 22vw, 280px);
+    height: auto;
+  }
+
+  .ftr__statement {
+    color: var(--stone);
+  }
+
+  .ftr__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-7) var(--space-6);
+    padding-block: var(--space-8);
+  }
+
+  .ftr__group .eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--stone);
+  }
+
+  .ftr__group ul {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .ftr__group a {
+    font-size: 0.95rem;
+    opacity: 0.86;
+    transition: opacity var(--dur-1);
+  }
+
+  .ftr__group a:hover {
+    opacity: 1;
+  }
+
+  .ftr__hq {
+    font-style: normal;
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .ftr__hq .eyebrow {
+    margin-bottom: 0;
+  }
+
+  .ftr__bottom {
+    padding-top: var(--space-6);
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .ftr__disclaimer {
+    max-width: 90ch;
+    line-height: 1.55;
+  }
+
+  .ftr__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ftr__legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .ftr__lang {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .ftr__lang a[aria-current='true'] {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+
+  @media (min-width: 720px) {
+    .ftr__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .ftr__top {
+      grid-template-columns: 1fr 1fr;
+      align-items: end;
+    }
+    .ftr__statement {
+      text-align: right;
+    }
+    .ftr__grid {
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+    }
+  }
+</style>

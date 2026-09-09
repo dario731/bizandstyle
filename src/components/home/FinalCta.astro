@@ -1,0 +1,40 @@
+---
+import type { Copy } from '@i18n/en';
+interface Props {
+  copy: Copy['home']['final'];
+}
+const { copy } = Astro.props;
+---
+
+<section class="section ground-paper final" id="final" aria-labelledby="final-title">
+  <div class="container">
+    <h2 id="final-title" class="display final__title" data-reveal>
+      {copy.lines.map((l) => <span>{l}</span>)}
+      <span class="final__next">{copy.next}</span>
+    </h2>
+    <div class="cta-row final__ctas" data-reveal>
+      <a class="btn btn--solid" href={copy.primary.href} data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="home_final">
+        <span class="btn__ring" aria-hidden="true"></span>{copy.primary.label}
+      </a>
+      <a class="btn" href={copy.secondary.href} data-track="cta_click" data-track-cta-name="connect" data-track-cta-location="home_final">{copy.secondary.label}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final__title span {
+    display: block;
+  }
+
+  .final__next {
+    margin-top: 0.35em;
+    --wght-display: 300;
+    font-variation-settings: 'wdth' var(--wdth-display), 'wght' 300;
+    font-weight: 300;
+    color: var(--smoke);
+  }
+
+  .final__ctas {
+    margin-top: var(--space-8);
+  }
+</style>

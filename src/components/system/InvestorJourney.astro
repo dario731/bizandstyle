@@ -1,0 +1,407 @@
+---
+/**
+ * InvestorJourney — the signature ring. Business → Wealth → Lifestyle → ∞.
+ * SVG ring draws on entry, the traveller rotates while in view, stages can be
+ * selected by click/keyboard and advance automatically with scroll progress.
+ * On narrow screens the ring sits above a stacked tab list.
+ */
+import type { Copy } from '@i18n/en';
+interface Props {
+  copy: Copy['home']['journey'];
+  compact?: boolean;
+}
+const { copy, compact = false } = Astro.props;
+
+// node positions on a 480×480 stage, ring r = 178
+const C = 240;
+const R = 178;
+const angles = [-90, 30, 150]; // Business top, Wealth bottom-right, Lifestyle bottom-left
+const nodes = copy.stages.map((s, i) => {
+  const a = (angles[i] * Math.PI) / 180;
+  return { ...s, x: C + R * Math.cos(a), y: C + R * Math.sin(a), i };
+});
+const circumference = 2 * Math.PI * R;
+---
+
+<section class:list={['section ground-paper ij', { 'ij--compact': compact }]} id="investor-journey" aria-labelledby="ij-title" data-journey>
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
+      <h2 id="ij-title" class="display-2" data-reveal>{copy.title}</h2>
+      <p class="lede" data-reveal>{copy.intro}</p>
+    </div>
+
+    <div class="ij__stage">
+      <div class="ij__ring-wrap" data-reveal>
+        <svg class="ij__ring" viewBox="0 0 480 480" role="img" aria-labelledby="ij-ring-title ij-ring-desc">
+          <title id="ij-ring-title">The Investor Journey</title>
+          <desc id="ij-ring-desc">A circle connecting three stages — Business, Wealth and Lifestyle — that feed one another continuously.</desc>
+          <circle class="ij__track" cx={C} cy={C} r={R} fill="none" stroke="currentColor" stroke-width="1" stroke-opacity="0.18" />
+          <circle class="ij__draw" cx={C} cy={C} r={R} fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray={circumference} stroke-dashoffset={circumference} transform={`rotate(-90 ${C} ${C})`} />
+          <!-- direction arrows at 3 midpoints -->
+          {
+            [-30, 90, 210].map((deg) => {
+              const a = (deg * Math.PI) / 180;
+              const x = C + R * Math.cos(a);
+              const y = C + R * Math.sin(a);
+              return <path class="ij__arrow" d="M-6 -5 L2 0 L-6 5" fill="none" stroke="currentColor" stroke-width="1.4" transform={`translate(${x} ${y}) rotate(${deg + 90})`} />;
+            })
+          }
+          <g class="ij__traveller" style={`transform-origin:${C}px ${C}px`}>
+            <circle cx={C} cy={C - R} r="4" fill="var(--brass)" />
+          </g>
+          <path class="ij__infinity" transform={`translate(${C} ${C})`} d="M-30 0 C-30 -14 -18 -14 -10 -6 L10 6 C18 14 30 14 30 0 C30 -14 18 -14 10 -6 L-10 6 C-18 14 -30 14 -30 0 Z" fill="none" stroke="var(--brass)" stroke-width="2" />
+          {
+            nodes.map((n) => (
+              <g class="ij__node" data-stage-node={n.id}>
+                <circle cx={n.x} cy={n.y} r="26" fill="var(--paper)" stroke="currentColor" stroke-width="1.5" />
+                <circle class="ij__node-core" cx={n.x} cy={n.y} r="7" fill="currentColor" />
+              </g>
+            ))
+          }
+        </svg>
+        {
+          nodes.map((n) => (
+            <button class="ij__label" type="button" style={`left:${(n.x / 480) * 100}%; top:${(n.y / 480) * 100}%`} data-stage={n.id} aria-pressed={n.i === 0 ? 'true' : 'false'} data-track="investor_journey_interaction" data-track-cta-name={n.id}>
+              <span class="num">{['i.', 'ii.', 'iii.'][n.i]}</span>
+              <span class="ij__label-name">{n.name}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="ij__panels" data-reveal>
+        <p class="eyebrow ij__hint">{copy.hint}</p>
+        <div class="ij__tabs" role="tablist" aria-label="Stages">
+          {
+            copy.stages.map((s, i) => (
+              <button class="ij__tab" role="tab" type="button" id={`ij-tab-${s.id}`} aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`ij-panel-${s.id}`} data-stage={s.id} tabindex={i === 0 ? 0 : -1}>
+                <span class="num">0{i + 1}</span>
+                <span class="display-3">{s.name}</span>
+              </button>
+            ))
+          }
+        </div>
+        {
+          copy.stages.map((s, i) => (
+            <div class="ij__panel" role="tabpanel" id={`ij-panel-${s.id}`} aria-labelledby={`ij-tab-${s.id}`} data-stage-panel={s.id} hidden={i !== 0}>
+              <p class="ij__verbs display-3">{s.verbs.join(' · ')}</p>
+              <ul class="ij__examples" role="list">
+                {s.examples.map((e) => <li>{e}</li>)}
+              </ul>
+              <p class="ij__generates editorial">{s.generates}</p>
+            </div>
+          ))
+        }
+        <p class="ij__loop num">{copy.loop}</p>
+      </div>
+    </div>
+
+    <div class="ij__close">
+      <p class="display-2 ij__statement" data-reveal>
+        {copy.statement.map((l, i) => <span class:list={{ muted: i === 2 }}>{l} </span>)}
+      </p>
+      <div class="ij__tag" data-reveal>
+        <p class="ij__tagline">{copy.tagline.map((l) => <span>{l}</span>)}</p>
+        <p class="ij__closing display-3">{copy.closing.map((l) => <span>{l}</span>)}</p>
+        <a class="link" href={copy.cta.href} data-track="cta_click" data-track-cta-name="investor_journey" data-track-cta-location="home_journey">
+          {copy.cta.label}
+          <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ij__stage {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .ij__ring-wrap {
+    position: relative;
+    width: min(100%, 560px);
+    margin-inline: auto;
+    aspect-ratio: 1;
+    color: var(--ink);
+  }
+
+  .ij__ring {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .ij__draw {
+    transition: stroke-dashoffset 2.4s var(--ease-out);
+  }
+
+  .is-in .ij__draw,
+  .ij--drawn .ij__draw {
+    stroke-dashoffset: 0;
+  }
+
+  .ij__arrow {
+    opacity: 0;
+    transition: opacity var(--dur-3) 1.6s;
+  }
+
+  .is-in .ij__arrow {
+    opacity: 0.7;
+  }
+
+  .ij__traveller {
+    animation: ij-rotate 60s linear infinite;
+    animation-play-state: paused;
+    opacity: 0;
+    transition: opacity var(--dur-3) 2s;
+  }
+
+  .is-active .ij__traveller {
+    animation-play-state: running;
+  }
+
+  .is-in .ij__traveller {
+    opacity: 1;
+  }
+
+  @keyframes ij-rotate {
+    to { transform: rotate(360deg); }
+  }
+
+  .ij__infinity {
+    stroke-linejoin: round;
+  }
+
+  .ij__node-core {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform var(--dur-2) var(--ease-out), fill var(--dur-2);
+  }
+
+  .ij__node.is-active .ij__node-core {
+    fill: var(--brass);
+    transform: scale(1.5);
+  }
+
+  .ij__label {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: grid;
+    justify-items: center;
+    gap: 0.25rem;
+    padding: 2rem 1.25rem;
+    color: var(--ink);
+    border-radius: 999px;
+  }
+
+  .ij__label-name {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 112, 'wght' 700;
+    font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    background: var(--paper);
+    padding: 0.2em 0.5em;
+    transition: color var(--dur-1);
+  }
+
+  .ij__label[aria-pressed='true'] .ij__label-name {
+    color: var(--brass);
+  }
+
+  .ij__label:nth-of-type(1) { transform: translate(-50%, -110%); }
+  .ij__label:nth-of-type(2) { transform: translate(-25%, -35%); }
+  .ij__label:nth-of-type(3) { transform: translate(-75%, -35%); }
+
+  .ij__panels {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+  }
+
+  .ij__hint {
+    display: none;
+  }
+
+  .ij__tabs {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ij__tab {
+    display: grid;
+    gap: 0.4rem;
+    justify-items: start;
+    padding: 1rem 0.5rem 1rem 0;
+    color: var(--smoke);
+    border-right: 1px solid var(--line);
+    text-align: left;
+    transition: color var(--dur-1);
+  }
+
+  .ij__tab:last-child {
+    border-right: 0;
+  }
+
+  .ij__tab[aria-selected='true'] {
+    color: var(--ink);
+  }
+
+  .ij__tab .display-3 {
+    font-size: clamp(1.1rem, 2vw, 1.6rem);
+  }
+
+  .ij__panel {
+    display: grid;
+    gap: var(--space-5);
+    animation: ij-panel var(--dur-2) var(--ease-out);
+  }
+
+  @keyframes ij-panel {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .ij__verbs {
+    font-size: clamp(1.15rem, 2vw, 1.6rem);
+    color: var(--ink);
+  }
+
+  .ij__examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .ij__examples li {
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    padding: 0.4em 0.9em;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--smoke);
+  }
+
+  .ij__generates {
+    color: var(--ink);
+    font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  }
+
+  .ij__loop {
+    padding-top: var(--space-3);
+    color: var(--brass);
+  }
+
+  .ij__close {
+    display: grid;
+    gap: var(--space-7);
+    margin-top: var(--space-9);
+    padding-top: var(--space-8);
+    border-top: 1px solid var(--line);
+  }
+
+  .ij__statement {
+    font-size: clamp(1.9rem, 3.7vw, 3.6rem);
+  }
+
+  .ij__statement span {
+    display: block;
+  }
+
+  .ij__tag {
+    display: grid;
+    gap: var(--space-5);
+    align-content: end;
+  }
+
+  .ij__tagline {
+    display: grid;
+    color: var(--smoke);
+  }
+
+  .ij__closing span {
+    display: block;
+  }
+
+  @media (min-width: 1024px) {
+    .ij__stage {
+      grid-template-columns: 6fr 6fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+    .ij__hint {
+      display: inline-flex;
+    }
+    .ij__close {
+      grid-template-columns: 7fr 5fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ij__draw { stroke-dashoffset: 0 !important; }
+    .ij__arrow { opacity: 0.7; }
+    .ij__traveller { animation: none; opacity: 1; }
+  }
+</style>
+
+<script>
+  import { whileInView, onScrollProgress, reducedMotion } from '@lib/reveal';
+  import { track } from '@lib/track';
+
+  document.querySelectorAll<HTMLElement>('[data-journey]').forEach((root) => {
+    const ids = Array.from(root.querySelectorAll<HTMLElement>('[data-stage-panel]')).map((p) => p.dataset.stagePanel!);
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-stage]'));
+    let userLocked = false;
+
+    const setStage = (id: string, byUser = false) => {
+      root.querySelectorAll<HTMLElement>('[data-stage-panel]').forEach((p) => (p.hidden = p.dataset.stagePanel !== id));
+      root.querySelectorAll<HTMLElement>('[data-stage-node]').forEach((n) => n.classList.toggle('is-active', n.dataset.stageNode === id));
+      buttons.forEach((b) => {
+        const on = b.dataset.stage === id;
+        if (b.getAttribute('role') === 'tab') {
+          b.setAttribute('aria-selected', String(on));
+          b.tabIndex = on ? 0 : -1;
+        } else {
+          b.setAttribute('aria-pressed', String(on));
+        }
+      });
+      if (byUser) {
+        userLocked = true;
+        track('investor_journey_interaction', { cta_name: id, cta_location: 'ring' });
+      }
+    };
+
+    buttons.forEach((b) => b.addEventListener('click', () => setStage(b.dataset.stage!, true)));
+
+    // keyboard on tablist
+    const tabs = buttons.filter((b) => b.getAttribute('role') === 'tab');
+    tabs.forEach((t, i) =>
+      t.addEventListener('keydown', (e) => {
+        const dir = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!dir) return;
+        e.preventDefault();
+        const next = tabs[(i + dir + tabs.length) % tabs.length];
+        next.focus();
+        setStage(next.dataset.stage!, true);
+      }),
+    );
+
+    whileInView(root, 'is-active', 0.2);
+    const ring = root.querySelector<HTMLElement>('.ij__ring-wrap');
+    if (ring) whileInView(ring, 'is-in', 0.35);
+
+    if (!reducedMotion()) {
+      onScrollProgress(root, (p) => {
+        if (userLocked) return;
+        const t = Math.min(0.999, Math.max(0, (p - 0.2) / 0.5));
+        setStage(ids[Math.floor(t * ids.length)]);
+      });
+    }
+    setStage(ids[0]);
+  });
+</script>

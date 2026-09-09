@@ -1,0 +1,105 @@
+---
+import type { Copy } from '@i18n/en';
+interface Props {
+  copy: Copy['home']['platform'];
+}
+const { copy } = Astro.props;
+---
+
+<section class="section ground-paper platform" id="platform" aria-labelledby="platform-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
+      <h2 id="platform-title" class="display-2" data-reveal>{copy.title}</h2>
+      <p class="lede" data-reveal>{copy.definition}</p>
+    </div>
+
+    <div class="platform__grid">
+      <p class="prose platform__body" data-reveal>{copy.body}</p>
+      <ol class="platform__engines" role="list" data-reveal-group>
+        {
+          copy.engines.map((e) => (
+            <li class="engine">
+              <a href={e.href} class="engine__link" data-track="division_view" data-track-division={e.href.slice(1)} data-track-cta-location="home_platform">
+                <span class="num">{e.num}</span>
+                <span class="engine__name display-3">{e.name}</span>
+                <span class="engine__role eyebrow">{e.role}</span>
+                <span class="engine__line">{e.line}</span>
+                <svg class="engine__arrow" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.3" /></svg>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .platform__grid {
+    display: grid;
+    gap: var(--space-8);
+  }
+
+  .platform__body {
+    color: var(--smoke);
+    font-size: 1.05rem;
+  }
+
+  .platform__engines {
+    display: grid;
+    border-top: 1px solid var(--line);
+  }
+
+  .engine {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .engine__link {
+    display: grid;
+    grid-template-columns: 3rem 1fr auto;
+    grid-template-areas:
+      'num name arrow'
+      'num role arrow'
+      'num line arrow';
+    column-gap: var(--space-4);
+    row-gap: 0.4rem;
+    padding: clamp(1.4rem, 3vw, 2.2rem) 0;
+    align-items: center;
+    transition: padding-left var(--dur-2) var(--ease-out);
+  }
+
+  .engine__link:hover {
+    padding-left: 0.5rem;
+  }
+
+  .engine__link .num { grid-area: num; align-self: start; padding-top: 0.5rem; }
+  .engine__name { grid-area: name; }
+  .engine__role { grid-area: role; }
+  .engine__line { grid-area: line; color: var(--smoke); max-width: 48ch; }
+
+  .engine__arrow {
+    grid-area: arrow;
+    width: 2rem;
+    height: 2rem;
+    opacity: 0.4;
+    transition: opacity var(--dur-1), transform var(--dur-2) var(--ease-out);
+  }
+
+  .engine__link:hover .engine__arrow {
+    opacity: 1;
+    transform: translateX(6px);
+  }
+
+  @media (min-width: 1024px) {
+    .platform__grid {
+      grid-template-columns: 4fr 8fr;
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+    .platform__body {
+      position: sticky;
+      top: 7rem;
+    }
+  }
+</style>

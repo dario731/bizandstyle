@@ -1,0 +1,86 @@
+---
+/**
+ * Head metadata + JSON-LD. Organization/WebSite are emitted on every page;
+ * page-specific graphs (Service, Article, Person, BreadcrumbList) are passed in.
+ */
+import { site } from '@data/site';
+import { alternates } from '@i18n/index';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  type?: 'website' | 'article';
+  image?: string;
+  noindex?: boolean;
+  publishedTime?: string;
+  modifiedTime?: string;
+  jsonLd?: Record<string, unknown>[];
+  locale?: string;
+}
+
+const { title, description, path, type = 'website', image, noindex = false, publishedTime, modifiedTime, jsonLd = [], locale = 'en' } = Astro.props;
+const canonical = `${site.url}${path === '/' ? '' : path}`;
+const ogImage = image ?? `${site.url}/og-default.png`;
+
+const organization = {
+  '@type': 'Organization',
+  '@id': `${site.url}/#organization`,
+  name: site.name,
+  legalName: site.legalName,
+  url: site.url,
+  logo: { '@type': 'ImageObject', url: `${site.url}/brand/wordmark-on-onyx.png` },
+  description: site.description,
+  foundingDate: site.foundingDate,
+  founder: { '@type': 'Person', '@id': `${site.url}/about/dario-picardi#person`, name: site.founder.name, jobTitle: site.founder.role },
+  email: site.email,
+  telephone: site.phone,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.streetAddress,
+    addressLocality: site.address.addressLocality,
+    addressRegion: site.address.addressRegion,
+    postalCode: site.address.postalCode,
+    addressCountry: site.address.addressCountry,
+  },
+  areaServed: site.areaServed,
+  knowsAbout: ['Business development', 'Internationalization', 'U.S. market entry', 'Distribution', 'Bonded warehousing', 'Digital growth', 'Lead generation', 'CRM', 'Luxury real estate', 'Miami'],
+  department: site.divisions.map((d) => ({ '@type': 'Organization', name: d.name, url: `${site.url}/${d.slug}`, parentOrganization: { '@id': `${site.url}/#organization` } })),
+  ...(site.sameAs.length ? { sameAs: site.sameAs } : {}),
+};
+
+const website = {
+  '@type': 'WebSite',
+  '@id': `${site.url}/#website`,
+  url: site.url,
+  name: site.name,
+  publisher: { '@id': `${site.url}/#organization` },
+  inLanguage: locale,
+};
+
+const graph = { '@context': 'https://schema.org', '@graph': [organization, website, ...jsonLd] };
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex ? <meta name="robots" content="noindex, nofollow" /> : <meta name="robots" content="index, follow, max-image-preview:large" />}
+{alternates(path).map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={site.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content={locale === 'en' ? 'en_US' : locale} />
+{publishedTime && <meta property="article:published_time" content={publishedTime} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<script type="application/ld+json" set:html={JSON.stringify(graph)} />

@@ -1,0 +1,573 @@
+---
+/**
+ * DynamicLeadForm — "Tell us what you're building".
+ * Three steps: who you are → what you need (persona-adaptive fields) → contact.
+ * Works without JS (all steps visible, native POST); with JS it becomes a
+ * stepped experience that posts the shared lead envelope to /api/lead with
+ * attribution attached. Pre-selects persona/intent from the URL.
+ */
+import type { Copy } from '@i18n/en';
+interface Props {
+  copy: Copy['home']['tellUs'];
+  compact?: boolean;
+  id?: string;
+}
+const { copy, compact = false, id = 'tell-us' } = Astro.props;
+
+// which fields each persona sees in step 2
+const fieldsFor: Record<string, string[]> = {
+  'international-company': ['country', 'currentMarkets', 'targetMarket', 'usPresence', 'size'],
+  'us-company': ['country', 'targetMarket', 'size'],
+  founder: ['country', 'targetMarket', 'budget'],
+  'consumer-brand': ['category', 'channels', 'targetMarket', 'usPresence'],
+  'luxury-company': ['category', 'country', 'targetMarket'],
+  developer: ['country', 'budget'],
+  investor: ['country', 'budget'],
+  partner: ['country', 'website'],
+};
+const f = copy.fields;
+const o = copy.options;
+---
+
+<section class:list={['section ground-onyx tell', { 'tell--compact': compact }]} id={id} aria-labelledby={`${id}-title`}>
+  <div class="container">
+    <div class="tell__head">
+      <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
+      <h2 id={`${id}-title`} class="display tell__title" data-reveal>
+        <span>{copy.title[0]}</span>
+        <span>{copy.title[1]}</span>
+      </h2>
+      <p class="lede tell__lede" data-reveal>{copy.lede}</p>
+    </div>
+
+    <form class="lf" method="post" action="/api/lead" novalidate data-lead-form data-form-id="tell-us" data-reveal>
+      <ol class="lf__steps num" role="list" aria-label="Steps" data-steps>
+        {copy.steps.map((s, i) => <li data-step-label={i} aria-current={i === 0 ? 'step' : undefined}>{String(i + 1).padStart(2, '0')} {s}</li>)}
+      </ol>
+
+      <!-- Step 1: persona -->
+      <fieldset class="lf__step" data-step="0">
+        <legend class="lf__legend display-3">{copy.personaLabel}</legend>
+        <div class="lf__choices lf__choices--grid">
+          {
+            copy.personas.map((p, i) => (
+              <label class="choice">
+                <input type="radio" name="persona" value={p.id} required={i === 0 ? true : undefined} />
+                <span class="choice__box">
+                  <span class="num">{String(i + 1).padStart(2, '0')}</span>
+                  <span class="choice__label">{p.label}</span>
+                </span>
+              </label>
+            ))
+          }
+        </div>
+        <div class="lf__nav">
+          <button class="btn btn--solid" type="button" data-next>{copy.next}</button>
+        </div>
+      </fieldset>
+
+      <!-- Step 2: need + adaptive fields -->
+      <fieldset class="lf__step" data-step="1" hidden>
+        <legend class="lf__legend display-3">{f.need}</legend>
+        <div class="lf__choices lf__choices--row">
+          {
+            copy.needs.map((n) => (
+              <label class="chip">
+                <input type="radio" name="intent" value={n.id} />
+                <span>{n.label}</span>
+              </label>
+            ))
+          }
+        </div>
+
+        <div class="lf__fields">
+          <div class="field" data-field="country"><label for={`${id}-country`}>{f.country}</label><input id={`${id}-country`} name="country" type="text" autocomplete="country-name" /></div>
+          <div class="field" data-field="currentMarkets"><label for={`${id}-cm`}>{f.currentMarkets}</label><input id={`${id}-cm`} name="currentMarkets" type="text" /></div>
+          <div class="field" data-field="targetMarket">
+            <label for={`${id}-tm`}>{f.targetMarket}</label>
+            <select id={`${id}-tm`} name="targetMarket"><option value="">—</option>{o.targetMarket.map((v) => <option>{v}</option>)}</select>
+          </div>
+          <div class="field" data-field="usPresence">
+            <label for={`${id}-usp`}>{f.usPresence}</label>
+            <select id={`${id}-usp`} name="usPresence"><option value="">—</option>{o.usPresence.map((v) => <option>{v}</option>)}</select>
+          </div>
+          <div class="field" data-field="size">
+            <label for={`${id}-size`}>{f.size}</label>
+            <select id={`${id}-size`} name="size"><option value="">—</option>{o.size.map((v) => <option>{v}</option>)}</select>
+          </div>
+          <div class="field" data-field="category"><label for={`${id}-cat`}>{f.category}</label><input id={`${id}-cat`} name="category" type="text" /></div>
+          <div class="field" data-field="channels"><label for={`${id}-ch`}>{f.channels}</label><input id={`${id}-ch`} name="channels" type="text" /></div>
+          <div class="field" data-field="budget">
+            <label for={`${id}-hz`}>{f.budget}</label>
+            <select id={`${id}-hz`} name="horizon"><option value="">—</option>{o.horizon.map((v) => <option>{v}</option>)}</select>
+          </div>
+          <div class="field" data-field="website"><label for={`${id}-web`}>{f.website}</label><input id={`${id}-web`} name="website" type="url" inputmode="url" placeholder="https://" /></div>
+          <div class="field field--wide" data-field="message"><label for={`${id}-msg`}>{f.message}</label><textarea id={`${id}-msg`} name="message" rows="4"></textarea></div>
+        </div>
+        <div class="lf__nav">
+          <button class="link" type="button" data-back>{copy.back}</button>
+          <button class="btn btn--solid" type="button" data-next>{copy.next}</button>
+        </div>
+      </fieldset>
+
+      <!-- Step 3: contact -->
+      <fieldset class="lf__step" data-step="2" hidden>
+        <legend class="lf__legend display-3">{copy.steps[2]}</legend>
+        <div class="lf__fields">
+          <div class="field"><label for={`${id}-name`}>{f.name}</label><input id={`${id}-name`} name="name" type="text" autocomplete="name" required /></div>
+          <div class="field"><label for={`${id}-company`}>{f.company}</label><input id={`${id}-company`} name="company" type="text" autocomplete="organization" /></div>
+          <div class="field"><label for={`${id}-email`}>{f.email}</label><input id={`${id}-email`} name="email" type="email" autocomplete="email" inputmode="email" required /></div>
+          <div class="field"><label for={`${id}-phone`}>{f.phone}</label><input id={`${id}-phone`} name="phone" type="tel" autocomplete="tel" inputmode="tel" /></div>
+          <div class="field field--wide field--check">
+            <label>
+              <input type="checkbox" name="consent" value="1" required />
+              <span>{f.consent}</span>
+            </label>
+          </div>
+          <input class="lf__hp" type="text" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        </div>
+        <p class="lf__error small" role="alert" hidden data-error>{copy.error}</p>
+        <div class="lf__nav">
+          <button class="link" type="button" data-back>{copy.back}</button>
+          <button class="btn btn--solid lf__submit" type="submit" data-submit>
+            <span class="btn__ring" aria-hidden="true"></span>
+            <span data-submit-label>{copy.submit}</span>
+          </button>
+        </div>
+      </fieldset>
+
+      <div class="lf__success" hidden data-success tabindex="-1">
+        <p class="display-2">{copy.success.title}</p>
+        <p class="lede">{copy.success.body}</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style>
+  .tell__head {
+    display: grid;
+    gap: var(--space-5);
+    margin-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .tell__title span {
+    display: block;
+  }
+
+  .tell__title span:last-child {
+    --wght-display: 300;
+    font-variation-settings: 'wdth' var(--wdth-display), 'wght' 300;
+    font-weight: 300;
+  }
+
+  .tell__lede {
+    color: var(--stone);
+  }
+
+  .lf {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 62rem;
+  }
+
+  .lf__steps {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4) var(--space-6);
+    border-bottom: 1px solid var(--rule-deep);
+    padding-bottom: var(--space-4);
+  }
+
+  .lf__steps li {
+    color: var(--rule-deep);
+    transition: color var(--dur-2);
+  }
+
+  .lf__steps li[aria-current='step'] {
+    color: var(--brass);
+  }
+
+  .lf__steps li.is-done {
+    color: var(--stone);
+  }
+
+  .lf__step {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+    display: grid;
+    gap: var(--space-6);
+    animation: lf-in var(--dur-2) var(--ease-out);
+  }
+
+  @keyframes lf-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .lf__legend {
+    padding: 0;
+    margin-bottom: var(--space-2);
+  }
+
+  .lf__choices--grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--rule-deep);
+    border-left: 1px solid var(--rule-deep);
+  }
+
+  .choice input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .choice__box {
+    display: grid;
+    gap: var(--space-3);
+    align-content: start;
+    min-height: 7rem;
+    padding: 1.1rem;
+    border-right: 1px solid var(--rule-deep);
+    border-bottom: 1px solid var(--rule-deep);
+    cursor: pointer;
+    transition: background var(--dur-2), color var(--dur-2);
+  }
+
+  .choice__label {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 108, 'wght' 620;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    line-height: 1.15;
+  }
+
+  .choice:hover .choice__box {
+    background: var(--surface);
+  }
+
+  .choice input:checked + .choice__box {
+    background: var(--paper);
+    color: var(--onyx);
+  }
+
+  .choice input:checked + .choice__box .num {
+    color: var(--brass);
+  }
+
+  .choice input:focus-visible + .choice__box {
+    outline: 2px solid var(--brass);
+    outline-offset: -2px;
+  }
+
+  .lf__choices--row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .chip input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+
+  .chip span {
+    display: inline-block;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    padding: 0.55em 1em;
+    border: 1px solid var(--rule-deep);
+    border-radius: 999px;
+    color: var(--stone);
+    cursor: pointer;
+    transition: color var(--dur-1), border-color var(--dur-1), background var(--dur-1);
+  }
+
+  .chip:hover span {
+    color: var(--paper);
+    border-color: var(--stone);
+  }
+
+  .chip input:checked + span {
+    background: var(--paper);
+    color: var(--onyx);
+    border-color: var(--paper);
+  }
+
+  .chip input:focus-visible + span {
+    outline: 2px solid var(--brass);
+    outline-offset: 2px;
+  }
+
+  .lf__fields {
+    display: grid;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  .field {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .field label {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid var(--rule-deep);
+    padding: 0.7rem 0;
+    color: var(--paper);
+    border-radius: 0;
+    transition: border-color var(--dur-1);
+  }
+
+  .field select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--stone) 50%), linear-gradient(135deg, var(--stone) 50%, transparent 50%);
+    background-position: calc(100% - 12px) 55%, calc(100% - 7px) 55%;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    padding-right: 1.5rem;
+  }
+
+  .field select option {
+    color: var(--onyx);
+  }
+
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--brass);
+  }
+
+  .field input:user-invalid,
+  .field.is-invalid input {
+    border-bottom-color: #c0553c;
+  }
+
+  .field--check label {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    text-transform: none;
+    letter-spacing: 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--stone);
+  }
+
+  .field--check input {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-top: 0.15rem;
+    accent-color: var(--brass);
+  }
+
+  .field[hidden] {
+    display: none;
+  }
+
+  .lf__hp {
+    position: absolute;
+    left: -9999px;
+  }
+
+  .lf__nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-5);
+    padding-top: var(--space-4);
+  }
+
+  .lf__nav .link {
+    color: var(--stone);
+  }
+
+  .lf__error {
+    color: #e08a72;
+  }
+
+  .lf__success {
+    display: grid;
+    gap: var(--space-5);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--rule-deep);
+  }
+
+  .lf.is-sending .lf__submit {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  @media (min-width: 720px) {
+    .lf__choices--grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .lf__fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .field--wide {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* no-JS: show every step */
+  .lf:not(.is-js) .lf__step[hidden] {
+    display: grid;
+  }
+  .lf:not(.is-js) [data-next],
+  .lf:not(.is-js) [data-back] {
+    display: none;
+  }
+</style>
+
+<script>
+  import { track, getAttribution } from '@lib/track';
+
+  const FIELDS_FOR: Record<string, string[]> = {
+    'international-company': ['country', 'currentMarkets', 'targetMarket', 'usPresence', 'size'],
+    'us-company': ['country', 'targetMarket', 'size'],
+    founder: ['country', 'targetMarket', 'budget'],
+    'consumer-brand': ['category', 'channels', 'targetMarket', 'usPresence'],
+    'luxury-company': ['category', 'country', 'targetMarket'],
+    developer: ['country', 'budget'],
+    investor: ['country', 'budget'],
+    partner: ['country', 'website'],
+  };
+
+  document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
+    form.classList.add('is-js');
+    const steps = Array.from(form.querySelectorAll<HTMLFieldSetElement>('[data-step]'));
+    const labels = Array.from(form.querySelectorAll<HTMLElement>('[data-step-label]'));
+    const fields = Array.from(form.querySelectorAll<HTMLElement>('[data-field]'));
+    const success = form.querySelector<HTMLElement>('[data-success]')!;
+    const errorEl = form.querySelector<HTMLElement>('[data-error]')!;
+    const formId = form.dataset.formId ?? 'tell-us';
+    let current = 0;
+    let started = false;
+
+    const show = (i: number) => {
+      current = i;
+      steps.forEach((s, k) => (s.hidden = k !== i));
+      labels.forEach((l, k) => {
+        if (k === i) l.setAttribute('aria-current', 'step');
+        else l.removeAttribute('aria-current');
+        l.classList.toggle('is-done', k < i);
+      });
+      steps[i]?.querySelector<HTMLElement>('input, select, textarea, button')?.focus({ preventScroll: true });
+      if (i > 0) track('form_step', { cta_name: formId, cta_location: String(i + 1) });
+    };
+
+    const applyPersona = () => {
+      const persona = (form.querySelector<HTMLInputElement>('input[name="persona"]:checked')?.value ?? '') as string;
+      const visible = FIELDS_FOR[persona] ?? ['country'];
+      fields.forEach((f) => {
+        const key = f.dataset.field!;
+        const on = key === 'message' || visible.includes(key);
+        f.hidden = !on;
+        f.querySelectorAll<HTMLInputElement>('input, select, textarea').forEach((el) => (el.disabled = !on));
+      });
+    };
+
+    // prefill from URL
+    const params = new URLSearchParams(window.location.search);
+    const pre = (name: string) => {
+      const v = params.get(name);
+      if (!v) return;
+      const input = form.querySelector<HTMLInputElement>(`input[name="${name}"][value="${v}"]`);
+      if (input) input.checked = true;
+    };
+    pre('persona');
+    pre('intent');
+    applyPersona();
+
+    form.addEventListener('change', (e) => {
+      if ((e.target as HTMLInputElement).name === 'persona') applyPersona();
+      if (!started) {
+        started = true;
+        track('form_start', { cta_name: formId });
+      }
+    });
+    form.addEventListener('focusin', () => {
+      if (!started) {
+        started = true;
+        track('form_start', { cta_name: formId });
+      }
+    });
+
+    form.querySelectorAll<HTMLButtonElement>('[data-next]').forEach((b) =>
+      b.addEventListener('click', () => {
+        if (current === 0 && !form.querySelector('input[name="persona"]:checked')) {
+          form.querySelector<HTMLInputElement>('input[name="persona"]')?.focus();
+          return;
+        }
+        show(Math.min(current + 1, steps.length - 1));
+      }),
+    );
+    form.querySelectorAll<HTMLButtonElement>('[data-back]').forEach((b) => b.addEventListener('click', () => show(Math.max(0, current - 1))));
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errorEl.hidden = true;
+      const contact = steps[2];
+      const invalid = Array.from(contact.querySelectorAll<HTMLInputElement>('input[required]')).find((i) => !i.checkValidity());
+      if (invalid) {
+        invalid.reportValidity();
+        return;
+      }
+      const fd = new FormData(form);
+      const persona = String(fd.get('persona') ?? '');
+      const intent = String(fd.get('intent') ?? '');
+      const payload: Record<string, unknown> = {};
+      fd.forEach((v, k) => {
+        if (['persona', 'intent', 'consent', 'hp'].includes(k)) return;
+        payload[k] = typeof v === 'string' ? v.trim() : v;
+      });
+      const envelope = {
+        formId,
+        persona,
+        intent,
+        language: document.documentElement.lang,
+        geography: payload.country,
+        fields: payload,
+        consent: { privacy: fd.get('consent') === '1', marketing: false, ts: new Date().toISOString() },
+        attribution: getAttribution() ?? {},
+        hp: fd.get('hp') ?? '',
+      };
+      form.classList.add('is-sending');
+      track('form_submit', { cta_name: formId, persona, lead_type: persona === 'partner' ? 'partner' : 'client' });
+      try {
+        const res = await fetch(form.action, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(envelope) });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error ?? 'failed');
+        if (data.tier === 'A' || data.tier === 'B') track('qualified_lead', { cta_name: formId, persona, lead_type: data.tier });
+        steps.forEach((s) => (s.hidden = true));
+        form.querySelector<HTMLElement>('[data-steps]')!.hidden = true;
+        success.hidden = false;
+        success.focus();
+      } catch {
+        errorEl.hidden = false;
+      } finally {
+        form.classList.remove('is-sending');
+      }
+    });
+
+    show(params.get('persona') && params.get('intent') ? 2 : params.get('persona') ? 1 : 0);
+  });
+</script>

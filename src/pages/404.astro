@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found — BIZ & STYLE" description="The page you were looking for does not exist." path="/404" pageType="404" noindex headerOverlay={false}>
+  <section class="section ground-onyx nf">
+    <div class="container">
+      <p class="eyebrow eyebrow--marker">404</p>
+      <h1 class="display">Not every door<br /><span class="thin">is on the map.</span></h1>
+      <p class="lede muted">The page you were looking for does not exist or has moved.</p>
+      <div class="cta-row">
+        <a class="btn btn--solid" href="/">Back to the platform</a>
+        <a class="btn" href="/tell-us">Tell us what you're building</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .nf {
+    min-height: 100svh;
+    display: grid;
+    align-items: center;
+    padding-top: 8rem;
+  }
+  .nf .container {
+    display: grid;
+    gap: var(--space-6);
+  }
+</style>

@@ -1,0 +1,181 @@
+---
+import CinematicMedia from './CinematicMedia.astro';
+import type { Copy } from '@i18n/en';
+
+interface Props {
+  copy: Copy['home']['hero'];
+}
+const { copy } = Astro.props;
+---
+
+<section class="hero ground-onyx" id="top" aria-labelledby="hero-title">
+  <div class="hero__media" aria-hidden="true">
+    <CinematicMedia manifestId={copy.mediaId} alt="Miami skyline at dawn moving toward the port and airport" priority class="hero__cm" />
+    <div class="hero__scrim"></div>
+  </div>
+
+  <div class="container hero__content">
+    <p class="eyebrow hero__eyebrow" data-hero-beat style="--beat: 0">{copy.eyebrow}</p>
+    <h1 id="hero-title" class="display hero__title">
+      {copy.title.map((w, i) => <span class="hero__word" data-hero-beat style={`--beat:${i + 1}`}>{w}</span>)}
+    </h1>
+    <div class="hero__below">
+      <p class="hero__sub display-3" data-hero-beat style="--beat: 4">{copy.sub}</p>
+      <p class="lede hero__lede" data-hero-beat style="--beat: 5">{copy.lede}</p>
+      <div class="cta-row" data-hero-beat style="--beat: 6">
+        <a class="btn btn--solid" href={copy.primary.href} data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="hero">
+          <span class="btn__ring" aria-hidden="true"></span>{copy.primary.label}
+        </a>
+        <a class="btn" href={copy.secondary.href} data-track="cta_click" data-track-cta-name="explore_platform" data-track-cta-location="hero">
+          {copy.secondary.label}
+          <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v11M3 9l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <a class="hero__scroll" href="#platform" aria-label={copy.scroll}>
+    <span class="hero__scroll-line" aria-hidden="true"></span>
+    <span class="num">{copy.scroll}</span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: grid;
+    align-items: end;
+    padding-block: clamp(7rem, 16vh, 11rem) clamp(5rem, 10vh, 8rem);
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  .hero__media :global(.hero__cm) {
+    position: absolute;
+    inset: 0;
+    aspect-ratio: auto;
+    height: 100%;
+    border-radius: 0;
+    transform: scale(1);
+    animation: hero-zoom 28s linear both;
+  }
+
+  @keyframes hero-zoom {
+    from { transform: scale(1); }
+    to { transform: scale(1.06); }
+  }
+
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(14, 13, 11, 0.55) 0%, rgba(14, 13, 11, 0.1) 35%, rgba(14, 13, 11, 0.55) 75%, rgba(14, 13, 11, 0.92) 100%),
+      linear-gradient(90deg, rgba(14, 13, 11, 0.55) 0%, rgba(14, 13, 11, 0) 60%);
+  }
+
+  .hero__content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .hero__eyebrow {
+    color: var(--stone);
+  }
+
+  .hero__title {
+    display: grid;
+    line-height: 0.9;
+  }
+
+  .hero__word {
+    display: block;
+  }
+
+  .hero__word:nth-child(2) {
+    --wght-display: 300;
+    font-variation-settings: 'wdth' var(--wdth-display), 'wght' 300;
+    font-weight: 300;
+  }
+
+  .hero__below {
+    display: grid;
+    gap: var(--space-5);
+    max-width: 62ch;
+    margin-top: var(--space-4);
+  }
+
+  .hero__sub {
+    --wght-display: 500;
+    font-variation-settings: 'wdth' 100, 'wght' 500;
+    font-weight: 500;
+    font-stretch: 100%;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  }
+
+  .hero__lede {
+    color: var(--stone);
+  }
+
+  .hero__scroll {
+    position: absolute;
+    right: var(--gutter);
+    bottom: clamp(2rem, 6vh, 4rem);
+    z-index: 1;
+    display: none;
+    align-items: center;
+    gap: 0.9rem;
+    writing-mode: vertical-rl;
+    color: var(--stone);
+  }
+
+  .hero__scroll-line {
+    width: 1px;
+    height: 4rem;
+    background: currentColor;
+    opacity: 0.5;
+    transform-origin: top;
+    animation: scroll-line 2.4s var(--ease-in-out) infinite;
+  }
+
+  @keyframes scroll-line {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    55% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  [data-hero-beat] {
+    opacity: 0;
+    transform: translateY(18px);
+    animation: hero-beat var(--dur-3) var(--ease-out) forwards;
+    animation-delay: calc(var(--beat) * 140ms + 200ms);
+  }
+
+  @keyframes hero-beat {
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (min-width: 1024px) {
+    .hero__scroll { display: flex; }
+    .hero__content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-hero-beat] { opacity: 1; transform: none; animation: none; }
+    .hero__media :global(.hero__cm) { animation: none; }
+    .hero__scroll-line { animation: none; transform: none; }
+  }
+</style>

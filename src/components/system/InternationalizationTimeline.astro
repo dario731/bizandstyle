@@ -1,0 +1,201 @@
+---
+import type { Copy } from '@i18n/en';
+interface Props {
+  copy: Copy['home']['internationalization'];
+}
+const { copy } = Astro.props;
+---
+
+<section class="section ground-paper intl" id="internationalization" aria-labelledby="intl-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
+      <h2 id="intl-title" class="display-2" data-reveal>{copy.title}</h2>
+      <p class="lede" data-reveal>{copy.lede}</p>
+    </div>
+
+    <div class="intl__compare" data-reveal>
+      {
+        [copy.compare.export, copy.compare.intl].map((col, i) => (
+          <div class:list={['intl__col', { 'intl__col--strong': i === 1 }]}>
+            <h3 class="display-3">{col.title}</h3>
+            <ul role="list">
+              {col.rows.map((r) => <li>{r}</li>)}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="intl__phases-head">
+      <p class="eyebrow eyebrow--marker" data-reveal>{copy.phasesEyebrow}</p>
+    </div>
+    <ol class="intl__phases" role="list" data-reveal-group data-phases>
+      {
+        copy.phases.map((p, i) => (
+          <li class="phase">
+            <span class="phase__dot" aria-hidden="true"></span>
+            <span class="num">Phase 0{i + 1}</span>
+            <span class="phase__name display-3">{p.name}</span>
+            <span class="phase__line small muted">{p.line}</span>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="intl__foot">
+      <blockquote class="editorial intl__quote" data-reveal>{copy.quote}</blockquote>
+      <div class="intl__cta" data-reveal>
+        <p class="eyebrow">{copy.ctaEyebrow}</p>
+        <div class="cta-row">
+          <a class="btn btn--solid" href={copy.cta.href} data-track="cta_click" data-track-cta-name="assess_market_entry" data-track-cta-location="home_internationalization">{copy.cta.label}</a>
+          <a class="link" href={copy.link.href} data-track="service_view" data-track-service="internationalization">
+            {copy.link.label}
+            <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .intl__compare {
+    display: grid;
+    gap: var(--space-6);
+    border-top: 1px solid var(--line);
+    padding-top: var(--space-6);
+    margin-bottom: var(--space-9);
+  }
+
+  .intl__col h3 {
+    margin-bottom: var(--space-4);
+    color: var(--smoke);
+  }
+
+  .intl__col--strong h3 {
+    color: var(--ink);
+  }
+
+  .intl__col ul {
+    display: grid;
+  }
+
+  .intl__col li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+    color: var(--smoke);
+  }
+
+  .intl__col--strong li {
+    color: var(--ink);
+  }
+
+  .intl__phases-head {
+    margin-bottom: var(--space-6);
+  }
+
+  .intl__phases {
+    position: relative;
+    display: grid;
+    gap: var(--space-6);
+    padding-left: 1.5rem;
+  }
+
+  .intl__phases::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 0.6rem;
+    bottom: 0.6rem;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .phase {
+    position: relative;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .phase__dot {
+    position: absolute;
+    left: -1.5rem;
+    top: 0.5rem;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 1.5px solid var(--ink);
+  }
+
+  .phase:last-child .phase__dot {
+    background: var(--brass);
+    border-color: var(--brass);
+  }
+
+  .phase__line {
+    max-width: 30ch;
+  }
+
+  .intl__foot {
+    display: grid;
+    gap: var(--space-7);
+    margin-top: var(--space-9);
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--line);
+  }
+
+  .intl__quote {
+    max-width: 30ch;
+  }
+
+  .intl__cta {
+    display: grid;
+    gap: var(--space-4);
+    align-content: end;
+  }
+
+  @media (min-width: 720px) {
+    .intl__compare {
+      grid-template-columns: 1fr 1fr;
+      column-gap: var(--space-8);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .intl__phases {
+      grid-template-columns: repeat(5, 1fr);
+      gap: var(--space-5);
+      padding-left: 0;
+      padding-top: 1.6rem;
+    }
+    .intl__phases::before {
+      left: 5px;
+      right: 0;
+      top: 5px;
+      bottom: auto;
+      width: auto;
+      height: 1px;
+      transform-origin: left;
+      transform: scaleX(0);
+      transition: transform 1.6s var(--ease-out);
+    }
+    .intl__phases.is-in::before {
+      transform: scaleX(1);
+    }
+    .phase__dot {
+      left: 0;
+      top: -1.6rem;
+    }
+    .intl__foot {
+      grid-template-columns: 7fr 5fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .intl__phases::before { transform: none; }
+  }
+</style>

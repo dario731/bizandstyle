@@ -1,0 +1,76 @@
+---
+import type { Copy } from '@i18n/en';
+interface Props {
+  copy: Copy['home']['programs'];
+}
+const { copy } = Astro.props;
+---
+
+<section class="section ground-paper prg" id="programs" aria-labelledby="prg-title">
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
+      <h2 id="prg-title" class="display-2" data-reveal>{copy.title}</h2>
+    </div>
+    <ol class="prg__list" role="list" data-reveal-group>
+      {
+        copy.items.map((p) => (
+          <li class="program">
+            <a href={p.href} class="program__link" data-track="program_view" data-track-program={p.href.split('/').pop()} data-track-cta-location="home_programs">
+              <span class="num">{p.num}</span>
+              <span class="program__name display-3">{p.name}</span>
+              <span class="program__line editorial">{p.line}</span>
+              <span class="program__body small muted">{p.body}</span>
+              <span class="link program__more">
+                Explore the program
+                <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .prg__list {
+    display: grid;
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .program__link {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+    height: 100%;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    transition: background var(--dur-2);
+  }
+
+  .program__link:hover {
+    background: var(--ivory);
+  }
+
+  .program__line {
+    font-size: clamp(1.3rem, 2vw, 1.7rem);
+  }
+
+  .program__body {
+    max-width: 38ch;
+  }
+
+  .program__more {
+    margin-top: auto;
+    padding-top: var(--space-4);
+  }
+
+  @media (min-width: 900px) {
+    .prg__list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

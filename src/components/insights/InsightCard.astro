@@ -1,0 +1,78 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import MediaPlaceholder from '@components/cinematic/MediaPlaceholder.astro';
+
+interface Props {
+  entry: CollectionEntry<'insights'>;
+  categoryName: string;
+  readingTime: number;
+  readingLabel?: string;
+  tone?: 'paper' | 'onyx';
+}
+const { entry, categoryName, readingTime, readingLabel = 'min read', tone = 'paper' } = Astro.props;
+const { title, excerpt, publishDate, hero } = entry.data;
+const href = `/insights/${entry.id.split('/').pop()}`;
+const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+<article class="card">
+  <a href={href} class="card__link" data-track="article_view" data-track-article-category={entry.data.category.id}>
+    <div class="card__media">
+      {hero?.image ? <img src={hero.image.src} width={hero.image.width} height={hero.image.height} alt={hero.alt} loading="lazy" decoding="async" /> : <MediaPlaceholder id={hero?.manifestId ?? 'INSIGHT-COVER'} alt={hero?.alt ?? title} {tone} />}
+    </div>
+    <div class="card__body">
+      <p class="eyebrow">{categoryName}</p>
+      <h3 class="card__title">{title}</h3>
+      <p class="card__excerpt small muted">{excerpt}</p>
+      <p class="num card__meta">
+        <time datetime={publishDate.toISOString()}>{date}</time> · {readingTime} {readingLabel}
+      </p>
+    </div>
+  </a>
+</article>
+
+<style>
+  .card__link {
+    display: grid;
+    gap: var(--space-4);
+    height: 100%;
+  }
+
+  .card__media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--radius-media);
+    background: var(--surface);
+  }
+
+  .card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--ease-out);
+  }
+
+  .card__link:hover .card__media img {
+    transform: scale(1.04);
+  }
+
+  .card__body {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .card__title {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 100, 'wght' 600;
+    font-stretch: 100%;
+    font-size: 1.3rem;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+
+  .card__meta {
+    margin-top: var(--space-2);
+  }
+</style>

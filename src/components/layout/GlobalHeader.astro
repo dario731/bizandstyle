@@ -1,0 +1,552 @@
+---
+/**
+ * GlobalHeader — bar (mix-blend difference so it reads on Paper and Onyx),
+ * MegaMenu panels for items with columns, and a full-screen MobileMenu.
+ */
+import { getCopy, localePath, published } from '@i18n/index';
+import { site, type Locale } from '@data/site';
+
+interface Props {
+  locale?: Locale;
+  overlay?: boolean;
+}
+const { locale = 'en', overlay = true } = Astro.props;
+const { nav } = getCopy(locale);
+const current = Astro.url.pathname;
+const isActive = (href: string) => href !== '/' && current.startsWith(href);
+---
+
+<header class:list={['hdr', { 'hdr--overlay': overlay }]} data-header>
+  <div class="hdr__bar">
+    <div class="container hdr__inner">
+      <a class="hdr__logo" href={localePath('/', locale)} aria-label={`${site.name} — home`} data-track="navigation_click" data-track-cta-name="logo">
+        <img src="/brand/wordmark-white.svg" alt="" width="128" height="28" decoding="async" fetchpriority="high" />
+      </a>
+
+      <nav class="hdr__nav" aria-label="Primary">
+        <ul role="list">
+          {
+            nav.items.map((item, i) => (
+              <li class="hdr__item" data-menu-item={i}>
+                {'columns' in item && item.columns ? (
+                  <button class:list={['hdr__link', { 'is-active': isActive(item.href) }]} type="button" aria-expanded="false" aria-controls={`mega-${i}`} data-menu-trigger={i}>
+                    {item.label}
+                  </button>
+                ) : (
+                  <a class:list={['hdr__link', { 'is-active': isActive(item.href) }]} href={localePath(item.href, locale)} data-track="navigation_click" data-track-cta-name={item.label}>
+                    {item.label}
+                  </a>
+                )}
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+
+      <div class="hdr__actions">
+        {
+          published.length > 1 && (
+            <div class="hdr__lang">
+              {published.map((l) => (
+                <a href={localePath(current.replace(/^\/(it|es|pt)(?=\/|$)/, '') || '/', l)} hreflang={l} lang={l} aria-current={l === locale ? 'true' : undefined} data-track="language_change" data-track-language={l}>
+                  {site.locales[l].short}
+                </a>
+              ))}
+            </div>
+          )
+        }
+        <a class="btn hdr__cta" href={localePath(nav.cta.href, locale)} data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="header">
+          <span class="btn__ring" aria-hidden="true"></span>
+          <span>{nav.cta.label}</span>
+        </a>
+        <button class="hdr__burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-mobile-trigger>
+          <span class="sr-only">{nav.menu}</span>
+          <span class="hdr__burger-line"></span>
+          <span class="hdr__burger-line"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mega panels -->
+  <div class="mega" data-mega hidden>
+    <div class="container">
+      {
+        nav.items.map((item, i) =>
+          'columns' in item && item.columns ? (
+            <div class="mega__panel" id={`mega-${i}`} data-mega-panel={i} hidden>
+              <div class="mega__lead">
+                <span class="eyebrow">{item.label}</span>
+                <a class="link" href={localePath(item.href, locale)} data-track="navigation_click" data-track-cta-name={`${item.label} overview`}>
+                  Overview
+                  <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+                </a>
+              </div>
+              {item.columns.map((col) => (
+                <div class="mega__col">
+                  <h3 class="eyebrow">{col.title}</h3>
+                  <ul role="list">
+                    {col.links.map((l) => (
+                      <li>
+                        <a href={'external' in l && l.external ? l.href : localePath(l.href, locale)} rel={'external' in l && l.external ? 'noopener' : undefined} data-track="navigation_click" data-track-cta-name={l.label}>
+                          {l.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : null,
+        )
+      }
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mob" id="mobile-menu" data-mobile hidden>
+    <div class="mob__inner">
+      <ul role="list" class="mob__list">
+        {
+          nav.items.map((item, i) => (
+            <li class="mob__item">
+              {'columns' in item && item.columns ? (
+                <>
+                  <button class="mob__link" type="button" aria-expanded="false" aria-controls={`mob-${i}`} data-mob-trigger={i}>
+                    <span>{item.label}</span>
+                    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+                  </button>
+                  <div class="mob__sub" id={`mob-${i}`} hidden>
+                    <a class="mob__sublink mob__sublink--lead" href={localePath(item.href, locale)}>Overview</a>
+                    {item.columns.flatMap((c) => c.links).map((l) => (
+                      <a class="mob__sublink" href={'external' in l && l.external ? l.href : localePath(l.href, locale)}>{l.label}</a>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <a class="mob__link" href={localePath(item.href, locale)}>{item.label}</a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mob__foot">
+        <a class="btn btn--solid" href={localePath(nav.cta.href, locale)} data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="mobile_menu">
+          <span class="btn__ring" aria-hidden="true"></span>
+          {nav.cta.label}
+        </a>
+        <div class="mob__contact small">
+          <a href={`mailto:${site.email}`} data-track="email_click">{site.email}</a>
+          <a href={site.phoneHref} data-track="phone_click">{site.phone}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: var(--z-header);
+    --hdr-h: 4.5rem;
+  }
+
+  .hdr__bar {
+    position: relative;
+    z-index: 2;
+    height: var(--hdr-h);
+    color: #fff;
+    mix-blend-mode: difference;
+    transition: background var(--dur-2) var(--ease-out);
+  }
+
+  .hdr__inner {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .hdr__logo {
+    flex: none;
+    display: block;
+  }
+
+  .hdr__logo img {
+    width: auto;
+    height: 26px;
+  }
+
+  .hdr__nav {
+    margin-inline: auto;
+    display: none;
+  }
+
+  .hdr__nav ul {
+    display: flex;
+    gap: clamp(1rem, 2vw, 2rem);
+  }
+
+  .hdr__link {
+    display: inline-block;
+    white-space: nowrap;
+    padding: 0.5rem 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    transition: background-size var(--dur-2) var(--ease-out);
+  }
+
+  .hdr__link:hover,
+  .hdr__link.is-active,
+  .hdr__link[aria-expanded='true'] {
+    background-size: 100% 1px;
+  }
+
+  .hdr__actions {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .hdr__lang {
+    display: none;
+    gap: 0.6rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+  }
+
+  .hdr__lang a[aria-current='true'] {
+    text-decoration: underline;
+    text-underline-offset: 0.35em;
+  }
+
+  .hdr__cta {
+    display: none;
+    --btn-fg: #fff;
+    color: #fff;
+    border-color: #fff;
+  }
+
+  .hdr__cta:hover {
+    background: #fff;
+    color: #000;
+  }
+
+  .hdr__burger {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: grid;
+    place-items: center;
+    gap: 5px;
+    grid-auto-rows: max-content;
+    align-content: center;
+  }
+
+  .hdr__burger-line {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform var(--dur-2) var(--ease-out), opacity var(--dur-1);
+  }
+
+  .hdr__burger[aria-expanded='true'] .hdr__burger-line:first-child {
+    transform: translateY(3.25px) rotate(45deg);
+  }
+
+  .hdr__burger[aria-expanded='true'] .hdr__burger-line:last-child {
+    transform: translateY(-3.25px) rotate(-45deg);
+  }
+
+  /* --- scrolled state: give the bar a ground so blend stays legible over media --- */
+  .hdr.is-scrolled .hdr__bar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+  }
+
+  /* --- mega --- */
+  .mega {
+    position: absolute;
+    inset: var(--hdr-h) 0 auto 0;
+    z-index: 1;
+    background: var(--onyx);
+    color: var(--paper);
+    border-top: 1px solid var(--rule-deep);
+    border-bottom: 1px solid var(--rule-deep);
+    transform-origin: top;
+    animation: mega-in var(--dur-2) var(--ease-out);
+  }
+
+  @keyframes mega-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .mega__panel {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: var(--space-8);
+    padding-block: var(--space-7);
+  }
+
+  .mega__lead {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: flex-start;
+    padding-right: var(--space-6);
+    border-right: 1px solid var(--rule-deep);
+  }
+
+  .mega__col .eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--stone);
+  }
+
+  .mega__col ul {
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .mega__col a {
+    font-size: 0.95rem;
+    color: var(--paper);
+    opacity: 0.86;
+    transition: opacity var(--dur-1), transform var(--dur-1) var(--ease-out);
+    display: inline-block;
+  }
+
+  .mega__col a:hover {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+
+  .mega .link {
+    color: var(--paper);
+  }
+
+  /* --- mobile --- */
+  .mob {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: var(--onyx);
+    color: var(--paper);
+    overflow-y: auto;
+    padding-top: var(--hdr-h);
+    animation: mega-in var(--dur-2) var(--ease-out);
+  }
+
+  .mob__inner {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6) var(--gutter) var(--space-8);
+  }
+
+  .mob__list {
+    border-top: 1px solid var(--rule-deep);
+  }
+
+  .mob__item {
+    border-bottom: 1px solid var(--rule-deep);
+  }
+
+  .mob__link {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 0;
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 110, 'wght' 600;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    text-align: left;
+  }
+
+  .mob__link svg {
+    width: 1rem;
+    height: 1rem;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .mob__link[aria-expanded='true'] svg {
+    transform: rotate(180deg);
+  }
+
+  .mob__sub {
+    display: grid;
+    gap: 0.35rem;
+    padding: 0 0 1.2rem 0;
+  }
+
+  .mob__sublink {
+    font-size: 1rem;
+    color: var(--stone);
+    padding: 0.3rem 0;
+  }
+
+  .mob__sublink--lead {
+    color: var(--paper);
+  }
+
+  .mob__foot {
+    margin-top: auto;
+    padding-top: var(--space-7);
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .mob__foot .btn {
+    justify-content: center;
+    --fg: var(--paper);
+    --bg: var(--onyx);
+  }
+
+  .mob__contact {
+    display: grid;
+    gap: 0.4rem;
+    color: var(--stone);
+  }
+
+  @media (min-width: 1100px) {
+    .hdr__nav,
+    .hdr__cta,
+    .hdr__lang {
+      display: flex;
+    }
+    .hdr__burger {
+      display: none;
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .mega {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  if (header) {
+    const mega = header.querySelector<HTMLElement>('[data-mega]');
+    const panels = Array.from(header.querySelectorAll<HTMLElement>('[data-mega-panel]'));
+    const triggers = Array.from(header.querySelectorAll<HTMLButtonElement>('[data-menu-trigger]'));
+    const items = Array.from(header.querySelectorAll<HTMLElement>('[data-menu-item]'));
+    let open: string | null = null;
+    let closeTimer = 0;
+    const mq = window.matchMedia('(min-width: 1100px)');
+
+    const setOpen = (id: string | null) => {
+      open = id;
+      panels.forEach((p) => (p.hidden = p.dataset.megaPanel !== id));
+      triggers.forEach((t) => t.setAttribute('aria-expanded', String(t.dataset.menuTrigger === id)));
+      if (mega) mega.hidden = id === null;
+      header.classList.toggle('is-menu-open', id !== null);
+    };
+
+    triggers.forEach((t) => {
+      t.addEventListener('click', () => setOpen(open === t.dataset.menuTrigger ? null : t.dataset.menuTrigger!));
+    });
+
+    items.forEach((item) => {
+      item.addEventListener('mouseenter', () => {
+        if (!mq.matches) return;
+        window.clearTimeout(closeTimer);
+        const id = item.dataset.menuItem!;
+        const hasPanel = panels.some((p) => p.dataset.megaPanel === id);
+        closeTimer = window.setTimeout(() => setOpen(hasPanel ? id : null), 90);
+      });
+    });
+
+    const scheduleClose = () => {
+      window.clearTimeout(closeTimer);
+      closeTimer = window.setTimeout(() => setOpen(null), 180);
+    };
+    header.addEventListener('mouseleave', scheduleClose);
+    mega?.addEventListener('mouseenter', () => window.clearTimeout(closeTimer));
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        setOpen(null);
+        closeMobile();
+      }
+    });
+    document.addEventListener('click', (e) => {
+      if (open !== null && !header.contains(e.target as Node)) setOpen(null);
+    });
+    header.addEventListener('focusout', (e) => {
+      if (open !== null && !header.contains(e.relatedTarget as Node)) setOpen(null);
+    });
+
+    // Mobile
+    const burger = header.querySelector<HTMLButtonElement>('[data-mobile-trigger]');
+    const mobile = header.querySelector<HTMLElement>('[data-mobile]');
+    const closeMobile = () => {
+      if (!mobile || mobile.hidden) return;
+      mobile.hidden = true;
+      burger?.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+    };
+    burger?.addEventListener('click', () => {
+      if (!mobile) return;
+      const willOpen = mobile.hidden;
+      mobile.hidden = !willOpen;
+      burger.setAttribute('aria-expanded', String(willOpen));
+      document.documentElement.style.overflow = willOpen ? 'hidden' : '';
+    });
+    header.querySelectorAll<HTMLButtonElement>('[data-mob-trigger]').forEach((t) => {
+      t.addEventListener('click', () => {
+        const sub = document.getElementById(t.getAttribute('aria-controls')!);
+        if (!sub) return;
+        const willOpen = sub.hidden;
+        sub.hidden = !willOpen;
+        t.setAttribute('aria-expanded', String(willOpen));
+      });
+    });
+    mq.addEventListener('change', () => {
+      setOpen(null);
+      closeMobile();
+    });
+
+    // Scrolled state
+    let last = 0;
+    const onScroll = () => {
+      const y = window.scrollY;
+      header.classList.toggle('is-scrolled', y > 24);
+      header.classList.toggle('is-hidden', y > last && y > 240 && open === null);
+      last = y;
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+  }
+</script>
+
+<style is:global>
+  [data-header] {
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  [data-header].is-hidden:not(.is-menu-open) {
+    transform: translateY(-100%);
+  }
+</style>

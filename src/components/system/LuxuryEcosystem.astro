@@ -1,0 +1,401 @@
+---
+/**
+ * LuxuryEcosystem — HNWI/UHNWI at the centre, seven verticals around it.
+ * Hover / focus / tap on a vertical highlights its spoke and its chords to the
+ * other verticals; a "next" control cycles for touch. Narrow screens get a list.
+ */
+import type { Copy } from '@i18n/en';
+interface Props {
+  copy: Copy['home']['luxury'];
+}
+const { copy } = Astro.props;
+
+const S = 1000;
+const C = 500;
+const R = 380;
+const verts = copy.verticals.map((v, i) => {
+  const a = ((-90 + (360 / copy.verticals.length) * i) * Math.PI) / 180;
+  return { ...v, x: C + R * Math.cos(a), y: C + R * Math.sin(a), i };
+});
+const chords: { a: number; b: number }[] = [];
+for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++) chords.push({ a, b });
+---
+
+<section class="section ground-onyx lux" id="luxury" aria-labelledby="lux-title" data-ecosystem>
+  <div class="container">
+    <div class="section-head">
+      <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
+      <h2 id="lux-title" class="display-2" data-reveal>{copy.title}</h2>
+      <div class="lux__intro" data-reveal>
+        <p class="editorial lux__not">{copy.not}</p>
+        <p class="prose small muted">{copy.body}</p>
+      </div>
+    </div>
+
+    <div class="lux__stage">
+      <div class="lux__net" data-reveal>
+        <svg class="lux__svg" viewBox={`0 0 ${S} ${S}`} aria-hidden="true">
+          <circle cx={C} cy={C} r={R} fill="none" stroke="currentColor" stroke-opacity="0.12" />
+          {verts.map((v) => <line class="lux__spoke" data-edge={`c-${v.i}`} x1={C} y1={C} x2={v.x} y2={v.y} stroke="currentColor" stroke-opacity="0.18" />)}
+          {chords.map((ch) => <line class="lux__chord" data-edge={`${ch.a}-${ch.b}`} x1={verts[ch.a].x} y1={verts[ch.a].y} x2={verts[ch.b].x} y2={verts[ch.b].y} stroke="var(--brass)" />)}
+          <circle cx={C} cy={C} r="96" fill="var(--onyx)" stroke="currentColor" stroke-width="1.5" />
+          <circle class="lux__pulse" cx={C} cy={C} r="96" fill="none" stroke="var(--brass)" />
+          {verts.map((v) => <circle cx={v.x} cy={v.y} r="9" fill="var(--onyx)" stroke="currentColor" stroke-width="1.5" data-dot={v.i} class="lux__dot" />)}
+        </svg>
+        <div class="lux__centre" aria-hidden="true">
+          <span class="lux__centre-label">{copy.centre}</span>
+        </div>
+        {
+          verts.map((v) => (
+            <button class="lux__v" type="button" style={`left:${(v.x / S) * 100}%; top:${(v.y / S) * 100}%`} data-vertical={v.i} aria-pressed="false" data-track="luxury_vertical_interaction" data-track-cta-name={v.id}>
+              <span class="lux__v-name">{v.name}</span>
+              <span class="lux__v-role">{v.role}</span>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="lux__side" data-reveal>
+        <p class="eyebrow lux__hint">{copy.hint}</p>
+        <p class="display-3 lux__same">{copy.sameClient.map((l) => <span>{l}</span>)}</p>
+        <div class="lux__active" aria-live="polite">
+          <p class="eyebrow" data-active-role>{copy.verticals[0].role}</p>
+          <p class="lux__active-name display-3" data-active-name>{copy.verticals[0].name}</p>
+          <ul class="lux__relations" role="list">
+            {copy.relations.map((r) => <li>{r}</li>)}
+          </ul>
+        </div>
+        <ol class="lux__list" role="list">
+          {verts.map((v) => <li><button type="button" data-vertical={v.i} aria-pressed="false">{v.name}</button></li>)}
+        </ol>
+        <button class="link lux__next" type="button" data-next>
+          Next vertical
+          <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="lux__foot">
+      <p class="lux__triplet editorial" data-reveal>{copy.triplet.map((l) => <span>{l}</span>)}</p>
+      <div class="lux__cta" data-reveal>
+        <p class="eyebrow">{copy.ctaEyebrow}</p>
+        <div class="cta-row">
+          <a class="btn btn--solid" href={copy.cta.href} data-track="cta_click" data-track-cta-name="start_investor_journey" data-track-cta-location="home_luxury">{copy.cta.label}</a>
+          <a class="link" href={copy.link.href} data-track="division_view" data-track-division="luxury">
+            {copy.link.label}
+            <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lux {
+    background: radial-gradient(60% 50% at 50% 40%, #171512 0%, var(--onyx) 70%);
+  }
+
+  .lux__intro {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .lux__not {
+    color: var(--paper);
+  }
+
+  .lux__stage {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .lux__net {
+    position: relative;
+    width: min(100%, 640px);
+    aspect-ratio: 1;
+    margin-inline: auto;
+    color: var(--paper);
+    display: none;
+  }
+
+  .lux__svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .lux__chord {
+    stroke-opacity: 0;
+    stroke-width: 1;
+    transition: stroke-opacity var(--dur-2);
+  }
+
+  .lux__chord.is-on {
+    stroke-opacity: 0.55;
+  }
+
+  .lux__spoke {
+    transition: stroke-opacity var(--dur-2), stroke var(--dur-2);
+  }
+
+  .lux__spoke.is-on {
+    stroke: var(--brass);
+    stroke-opacity: 1;
+  }
+
+  .lux__dot {
+    transition: fill var(--dur-2), stroke var(--dur-2);
+  }
+
+  .lux__dot.is-on {
+    fill: var(--brass);
+    stroke: var(--brass);
+  }
+
+  .lux__pulse {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: lux-pulse 4s var(--ease-in-out) infinite;
+    animation-play-state: paused;
+    opacity: 0.6;
+  }
+
+  .is-active .lux__pulse {
+    animation-play-state: running;
+  }
+
+  @keyframes lux-pulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.45); opacity: 0; }
+  }
+
+  .lux__centre {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: grid;
+    justify-items: center;
+    gap: 0.35rem;
+    pointer-events: none;
+  }
+
+  .lux__centre-label {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 112, 'wght' 700;
+    font-size: clamp(0.8rem, 1.2vw, 1rem);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .lux__v {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: grid;
+    justify-items: center;
+    gap: 0.2rem;
+    padding: 1.6rem 0.75rem;
+    color: var(--stone);
+    text-align: center;
+    transition: color var(--dur-1);
+  }
+
+  .lux__v:hover,
+  .lux__v[aria-pressed='true'] {
+    color: var(--paper);
+  }
+
+  .lux__v-name {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 110, 'wght' 650;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    background: var(--onyx);
+    padding: 0.2em 0.5em;
+    max-width: 11ch;
+    line-height: 1.15;
+  }
+
+  .lux__v-role {
+    font-size: 0.6rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+
+  .lux__v:nth-of-type(1) { transform: translate(-50%, -96%); }
+  .lux__v:nth-of-type(2) { transform: translate(-16%, -60%); }
+  .lux__v:nth-of-type(3) { transform: translate(-10%, -30%); }
+  .lux__v:nth-of-type(4) { transform: translate(-30%, -4%); }
+  .lux__v:nth-of-type(5) { transform: translate(-70%, -4%); }
+  .lux__v:nth-of-type(6) { transform: translate(-90%, -30%); }
+  .lux__v:nth-of-type(7) { transform: translate(-84%, -60%); }
+
+  .lux__side {
+    display: grid;
+    gap: var(--space-6);
+    align-content: start;
+  }
+
+  .lux__hint {
+    display: none;
+    color: var(--stone);
+  }
+
+  .lux__same span {
+    display: block;
+  }
+
+  .lux__same span:last-child {
+    color: var(--stone);
+  }
+
+  .lux__active {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-5) 0;
+    border-top: 1px solid var(--rule-deep);
+    border-bottom: 1px solid var(--rule-deep);
+  }
+
+  .lux__active .eyebrow {
+    color: var(--brass);
+  }
+
+  .lux__relations {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: var(--space-2);
+  }
+
+  .lux__relations li {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+
+  .lux__relations li + li::before {
+    content: '·';
+    margin-right: 0.4rem;
+  }
+
+  .lux__list {
+    display: grid;
+  }
+
+  .lux__list button {
+    width: 100%;
+    text-align: left;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--rule-deep);
+    color: var(--stone);
+    font-size: 0.95rem;
+    transition: color var(--dur-1), padding-left var(--dur-2) var(--ease-out);
+  }
+
+  .lux__list button[aria-pressed='true'] {
+    color: var(--brass);
+    padding-left: 0.5rem;
+  }
+
+  .lux__next {
+    justify-self: start;
+    color: var(--paper);
+  }
+
+  .lux__foot {
+    display: grid;
+    gap: var(--space-7);
+    margin-top: var(--space-9);
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--rule-deep);
+  }
+
+  .lux__triplet span {
+    display: block;
+  }
+
+  .lux__triplet span:last-child {
+    color: var(--brass);
+  }
+
+  .lux__cta {
+    display: grid;
+    gap: var(--space-4);
+    align-content: end;
+  }
+
+  @media (min-width: 900px) {
+    .lux__net { display: block; }
+    .lux__hint { display: inline-flex; }
+    .lux__list { display: none; }
+    .lux__stage {
+      grid-template-columns: 7fr 5fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+    .lux__foot {
+      grid-template-columns: 7fr 5fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .lux__intro {
+      grid-column: 9 / span 4;
+      grid-row: 2;
+      align-self: end;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lux__pulse { animation: none; opacity: 0; }
+  }
+</style>
+
+<script>
+  import { whileInView } from '@lib/reveal';
+  document.querySelectorAll<HTMLElement>('[data-ecosystem]').forEach((root) => {
+    const buttons = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-vertical]'));
+    const edges = Array.from(root.querySelectorAll<SVGLineElement>('[data-edge]'));
+    const dots = Array.from(root.querySelectorAll<SVGCircleElement>('[data-dot]'));
+    const nameEl = root.querySelector<HTMLElement>('[data-active-name]');
+    const roleEl = root.querySelector<HTMLElement>('[data-active-role]');
+    const names = Array.from(root.querySelectorAll<HTMLElement>('.lux__v')).map((b) => ({
+      name: b.querySelector('.lux__v-name')?.textContent ?? '',
+      role: b.querySelector('.lux__v-role')?.textContent ?? '',
+    }));
+    const count = names.length;
+    let active = 0;
+
+    const setActive = (i: number) => {
+      active = i;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.vertical) === i)));
+      edges.forEach((e) => {
+        const id = e.dataset.edge!;
+        const on = id === `c-${i}` || id.split('-').includes(String(i));
+        e.classList.toggle('is-on', on);
+      });
+      dots.forEach((d) => d.classList.toggle('is-on', true));
+      if (nameEl) nameEl.textContent = names[i]?.name ?? '';
+      if (roleEl) roleEl.textContent = names[i]?.role ?? '';
+    };
+
+    buttons.forEach((b) => {
+      const i = Number(b.dataset.vertical);
+      b.addEventListener('click', () => setActive(i));
+      b.addEventListener('mouseenter', () => setActive(i));
+      b.addEventListener('focus', () => setActive(i));
+    });
+    root.querySelector('[data-next]')?.addEventListener('click', () => setActive((active + 1) % count));
+
+    whileInView(root, 'is-active', 0.2);
+    setActive(0);
+  });
+</script>

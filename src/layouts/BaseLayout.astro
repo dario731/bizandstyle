@@ -1,0 +1,84 @@
+---
+import '@styles/tokens.css';
+import '@styles/base.css';
+import archivoUrl from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import Seo from '@components/layout/Seo.astro';
+import GlobalHeader from '@components/layout/GlobalHeader.astro';
+import GlobalFooter from '@components/layout/GlobalFooter.astro';
+import { site, type Locale } from '@data/site';
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  pageType: string;
+  locale?: Locale;
+  type?: 'website' | 'article';
+  image?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown>[];
+  publishedTime?: string;
+  modifiedTime?: string;
+  /** Header starts transparent over a dark hero */
+  headerOverlay?: boolean;
+  bodyClass?: string;
+}
+
+const { title, description, path, pageType, locale = 'en', type, image, noindex, jsonLd, publishedTime, modifiedTime, headerOverlay = true, bodyClass = '' } = Astro.props;
+const gtmId = import.meta.env.PUBLIC_GTM_ID as string | undefined;
+---
+
+<!doctype html>
+<html lang={locale} dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0e0d0b" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="preload" as="font" type="font/woff2" href={archivoUrl} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={interUrl} crossorigin />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <Seo {title} {description} {path} {type} {image} {noindex} {jsonLd} {publishedTime} {modifiedTime} {locale} />
+    {
+      gtmId && (
+        <script is:inline define:vars={{ gtmId }}>
+          window.dataLayer = window.dataLayer || [];
+          (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var f = d.getElementsByTagName(s)[0],
+              j = d.createElement(s);
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i;
+            f.parentNode.insertBefore(j, f);
+          })(window, document, 'script', 'dataLayer', gtmId);
+        </script>
+      )
+    }
+  </head>
+  <body data-page-type={pageType} class:list={[bodyClass]}>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <GlobalHeader {locale} overlay={headerOverlay} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <GlobalFooter {locale} />
+    <script>
+      import { initReveal } from '@lib/reveal';
+      import { captureAttribution, bindDeclarativeTracking } from '@lib/track';
+      captureAttribution();
+      initReveal();
+      bindDeclarativeTracking();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  main:focus {
+    outline: none;
+  }
+</style>

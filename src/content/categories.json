@@ -1,0 +1,15 @@
+[
+  { "id": "internationalization", "name": "Internationalization", "description": "Building a long-term commercial presence in a foreign market — why export is not enough, and what becoming part of the market actually requires.", "clusterOf": "/internationalization", "locale": "en" },
+  { "id": "us-market-entry", "name": "U.S. Market Entry", "description": "Entering the United States as an international company: entity, distribution, warehousing, team, credibility and the Miami advantage.", "clusterOf": "/internationalization", "locale": "en" },
+  { "id": "business-development", "name": "Business Development", "description": "Creating opportunities before they officially exist — partnerships, relationships, trade missions and commercial networks.", "clusterOf": "/advisory/business-development", "locale": "en" },
+  { "id": "fractional-executive", "name": "Fractional Executive", "description": "Senior leadership embedded when a company needs it, without building the full organization first.", "clusterOf": "/advisory/fractional-executive", "locale": "en" },
+  { "id": "digital-growth", "name": "Digital Growth", "description": "Owned acquisition systems: websites, landing pages, paid media, SEO and GEO, CRM, automation and attribution.", "clusterOf": "/digital-engine", "locale": "en" },
+  { "id": "ai-automation", "name": "AI & Automation", "description": "AI-enabled workflows inside sales, marketing and operations — what actually works for mid-sized international companies.", "clusterOf": "/advisory/ai-digital-transformation", "locale": "en" },
+  { "id": "seo-geo", "name": "SEO / GEO", "description": "Being found by search engines and by AI systems: entity clarity, structured content and authority.", "clusterOf": "/digital-engine", "locale": "en" },
+  { "id": "lead-generation", "name": "Lead Generation", "description": "From click to client: capture, qualification, routing, nurture and pipeline.", "clusterOf": "/advisory/lead-generation", "locale": "en" },
+  { "id": "commerce", "name": "Commerce & E-commerce", "description": "Distribution, marketplaces, fulfillment and bonded warehousing for consumer brands in the Americas.", "clusterOf": "/commerce", "locale": "en" },
+  { "id": "miami", "name": "Miami", "description": "Why Miami is the platform to the Americas: capital, trade, talent, lifestyle and connectivity.", "clusterOf": "/miami", "locale": "en" },
+  { "id": "luxury-economy", "name": "Luxury Economy", "description": "How the businesses serving high-net-worth clients connect — and how relationships compound into business.", "clusterOf": "/luxury", "locale": "en" },
+  { "id": "real-estate-investment", "name": "Real Estate & Investment", "description": "Miami luxury and pre-construction real estate as a stage of the Investor Journey.", "clusterOf": "/luxury", "locale": "en" },
+  { "id": "latam", "name": "LATAM", "description": "Expanding from Miami into Mexico, Brazil, the Caribbean and the wider region.", "clusterOf": "/internationalization", "locale": "en" }
+]

@@ -1,0 +1,90 @@
+---
+import type { Copy } from '@i18n/en';
+interface Props {
+  copy: Copy['home']['relationships'];
+}
+const { copy } = Astro.props;
+---
+
+<section class="section ground-onyx rel" id="relationships" aria-labelledby="rel-title">
+  <div class="container">
+    <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
+    <h2 id="rel-title" class="display rel__title" data-reveal>{copy.title}</h2>
+    <div class="rel__grid">
+      <p class="lede rel__body" data-reveal>{copy.body}</p>
+      <div class="rel__side">
+        <div class="rel__block" data-reveal>
+          <h3 class="display-3">{copy.discretion}</h3>
+          <p class="prose small muted">{copy.discretionBody}</p>
+        </div>
+        <div class="rel__block" data-reveal>
+          <h3 class="display-3">{copy.credentials.map((l) => <span>{l}</span>)}</h3>
+          <p class="prose small muted">{copy.credentialsBody}</p>
+          <a class="btn" href={copy.cta.href} data-track="credentials_request" data-track-cta-location="home_relationships">
+            {copy.cta.label}
+            <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rel__title {
+    margin-top: var(--space-5);
+    font-size: clamp(2.6rem, 7vw, 7.5rem);
+    max-width: 12ch;
+  }
+
+  .rel__grid {
+    display: grid;
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+    padding-top: var(--space-7);
+    border-top: 1px solid var(--rule-deep);
+  }
+
+  .rel__body {
+    color: var(--stone);
+    min-width: 0;
+  }
+
+  .rel__side {
+    display: grid;
+    gap: var(--space-7);
+    align-content: start;
+    min-width: 0;
+  }
+
+  .rel__block {
+    display: grid;
+    gap: var(--space-4);
+    justify-items: start;
+  }
+
+  .rel__block + .rel__block {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--rule-deep);
+  }
+
+  .rel__block h3 span {
+    display: block;
+  }
+
+  .rel__block h3 span:last-child {
+    color: var(--stone);
+  }
+
+  @media (min-width: 1024px) {
+    .rel__grid {
+      grid-template-columns: 6fr 6fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+    .rel__body {
+      position: sticky;
+      top: 7rem;
+      align-self: start;
+    }
+  }
+</style>

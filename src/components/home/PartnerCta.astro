@@ -1,0 +1,56 @@
+---
+import type { Copy } from '@i18n/en';
+interface Props {
+  copy: Copy['home']['partner'];
+}
+const { copy } = Astro.props;
+---
+
+<section class="section ground-paper partner" id="partner" aria-labelledby="partner-title">
+  <div class="container partner__grid">
+    <div>
+      <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
+      <h2 id="partner-title" class="display partner__title" data-reveal>
+        <span>{copy.title[0]}</span>
+        <span class="muted">{copy.title[1]}</span>
+      </h2>
+    </div>
+    <div class="partner__side" data-reveal>
+      <p class="prose muted">{copy.body}</p>
+      <a class="btn" href={copy.cta.href} data-track="partner_inquiry" data-track-cta-location="home_partner">
+        {copy.cta.label}
+        <svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .partner__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .partner__title {
+    margin-top: var(--space-5);
+  }
+
+  .partner__title span {
+    display: block;
+  }
+
+  .partner__side {
+    display: grid;
+    gap: var(--space-5);
+    justify-items: start;
+    align-content: end;
+  }
+
+  @media (min-width: 1024px) {
+    .partner__grid {
+      grid-template-columns: 7fr 5fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: end;
+    }
+  }
+</style>

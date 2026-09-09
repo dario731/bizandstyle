@@ -1,0 +1,117 @@
+/* ==========================================================================
+   BIZ & STYLE — design tokens
+   Two grounds (Paper / Onyx), one accent (Brass) used only for the ring,
+   focus and active states. Everything else is type, rules and spacing.
+   ========================================================================== */
+:root {
+  /* colour */
+  --onyx: #0e0d0b;
+  --ink: #121110;
+  --paper: #faf6ef;
+  --ivory: #f3ede2;
+  --sand: #e8dfce;
+  --stone: #a9a196;
+  --smoke: #6f6961;
+  --rule: #d9cfba;
+  --rule-deep: #2a2825;
+  --brass: #b8975a;
+  --brass-soft: rgba(184, 151, 90, 0.35);
+
+  /* ground-relative (set by .ground-paper / .ground-onyx) */
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --fg-muted: var(--smoke);
+  --line: var(--rule);
+  --surface: var(--ivory);
+
+  /* type */
+  --font-display: 'Archivo Variable', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Inter Variable', 'Inter', -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-editorial: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+
+  --fs-1: clamp(2.9rem, 7.6vw, 8.25rem);   /* hero / major statements */
+  --fs-2: clamp(2.1rem, 4.8vw, 4.75rem);   /* section titles */
+  --fs-3: clamp(1.55rem, 2.9vw, 2.5rem);   /* sub statements */
+  --fs-4: clamp(1.2rem, 1.6vw, 1.45rem);   /* ledes */
+  --fs-body: 1.0625rem;
+  --fs-small: 0.875rem;
+  --fs-eyebrow: 0.72rem;
+  --fs-editorial: clamp(1.6rem, 3.2vw, 2.75rem);
+
+  --lh-display: 0.94;
+  --lh-tight: 1.1;
+  --lh-body: 1.58;
+
+  --wdth-display: 118;
+  --wght-display: 760;
+
+  /* space */
+  --u: 4px;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-section: clamp(6rem, 12vw, 12rem);
+  --space-section-sm: clamp(4rem, 8vw, 7rem);
+
+  /* layout */
+  --container: 1440px;
+  --gutter: clamp(1.125rem, 3vw, 3rem);
+  --measure: 66ch;
+
+  /* shape */
+  --radius-pill: 999px;
+  --radius-media: 2px;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 240ms;
+  --dur-2: 480ms;
+  --dur-3: 900ms;
+
+  /* z */
+  --z-media: 0;
+  --z-content: 1;
+  --z-sticky: 20;
+  --z-header: 50;
+  --z-menu: 60;
+  --z-modal: 80;
+  --z-toast: 90;
+
+  color-scheme: light;
+}
+
+.ground-paper {
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --fg-muted: var(--smoke);
+  --line: var(--rule);
+  --surface: var(--ivory);
+  background: var(--bg);
+  color: var(--fg);
+  color-scheme: light;
+}
+
+.ground-onyx {
+  --bg: var(--onyx);
+  --fg: var(--paper);
+  --fg-muted: var(--stone);
+  --line: var(--rule-deep);
+  --surface: #171512;
+  background: var(--bg);
+  color: var(--fg);
+  color-scheme: dark;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --wdth-display: 104;
+    --lh-display: 0.98;
+  }
+}
