@@ -4,7 +4,7 @@
  * lede and an optional media slot (manifest-aware). Ground is configurable so
  * divisions and landing pages can open on Onyx while hub pages open on Paper.
  */
-import CinematicMedia from '@components/cinematic/CinematicMedia.astro';
+import FrameVisual from '@components/cinematic/FrameVisual.astro';
 import Breadcrumbs from './Breadcrumbs.astro';
 
 interface Props {
@@ -14,10 +14,11 @@ interface Props {
   ground?: 'onyx' | 'paper';
   mediaId?: string;
   mediaAlt?: string;
+  visual?: 'rings' | 'orbit' | 'flow' | 'grid';
   crumbs?: { name: string; path: string }[];
   size?: 'display' | 'display-2';
 }
-const { eyebrow, title, lede, ground = 'onyx', mediaId, mediaAlt = '', crumbs = [], size = 'display' } = Astro.props;
+const { eyebrow, title, lede, ground = 'onyx', mediaId, mediaAlt = '', crumbs = [], size = 'display', visual = 'rings' } = Astro.props;
 const lines = Array.isArray(title) ? title : [title];
 const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
 ---
@@ -36,7 +37,7 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
     {
       mediaId && (
         <div class="eh__media" data-reveal>
-          <CinematicMedia manifestId={mediaId} alt={mediaAlt} ratio="4 / 5" tone={ground} />
+          <FrameVisual variant={visual} seed={mediaId} ratio="4 / 5" label={mediaId} />
         </div>
       )
     }

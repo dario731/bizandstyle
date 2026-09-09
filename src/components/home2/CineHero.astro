@@ -26,12 +26,15 @@ const { video = '/media/test/miami-12028.mp4' } = Astro.props;
       <span class="ch__word">Wealth.</span>
       <span class="ch__word">Lifestyle.</span>
     </h1>
-    <p class="ch__lede" data-hero-lede>Business development without borders. One platform connecting strategy, execution, commerce, technology and relationships across the Americas.</p>
+    <p class="ch__statement" data-hero-lede>
+      <span class="ch__statement-k">A business development platform</span>
+      <span>built around the Investor Journey™ — strategy, commerce, digital and luxury, executed from Miami across the Americas.</span>
+    </p>
     <div class="cta-row ch__cta" data-hero-cta>
       <a class="btn btn--solid" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="hero">
         <span class="btn__ring" aria-hidden="true"></span>Tell us what you're building
       </a>
-      <a class="btn" href="#platform" data-track="cta_click" data-track-cta-name="explore" data-track-cta-location="hero">Explore the platform ↓</a>
+      <a class="btn" href="/tell-us?intent=investor&persona=investor" data-track="cta_click" data-track-cta-name="start_investor_journey" data-track-cta-location="hero">Start your Investor Journey</a>
     </div>
   </div>
 
@@ -134,11 +137,24 @@ const { video = '/media/test/miami-12028.mp4' } = Astro.props;
     color: var(--brass);
   }
 
-  .ch__lede {
-    max-width: 30rem;
+  .ch__statement {
+    display: grid;
+    gap: 0.35rem;
+    max-width: 34rem;
     font-size: clamp(1rem, 1.3vw, 1.2rem);
     line-height: 1.45;
     color: rgba(250, 246, 239, 0.78);
+    padding-left: 1.1rem;
+    border-left: 1px solid var(--brass);
+  }
+
+  .ch__statement-k {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 112, 'wght' 700;
+    font-size: clamp(1.05rem, 1.5vw, 1.35rem);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--paper);
   }
 
   .ch__cta {

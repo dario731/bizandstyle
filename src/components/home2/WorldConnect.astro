@@ -18,7 +18,7 @@
       <span>Miami is the platform</span>
       <span class="thin">to the Americas.</span>
     </h2>
-    <p class="wc__lede" data-wc-reveal>European roots. American execution. Latin American reach — from one headquarters and one bonded hub.</p>
+    <p class="wc__lede" data-wc-reveal>European roots. American execution. Latin American reach — and relationships that extend to Dubai and Singapore. One headquarters, one bonded hub.</p>
   </div>
 
   <div class="wc__map" data-map-wrap>
@@ -31,6 +31,7 @@
       <li><span class="wc__route-k">Europe</span><span class="wc__route-arrow">→</span><span>Miami</span></li>
       <li><span class="wc__route-k">Miami</span><span class="wc__route-arrow">→</span><span>United States · Canada</span></li>
       <li><span class="wc__route-k">Miami</span><span class="wc__route-arrow">→</span><span>Mexico · Caribbean · Brazil · LATAM</span></li>
+      <li><span class="wc__route-k">Miami</span><span class="wc__route-arrow">→</span><span>Dubai · Singapore</span></li>
     </ul>
     <a class="link" href="/miami" data-track="navigation_click" data-track-cta-name="miami">Why Miami<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></a>
   </div>
@@ -90,7 +91,7 @@
     position: relative;
     width: min(100%, 1400px);
     margin: clamp(2rem, 5vh, 4rem) auto 0;
-    aspect-ratio: 1.66;
+    aspect-ratio: 2.1;
   }
 
   .wc__canvas {
@@ -156,7 +157,7 @@
   }
 
   @media (max-width: 720px) {
-    .wc__map { aspect-ratio: 0.95; }
+    .wc__map { aspect-ratio: 1.15; }
     .wc__labels :global(span.is-minor) { display: none; }
     .wc__labels :global(span) { font-size: 0.52rem; letter-spacing: 0.14em; }
   }
@@ -184,6 +185,10 @@
       { id: 'mad', name: 'Madrid', lon: -3.7, lat: 40.4 },
       { id: 'par', name: 'Paris', lon: 2.35, lat: 48.86, minor: true },
     ];
+    const global: City[] = [
+      { id: 'dxb', name: 'Dubai', lon: 55.27, lat: 25.2 },
+      { id: 'sin', name: 'Singapore', lon: 103.82, lat: 1.35 },
+    ];
     const americas: City[] = [
       { id: 'nyc', name: 'New York', lon: -74.0, lat: 40.71 },
       { id: 'tor', name: 'Toronto', lon: -79.38, lat: 43.65, minor: true },
@@ -201,6 +206,7 @@
     const arcs: Arc[] = [
       ...europe.map((c, i) => ({ from: c, to: MIAMI, progress: 0, delay: i * 0.35, particles: [Math.random()] })),
       ...americas.map((c, i) => ({ from: MIAMI, to: c, progress: 0, delay: 1.8 + i * 0.22, particles: [Math.random(), Math.random()] })),
+      ...global.map((c, i) => ({ from: MIAMI, to: c, progress: 0, delay: 4.4 + i * 0.5, particles: [Math.random()] })),
     ];
 
     let W = 0, H = 0;
@@ -209,7 +215,7 @@
 
     const labelEls = new Map<string, HTMLSpanElement>();
     const placeLabels = () => {
-      for (const c of [MIAMI, ...europe, ...americas]) {
+      for (const c of [MIAMI, ...europe, ...americas, ...global]) {
         let el = labelEls.get(c.id);
         if (!el) {
           el = document.createElement('span');
@@ -230,7 +236,7 @@
       W = wrap.clientWidth; H = wrap.clientHeight;
       canvas.width = W * dpr; canvas.height = H * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      view = W < 720 ? { lon0: -122, lon1: 14, latC: 14, scale: 1 } : { lon0: -132, lon1: 44, latC: 12, scale: 1 };
+      view = W < 720 ? { lon0: -125, lon1: 112, latC: 16, scale: 1 } : { lon0: -132, lon1: 114, latC: 14, scale: 1 };
       view.scale = W / (view.lon1 - view.lon0);
       placeLabels();
     };
@@ -258,7 +264,7 @@
       const mx = (a[0] + b[0]) / 2, my = (a[1] + b[1]) / 2;
       const dx = b[0] - a[0], dy = b[1] - a[1];
       const d = Math.hypot(dx, dy) || 1;
-      const lift = Math.min(d * 0.28, 160);
+      const lift = Math.min(d * 0.28, 220);
       const nx = -dy / d, ny = dx / d;
       const sign = ny < 0 ? 1 : -1;
       return [mx + nx * lift * sign, my + ny * lift * sign];

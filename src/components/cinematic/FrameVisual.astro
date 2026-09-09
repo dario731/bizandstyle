@@ -1,0 +1,152 @@
+---
+/**
+ * FrameVisual — a generative, animated frame that stands in for photography.
+ * Four variants, deterministic per seed, paused off-screen, static under
+ * prefers-reduced-motion. Replaces MediaPlaceholder everywhere.
+ */
+interface Props {
+  variant?: 'rings' | 'orbit' | 'flow' | 'grid';
+  seed?: string;
+  ratio?: string;
+  label?: string;
+  class?: string;
+}
+const { variant = 'rings', seed = 'bs', ratio = '4 / 5', label, class: cls } = Astro.props;
+---
+
+<div class:list={['fv', cls]} style={`aspect-ratio:${ratio}`} data-frame-visual data-variant={variant} data-seed={seed} aria-hidden="true">
+  <canvas class="fv__c"></canvas>
+  <div class="fv__vignette"></div>
+  {label && <span class="fv__label num">{label}</span>}
+</div>
+
+<style>
+  .fv {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--radius-media, 4px);
+    background:
+      radial-gradient(80% 70% at 30% 20%, #1b1916 0%, #0e0d0b 60%),
+      #0e0d0b;
+    isolation: isolate;
+  }
+
+  .fv__c {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .fv__vignette {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(90% 90% at 50% 50%, transparent 55%, rgba(14, 13, 11, 0.75) 100%);
+    pointer-events: none;
+  }
+
+  .fv__label {
+    position: absolute;
+    left: 1rem;
+    bottom: 0.9rem;
+    color: rgba(250, 246, 239, 0.45);
+    font-size: 0.6rem;
+  }
+</style>
+
+<script>
+  const PAPER = [250, 246, 239];
+  const BRASS = [184, 151, 90];
+  const rgba = (c: number[], a: number) => `rgba(${c[0]},${c[1]},${c[2]},${a})`;
+  const hash = (s: string) => { let h = 2166136261; for (const ch of s) { h ^= ch.charCodeAt(0); h = Math.imul(h, 16777619); } return h >>> 0; };
+  const rng = (seed: number) => () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll<HTMLElement>('[data-frame-visual]').forEach((el) => {
+    const canvas = el.querySelector('canvas')!;
+    const ctx = canvas.getContext('2d')!;
+    const variant = el.dataset.variant!;
+    const rand = rng(hash(el.dataset.seed || 'bs'));
+    let W = 0, H = 0, running = false, t = rand() * 100;
+
+    type P = { x: number; y: number; r: number; a: number; s: number; b: boolean };
+    let pts: P[] = [];
+    const resize = () => {
+      const dpr = Math.min(devicePixelRatio || 1, 2);
+      W = el.clientWidth; H = el.clientHeight;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = variant === 'orbit' ? 26 : variant === 'flow' ? 14 : 40;
+      pts = Array.from({ length: n }, () => ({ x: rand() * W, y: rand() * H, r: 0.6 + rand() * 1.8, a: rand() * Math.PI * 2, s: 0.2 + rand() * 0.8, b: rand() < 0.25 }));
+    };
+    resize();
+    new ResizeObserver(resize).observe(el);
+
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      const cx = W * 0.5, cy = H * 0.52, R = Math.min(W, H) * 0.36;
+      if (variant === 'rings') {
+        for (let i = 0; i < 5; i++) {
+          const rr = R * (0.35 + i * 0.2) * (1 + Math.sin(t * 0.6 + i) * 0.02);
+          ctx.strokeStyle = i === 2 ? rgba(BRASS, 0.8) : rgba(PAPER, 0.12 + i * 0.02);
+          ctx.lineWidth = i === 2 ? 1.4 : 0.8;
+          ctx.setLineDash(i % 2 ? [2, 6] : []);
+          ctx.beginPath(); ctx.arc(cx, cy, rr, 0, Math.PI * 2); ctx.stroke();
+        }
+        ctx.setLineDash([]);
+        const ang = t * 0.35;
+        const px = cx + Math.cos(ang) * R * 0.75, py = cy + Math.sin(ang) * R * 0.75;
+        ctx.shadowBlur = 18; ctx.shadowColor = rgba(BRASS, 1); ctx.fillStyle = rgba(PAPER, 1);
+        ctx.beginPath(); ctx.arc(px, py, 3.5, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+        for (const p of pts) {
+          const d = 0.4 + Math.sin(t * p.s + p.a) * 0.3;
+          ctx.fillStyle = p.b ? rgba(BRASS, d) : rgba(PAPER, d * 0.6);
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+        }
+      } else if (variant === 'orbit') {
+        const nodes = pts.map((p, i) => { const rr = R * (0.3 + (i % 5) * 0.18); const a = p.a + t * p.s * 0.25 * (i % 2 ? 1 : -1); return { x: cx + Math.cos(a) * rr, y: cy + Math.sin(a) * rr * 0.62, b: p.b, r: p.r }; });
+        for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+          const d = Math.hypot(nodes[i].x - nodes[j].x, nodes[i].y - nodes[j].y);
+          if (d < R * 0.5) { ctx.strokeStyle = rgba(nodes[i].b || nodes[j].b ? BRASS : PAPER, (1 - d / (R * 0.5)) * 0.35); ctx.lineWidth = 0.7; ctx.beginPath(); ctx.moveTo(nodes[i].x, nodes[i].y); ctx.lineTo(nodes[j].x, nodes[j].y); ctx.stroke(); }
+        }
+        for (const n of nodes) { ctx.fillStyle = n.b ? rgba(BRASS, 0.95) : rgba(PAPER, 0.7); ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2); ctx.fill(); }
+        ctx.strokeStyle = rgba(BRASS, 0.5); ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(cx, cy, 7 + Math.sin(t * 2) * 2, 0, Math.PI * 2); ctx.stroke();
+      } else if (variant === 'flow') {
+        for (let i = 0; i < pts.length; i++) {
+          const p = pts[i];
+          const y0 = (i / pts.length) * H;
+          ctx.beginPath();
+          for (let x = 0; x <= W; x += 12) {
+            const y = y0 + Math.sin(x * 0.008 + t * p.s + p.a) * H * 0.06 + Math.sin(x * 0.02 - t * 0.4) * 6;
+            x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          }
+          ctx.strokeStyle = p.b ? rgba(BRASS, 0.55) : rgba(PAPER, 0.14);
+          ctx.lineWidth = p.b ? 1.1 : 0.7;
+          ctx.stroke();
+          const hx = ((t * 40 * p.s + p.a * 100) % (W + 40)) - 20;
+          const hy = y0 + Math.sin(hx * 0.008 + t * p.s + p.a) * H * 0.06 + Math.sin(hx * 0.02 - t * 0.4) * 6;
+          ctx.shadowBlur = 10; ctx.shadowColor = rgba(BRASS, 0.9); ctx.fillStyle = rgba(PAPER, 0.95);
+          ctx.beginPath(); ctx.arc(hx, hy, 1.6, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+        }
+      } else {
+        // grid: perspective floor rushing forward
+        const horizon = H * 0.42;
+        ctx.strokeStyle = rgba(PAPER, 0.12); ctx.lineWidth = 0.8;
+        for (let i = -8; i <= 8; i++) { ctx.beginPath(); ctx.moveTo(cx + i * 22, horizon); ctx.lineTo(cx + i * W * 0.25, H + 40); ctx.stroke(); }
+        for (let k = 0; k < 14; k++) {
+          const z = ((k / 14 + t * 0.12) % 1);
+          const y = horizon + z * z * (H - horizon);
+          ctx.strokeStyle = rgba(k % 4 === 0 ? BRASS : PAPER, 0.06 + z * 0.4); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+        }
+        ctx.fillStyle = rgba(BRASS, 0.9); ctx.shadowBlur = 24; ctx.shadowColor = rgba(BRASS, 1);
+        ctx.beginPath(); ctx.arc(cx, horizon, 3 + Math.sin(t * 2) * 1, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
+        for (const p of pts) { ctx.fillStyle = rgba(PAPER, 0.35); ctx.beginPath(); ctx.arc(p.x, p.y * 0.4, p.r * 0.7, 0, Math.PI * 2); ctx.fill(); }
+      }
+    };
+
+    const loop = () => { if (!running) return; t += 0.016; draw(); requestAnimationFrame(loop); };
+    new IntersectionObserver((es) => { const on = es[0].isIntersecting && !still; if (on && !running) { running = true; requestAnimationFrame(loop); } else if (!on) running = false; if (still) draw(); }).observe(el);
+    draw();
+  });
+</script>

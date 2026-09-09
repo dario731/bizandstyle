@@ -1,11 +1,12 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import CineHero from '@components/home2/CineHero.astro';
+import HyperFrames from '@components/cinematic/HyperFrames.astro';
 import EnginesConnected from '@components/home2/EnginesConnected.astro';
+import OrbitCarousel from '@components/cinematic/OrbitCarousel.astro';
 import WorldConnect from '@components/home2/WorldConnect.astro';
 import JourneyLoop from '@components/home2/JourneyLoop.astro';
 import CaptureBand from '@components/home2/CaptureBand.astro';
-import LeadBar from '@components/layout/LeadBar.astro';
 import { getCopy } from '@i18n/index';
 import { site } from '@data/site';
 
@@ -22,13 +23,32 @@ const jsonLd = [
     inLanguage: 'en',
   },
 ];
+
+const journeyFrames = [
+  { eyebrow: 'Stage 01 · Business', title: 'Enter the market.', line: 'Strategy, local representation, distribution and a bonded hub in Miami — become part of the market, not a foreign supplier.', href: '/internationalization' },
+  { eyebrow: 'Stage 02 · Business', title: 'Build the engine.', line: 'Digital acquisition, CRM and automation built in-house — from click to client.', href: '/digital-engine' },
+  { eyebrow: 'Stage 03 · Wealth', title: 'Create wealth.', line: 'Business generates capital, relationships and opportunities. Wealth is invested, structured and preserved — with the right expert at every stage.', href: '/investor-journey' },
+  { eyebrow: 'Stage 04 · Lifestyle', title: 'Live the lifestyle.', line: 'Luxury real estate, aviation, yachting, design, media, entertainment — one high-net-worth client, one ecosystem in Miami.', href: '/luxury' },
+];
+
+const orbitItems = [
+  { name: 'B&S Advisory', line: 'Strategy that ends in execution.', href: '/advisory', tag: 'Engine 01' },
+  { name: 'B&S Commerce', line: 'From product to market.', href: '/commerce', tag: 'Engine 02' },
+  { name: 'B&S Luxury', line: 'Business development at the highest level.', href: '/luxury', tag: 'Engine 03' },
+  { name: 'Internationalization', line: 'Export is not internationalization.', href: '/internationalization', tag: 'Capability' },
+  { name: 'Digital engine', line: 'From click to client.', href: '/digital-engine', tag: 'Capability' },
+  { name: 'Miami bonded hub', line: 'One warehouse. Two markets.', href: '/commerce/bonded-warehouse', tag: 'Infrastructure' },
+  { name: 'Investor Journey™', line: 'Business → Wealth → Lifestyle → ∞', href: '/investor-journey', tag: 'Framework' },
+  { name: 'Signature programs', line: 'Expansion · Digital · Fractional.', href: '/programs', tag: 'Start here' },
+];
 ---
 
 <BaseLayout title={t.meta.home.title} description={t.meta.home.description} path="/" pageType="home" {jsonLd}>
   <CineHero />
+  <HyperFrames eyebrow="Enter the journey" intro="Business creates wealth. Wealth shapes lifestyle. Lifestyle opens new business." frames={journeyFrames} outro={{ title: 'Business. Wealth. Lifestyle. ∞', href: '/tell-us', label: "Tell us what you're building" }} id="enter" />
   <EnginesConnected />
+  <OrbitCarousel eyebrow="One platform" title={['Everything', 'connects.']} items={orbitItems} id="orbit" />
   <WorldConnect />
   <JourneyLoop />
   <CaptureBand />
-  <LeadBar />
 </BaseLayout>

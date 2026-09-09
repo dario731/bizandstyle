@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import MediaPlaceholder from '@components/cinematic/MediaPlaceholder.astro';
+import FrameVisual from '@components/cinematic/FrameVisual.astro';
 
 interface Props {
   entry: CollectionEntry<'insights'>;
@@ -18,7 +18,7 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
 <article class="card">
   <a href={href} class="card__link" data-track="article_view" data-track-article-category={entry.data.category.id}>
     <div class="card__media">
-      {hero?.image ? <img src={hero.image.src} width={hero.image.width} height={hero.image.height} alt={hero.alt} loading="lazy" decoding="async" /> : <MediaPlaceholder id={hero?.manifestId ?? 'INSIGHT-COVER'} alt={hero?.alt ?? title} {tone} />}
+      {hero?.image ? <img src={hero.image.src} width={hero.image.width} height={hero.image.height} alt={hero.alt} loading="lazy" decoding="async" /> : <FrameVisual variant="flow" seed={entry.id} ratio="16 / 10" />}
     </div>
     <div class="card__body">
       <p class="eyebrow">{categoryName}</p>

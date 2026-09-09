@@ -11,6 +11,7 @@ import Statement from '@components/editorial/Statement.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import HyperFrames from '@components/cinematic/HyperFrames.astro';
 import { byDivision, divisionMeta, type Division } from '@data/services';
 import { breadcrumbLd, faqLd, serviceLd, webPageLd, graph } from '@lib/seo';
 
@@ -42,6 +43,7 @@ const jsonLd = graph(
     </a>
   </EditorialHero>
   <Definition question={definition.q} answer={definition.a} ground="paper" id="definition" />
+  <HyperFrames eyebrow={`Enter ${div.name}`} intro={div.role} frames={list.slice(0, 5).map((s) => ({ title: s.title, line: s.lede, href: `${div.path}/${s.slug}`, eyebrow: div.name }))} outro={{ title: statement.lines.join(' '), href: cta.primary.href, label: cta.primary.label }} id={`enter-${division}`} />
   <slot name="before-services" />
   <ModuleGrid eyebrow={div.role} title={servicesTitle} items={list.map((s) => ({ name: s.title, line: s.lede, href: `${div.path}/${s.slug}` }))} columns={list.length >= 8 ? 4 : list.length >= 6 ? 3 : 3} ground="paper" id="services" trackAs="service_view" />
   <slot name="after-services" />

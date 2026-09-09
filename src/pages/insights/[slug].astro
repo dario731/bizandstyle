@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/editorial/Breadcrumbs.astro';
-import MediaPlaceholder from '@components/cinematic/MediaPlaceholder.astro';
+import FrameVisual from '@components/cinematic/FrameVisual.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
@@ -59,7 +59,7 @@ const jsonLd = graph(
       </div>
       <div class="container" data-reveal>
         <div class="art__hero">
-          {d.hero?.image ? <img src={d.hero.image.src} width={d.hero.image.width} height={d.hero.image.height} alt={d.hero.alt} loading="eager" decoding="async" /> : <MediaPlaceholder id={d.hero?.manifestId ?? 'INSIGHT-COVER'} alt={d.hero?.alt ?? d.title} tone="paper" />}
+          {d.hero?.image ? <img src={d.hero.image.src} width={d.hero.image.width} height={d.hero.image.height} alt={d.hero.alt} loading="eager" decoding="async" /> : <FrameVisual variant="flow" seed={entry.id} ratio="21 / 9" />}
         </div>
       </div>
     </header>

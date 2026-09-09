@@ -6,6 +6,7 @@ import interUrl from '@fontsource-variable/inter/files/inter-latin-wght-normal.w
 import Seo from '@components/layout/Seo.astro';
 import GlobalHeader from '@components/layout/GlobalHeader.astro';
 import GlobalFooter from '@components/layout/GlobalFooter.astro';
+import LeadBar from '@components/layout/LeadBar.astro';
 import { site, type Locale } from '@data/site';
 
 interface Props {
@@ -67,11 +68,14 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID as string | undefined;
       <slot />
     </main>
     <GlobalFooter {locale} />
+    <LeadBar />
     <script>
       import { initReveal } from '@lib/reveal';
+      import { initPageMotion } from '@lib/page-motion';
       import { captureAttribution, bindDeclarativeTracking } from '@lib/track';
       captureAttribution();
       initReveal();
+      initPageMotion();
       bindDeclarativeTracking();
     </script>
   </body>
