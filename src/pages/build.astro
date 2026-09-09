@@ -1,0 +1,533 @@
+---
+/**
+ * /build — "Build your journey". A playful configurator: say who you are,
+ * pick everything you want to explore across the divisions, solutions,
+ * programs and luxury verticals, watch your platform assemble, send it.
+ * Built for the site and for the exhibition stand (works on a tablet, offline
+ * once loaded, state in the URL so it can be shared).
+ */
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import { byDivision, divisionMeta } from '@data/services';
+import { solutions } from '@data/solutions';
+import { programs } from '@data/programs';
+import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+
+const path = '/build';
+const title = 'Build Your Journey — Pick What You Want to Explore | BIZ & STYLE';
+const description = 'Say who you are, pick what you want to explore across Advisory, Commerce, Luxury, Solutions and Programs, watch your platform assemble, and send it to the team in one tap.';
+
+const verticals = [
+  { id: 'real-estate', name: 'Luxury real estate', line: 'Core operating division — Miami luxury and pre-construction.' },
+  { id: 'aviation', name: 'Private aviation', line: 'Strategic partner vertical.' },
+  { id: 'yachting', name: 'Yachting', line: 'Strategic partner vertical.' },
+  { id: 'design', name: 'Interior design', line: 'Strategic partner vertical.' },
+  { id: 'goods', name: 'Luxury goods', line: 'Strategic partner vertical.' },
+  { id: 'media', name: 'Luxury media', line: 'Strategic partner vertical.' },
+  { id: 'entertainment', name: 'Celebrity · Sports · Entertainment', line: 'Strategic partner vertical.' },
+];
+
+const short = (s: string, n = 90) => (s.length > n ? s.slice(0, n).replace(/\s+\S*$/, '') + '…' : s);
+
+const catalogue = [
+  { id: 'advisory', name: 'Advisory', role: divisionMeta.advisory.role, items: byDivision('advisory').map((s) => ({ id: `adv:${s.slug}`, name: s.title, line: short(s.lede), href: `/advisory/${s.slug}` })) },
+  { id: 'commerce', name: 'Commerce', role: divisionMeta.commerce.role, items: byDivision('commerce').map((s) => ({ id: `com:${s.slug}`, name: s.title, line: short(s.lede), href: `/commerce/${s.slug}` })) },
+  { id: 'luxury', name: 'Luxury', role: 'Real estate & seven verticals', items: [...byDivision('luxury').map((s) => ({ id: `lux:${s.slug}`, name: s.title, line: short(s.lede), href: `/luxury/${s.slug}` })), ...verticals.map((v) => ({ id: `lux:v-${v.id}`, name: v.name, line: v.line, href: '/luxury/seven-verticals' }))] },
+  { id: 'solutions', name: 'Solutions', role: 'Integrated or à la carte', items: solutions.map((s) => ({ id: `sol:${s.slug}`, name: s.name, line: s.tagline, href: `/solutions#${s.slug}` })) },
+  { id: 'programs', name: 'Programs', role: 'Three ways to start', items: programs.map((p) => ({ id: `prg:${p.slug}`, name: p.name, line: p.tagline, href: `/programs/${p.slug}` })) },
+];
+
+const personas = [
+  { id: 'international-company', label: 'An international company', picks: ['adv:international-expansion', 'adv:temporary-export-management', 'com:bonded-warehouse', 'com:distribution', 'sol:corporate-setup-legal', 'prg:international-expansion-boost'] },
+  { id: 'us-company', label: 'A U.S. company', picks: ['adv:business-strategy', 'adv:business-development', 'adv:digital-growth', 'prg:digital-growth-engine'] },
+  { id: 'founder', label: 'A founder / entrepreneur', picks: ['adv:fractional-executive', 'adv:digital-growth', 'sol:corporate-setup-legal', 'sol:relocation-immigration', 'prg:fractional-executive'] },
+  { id: 'consumer-brand', label: 'A consumer brand', picks: ['com:distribution', 'com:import-export', 'com:e-commerce', 'com:marketplaces', 'com:brand-expansion', 'com:bonded-warehouse'] },
+  { id: 'luxury-company', label: 'A luxury company', picks: ['lux:seven-verticals', 'lux:ecosystem', 'adv:lead-generation', 'adv:partnership-engineering'] },
+  { id: 'developer', label: 'A real estate developer', picks: ['lux:developer-partnerships', 'lux:ecosystem', 'adv:digital-growth', 'adv:lead-generation'] },
+  { id: 'investor', label: 'An investor / private client', picks: ['lux:v-real-estate', 'sol:real-estate-wealth-lifestyle', 'sol:relocation-immigration', 'lux:v-yachting', 'lux:v-aviation'] },
+  { id: 'partner', label: 'A professional / potential partner', picks: ['lux:ecosystem', 'adv:partnership-engineering', 'sol:management-business-development'] },
+];
+
+const jsonLd = graph(webPageLd({ name: title, description, path }), breadcrumbLd([{ name: 'Build your journey', path }]));
+const total = catalogue.reduce((n, c) => n + c.items.length, 0);
+---
+
+<BaseLayout {title} {description} {path} pageType="build" {jsonLd}>
+  <EditorialHero eyebrow="Build your journey" title={['Pick what you want', 'to explore with us.']} lede={`${total} things we can do together. Choose freely, mix divisions, mess around — then send it to the team or book a call.`} ground="onyx" crumbs={[{ name: 'Build your journey', path }]} brief="An interactive way to tell us what you need: say who you are, select across all divisions and solutions, and send your selection." />
+
+  <section class="bj ground-onyx" id="builder" aria-label="Journey builder" data-builder data-personas={JSON.stringify(personas.map((p) => ({ id: p.id, picks: p.picks })))}>
+    <div class="container bj__layout">
+      <div class="bj__main">
+        <div class="bj__step" id="who">
+          <p class="bj__stepk"><span class="num">01</span>I am…</p>
+          <div class="bj__chips" role="group" aria-label="Who you are">
+            {personas.map((p) => <button class="bj__chip" type="button" data-persona={p.id} aria-pressed="false">{p.label}</button>)}
+          </div>
+          <p class="bj__suggest small" data-suggest hidden>
+            <span data-suggest-count>0</span> suggestions for you are marked · <button class="link" type="button" data-add-suggested>Add them all</button>
+          </p>
+        </div>
+
+        <div class="bj__step" id="pick">
+          <p class="bj__stepk"><span class="num">02</span>Pick everything you want to explore</p>
+          <div class="bj__tabs" role="tablist" aria-label="Categories">
+            {catalogue.map((c, i) => <button class="bj__tab" role="tab" type="button" id={`bj-tab-${c.id}`} aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`bj-panel-${c.id}`} data-bj-tab={c.id}>{c.name}<span class="bj__tabcount" data-tab-count={c.id}></span></button>)}
+          </div>
+          {
+            catalogue.map((c, i) => (
+              <div class="bj__panel" role="tabpanel" id={`bj-panel-${c.id}`} aria-labelledby={`bj-tab-${c.id}`} data-bj-panel={c.id} hidden={i !== 0}>
+                <p class="eyebrow bj__role">{c.role} · {c.items.length}</p>
+                <div class="bj__grid">
+                  {c.items.map((it) => (
+                    <button class="bj__card" type="button" data-pick={it.id} data-cat={c.id} data-name={it.name} data-href={it.href} aria-pressed="false">
+                      <span class="bj__mark" aria-hidden="true"><svg viewBox="0 0 16 16"><path class="bj__plus" d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.6" /><path class="bj__check" d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="1.8" /></svg></span>
+                      <span class="bj__sugg" aria-hidden="true">Suggested</span>
+                      <span class="bj__name">{it.name}</span>
+                      <span class="bj__line">{it.line}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <aside class="bj__side" data-side aria-label="Your journey">
+        <button class="bj__sidehead" type="button" data-side-toggle aria-expanded="false">
+          <span class="eyebrow eyebrow--marker">Your journey</span>
+          <span class="bj__count"><strong data-count>0</strong> selected</span>
+          <svg class="bj__chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.5" /></svg>
+        </button>
+        <div class="bj__sidebody">
+          <div class="bj__map" data-map>
+            <svg viewBox="0 0 320 320" aria-hidden="true">
+              <circle cx="160" cy="160" r="118" class="bj__orbit"></circle>
+              <circle cx="160" cy="160" r="70" class="bj__orbit bj__orbit--inner"></circle>
+              <g data-map-links></g>
+              <g data-map-nodes></g>
+              <circle cx="160" cy="160" r="9" class="bj__you"></circle>
+              <text x="160" y="164" text-anchor="middle" class="bj__youlabel">YOU</text>
+            </svg>
+            <p class="bj__summary" data-summary>Select anything to start building.</p>
+          </div>
+          <ul class="bj__picks" role="list" data-picks></ul>
+          <div class="bj__actions">
+            <button class="btn btn--flash" type="button" data-send>Send to the team</button>
+            <button class="btn" type="button" data-book>Book a call</button>
+            <div class="bj__minor">
+              <button class="link" type="button" data-copy>Copy link</button>
+              <button class="link" type="button" data-clear>Start over</button>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</BaseLayout>
+
+<style is:global>
+  body[data-page-type='build'] .lb { display: none; }
+  body[data-page-type='build'].has-leadbar { padding-bottom: 0; }
+</style>
+
+<style>
+  .bj {
+    padding-block: var(--space-6) var(--space-section);
+  }
+
+  .bj__layout {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .bj__main {
+    display: grid;
+    gap: var(--space-7);
+    min-width: 0;
+  }
+
+  .bj__step {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .bj__stepk {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 116, 'wght' 720;
+    font-stretch: 116%;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+  }
+
+  .bj__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .bj__chip {
+    padding: 0.6em 1em;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-size: 0.78rem;
+    letter-spacing: 0.04em;
+    color: var(--stone);
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+  }
+
+  .bj__chip:hover { color: var(--paper); border-color: var(--stone); }
+  .bj__chip[aria-pressed='true'] { background: var(--brass); border-color: var(--brass); color: var(--onyx); font-weight: 600; }
+
+  .bj__suggest { color: var(--stone); }
+  .bj__suggest .link { margin-left: 0.3rem; }
+
+  .bj__tabs {
+    display: flex;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .bj__tabs::-webkit-scrollbar { display: none; }
+
+  .bj__tab {
+    flex: none;
+    padding: 0.8rem 0.9rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--stone);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .bj__tab[aria-selected='true'] { color: var(--paper); border-bottom-color: var(--brass); }
+
+  .bj__tabcount {
+    margin-left: 0.4rem;
+    color: var(--brass);
+  }
+
+  .bj__tabcount:empty { display: none; }
+
+  .bj__panel { display: grid; gap: var(--space-4); }
+
+  .bj__role { color: var(--stone); }
+
+  .bj__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+  }
+
+  .bj__card {
+    position: relative;
+    display: grid;
+    gap: 0.35rem;
+    align-content: start;
+    text-align: left;
+    min-height: 7.5rem;
+    padding: 0.9rem 1rem 0.9rem;
+    padding-right: 2.6rem;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: linear-gradient(160deg, rgba(24, 30, 38, 0.6), rgba(8, 9, 11, 0.7));
+    color: var(--paper);
+    transition: border-color 0.25s, transform 0.35s var(--ease-out), background 0.25s;
+  }
+
+  .bj__card:hover { border-color: var(--stone); transform: translateY(-2px); }
+  .bj__card[aria-pressed='true'] { border-color: var(--brass); background: linear-gradient(160deg, rgba(142, 197, 232, 0.18), rgba(8, 9, 11, 0.8)); }
+
+  .bj__mark {
+    position: absolute;
+    right: 0.7rem;
+    top: 0.7rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--stone);
+    transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.3s var(--ease-out);
+  }
+
+  .bj__mark svg { width: 0.85rem; height: 0.85rem; }
+  .bj__check { display: none; }
+  .bj__card[aria-pressed='true'] .bj__mark { background: var(--brass); border-color: var(--brass); color: var(--onyx); transform: rotate(360deg); }
+  .bj__card[aria-pressed='true'] .bj__plus { display: none; }
+  .bj__card[aria-pressed='true'] .bj__check { display: block; }
+
+  .bj__sugg {
+    display: none;
+    font-size: 0.56rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--brass);
+  }
+
+  .bj__card.is-suggested .bj__sugg { display: block; }
+  .bj__card.is-suggested { border-color: rgba(142, 197, 232, 0.5); }
+
+  .bj__name {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 112, 'wght' 680;
+    font-size: 0.92rem;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .bj__line { font-size: 0.78rem; color: var(--stone); }
+
+  /* ---- side panel ---- */
+  .bj__side {
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    background: #0d1015;
+  }
+
+  .bj__sidehead {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem 1rem;
+    text-align: left;
+  }
+
+  .bj__count { font-size: 0.8rem; color: var(--stone); }
+  .bj__count strong { color: var(--brass); font-size: 1rem; }
+  .bj__chev { width: 1rem; height: 1rem; transition: transform 0.3s; }
+
+  .bj__sidebody {
+    display: grid;
+    gap: var(--space-4);
+    padding: 0 1rem 1rem;
+  }
+
+  .bj__map { display: grid; gap: 0.5rem; }
+  .bj__map svg { width: 100%; max-width: 320px; margin-inline: auto; overflow: visible; }
+  .bj__orbit { fill: none; stroke: rgba(244, 246, 248, 0.12); stroke-dasharray: 2 6; }
+  .bj__orbit--inner { stroke: rgba(142, 197, 232, 0.25); }
+  .bj__you { fill: var(--brass); filter: drop-shadow(0 0 10px rgba(142, 197, 232, 0.9)); }
+  .bj__youlabel { font-size: 6px; letter-spacing: 0.2em; fill: var(--onyx); font-weight: 700; }
+  .bj__map :global(line) { stroke: rgba(142, 197, 232, 0.5); stroke-width: 1; }
+  .bj__map :global(circle.node) { fill: var(--paper); transform-box: fill-box; transform-origin: center; animation: bj-pop 0.5s var(--ease-out); }
+  .bj__map :global(circle.node.c-advisory) { fill: #f5f7f9; }
+  .bj__map :global(circle.node.c-commerce) { fill: #8ec5e8; }
+  .bj__map :global(circle.node.c-luxury) { fill: #cfe4f4; }
+  .bj__map :global(circle.node.c-solutions) { fill: #5ea7d6; }
+  .bj__map :global(circle.node.c-programs) { fill: #ffffff; }
+  .bj__map :global(text.nlabel) { font-size: 6.5px; fill: rgba(244, 246, 248, 0.75); letter-spacing: 0.06em; }
+
+  @keyframes bj-pop { from { transform: scale(0); } }
+
+  .bj__summary {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--stone);
+    text-align: center;
+  }
+
+  .bj__picks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    max-height: 9rem;
+    overflow: auto;
+  }
+
+  .bj__picks :global(li) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3em 0.55em;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    font-size: 0.72rem;
+  }
+
+  .bj__picks :global(button) {
+    color: var(--stone);
+    line-height: 1;
+  }
+
+  .bj__actions { display: grid; gap: 0.5rem; }
+  .bj__actions .btn { width: 100%; }
+  .bj__minor { display: flex; justify-content: space-between; gap: 1rem; margin-top: 0.25rem; }
+
+  @media (min-width: 720px) {
+    .bj__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (min-width: 1100px) {
+    .bj__layout {
+      grid-template-columns: minmax(0, 1fr) 22rem;
+      column-gap: var(--space-7);
+      align-items: start;
+    }
+    .bj__side { position: sticky; top: 5.5rem; }
+    .bj__sidehead { cursor: default; }
+    .bj__chev { display: none; }
+  }
+
+  @media (max-width: 1099px) {
+    .bj__side {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: calc(var(--z-header) - 2);
+      border-radius: 0;
+      border-left: 0;
+      border-right: 0;
+      max-height: 78vh;
+      overflow: auto;
+      box-shadow: 0 -20px 50px rgba(0, 0, 0, 0.5);
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+    .bj__sidebody { display: none; }
+    .bj__side.is-open .bj__sidebody { display: grid; }
+    .bj__side.is-open .bj__chev { transform: rotate(180deg); }
+    .bj { padding-bottom: 8rem; }
+  }
+</style>
+
+<script>
+  import { track } from '@lib/track';
+
+  const root = document.querySelector<HTMLElement>('[data-builder]');
+  if (root) {
+    const personas: { id: string; picks: string[] }[] = JSON.parse(root.dataset.personas || '[]');
+    const cards = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-pick]'));
+    const byId = new Map(cards.map((c) => [c.dataset.pick!, c]));
+    const chips = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-persona]'));
+    const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-bj-tab]'));
+    const panels = Array.from(root.querySelectorAll<HTMLElement>('[data-bj-panel]'));
+    const side = root.querySelector<HTMLElement>('[data-side]')!;
+    const countEl = root.querySelector<HTMLElement>('[data-count]')!;
+    const picksEl = root.querySelector<HTMLElement>('[data-picks]')!;
+    const summary = root.querySelector<HTMLElement>('[data-summary]')!;
+    const nodesG = root.querySelector<SVGGElement>('[data-map-nodes]')!;
+    const linksG = root.querySelector<SVGGElement>('[data-map-links]')!;
+    const suggest = root.querySelector<HTMLElement>('[data-suggest]')!;
+    const suggestCount = root.querySelector<HTMLElement>('[data-suggest-count]')!;
+    const KEY = 'bs-build';
+    const CATS = ['advisory', 'commerce', 'luxury', 'solutions', 'programs'];
+    const CAT_LABEL: Record<string, string> = { advisory: 'Advisory', commerce: 'Commerce', luxury: 'Luxury', solutions: 'Solutions', programs: 'Programs' };
+    let picked = new Set<string>();
+    let persona = '';
+
+    // ---- state
+    const load = () => {
+      const q = new URLSearchParams(location.search);
+      const fromUrl = q.get('pick');
+      const fromStore = (() => { try { return JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return null; } })();
+      const ids: string[] = fromUrl ? fromUrl.split(',') : fromStore?.picks || [];
+      persona = q.get('who') || fromStore?.persona || '';
+      picked = new Set(ids.filter((id) => byId.has(id)));
+    };
+    const save = () => {
+      try { localStorage.setItem(KEY, JSON.stringify({ picks: [...picked], persona })); } catch {}
+      const q = new URLSearchParams();
+      if (persona) q.set('who', persona);
+      if (picked.size) q.set('pick', [...picked].join(','));
+      history.replaceState(null, '', q.toString() ? `?${q}` : location.pathname);
+    };
+
+    // ---- render
+    const render = () => {
+      cards.forEach((c) => c.setAttribute('aria-pressed', String(picked.has(c.dataset.pick!))));
+      countEl.textContent = String(picked.size);
+      const perCat: Record<string, string[]> = {};
+      for (const id of picked) { const c = byId.get(id)!; (perCat[c.dataset.cat!] ||= []).push(c.dataset.name!); }
+      CATS.forEach((cat) => { const el = root.querySelector<HTMLElement>(`[data-tab-count="${cat}"]`); if (el) el.textContent = perCat[cat]?.length ? String(perCat[cat].length) : ''; });
+
+      picksEl.innerHTML = '';
+      for (const id of picked) {
+        const c = byId.get(id)!;
+        const li = document.createElement('li');
+        li.innerHTML = `<span>${c.dataset.name}</span><button type="button" aria-label="Remove ${c.dataset.name}">×</button>`;
+        li.querySelector('button')!.addEventListener('click', () => toggle(id));
+        picksEl.appendChild(li);
+      }
+
+      // map: nodes on the outer ring, grouped by category sector
+      nodesG.innerHTML = ''; linksG.innerHTML = '';
+      const cats = CATS.filter((c) => perCat[c]?.length);
+      let k = 0;
+      const total = picked.size;
+      for (const id of picked) {
+        const c = byId.get(id)!;
+        const catIdx = CATS.indexOf(c.dataset.cat!);
+        const sector = (catIdx / CATS.length) * Math.PI * 2 - Math.PI / 2;
+        const inSector = [...picked].filter((p) => byId.get(p)!.dataset.cat === c.dataset.cat);
+        const j = inSector.indexOf(id);
+        const spread = (Math.PI * 2) / CATS.length * 0.8;
+        const a = sector + (inSector.length > 1 ? (j / (inSector.length - 1) - 0.5) * spread : 0);
+        const r = 118 - (j % 2) * 24;
+        const x = 160 + Math.cos(a) * r, y = 160 + Math.sin(a) * r;
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', '160'); line.setAttribute('y1', '160'); line.setAttribute('x2', String(x)); line.setAttribute('y2', String(y));
+        linksG.appendChild(line);
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('cx', String(x)); dot.setAttribute('cy', String(y)); dot.setAttribute('r', '4');
+        dot.setAttribute('class', `node c-${c.dataset.cat}`);
+        nodesG.appendChild(dot);
+        if (total <= 8) {
+          const t = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          t.setAttribute('x', String(x + Math.cos(a) * 9)); t.setAttribute('y', String(y + Math.sin(a) * 9 + 2));
+          t.setAttribute('text-anchor', Math.cos(a) < -0.2 ? 'end' : Math.cos(a) > 0.2 ? 'start' : 'middle');
+          t.setAttribute('class', 'nlabel');
+          t.textContent = (c.dataset.name || '').slice(0, 22);
+          nodesG.appendChild(t);
+        }
+        k++;
+      }
+      summary.textContent = total === 0
+        ? 'Select anything to start building.'
+        : `You are building with ${total} element${total > 1 ? 's' : ''} across ${cats.map((c) => CAT_LABEL[c]).join(', ')}.`;
+
+      // suggestions
+      const p = personas.find((x) => x.id === persona);
+      cards.forEach((c) => c.classList.toggle('is-suggested', !!p && p.picks.includes(c.dataset.pick!)));
+      chips.forEach((ch) => ch.setAttribute('aria-pressed', String(ch.dataset.persona === persona)));
+      const missing = p ? p.picks.filter((id) => !picked.has(id) && byId.has(id)) : [];
+      suggest.hidden = !p || missing.length === 0;
+      suggestCount.textContent = String(missing.length);
+      save();
+    };
+
+    const toggle = (id: string) => { picked.has(id) ? picked.delete(id) : picked.add(id); track('cta_click', { cta_name: 'build_pick', cta_location: id }); render(); };
+    cards.forEach((c) => c.addEventListener('click', () => toggle(c.dataset.pick!)));
+    chips.forEach((ch) => ch.addEventListener('click', () => { persona = persona === ch.dataset.persona ? '' : ch.dataset.persona!; render(); if (persona) { const cat = personas.find((x) => x.id === persona)!.picks[0]?.split(':')[0]; const map: Record<string, string> = { adv: 'advisory', com: 'commerce', lux: 'luxury', sol: 'solutions', prg: 'programs' }; if (cat) selectTab(map[cat]); } }));
+    root.querySelector('[data-add-suggested]')?.addEventListener('click', () => { const p = personas.find((x) => x.id === persona); p?.picks.forEach((id) => byId.has(id) && picked.add(id)); render(); });
+
+    const selectTab = (id: string) => { tabs.forEach((t) => t.setAttribute('aria-selected', String(t.dataset.bjTab === id))); panels.forEach((pn) => (pn.hidden = pn.dataset.bjPanel !== id)); };
+    tabs.forEach((t) => t.addEventListener('click', () => selectTab(t.dataset.bjTab!)));
+
+    root.querySelector('[data-side-toggle]')?.addEventListener('click', () => { if (window.innerWidth < 1100) { const open = side.classList.toggle('is-open'); side.querySelector('[data-side-toggle]')!.setAttribute('aria-expanded', String(open)); } });
+
+    const message = () => {
+      const lines = [...picked].map((id) => { const c = byId.get(id)!; return `• ${CAT_LABEL[c.dataset.cat!]}: ${c.dataset.name}`; });
+      const who = persona ? `I am ${chips.find((c) => c.dataset.persona === persona)?.textContent?.trim().toLowerCase()}.\n` : '';
+      return `${who}I would like to explore with BIZ & STYLE:\n${lines.join('\n')}\n\nLink: ${location.href}`;
+    };
+    root.querySelector('[data-send]')?.addEventListener('click', () => { track('cta_click', { cta_name: 'build_send', cta_location: 'builder' }); document.dispatchEvent(new CustomEvent('bs:open-contact', { detail: { tab: 'message', message: message() } })); });
+    root.querySelector('[data-book]')?.addEventListener('click', () => document.dispatchEvent(new CustomEvent('bs:open-contact', { detail: { tab: 'call' } })));
+    root.querySelector('[data-copy]')?.addEventListener('click', async (e) => { try { await navigator.clipboard.writeText(location.href); (e.target as HTMLElement).textContent = 'Link copied'; setTimeout(() => ((e.target as HTMLElement).textContent = 'Copy link'), 1800); } catch {} });
+    root.querySelector('[data-clear]')?.addEventListener('click', () => { picked.clear(); persona = ''; render(); });
+
+    load();
+    render();
+  }
+</script>

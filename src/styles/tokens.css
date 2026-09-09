@@ -5,15 +5,15 @@
    ========================================================================== */
 :root {
   /* colour */
-  --onyx: #0b0e13;
-  --ink: #0f1319;
-  --paper: #f4f6f8;
-  --ivory: #e9edf1;
+  --onyx: #08090b;
+  --ink: #f5f7f9;
+  --paper: #f5f7f9;
+  --ivory: #171a20;
   --sand: #e8dfce;
   --stone: #9aa4b1;
-  --smoke: #667080;
-  --rule: #cfd6de;
-  --rule-deep: #232a33;
+  --smoke: #aab3bf;
+  --rule: #262b33;
+  --rule-deep: #20252c;
   --brass: #8ec5e8; /* "ice" accent — token name kept for compatibility */
   --brass-soft: rgba(142, 197, 232, 0.35);
 
@@ -84,18 +84,19 @@
   --z-modal: 80;
   --z-toast: 90;
 
-  color-scheme: light;
+  color-scheme: dark;
 }
 
+/* "paper" is now graphite: the second dark ground. Black is the identity. */
 .ground-paper {
-  --bg: var(--paper);
-  --fg: var(--ink);
+  --bg: #111318;
+  --fg: var(--paper);
   --fg-muted: var(--smoke);
   --line: var(--rule);
   --surface: var(--ivory);
   background: var(--bg);
   color: var(--fg);
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 .ground-onyx {
@@ -103,7 +104,7 @@
   --fg: var(--paper);
   --fg-muted: var(--stone);
   --line: var(--rule-deep);
-  --surface: #171512;
+  --surface: #12151a;
   background: var(--bg);
   color: var(--fg);
   color-scheme: dark;

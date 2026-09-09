@@ -4,7 +4,7 @@ import EditorialHero from '@components/editorial/EditorialHero.astro';
 import Definition from '@components/editorial/Definition.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
 import Statement from '@components/editorial/Statement.astro';
-import InvestorJourney from '@components/system/InvestorJourney.astro';
+import JourneyLoop from '@components/home2/JourneyLoop.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import { pages } from '@i18n/pages.en';
 import { getCopy } from '@i18n/index';
@@ -22,7 +22,7 @@ const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.descripti
   <ModuleGrid eyebrow={p.engines.eyebrow} title={p.engines.title} items={p.engines.items} columns={3} ground="paper" id="engines" trackAs="division_view" />
   <Statement eyebrow={p.mission.eyebrow} lines={p.mission.lines} body={p.mission.body} ground="onyx" size="display-2" />
   <Statement eyebrow="How the platform is organised" lines={['One platform.', 'Several companies.']} body={['BIZ & STYLE operates as a combination of companies: BIZ & STYLE DNA INC. in Miami Beach, its three operating divisions, and dedicated entities and joint ventures established with strategic partners for specific markets and ventures.', 'Every engagement is delivered through the entity built for it — with the same team, infrastructure and network behind all of them.']} ground="paper" size="display-2" />
-  <InvestorJourney copy={{ ...t.home.journey, eyebrow: 'The Investor Journey™' }} />
+  <JourneyLoop stages={t.home.journey.stages} />
   <ModuleGrid eyebrow={p.links.eyebrow} title="Inside the platform." items={p.links.items} columns={4} ground="onyx" id="explore" numbered={false} trackAs="navigation_click" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} ground="paper" location="hub_cta" />
 </BaseLayout>

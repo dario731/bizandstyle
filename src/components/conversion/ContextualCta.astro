@@ -3,6 +3,7 @@
  * ContextualCta — intent-specific conversion band. Every page ends with one.
  * The master idea stays "Tell us what you're building"; the label adapts.
  */
+import NetCanvas from '@components/cinematic/NetCanvas.astro';
 interface Props {
   eyebrow?: string;
   title: string | readonly string[];
@@ -17,6 +18,7 @@ const lines = Array.isArray(title) ? title : [title];
 ---
 
 <section class:list={['section cta', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} aria-labelledby="cta-title">
+  <NetCanvas class="cta__net" density={0.6} />
   <div class="container cta__grid">
     <div class="cta__main">
       {eyebrow && <p class="eyebrow eyebrow--marker" data-reveal>{eyebrow}</p>}
@@ -43,7 +45,23 @@ const lines = Array.isArray(title) ? title : [title];
 </section>
 
 <style>
+  .cta {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .cta :global(.cta__net) {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
   .cta__grid {
+    position: relative;
+    z-index: 1;
     display: grid;
     gap: var(--space-7);
   }

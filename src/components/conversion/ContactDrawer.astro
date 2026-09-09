@@ -288,6 +288,11 @@ const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&te
       const t = (e.target as HTMLElement).closest<HTMLElement>('[data-open-contact], a[href="#connect"], a[href$="#connect"]');
       if (t) { e.preventDefault(); open(t.dataset.openContact || (t.getAttribute('href')?.endsWith('#connect') ? 'message' : 'message')); }
     });
+    document.addEventListener('bs:open-contact', (e) => {
+      const d = (e as CustomEvent).detail || {};
+      open(d.tab || 'message');
+      if (d.message) { const ta = drawer.querySelector<HTMLTextAreaElement>('textarea[name="message"]'); if (ta) ta.value = d.message; }
+    });
     if (location.hash === '#connect') open('message');
   }
 </script>

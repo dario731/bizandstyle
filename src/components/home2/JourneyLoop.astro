@@ -1,25 +1,38 @@
 ---
 /**
- * JourneyLoop — Business → Wealth → Lifestyle → ∞ as a living ring.
- * The ring draws on scroll, a traveller orbits, each word lights as it passes.
+ * JourneyLoop — Business → Wealth → Lifestyle → ∞ as a living ring:
+ * a rotating dashed orbit, a light arc chasing the traveller, nodes that
+ * flare as it passes, and three stage cards that light up in sync.
  */
+interface Stage {
+  id: string;
+  name: string;
+  verbs: readonly string[];
+  examples: readonly string[];
+  generates: string;
+}
+interface Props {
+  stages: readonly Stage[];
+  eyebrow?: string;
+}
+const { stages, eyebrow = 'The Investor Journey™' } = Astro.props;
 const C = 240;
 const R = 186;
 const angles = [-90, 30, 150];
-const stages = ['Business', 'Wealth', 'Lifestyle'];
-const nodes = stages.map((name, i) => {
+const nodes = stages.slice(0, 3).map((s, i) => {
   const a = (angles[i] * Math.PI) / 180;
-  return { name, x: C + R * Math.cos(a), y: C + R * Math.sin(a) };
+  return { name: s.name, x: C + R * Math.cos(a), y: C + R * Math.sin(a) };
 });
 const circ = 2 * Math.PI * R;
+const arcEnd = { x: C + R * Math.cos(-Math.PI / 6), y: C + R * Math.sin(-Math.PI / 6) };
 ---
 
 <section class="jl ground-onyx" id="investor-journey" aria-labelledby="jl-title" data-journey-loop>
   <div class="container jl__grid">
     <div class="jl__text">
-      <p class="eyebrow eyebrow--marker" data-jl-reveal>The Investor Journey™</p>
+      <p class="eyebrow eyebrow--marker" data-jl-reveal>{eyebrow}</p>
       <h2 id="jl-title" class="jl__title" data-jl-reveal>
-        {stages.map((s, i) => <span class="jl__word" data-jl-word={i}>{s}.</span>)}
+        {stages.slice(0, 3).map((s, i) => <span class="jl__word" data-jl-word={i}>{s.name}.</span>)}
         <span class="jl__word jl__word--inf" data-jl-word="3">∞</span>
       </h2>
       <p class="jl__lede editorial" data-jl-reveal>Business creates wealth. Wealth shapes lifestyle. Lifestyle opens new business.</p>
@@ -29,12 +42,17 @@ const circ = 2 * Math.PI * R;
     <div class="jl__ring" data-jl-ring>
       <svg viewBox="0 0 480 480" aria-hidden="true">
         <defs>
-          <radialGradient id="jl-glow"><stop offset="0" stop-color="#8EC5E8" stop-opacity="0.35"></stop><stop offset="1" stop-color="#8EC5E8" stop-opacity="0"></stop></radialGradient>
+          <radialGradient id="jl-glow"><stop offset="0" stop-color="#8ec5e8" stop-opacity="0.28"></stop><stop offset="1" stop-color="#8ec5e8" stop-opacity="0"></stop></radialGradient>
+          <linearGradient id="jl-arc" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8ec5e8" stop-opacity="0"></stop><stop offset="1" stop-color="#f5f7f9" stop-opacity="1"></stop></linearGradient>
         </defs>
-        <circle cx={C} cy={C} r={R + 40} fill="url(#jl-glow)"></circle>
+        <circle cx={C} cy={C} r={R + 30} fill="url(#jl-glow)" class="jl__halo"></circle>
+        <circle class="jl__dash" cx={C} cy={C} r={R + 22}></circle>
         <circle class="jl__track" cx={C} cy={C} r={R}></circle>
         <circle class="jl__draw" cx={C} cy={C} r={R} stroke-dasharray={circ} stroke-dashoffset={circ} transform={`rotate(-90 ${C} ${C})`} data-jl-draw></circle>
         <path id="jl-orbit" d={`M ${C} ${C - R} a ${R} ${R} 0 1 1 -0.01 0`} fill="none" stroke="none"></path>
+        <g class="jl__arcwrap" data-jl-arc style={`transform-origin:${C}px ${C}px`}>
+          <path class="jl__arc" d={`M ${C} ${C - R} A ${R} ${R} 0 0 1 ${arcEnd.x} ${arcEnd.y}`} stroke="url(#jl-arc)"></path>
+        </g>
         {
           [-30, 90, 210].map((deg) => {
             const a = (deg * Math.PI) / 180;
@@ -44,37 +62,52 @@ const circ = 2 * Math.PI * R;
         {
           nodes.map((n, i) => (
             <g class="jl__node" data-jl-node={i}>
-              <circle cx={n.x} cy={n.y} r="22" class="jl__node-bg"></circle>
-              <circle cx={n.x} cy={n.y} r="6" class="jl__node-core"></circle>
+              <circle cx={n.x} cy={n.y} r="26" class="jl__node-flare"></circle>
+              <circle cx={n.x} cy={n.y} r="18" class="jl__node-bg"></circle>
+              <circle cx={n.x} cy={n.y} r="5" class="jl__node-core"></circle>
             </g>
           ))
         }
         <g class="jl__traveller" data-jl-traveller>
-          <circle r="7" fill="#F4F6F8"></circle>
-          <circle r="16" fill="none" stroke="#8EC5E8" stroke-opacity="0.6"></circle>
+          <circle r="6" fill="#f5f7f9"></circle>
+          <circle r="14" fill="none" stroke="#8ec5e8" stroke-opacity="0.7"></circle>
         </g>
         <text x={C} y={C + 12} text-anchor="middle" class="jl__inf">∞</text>
       </svg>
       {nodes.map((n, i) => <span class="jl__label" style={`left:${(n.x / 480) * 100}%; top:${(n.y / 480) * 100}%`} data-jl-label={i}>{n.name}</span>)}
     </div>
   </div>
+
+  <div class="container jl__stages" data-reveal-group>
+    {
+      stages.slice(0, 3).map((s, i) => (
+        <button class="jl__stage snapcard" type="button" data-jl-stage={i} aria-pressed={i === 0 ? 'true' : 'false'}>
+          <span class="snapcard__top"><span class="num">0{i + 1}</span><span class="snapcard__tag">{s.name}</span></span>
+          <span class="jl__verbs">{s.verbs.join(' · ')}</span>
+          <span class="jl__examples">{s.examples.slice(0, 5).map((e) => <span>{e}</span>)}</span>
+          <span class="jl__generates">{s.generates}</span>
+        </button>
+      ))
+    }
+  </div>
 </section>
 
 <style>
   .jl {
-    padding-block: clamp(5rem, 12vh, 9rem);
+    padding-block: var(--space-section-sm);
     overflow: hidden;
+    position: relative;
   }
 
   .jl__grid {
     display: grid;
-    gap: var(--space-8);
+    gap: var(--space-7);
     align-items: center;
   }
 
   .jl__text {
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-4);
     justify-items: start;
   }
 
@@ -97,7 +130,7 @@ const circ = 2 * Math.PI * R;
 
   .jl__word.is-active {
     color: var(--paper);
-    text-shadow: 0 0 40px rgba(142, 197, 232, 0.35);
+    text-shadow: 0 0 40px rgba(142, 197, 232, 0.45);
   }
 
   .jl__word--inf {
@@ -112,12 +145,12 @@ const circ = 2 * Math.PI * R;
 
   .jl__lede {
     color: var(--stone);
-    max-width: 24ch;
+    max-width: 26ch;
   }
 
   .jl__ring {
     position: relative;
-    width: min(100%, 560px);
+    width: min(100%, 480px);
     justify-self: center;
     aspect-ratio: 1;
   }
@@ -128,6 +161,28 @@ const circ = 2 * Math.PI * R;
     overflow: visible;
   }
 
+  .jl__halo {
+    animation: jl-halo 4s ease-in-out infinite;
+    transform-origin: 240px 240px;
+  }
+
+  @keyframes jl-halo {
+    50% { transform: scale(1.06); opacity: 0.7; }
+  }
+
+  .jl__dash {
+    fill: none;
+    stroke: rgba(142, 197, 232, 0.35);
+    stroke-width: 1;
+    stroke-dasharray: 2 10;
+    transform-origin: 240px 240px;
+    animation: jl-spin 40s linear infinite;
+  }
+
+  @keyframes jl-spin {
+    to { transform: rotate(360deg); }
+  }
+
   .jl__track {
     fill: none;
     stroke: rgba(244, 246, 248, 0.14);
@@ -136,18 +191,33 @@ const circ = 2 * Math.PI * R;
 
   .jl__draw {
     fill: none;
-    stroke: var(--brass);
-    stroke-width: 1.6;
+    stroke: rgba(142, 197, 232, 0.55);
+    stroke-width: 1.4;
+  }
+
+  .jl__arc {
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    filter: drop-shadow(0 0 6px rgba(142, 197, 232, 0.9));
   }
 
   .jl__arrow {
     fill: none;
-    stroke: rgba(244, 246, 248, 0.6);
+    stroke: rgba(244, 246, 248, 0.55);
     stroke-width: 1.4;
   }
 
+  .jl__node-flare {
+    fill: rgba(142, 197, 232, 0.18);
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0);
+    transition: transform 0.6s var(--ease-out);
+  }
+
   .jl__node-bg {
-    fill: #0b0e13;
+    fill: #08090b;
     stroke: rgba(244, 246, 248, 0.5);
     stroke-width: 1.2;
     transition: stroke 0.5s;
@@ -160,38 +230,79 @@ const circ = 2 * Math.PI * R;
     transition: transform 0.5s var(--ease-out), fill 0.5s;
   }
 
-  .jl__node.is-active .jl__node-bg {
-    stroke: var(--brass);
-  }
-
-  .jl__node.is-active .jl__node-core {
-    fill: var(--brass);
-    transform: scale(1.6);
-  }
+  .jl__node.is-active .jl__node-flare { transform: scale(1.4); }
+  .jl__node.is-active .jl__node-bg { stroke: var(--brass); }
+  .jl__node.is-active .jl__node-core { fill: var(--brass); transform: scale(1.6); }
 
   .jl__inf {
     font-family: var(--font-editorial);
     font-style: italic;
-    font-size: 96px;
+    font-size: 84px;
     fill: var(--brass);
   }
 
   .jl__label {
     position: absolute;
-    transform: translate(-50%, 34px);
-    font-size: 0.62rem;
+    transform: translate(-50%, 30px);
+    font-size: 0.6rem;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: rgba(244, 246, 248, 0.6);
     transition: color 0.5s;
   }
 
-  .jl__label.is-active {
-    color: var(--paper);
+  .jl__label.is-active { color: var(--paper); }
+  .jl__label[data-jl-label='0'] { transform: translate(-50%, -46px); }
+
+  .jl__stages {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-7);
   }
 
-  .jl__label[data-jl-label='0'] {
-    transform: translate(-50%, -52px);
+  .jl__stage {
+    text-align: left;
+    cursor: pointer;
+    opacity: 0.55;
+    transition: opacity 0.5s, border-color 0.3s, transform 0.4s var(--ease-out);
+  }
+
+  .jl__stage.is-active {
+    opacity: 1;
+  }
+
+  .jl__verbs {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 112, 'wght' 680;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    line-height: 1.2;
+  }
+
+  .jl__examples {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .jl__examples span {
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    padding: 0.25em 0.6em;
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    color: var(--stone);
+  }
+
+  .jl__generates {
+    font-family: var(--font-editorial);
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--stone);
+  }
+
+  @media (min-width: 900px) {
+    .jl__stages { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
 
   @media (min-width: 1024px) {
@@ -200,17 +311,22 @@ const circ = 2 * Math.PI * R;
       column-gap: calc(var(--gutter) * 2);
     }
   }
+
+  @media (prefers-reduced-motion: reduce) {
+    .jl__dash, .jl__halo { animation: none; }
+  }
 </style>
 
 <script>
   import { gsap, ScrollTrigger, reduced } from '@lib/motion';
 
-  const root = document.querySelector<HTMLElement>('[data-journey-loop]');
-  if (root) {
+  document.querySelectorAll<HTMLElement>('[data-journey-loop]').forEach((root) => {
     const words = Array.from(root.querySelectorAll<HTMLElement>('[data-jl-word]'));
     const nodes = Array.from(root.querySelectorAll<SVGGElement>('[data-jl-node]'));
     const labels = Array.from(root.querySelectorAll<HTMLElement>('[data-jl-label]'));
+    const cards = Array.from(root.querySelectorAll<HTMLElement>('[data-jl-stage]'));
     const traveller = root.querySelector<SVGGElement>('[data-jl-traveller]')!;
+    const arc = root.querySelector<SVGGElement>('[data-jl-arc]')!;
     const draw = root.querySelector<SVGCircleElement>('[data-jl-draw]')!;
 
     gsap.from(root.querySelectorAll('[data-jl-reveal]'), { autoAlpha: 0, y: 24, stagger: 0.12, scrollTrigger: { trigger: root, start: 'top 75%' } });
@@ -220,26 +336,27 @@ const circ = 2 * Math.PI * R;
       words.forEach((w, k) => w.classList.toggle('is-active', k === i));
       nodes.forEach((n, k) => n.classList.toggle('is-active', k === i));
       labels.forEach((l, k) => l.classList.toggle('is-active', k === i));
+      cards.forEach((c, k) => { c.classList.toggle('is-active', k === i); c.setAttribute('aria-pressed', String(k === i)); });
     };
 
     if (reduced()) {
       gsap.set(draw, { strokeDashoffset: 0 });
       setStage(0);
+      cards.forEach((c, i) => c.addEventListener('click', () => setStage(i)));
     } else {
       gsap.to(draw, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: root, start: 'top 80%', end: 'center 45%', scrub: 0.5 } });
-
+      const orbitPath = root.querySelector<SVGPathElement>('#jl-orbit, [id^="jl-orbit"]')!;
       const orbit = gsap.to(traveller, {
-        motionPath: { path: '#jl-orbit', align: '#jl-orbit', alignOrigin: [0.5, 0.5] },
-        duration: 14,
-        repeat: -1,
-        ease: 'none',
-        paused: true,
+        motionPath: { path: orbitPath, align: orbitPath, alignOrigin: [0.5, 0.5] },
+        duration: 12, repeat: -1, ease: 'none', paused: true,
         onUpdate() {
           const p = orbit.progress();
+          arc.style.transform = `rotate(${p * 360 - 60}deg)`;
           setStage(p < 0.3 ? 0 : p < 0.63 ? 1 : p < 0.96 ? 2 : 3);
         },
       });
       ScrollTrigger.create({ trigger: root, start: 'top 80%', end: 'bottom 20%', onToggle: (s) => (s.isActive ? orbit.play() : orbit.pause()) });
+      cards.forEach((c, i) => c.addEventListener('click', () => orbit.progress(i === 0 ? 0.02 : i === 1 ? 0.35 : 0.68)));
     }
-  }
+  });
 </script>

@@ -76,10 +76,12 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID as string | undefined;
     <script>
       import { initReveal } from '@lib/reveal';
       import { initPageMotion } from '@lib/page-motion';
+      import { initSnapRows } from '@lib/snaprow';
       import { captureAttribution, bindDeclarativeTracking } from '@lib/track';
       captureAttribution();
       initReveal();
       initPageMotion();
+      initSnapRows();
       bindDeclarativeTracking();
     </script>
   </body>

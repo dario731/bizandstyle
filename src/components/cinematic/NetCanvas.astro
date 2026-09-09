@@ -1,0 +1,88 @@
+---
+/**
+ * NetCanvas — the living network: drifting nodes, links within reach, the
+ * cursor brightens what it approaches. Fills its positioned parent.
+ */
+interface Props {
+  class?: string;
+  density?: number;
+  opacity?: number;
+}
+const { class: cls, density = 1, opacity = 1 } = Astro.props;
+---
+
+<canvas class:list={['netcanvas', cls]} style={`opacity:${opacity}`} data-net-canvas data-density={density} aria-hidden="true"></canvas>
+
+<style>
+  .netcanvas {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+</style>
+
+<script>
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLCanvasElement>('[data-net-canvas]').forEach((canvas) => {
+    const ctx = canvas.getContext('2d')!;
+    const density = Number(canvas.dataset.density || 1);
+    const host = canvas.parentElement!;
+    let W = 0, H = 0;
+    type Node = { x: number; y: number; vx: number; vy: number; r: number; b: boolean };
+    let nodes: Node[] = [];
+    const mouse = { x: -9999, y: -9999 };
+    const LINK = 150;
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const r = host.getBoundingClientRect();
+      W = Math.round(r.width); H = Math.round(r.height);
+      if (canvas.width === W * dpr && canvas.height === H * dpr) return;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const n = Math.round(Math.min(110, Math.max(30, (W * H) / 16000)) * density);
+      nodes = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22, r: Math.random() * 1.6 + 0.6, b: Math.random() < 0.2 }));
+    };
+    resize();
+    new ResizeObserver(() => resize()).observe(host);
+    host.addEventListener('pointermove', (e) => { const b = canvas.getBoundingClientRect(); mouse.x = e.clientX - b.left; mouse.y = e.clientY - b.top; });
+    host.addEventListener('pointerleave', () => { mouse.x = mouse.y = -9999; });
+
+    let running = false, t = 0;
+    const frame = () => {
+      if (!running) return;
+      t += 0.005;
+      ctx.clearRect(0, 0, W, H);
+      for (const n of nodes) {
+        if (!still) { n.x += n.vx; n.y += n.vy; }
+        if (n.x < -20) n.x = W + 20; if (n.x > W + 20) n.x = -20;
+        if (n.y < -20) n.y = H + 20; if (n.y > H + 20) n.y = -20;
+      }
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d < LINK) {
+            const near = Math.min(1, 220 / (Math.hypot(mouse.x - a.x, mouse.y - a.y) + 1));
+            const alpha = (1 - d / LINK) * (0.16 + near * 0.35);
+            ctx.strokeStyle = a.b || b.b ? `rgba(142,197,232,${alpha})` : `rgba(244,246,248,${alpha * 0.8})`;
+            ctx.lineWidth = 0.8;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+          }
+        }
+      }
+      for (const n of nodes) {
+        const pulse = 1 + Math.sin(t * 6 + n.x * 0.01) * 0.25;
+        ctx.fillStyle = n.b ? 'rgba(142,197,232,0.95)' : 'rgba(244,246,248,0.75)';
+        ctx.beginPath(); ctx.arc(n.x, n.y, n.r * pulse, 0, Math.PI * 2); ctx.fill();
+        if (n.b) { ctx.strokeStyle = 'rgba(142,197,232,0.25)'; ctx.beginPath(); ctx.arc(n.x, n.y, n.r * 4 * pulse, 0, Math.PI * 2); ctx.stroke(); }
+      }
+      requestAnimationFrame(frame);
+    };
+    new IntersectionObserver((es) => { const on = es[0].isIntersecting; if (on && !running) { running = true; requestAnimationFrame(frame); } if (!on) running = false; }).observe(canvas);
+  });
+</script>

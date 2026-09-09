@@ -137,8 +137,11 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
   }
 
   @media (min-width: 1024px) {
+    .eh--media .eh__title {
+      font-size: clamp(2rem, 3.9vw, 3.8rem);
+    }
     .eh--media .eh__inner {
-      grid-template-columns: 7fr 5fr;
+      grid-template-columns: 8fr 4fr;
       column-gap: calc(var(--gutter) * 2);
       align-items: center;
     }

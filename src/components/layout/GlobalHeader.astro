@@ -57,8 +57,9 @@ const isActive = (href: string) => current === href || current.startsWith(href +
             </div>
           )
         }
+        <a class="btn hdr__build" href="/build" data-track="cta_click" data-track-cta-name="build_journey" data-track-cta-location="header">Build your journey</a>
         <button class="btn btn--flash hdr__cta" type="button" data-open-contact="message" data-track="cta_click" data-track-cta-name="lets_connect" data-track-cta-location="header">
-          <span class="hdr__cta-dot" aria-hidden="true"></span>Let's connect
+          Let's connect
         </button>
         <button class="hdr__burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-mobile-trigger>
           <span class="sr-only">Menu</span>
@@ -86,7 +87,7 @@ const isActive = (href: string) => current === href || current.startsWith(href +
       </ul>
       <div class="mob__foot">
         <button class="btn btn--flash" type="button" data-open-contact="message">Let's connect</button>
-        <a class="btn" href="/tell-us">Tell us what you're building</a>
+        <a class="btn" href="/build">Build your journey</a>
         <div class="mob__contact small">
           <a href={`mailto:${site.email}`} data-track="email_click">{site.email}</a>
           <a href={site.phoneHref} data-track="phone_click">{site.phone}</a>
@@ -186,23 +187,17 @@ const isActive = (href: string) => current === href || current.startsWith(href +
     text-underline-offset: 0.3em;
   }
 
+  .hdr__build {
+    display: none;
+    min-height: 2.6rem;
+    padding: 0.6em 1.1em;
+  }
+
   .hdr__cta {
     display: none;
     min-height: 2.6rem;
     padding: 0.6em 1.2em;
     gap: 0.6em;
-  }
-
-  .hdr__cta-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--onyx);
-    animation: hdr-dot 1.2s ease-in-out infinite;
-  }
-
-  @keyframes hdr-dot {
-    50% { opacity: 0.25; transform: scale(0.7); }
   }
 
   .hdr__burger {
@@ -296,6 +291,7 @@ const isActive = (href: string) => current === href || current.startsWith(href +
   @media (min-width: 1100px) {
     .hdr__nav { display: block; }
     .hdr__cta { display: inline-flex; }
+    .hdr__build { display: inline-flex; }
     .hdr__burger { display: none; }
     .hdr__lang { display: flex; }
   }

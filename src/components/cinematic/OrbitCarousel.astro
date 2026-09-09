@@ -65,13 +65,22 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
         {details.map((d, i) => (
           <div class="cf__detail" data-cf-detail={i} hidden={i !== 0}>
             <p class="cf__intro">{d.intro}</p>
-            <div class="cf__groups">
-              {d.groups.map((g) => (
-                <div class="cf__group">
-                  <h3 class="eyebrow">{g.title}</h3>
-                  <ul role="list">{g.items.map((it) => <li>{it}</li>)}</ul>
+            <div class="snaprow" data-snaprow>
+              <div class="cf__rowhead">
+                <span class="snaprow__hint">Swipe · everything inside</span>
+                <div class="snaprow__nav">
+                  <button class="snaprow__btn" type="button" data-snap-prev aria-label="Previous"><svg viewBox="0 0 16 16"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
+                  <button class="snaprow__btn" type="button" data-snap-next aria-label="Next"><svg viewBox="0 0 16 16"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></button>
                 </div>
-              ))}
+              </div>
+              <div class="snaprow__track" style="--snap-w: min(16rem, 72vw)">
+                {d.groups.flatMap((g) => g.items.map((it, k) => (
+                  <div class="snapcard">
+                    <span class="snapcard__top"><span class="num">{String(k + 1).padStart(2, '0')}</span><span class="snapcard__tag">{g.title}</span></span>
+                    <span class="snapcard__name">{it}</span>
+                  </div>
+                )))}
+              </div>
             </div>
             {d.note && <p class="cf__note small">{d.note}</p>}
             {d.href && (
@@ -260,9 +269,12 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     color: var(--stone);
   }
 
-  .cf__groups {
-    display: grid;
+  .cf__rowhead {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     gap: var(--space-4);
+    margin-bottom: 0.5rem;
   }
 
   .cf__group {
