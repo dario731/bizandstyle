@@ -1,6 +1,6 @@
 /* ==========================================================================
    BIZ & STYLE — design tokens
-   Two dark grounds (Onyx / Graphite), black & white type, one silver-gradient accent used for
+   Black and white only: two dark grounds (Onyx / Graphite), white type, a near-white gradient for
    focus and active states. Everything else is type, rules and spacing.
    ========================================================================== */
 :root {
@@ -8,16 +8,16 @@
   --onyx: #08090b;
   --ink: #f5f7f9;
   --paper: #f5f7f9;
-  --ivory: #171a20;
+  --ivory: #191a1c;
   --sand: #e8dfce;
-  --stone: #9aa4b1;
-  --smoke: #aab3bf;
-  --rule: #262b33;
-  --rule-deep: #20252c;
-  --brass: #d3d9e1; /* silver accent — token name kept for compatibility */
-  --brass-soft: rgba(211, 217, 225, 0.35);
-  --silver-grad: linear-gradient(135deg, #f5f7f9 0%, #cfd5dd 48%, #9ea7b2 100%);
-  --silver-grad-hover: linear-gradient(135deg, #ffffff 0%, #e6eaef 48%, #b6bec8 100%);
+  --stone: #9fa2a7;
+  --smoke: #b3b6bb;
+  --rule: #2a2b2f;
+  --rule-deep: #232427;
+  --brass: #f5f7f9; /* white accent — token name kept for compatibility */
+  --brass-soft: rgba(245, 247, 249, 0.35);
+  --silver-grad: linear-gradient(135deg, #f5f7f9 0%, #f0f2f4 48%, #d9dde2 100%);
+  --silver-grad-hover: linear-gradient(135deg, #ffffff 0%, #f5f7f9 48%, #e6e9ed 100%);
 
   /* ground-relative (set by .ground-paper / .ground-onyx) */
   --bg: var(--paper);
@@ -91,7 +91,7 @@
 
 /* "paper" is now graphite: the second dark ground. Black is the identity. */
 .ground-paper {
-  --bg: #111318;
+  --bg: #121315;
   --fg: var(--paper);
   --fg-muted: var(--smoke);
   --line: var(--rule);
@@ -106,7 +106,7 @@
   --fg: var(--paper);
   --fg-muted: var(--stone);
   --line: var(--rule-deep);
-  --surface: #12151a;
+  --surface: #131416;
   background: var(--bg);
   color: var(--fg);
   color-scheme: dark;

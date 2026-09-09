@@ -117,7 +117,6 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
             <button class="btn" type="button" data-book>Book a call</button>
             <button class="btn bj__keep" type="button" data-keep>Keep building</button>
             <div class="bj__minor">
-              <button class="link" type="button" data-copy>Copy link</button>
               <button class="link" type="button" data-clear>Start over</button>
             </div>
           </div>
@@ -251,13 +250,13 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
     padding-right: 2.6rem;
     border: 1px solid var(--rule);
     border-radius: 2px;
-    background: linear-gradient(160deg, rgba(24, 30, 38, 0.6), rgba(8, 9, 11, 0.7));
+    background: linear-gradient(160deg, rgba(27, 28, 31, 0.6), rgba(8, 9, 11, 0.7));
     color: var(--paper);
     transition: border-color 0.25s, transform 0.35s var(--ease-out), background 0.25s;
   }
 
   .bj__card:hover { border-color: var(--stone); transform: translateY(-2px); }
-  .bj__card[aria-pressed='true'] { border-color: var(--brass); background: linear-gradient(160deg, rgba(211, 217, 225, 0.18), rgba(8, 9, 11, 0.8)); }
+  .bj__card[aria-pressed='true'] { border-color: var(--brass); background: linear-gradient(160deg, rgba(245, 247, 249, 0.18), rgba(8, 9, 11, 0.8)); }
 
   .bj__mark {
     position: absolute;
@@ -288,7 +287,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
   }
 
   .bj__card.is-suggested .bj__sugg { display: block; }
-  .bj__card.is-suggested { border-color: rgba(211, 217, 225, 0.5); }
+  .bj__card.is-suggested { border-color: rgba(245, 247, 249, 0.5); }
 
   .bj__name {
     font-family: var(--font-display);
@@ -304,7 +303,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
   .bj__side {
     border: 1px solid var(--rule);
     border-radius: 2px;
-    background: #0d1015;
+    background: #0e0f11;
   }
 
   .bj__sidehead {
@@ -330,15 +329,15 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
   .bj__map { display: grid; gap: 0.5rem; }
   .bj__map svg { width: 100%; max-width: 320px; margin-inline: auto; overflow: visible; }
   .bj__orbit { fill: none; stroke: rgba(244, 246, 248, 0.12); stroke-dasharray: 2 6; }
-  .bj__orbit--inner { stroke: rgba(211, 217, 225, 0.25); }
-  .bj__you { fill: var(--brass); filter: drop-shadow(0 0 10px rgba(211, 217, 225, 0.9)); }
+  .bj__orbit--inner { stroke: rgba(245, 247, 249, 0.25); }
+  .bj__you { fill: var(--brass); filter: drop-shadow(0 0 10px rgba(245, 247, 249, 0.9)); }
   .bj__youlabel { font-size: 6px; letter-spacing: 0.2em; fill: var(--onyx); font-weight: 700; }
-  .bj__map :global(line) { stroke: rgba(211, 217, 225, 0.5); stroke-width: 1; }
+  .bj__map :global(line) { stroke: rgba(245, 247, 249, 0.5); stroke-width: 1; }
   .bj__map :global(circle.node) { fill: var(--paper); transform-box: fill-box; transform-origin: center; animation: bj-pop 0.5s var(--ease-out); }
   .bj__map :global(circle.node.c-advisory) { fill: #f5f7f9; }
-  .bj__map :global(circle.node.c-commerce) { fill: #d3d9e1; }
-  .bj__map :global(circle.node.c-luxury) { fill: #cfe4f4; }
-  .bj__map :global(circle.node.c-solutions) { fill: #5ea7d6; }
+  .bj__map :global(circle.node.c-commerce) { fill: #f5f7f9; }
+  .bj__map :global(circle.node.c-luxury) { fill: #ffffff; }
+  .bj__map :global(circle.node.c-solutions) { fill: #c9cdd2; }
   .bj__map :global(circle.node.c-programs) { fill: #ffffff; }
   .bj__map :global(text.nlabel) { font-size: 6.5px; fill: rgba(244, 246, 248, 0.75); letter-spacing: 0.06em; }
 
@@ -544,7 +543,6 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
     };
     root.querySelector('[data-send]')?.addEventListener('click', () => { track('cta_click', { cta_name: 'build_send', cta_location: 'builder' }); document.dispatchEvent(new CustomEvent('bs:open-contact', { detail: { tab: 'message', message: message() } })); });
     root.querySelector('[data-book]')?.addEventListener('click', () => document.dispatchEvent(new CustomEvent('bs:open-contact', { detail: { tab: 'call' } })));
-    root.querySelector('[data-copy]')?.addEventListener('click', async (e) => { try { await navigator.clipboard.writeText(location.href); (e.target as HTMLElement).textContent = 'Link copied'; setTimeout(() => ((e.target as HTMLElement).textContent = 'Copy link'), 1800); } catch {} });
     root.querySelector('[data-clear]')?.addEventListener('click', () => { picked.clear(); persona = ''; render(); });
     root.querySelector('[data-keep]')?.addEventListener('click', () => { side.classList.remove('is-open'); side.querySelector('[data-side-toggle]')!.setAttribute('aria-expanded', 'false'); document.querySelector('#pick')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 

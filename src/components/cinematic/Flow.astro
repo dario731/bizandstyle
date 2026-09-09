@@ -18,7 +18,11 @@ interface Props {
   numbered?: boolean;
 }
 const { items, label, size = 'md', trackAs, numbered = true } = Astro.props;
-const dims = { sm: '--fl-stage:11.5rem;--fl-h:10.5rem;--fl-w:min(16rem, 60vw)', md: '--fl-stage:13.5rem;--fl-h:12.5rem;--fl-w:min(19rem, 64vw)', lg: '--fl-stage:19.5rem;--fl-h:18.5rem;--fl-w:min(24rem, 78vw)' }[size];
+const dims = {
+  sm: '--fl-stage:min(11.5rem, calc(38vw + 1rem));--fl-h:min(10.5rem, 38vw);--fl-w:min(16rem, 70vw)',
+  md: '--fl-stage:min(13.5rem, calc(42vw + 1rem));--fl-h:min(12.5rem, 42vw);--fl-w:min(19rem, 74vw)',
+  lg: '--fl-stage:min(19.5rem, calc(50vw + 1rem));--fl-h:min(18.5rem, 50vw);--fl-w:min(24rem, 80vw)',
+}[size];
 ---
 
 <div class:list={['fl', `fl--${size}`]} style={dims} data-flow data-flow-wrap={items.length > 2 ? 'true' : undefined}>

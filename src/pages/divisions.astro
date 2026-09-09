@@ -20,6 +20,24 @@ const jsonLd = graph(webPageLd({ name: title, description, path, type: 'Collecti
 <BaseLayout {title} {description} {path} pageType="divisions" {jsonLd}>
   <EditorialHero eyebrow="Divisions" title={['Three engines.', 'Choose where to start.']} ground="onyx" crumbs={[{ name: 'Divisions', path }]} size="display-2" toc={false} tight />
 
+  <section class="ground-onyx dv-tiles" aria-label="The three divisions">
+    <div class="container">
+      <ol class="dv-tiles__grid" role="list">
+        {divisions.map((d) => {
+          const meta = divisionMeta[d.id];
+          return (
+            <li>
+              <a class="dv-tile" href={meta.path} data-track="division_view" data-track-division={meta.name}>
+                <span class="dv-tile__top"><span class="num">{d.num}</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></span>
+                <span class="dv-tile__name">{meta.name}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  </section>
+
   <section class="section ground-onyx dv" id="choose" aria-label="Choose a division">
     <div class="container dv__grid" data-reveal-group>
       {
@@ -53,6 +71,30 @@ const jsonLd = graph(webPageLd({ name: title, description, path, type: 'Collecti
   .dv {
     padding-top: 0;
   }
+  .dv-tiles { padding-block: 0 var(--space-5); }
+  .dv-tiles__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.5rem; }
+  .dv-tile {
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+    height: 100%;
+    padding: 0.75rem 0.7rem 0.85rem;
+    border: 1px solid rgba(244, 246, 248, 0.14);
+    border-top: 2px solid rgba(244, 246, 248, 0.5);
+    border-radius: 2px;
+    background: linear-gradient(170deg, #1b1c1f, #0c0c0e 70%);
+  }
+  .dv-tile__top { display: flex; justify-content: space-between; align-items: center; }
+  .dv-tile__top svg { width: 0.9rem; height: 0.9rem; color: var(--stone); }
+  .dv-tile__name {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 110, 'wght' 720;
+    font-stretch: 110%;
+    font-size: 0.85rem;
+    line-height: 1.05;
+    text-transform: uppercase;
+  }
+  @media (min-width: 900px) { .dv-tiles { display: none; } }
   .dv :global(.eh) { padding-bottom: var(--space-4); }
   .dv__grid {
     display: grid;
@@ -65,13 +107,13 @@ const jsonLd = graph(webPageLd({ name: title, description, path, type: 'Collecti
     padding: clamp(1.2rem, 2vw, 1.8rem);
     border: 1px solid rgba(244, 246, 248, 0.14);
     border-radius: 2px;
-    background: linear-gradient(170deg, #1a1e25, #0b0d11 70%);
+    background: linear-gradient(170deg, #1b1c1f, #0c0c0e 70%);
     color: var(--paper);
     transition: border-color 0.3s, transform 0.4s var(--ease-out);
   }
   .dv__card:hover {
     border-color: rgba(244, 246, 248, 0.4);
-    background: linear-gradient(170deg, #2a2f38, #12151a 70%);
+    background: linear-gradient(170deg, #2b2c30, #131416 70%);
     transform: translateY(-4px);
   }
   .dv__top {

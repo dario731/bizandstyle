@@ -1,6 +1,5 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import Breadcrumbs from '@components/editorial/Breadcrumbs.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
@@ -45,7 +44,6 @@ const jsonLd = graph(
   <article class="art" data-article data-category={category?.id}>
     <header class="art__head ground-paper">
       <div class="container art__head-grid">
-        <Breadcrumbs items={[{ name: 'Insights', path: '/insights' }, ...(category ? [{ name: category.data.name, path: `/insights/category/${category.id}` }] : []), { name: d.title, path }]} />
         <p class="eyebrow eyebrow--marker" data-reveal>{category?.data.name}</p>
         <h1 class="art__title" data-reveal>{d.title}</h1>
         <p class="lede muted" data-reveal>{d.excerpt}</p>

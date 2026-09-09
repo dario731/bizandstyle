@@ -107,7 +107,15 @@ export function initFlows() {
       target = pos = i; render();
       setTimeout(() => root.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
     };
-    if (root.dataset.flowHash) { byHash(); window.addEventListener('hashchange', byHash); }
+    if (root.dataset.flowHash) {
+      byHash();
+      window.addEventListener('hashchange', byHash);
+      const h0 = decodeURIComponent(location.hash.replace('#', ''));
+      if (h0 && cards.some((c) => c.dataset.hash === h0)) {
+        const land = () => setTimeout(() => root.scrollIntoView({ behavior: 'auto', block: 'start' }), 250);
+        document.readyState === 'complete' ? land() : window.addEventListener('load', land, { once: true });
+      }
+    }
     window.addEventListener('resize', render);
     new ResizeObserver(() => render()).observe(stage);
     new IntersectionObserver((es) => (es[0].isIntersecting ? restart() : clearInterval(timer))).observe(root);

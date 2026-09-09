@@ -33,7 +33,7 @@ const wa = `https://wa.me/${site.phoneHref.replace(/\D/g, '')}?text=${encodeURIC
     height: 3.25rem;
     padding: 0 1.1rem 0 0.9rem;
     border-radius: 999px;
-    background: rgba(15, 19, 25, 0.92);
+    background: rgba(15, 16, 18, 0.92);
     border: 1px solid rgba(244, 246, 248, 0.18);
     color: var(--paper);
     -webkit-backdrop-filter: blur(10px);
@@ -60,7 +60,7 @@ const wa = `https://wa.me/${site.phoneHref.replace(/\D/g, '')}?text=${encodeURIC
     position: absolute;
     inset: -3px;
     border-radius: 999px;
-    border: 1px solid rgba(211, 217, 225, 0.6);
+    border: 1px solid rgba(245, 247, 249, 0.6);
     animation: fc-halo 2.2s ease-out infinite;
     pointer-events: none;
   }
@@ -94,14 +94,14 @@ const wa = `https://wa.me/${site.phoneHref.replace(/\D/g, '')}?text=${encodeURIC
     position: absolute;
     inset: -1px;
     border-radius: 2px;
-    box-shadow: 0 0 0 0 rgba(211, 217, 225, 0.6);
+    box-shadow: 0 0 0 0 rgba(245, 247, 249, 0.6);
     animation: fc-pulse 2s ease-out infinite;
     pointer-events: none;
   }
 
   @keyframes fc-pulse {
-    70% { box-shadow: 0 0 0 12px rgba(211, 217, 225, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(211, 217, 225, 0); }
+    70% { box-shadow: 0 0 0 12px rgba(245, 247, 249, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(245, 247, 249, 0); }
   }
 
   @media (max-width: 720px) {

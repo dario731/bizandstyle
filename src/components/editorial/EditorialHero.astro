@@ -5,7 +5,6 @@
  * divisions and landing pages can open on Onyx while hub pages open on Paper.
  */
 import FrameVisual from '@components/cinematic/FrameVisual.astro';
-import Breadcrumbs from './Breadcrumbs.astro';
 
 interface Props {
   eyebrow?: string;
@@ -31,7 +30,6 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
 
 <section class:list={['eh', groundClass, { 'eh--media': Boolean(mediaId), 'eh--tight': tight }]}>
   <div class="container eh__inner">
-    {crumbs.length > 0 && <Breadcrumbs items={crumbs} />}
     <div class="eh__text">
       {eyebrow && <p class="eyebrow eyebrow--marker" data-reveal>{eyebrow}</p>}
       <h1 class:list={[size, 'eh__title']} data-reveal>

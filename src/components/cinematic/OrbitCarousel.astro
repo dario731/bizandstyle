@@ -66,8 +66,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
       <div class="container cf__details" aria-live="polite">
         {details.map((d, i) => (
           <div class="cf__detail" data-flow-detail={i} hidden={i !== 0}>
-            <p class="cf__intro">{d.intro}</p>
-            <Flow size="sm" label="Everything inside · swipe" numbered={false} items={d.groups.flatMap((g) => g.items.map((it) => ({ name: it, tag: g.title })))} />
+            <Flow size="sm" label="Inside this solution · swipe" numbered={false} items={d.groups.flatMap((g) => g.items.map((it) => ({ name: it, tag: g.title })))} />
             {d.note && <p class="cf__note small">{d.note}</p>}
             {d.href && (
               <a class="link" href={d.href}>
@@ -83,6 +82,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
 
 <style>
   .cf {
+    scroll-margin-top: 4.5rem;
     padding-block: var(--space-section-sm);
     overflow: hidden;
   }
@@ -127,7 +127,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     transition: border-color 0.2s, background 0.2s;
   }
 
-  .cf__btn:hover { border-color: var(--brass); background: rgba(211, 217, 225, 0.1); }
+  .cf__btn:hover { border-color: var(--brass); background: rgba(245, 247, 249, 0.1); }
   .cf__btn svg { width: 1rem; height: 1rem; }
 
   .cf__stage {
@@ -152,7 +152,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
   }
 
   .cf__card {
-    --w: min(22rem, 64vw);
+    --w: min(22rem, 78vw);
     position: absolute;
     left: calc(var(--w) / -2);
     top: 0;
@@ -164,7 +164,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     padding: 1.2rem 1.3rem;
     border: 1px solid rgba(244, 246, 248, 0.14);
     border-radius: 2px;
-    background: linear-gradient(160deg, rgba(24, 30, 38, 0.96), rgba(11, 14, 19, 0.98));
+    background: linear-gradient(160deg, rgba(27, 28, 31, 0.96), rgba(12, 13, 15, 0.98));
     box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
     color: var(--paper);
     will-change: transform;
@@ -239,9 +239,10 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
   }
 
   @media (max-width: 720px) {
-    .cf__stage { height: 15rem; }
-    .cf__card { height: 14.5rem; padding: 0.9rem; }
-    .cf__name { font-size: 1.05rem; margin-top: 1rem; }
+    .cf__stage { height: 12.5rem; }
+    .cf__card { height: 11.75rem; padding: 0.9rem; gap: 0.3rem; }
+    .cf__name { font-size: 1.05rem; margin-top: 0.5rem; }
+    .cf__line { font-size: 0.85rem; }
   }
 </style>
 

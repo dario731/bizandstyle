@@ -195,17 +195,17 @@ const { class: cls, labels = true, opacity = 1 } = Astro.props;
         ctx.moveTo(p0[0], p0[1]);
         for (let i = 1; i <= 48; i++) { const [x, y] = bez(p0, c, p1, (i / 48) * a.progress); ctx.lineTo(x, y); }
         const g = ctx.createLinearGradient(p0[0], p0[1], p1[0], p1[1]);
-        g.addColorStop(0, inbound ? 'rgba(244,246,248,0.25)' : 'rgba(211,217,225,0.9)');
-        g.addColorStop(1, inbound ? 'rgba(211,217,225,0.9)' : 'rgba(244,246,248,0.25)');
+        g.addColorStop(0, inbound ? 'rgba(244,246,248,0.25)' : 'rgba(245,247,249,0.9)');
+        g.addColorStop(1, inbound ? 'rgba(245,247,249,0.9)' : 'rgba(244,246,248,0.25)');
         ctx.strokeStyle = g; ctx.lineWidth = 1.1; ctx.stroke();
         const [ex, ey] = bez(p0, c, p1, a.progress);
-        ctx.fillStyle = 'rgba(211,217,225,1)';
+        ctx.fillStyle = 'rgba(245,247,249,1)';
         ctx.beginPath(); ctx.arc(ex, ey, 2.2, 0, Math.PI * 2); ctx.fill();
         if (a.progress >= 1 && !still) {
           for (let k = 0; k < a.particles.length; k++) {
             a.particles[k] = (a.particles[k] + 0.0035 + k * 0.001) % 1;
             const [px, py] = bez(p0, c, p1, a.particles[k]);
-            ctx.shadowBlur = 12; ctx.shadowColor = 'rgba(211,217,225,0.9)';
+            ctx.shadowBlur = 12; ctx.shadowColor = 'rgba(245,247,249,0.9)';
             ctx.fillStyle = 'rgba(244,246,248,0.95)';
             ctx.beginPath(); ctx.arc(px, py, 1.8, 0, Math.PI * 2); ctx.fill();
             ctx.shadowBlur = 0;
@@ -218,12 +218,12 @@ const { class: cls, labels = true, opacity = 1 } = Astro.props;
       const [mx, my] = project(MIAMI.lon, MIAMI.lat);
       for (let r = 0; r < 3; r++) {
         const ph = still ? 0.5 : (t * 0.5 + r / 3) % 1;
-        ctx.strokeStyle = `rgba(211,217,225,${(1 - ph) * 0.6})`;
+        ctx.strokeStyle = `rgba(245,247,249,${(1 - ph) * 0.6})`;
         ctx.lineWidth = 1;
         ctx.beginPath(); ctx.arc(mx, my, 6 + ph * 34, 0, Math.PI * 2); ctx.stroke();
       }
-      ctx.fillStyle = '#d3d9e1';
-      ctx.shadowBlur = 18; ctx.shadowColor = 'rgba(211,217,225,1)';
+      ctx.fillStyle = '#f5f7f9';
+      ctx.shadowBlur = 18; ctx.shadowColor = 'rgba(245,247,249,1)';
       ctx.beginPath(); ctx.arc(mx, my, 5, 0, Math.PI * 2); ctx.fill();
       ctx.shadowBlur = 0;
       requestAnimationFrame(frame);

@@ -13,7 +13,6 @@ const { copy, image = '/media/founder-dario-picardi-tmp.jpg' } = Astro.props;
       <div class="founder__mask">
         <img src={image} alt={`${copy.name}, ${copy.role} of BIZ & STYLE`} width="1024" height="1024" loading="lazy" decoding="async" />
       </div>
-      <figcaption class="num">{copy.mediaId} · portrait pending editorial session</figcaption>
     </figure>
     <div class="founder__text">
       <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
@@ -48,11 +47,24 @@ const { copy, image = '/media/founder-dario-picardi-tmp.jpg' } = Astro.props;
   }
 
   .founder__mask {
+    position: relative;
     aspect-ratio: 4 / 5;
     overflow: hidden;
-    border-radius: var(--radius-media);
+    border-radius: 0;
     clip-path: inset(0 0 100% 0);
     transition: clip-path 1.4s var(--ease-out);
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%);
+  }
+  .founder__mask::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(90deg, var(--onyx) 0%, transparent 22%, transparent 78%, var(--onyx) 100%),
+      linear-gradient(180deg, rgba(8, 9, 11, 0.55) 0%, transparent 30%),
+      radial-gradient(85% 75% at 50% 42%, transparent 55%, var(--onyx) 100%);
   }
 
   .is-in .founder__mask {
@@ -63,7 +75,7 @@ const { copy, image = '/media/founder-dario-picardi-tmp.jpg' } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    filter: grayscale(1) contrast(1.05);
+    filter: grayscale(1) contrast(0.95) brightness(0.88);
   }
 
   .founder__text {

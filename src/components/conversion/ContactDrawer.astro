@@ -7,7 +7,7 @@
 import LeadFormLite from './LeadFormLite.astro';
 import { site } from '@data/site';
 const wa = `https://wa.me/${site.phoneHref.replace(/\D/g, '')}?text=${encodeURIComponent("Hi BIZ & STYLE — I'd like to talk about what I'm building.")}`;
-const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&text_color=f4f6f8&primary_color=d3d9e1`;
+const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&text_color=f4f6f8&primary_color=f5f7f9`;
 ---
 
 <div class="cd" data-contact-drawer hidden>
@@ -100,7 +100,7 @@ const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&te
   .cd__backdrop {
     position: absolute;
     inset: 0;
-    background: rgba(11, 14, 19, 0.6);
+    background: rgba(12, 13, 15, 0.6);
     -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
     opacity: 0;
@@ -115,7 +115,7 @@ const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&te
     width: min(100%, 34rem);
     display: grid;
     grid-template-rows: auto auto 1fr;
-    background: #0f1319;
+    background: #101113;
     border-left: 1px solid rgba(244, 246, 248, 0.1);
     box-shadow: -30px 0 80px rgba(0, 0, 0, 0.5);
     transform: translateX(100%);
@@ -194,7 +194,7 @@ const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&te
     border: 1px solid rgba(244, 246, 248, 0.1);
     border-radius: 2px;
     overflow: hidden;
-    background: #0b0e13;
+    background: #0c0d0f;
   }
 
   .cd__calendly iframe {
@@ -219,7 +219,7 @@ const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&te
 
   .cd__direct-item:hover {
     border-color: var(--brass);
-    background: rgba(211, 217, 225, 0.08);
+    background: rgba(245, 247, 249, 0.08);
   }
 
   .cd__direct-k {
