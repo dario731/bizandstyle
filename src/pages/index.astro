@@ -32,10 +32,10 @@ const orbitItems = solutions.map((s) => ({ num: s.num, name: s.name, line: s.tag
 <BaseLayout title={t.meta.home.title} description={t.meta.home.description} path="/" pageType="home" {jsonLd}>
   <CineHero />
   <ProofTicker />
-  <WhoWhatWhy />
+  <WhoWhatWhy ground="paper" />
   <EnginesConnected />
-  <OrbitCarousel eyebrow="Solutions" title={['Five solutions.', 'Integrated or à la carte.']} items={orbitItems} id="orbit" />
+  <OrbitCarousel ground="paper" eyebrow="Solutions" title={['Five solutions.', 'Integrated or à la carte.']} items={orbitItems} id="orbit" />
   <WorldConnect />
   <JourneyLoop stages={t.home.journey.stages} />
-  <CaptureBand />
+  <CaptureBand ground="paper" />
 </BaseLayout>

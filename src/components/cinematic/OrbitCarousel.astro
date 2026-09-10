@@ -21,16 +21,18 @@ interface Detail {
   hrefLabel?: string;
 }
 interface Props {
+  ground?: 'onyx' | 'paper';
   eyebrow?: string;
   title?: readonly string[];
   items: readonly Item[];
   details?: readonly Detail[];
   id?: string;
 }
-const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, details, id = 'orbit' } = Astro.props;
+const { ground = 'onyx', eyebrow = 'The platform', title = ['Everything', 'connects.'], items, details, id = 'orbit' } = Astro.props;
+const groundClass = ground === 'paper' ? 'ground-paper' : 'ground-onyx';
 ---
 
-<section class="cf ground-onyx" {id} aria-labelledby={`${id}-title`} data-flow data-flow-wrap="true" data-flow-hash={details ? 'true' : undefined} data-flow-auto={details ? undefined : '4500'}>
+<section class:list={['cf', groundClass]} {id} aria-labelledby={`${id}-title`} data-flow data-flow-wrap="true" data-flow-hash={details ? 'true' : undefined} data-flow-auto={details ? undefined : '4500'}>
   <div class="container cf__head">
     <div>
       <p class="eyebrow eyebrow--marker" data-cf-reveal>{eyebrow}</p>
@@ -119,7 +121,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
   .cf__btn {
     width: 2.5rem;
     height: 2.5rem;
-    border: 1px solid rgba(244, 246, 248, 0.3);
+    border: 1px solid rgba(var(--ink-rgb), 0.3);
     border-radius: 2px;
     display: grid;
     place-items: center;
@@ -127,7 +129,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     transition: border-color 0.2s, background 0.2s;
   }
 
-  .cf__btn:hover { border-color: var(--brass); background: rgba(245, 247, 249, 0.1); }
+  .cf__btn:hover { border-color: var(--brass); background: rgba(var(--ink-rgb), 0.1); }
   .cf__btn svg { width: 1rem; height: 1rem; }
 
   .cf__stage {
@@ -162,11 +164,16 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     gap: 0.4rem;
     align-content: start;
     padding: 1.2rem 1.3rem;
-    border: 1px solid rgba(244, 246, 248, 0.14);
+    border: 1px solid rgba(245, 247, 249, 0.14);
     border-radius: 2px;
     background: linear-gradient(160deg, rgba(27, 28, 31, 0.96), rgba(12, 13, 15, 0.98));
     box-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
-    color: var(--paper);
+    color: #f5f7f9;
+    --fg: #f5f7f9;
+    --fg-muted: #9fa2a7;
+    --stone: #9fa2a7;
+    --brass: #f5f7f9;
+    --ink-rgb: 245, 247, 249;
     will-change: transform;
     transition: border-color 0.3s;
   }
@@ -210,14 +217,14 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
 
   .cf__hint {
     text-align: center;
-    color: rgba(244, 246, 248, 0.4);
+    color: rgba(var(--ink-rgb), 0.4);
     margin-top: var(--space-3);
   }
 
   .cf__details {
     margin-top: var(--space-6);
     padding-top: var(--space-5);
-    border-top: 1px solid rgba(244, 246, 248, 0.12);
+    border-top: 1px solid rgba(var(--ink-rgb), 0.12);
   }
 
   .cf__detail {
@@ -233,7 +240,7 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
   .cf__note {
     padding: var(--space-4);
     border-left: 2px solid var(--brass);
-    background: rgba(244, 246, 248, 0.04);
+    background: rgba(var(--ink-rgb), 0.04);
     color: var(--stone);
     max-width: 78ch;
   }

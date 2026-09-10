@@ -77,15 +77,15 @@ const jsonLd = graph(
     height: 100%;
     min-height: 9.5rem;
     padding: 1rem 1rem 1.1rem;
-    border: 1px solid rgba(244, 246, 248, 0.14);
-    border-top: 2px solid rgba(244, 246, 248, 0.28);
+    border: 1px solid rgba(var(--ink-rgb), 0.14);
+    border-top: 2px solid rgba(var(--ink-rgb), 0.28);
     border-radius: 2px;
     background: linear-gradient(170deg, #1b1c1f, #0c0c0e 70%);
     transition: transform 0.4s var(--ease-out), border-color 0.3s, background 0.3s, box-shadow 0.3s;
   }
-  .sol-tile:hover { transform: translateY(-4px); border-color: rgba(244, 246, 248, 0.4); }
+  .sol-tile:hover { transform: translateY(-4px); border-color: rgba(var(--ink-rgb), 0.4); }
   .sol-tile[aria-current='true'] {
-    border-color: rgba(244, 246, 248, 0.32);
+    border-color: rgba(var(--ink-rgb), 0.32);
     border-top: 2px solid transparent;
     border-image: var(--silver-grad) 1;
     background: linear-gradient(170deg, #2b2c30, #131416 70%);
@@ -93,7 +93,7 @@ const jsonLd = graph(
   }
   .sol-tile__top { display: flex; justify-content: space-between; align-items: center; }
   .sol-tile__top svg { width: 1rem; height: 1rem; color: var(--stone); transition: transform 0.3s var(--ease-out), color 0.3s; }
-  .sol-tile:hover .sol-tile__top svg, .sol-tile[aria-current='true'] .sol-tile__top svg { color: var(--paper); transform: translateX(3px); }
+  .sol-tile:hover .sol-tile__top svg, .sol-tile[aria-current='true'] .sol-tile__top svg { color: var(--fg); transform: translateX(3px); }
   .sol-tile__name {
     font-family: var(--font-display);
     font-variation-settings: 'wdth' 114, 'wght' 720;

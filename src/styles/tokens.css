@@ -20,11 +20,16 @@
   --silver-grad-hover: linear-gradient(135deg, #ffffff 0%, #f5f7f9 48%, #e6e9ed 100%);
 
   /* ground-relative (set by .ground-paper / .ground-onyx) */
-  --bg: var(--paper);
+  --bg: var(--onyx);
   --fg: var(--ink);
   --fg-muted: var(--smoke);
   --line: var(--rule);
   --surface: var(--ivory);
+  --ink-rgb: 245, 247, 249;            /* rgb triplet of the current foreground */
+  --card-bg: linear-gradient(160deg, rgba(27, 28, 31, 0.9), rgba(8, 9, 11, 0.95));
+  --card-line: rgba(245, 247, 249, 0.14);
+  --card-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+  --btn-flash-fg: var(--onyx);
 
   /* type */
   --font-display: 'Archivo Variable', 'Archivo', 'Helvetica Neue', Arial, sans-serif;
@@ -89,16 +94,30 @@
   color-scheme: dark;
 }
 
-/* "paper" is now graphite: the second dark ground. Black is the identity. */
+/* Paper: the white ground. Sections alternate Onyx / Paper down every page. */
 .ground-paper {
-  --bg: #121315;
-  --fg: var(--paper);
-  --fg-muted: var(--smoke);
-  --line: var(--rule);
-  --surface: var(--ivory);
+  --bg: #f5f7f9;
+  --fg: var(--onyx);
+  --fg-muted: #4b5058;
+  --line: #d3d7dc;
+  --surface: #ffffff;
+  --ink-rgb: 8, 9, 11;
+  --brass: var(--onyx);
+  --brass-soft: rgba(8, 9, 11, 0.3);
+  --stone: #5a5f67;
+  --smoke: #4b5058;
+  --rule: #d3d7dc;
+  --rule-deep: #e1e4e8;
+  --ivory: #ffffff;
+  --card-bg: linear-gradient(160deg, #ffffff, #eef0f3);
+  --card-line: rgba(8, 9, 11, 0.14);
+  --card-shadow: 0 18px 40px rgba(8, 9, 11, 0.08);
+  --silver-grad: linear-gradient(135deg, #2b2c30 0%, #131416 55%, #08090b 100%);
+  --silver-grad-hover: linear-gradient(135deg, #3a3c41 0%, #1b1c1f 55%, #0c0c0e 100%);
+  --btn-flash-fg: #f5f7f9;
   background: var(--bg);
   color: var(--fg);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 .ground-onyx {
@@ -107,6 +126,19 @@
   --fg-muted: var(--stone);
   --line: var(--rule-deep);
   --surface: #131416;
+  --ink-rgb: 245, 247, 249;
+  --brass: #f5f7f9;
+  --brass-soft: rgba(245, 247, 249, 0.35);
+  --stone: #9fa2a7;
+  --smoke: #b3b6bb;
+  --rule: #2a2b2f;
+  --rule-deep: #232427;
+  --card-bg: linear-gradient(160deg, rgba(27, 28, 31, 0.9), rgba(8, 9, 11, 0.95));
+  --card-line: rgba(245, 247, 249, 0.14);
+  --card-shadow: 0 24px 50px rgba(0, 0, 0, 0.45);
+  --silver-grad: linear-gradient(135deg, #f5f7f9 0%, #f0f2f4 48%, #d9dde2 100%);
+  --silver-grad-hover: linear-gradient(135deg, #ffffff 0%, #f5f7f9 48%, #e6e9ed 100%);
+  --btn-flash-fg: var(--onyx);
   background: var(--bg);
   color: var(--fg);
   color-scheme: dark;
