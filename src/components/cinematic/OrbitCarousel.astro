@@ -68,7 +68,12 @@ const groundClass = ground === 'paper' ? 'ground-paper' : 'ground-onyx';
       <div class="container cf__details" aria-live="polite">
         {details.map((d, i) => (
           <div class="cf__detail" data-flow-detail={i} hidden={i !== 0}>
-            <Flow size="sm" label="Inside this solution · swipe" numbered={false} items={d.groups.flatMap((g) => g.items.map((it) => ({ name: it, tag: g.title })))} />
+            <div class="cf__detail-head">
+              <p class="eyebrow eyebrow--marker">Selected · {items[i]?.num ?? String(i + 1).padStart(2, '0')}</p>
+              <h3 class="cf__detail-t">See everything inside <span>{items[i]?.name}</span></h3>
+              <p class="cf__detail-s">All the services of this solution — swipe through them, or select another solution above.</p>
+            </div>
+            <Flow size="sm" label={`Inside ${items[i]?.name} · swipe`} numbered={false} items={d.groups.flatMap((g) => g.items.map((it) => ({ name: it, tag: g.title })))} />
             {d.note && <p class="cf__note small">{d.note}</p>}
             {d.href && (
               <a class="link" href={d.href}>
@@ -236,6 +241,18 @@ const groundClass = ground === 'paper' ? 'ground-paper' : 'ground-onyx';
   @keyframes cf-in { from { opacity: 0; transform: translateY(10px); } }
 
   .cf__intro { max-width: 70ch; color: var(--stone); }
+  .cf__detail-head { display: grid; gap: 0.6rem; max-width: 60rem; }
+  .cf__detail-t {
+    font-family: var(--font-display);
+    font-variation-settings: 'wdth' 116, 'wght' 720;
+    font-stretch: 116%;
+    font-size: clamp(1.4rem, 2.6vw, 2.4rem);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .cf__detail-t span { display: block; color: var(--stone); }
+  .cf__detail-s { font-size: 0.95rem; color: var(--stone); max-width: 52ch; }
 
   .cf__note {
     padding: var(--space-4);
