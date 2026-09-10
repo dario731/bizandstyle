@@ -368,7 +368,9 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
   @media (max-width: 720px) {
     /* phones: the radial map is unreadable at this width — a hub and seven tiles instead */
     .lux > .container { display: flex; flex-direction: column; }
-    .lux__stage { margin-top: var(--space-5); margin-bottom: 0; display: block; }
+    .lux__stage { margin-top: 0; margin-bottom: 0; display: block; }
+    .lux :global(.section-head) { margin-bottom: var(--space-5); }
+    .lux__intro:empty { display: none; }
     .lux__net { display: none; }
     .lux__hint, .lux__next, .lux__active { display: none; }
     .lux__side { display: grid; gap: 1rem; }
