@@ -167,14 +167,14 @@ const { video } = Astro.props;
   }
   .ch__cta-3 { animation-delay: 1.6s; }
   @media (max-width: 720px) {
-    .ch { align-items: end; padding-top: 5.5rem; padding-bottom: 5.25rem; }
+    .ch { align-items: end; padding-top: 5.5rem; padding-bottom: 5rem; }
     .ch__inner { padding-top: 0; gap: var(--space-5); }
     .ch__title { font-size: 1.75rem; }
     .ch__title :global(.ch__w) { white-space: normal; }
     .ch__statement { max-width: 30rem; }
     .ch__statement span:last-child { font-size: 1rem; line-height: 1.5; }
-    .ch__cta { display: grid; gap: 0.6rem; }
-    .ch__cta .btn { width: 100%; justify-content: center; }
+    .ch__cta { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; width: 100%; }
+    .ch__cta .btn { width: 100%; min-height: 3.1rem; padding: 0.7rem 0.55rem; justify-content: center; text-align: center; white-space: normal; line-height: 1.25; font-size: 0.64rem; letter-spacing: 0.1em; }
   }
 
   .ch__foot {
@@ -208,7 +208,7 @@ const { video } = Astro.props;
 
   @media (max-width: 720px) {
     .ch__foot { display: none; }
-    .ch { padding-bottom: 5.25rem; }
+    .ch { padding-bottom: 5rem; }
   }
 
   @media (prefers-reduced-motion: reduce) {
