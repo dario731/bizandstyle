@@ -308,8 +308,8 @@ export const en = {
     luxury: {
       eyebrow: 'The seven verticals',
       title: 'Seven verticals. One client.',
-      not: '',
-      body: '',
+      not: 'This is not concierge.',
+      body: 'We do not send a client to someone who needs a jet, a yacht or a table — we build business among the companies that serve the same client.',
       centre: 'HNWI',
       sameClient: ['Different industries.', 'The same client.'],
       verticals: [

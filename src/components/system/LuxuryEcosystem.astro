@@ -26,10 +26,6 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
     <div class="section-head">
       <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
       <h2 id="lux-title" class="display-2" data-reveal>{copy.title}</h2>
-      <div class="lux__intro" data-reveal>
-        {copy.not && <p class="editorial lux__not">{copy.not}</p>}
-        {copy.body && <p class="prose small muted">{copy.body}</p>}
-      </div>
     </div>
 
     <div class="lux__stage">
@@ -80,6 +76,7 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
     </div>
 
     <div class="lux__foot">
+      <p class="lux__notline" data-reveal><span class="lux__notline-k">{copy.not}</span> {copy.body}</p>
       <p class="lux__triplet editorial" data-reveal>{copy.triplet.map((l) => <span>{l}</span>)}</p>
       <div class="lux__cta" data-reveal>
         <p class="eyebrow">{copy.ctaEyebrow}</p>
@@ -362,6 +359,8 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
     .lux__pulse { animation: none; opacity: 0; }
   }
   /* lux-mobile-fit: everything inside the phone screen */
+  .lux__notline { max-width: 60ch; font-size: clamp(1.05rem, 1.4vw, 1.25rem); line-height: 1.5; color: var(--stone); }
+  .lux__notline-k { display: block; font-family: var(--font-display); font-variation-settings: 'wdth' 114, 'wght' 720; font-stretch: 114%; font-size: clamp(1.4rem, 2.2vw, 2rem); line-height: 1; text-transform: uppercase; color: var(--fg); margin-bottom: 0.6rem; }
   .lux__hub { display: none; }
   .lux__list-r { display: none; }
 
