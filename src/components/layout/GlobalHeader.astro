@@ -58,10 +58,6 @@ const isActive = (href: string) => current === href || current.startsWith(href +
             </div>
           )
         }
-        <button class="btn btn--flash hdr__cta" type="button" data-open-contact="message" data-track="cta_click" data-track-cta-name="lets_connect" data-track-cta-location="header">
-          Let's connect
-        </button>
-        <button class="btn btn--flash hdr__cta-m" type="button" data-open-contact="message" data-track="cta_click" data-track-cta-name="lets_connect" data-track-cta-location="header_mobile">Let's connect</button>
         <button class="hdr__burger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-mobile-trigger>
           <span class="sr-only">Menu</span>
           <span class="hdr__burger-line"></span>
@@ -131,7 +127,10 @@ const isActive = (href: string) => current === href || current.startsWith(href +
 
   .hdr__logo img {
     width: auto;
-    height: 26px;
+    height: 32px;
+  }
+  @media (min-width: 900px) {
+    .hdr__logo img { height: 38px; }
   }
 
   .hdr__nav {
