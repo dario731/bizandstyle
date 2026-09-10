@@ -172,8 +172,9 @@ const { video } = Astro.props;
   }
   .ch__cta-3 { animation-delay: 1.6s; }
   @media (max-width: 720px) {
-    .ch__cta { display: grid; }
-    .ch__cta .btn { width: 100%; justify-content: center; }
+    /* phones: no buttons in the hero (the bottom bar carries the action); the copy sits in the lower half */
+    .ch__cta { display: none; }
+    .ch__inner { padding-top: 52svh; }
   }
 
   .ch__foot {
