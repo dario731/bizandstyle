@@ -3,9 +3,11 @@
  * WorldConnect — a dotted world map on canvas. Europe flows into Miami,
  * Miami flows into the Americas. Arcs draw, particles travel, cities light.
  */
+const { headless = false } = Astro.props as { headless?: boolean };
 ---
 
-<section class="wc ground-onyx" id="miami" aria-labelledby="wc-title" data-world>
+<section class:list={['wc', 'ground-onyx', { 'wc--headless': headless }]} id="miami" aria-labelledby={headless ? undefined : 'wc-title'} aria-label={headless ? 'Miami and its routes to Europe, the United States and Latin America' : undefined} data-world>
+  {!headless && (
   <div class="container wc__head">
     <p class="eyebrow eyebrow--marker" data-wc-reveal>Miami · Global reach</p>
     <h2 id="wc-title" class="wc__title" data-wc-reveal>
@@ -14,6 +16,7 @@
     </h2>
     <p class="wc__lede" data-wc-reveal>European roots. American execution. Latin American reach — and relationships that extend to Dubai and Singapore. One headquarters, one bonded hub.</p>
   </div>
+  )}
 
   <div class="wc__map" data-map-wrap>
     <canvas class="wc__canvas" data-map role="img" aria-label="Animated map: routes connecting Europe, Miami, the United States and Latin America"></canvas>
@@ -39,6 +42,7 @@
     isolation: isolate;
   }
 
+  .wc--headless { padding-top: 0; }
   .wc__head {
     display: grid;
     gap: var(--space-4);

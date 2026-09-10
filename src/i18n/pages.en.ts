@@ -27,7 +27,7 @@ export const pages = {
       { name: 'Internationalization', line: 'Export is not internationalization. Nine pillars, five phases.', href: '/internationalization' },
       { name: 'Digital engine', line: 'From click to client — digital business infrastructure.', href: '/digital-engine' },
       { name: 'Infrastructure', line: 'HQ, team, warehouse, logistics, technology, network.', href: '/infrastructure' },
-      { name: 'Miami', line: 'Our platform to the Americas.', href: '/miami' },
+      { name: 'Miami', line: 'The platform to the Americas.', href: '/miami' },
       { name: 'Partner ecosystem', line: 'Great business rarely happens alone.', href: '/partners' },
       { name: 'Signature programs', line: 'Expansion · Digital · Fractional.', href: '/programs' },
     ] },
@@ -120,7 +120,7 @@ export const pages = {
 
   miami: {
     seo: { title: 'Miami — Our Platform to the Americas | BIZ & STYLE', description: 'Miami is the business capital of Latin America and the gateway of the Americas. Why BIZ & STYLE has been headquartered here since 2017, and how it connects Europe, the U.S., the Caribbean and LATAM.' },
-    hero: { eyebrow: 'Miami', title: ['Not just our headquarters.', 'Our platform to the Americas.'], lede: 'For decades Miami has been the business capital of Latin America — the meeting point of North America, LATAM, Europe and the Caribbean. Today it is booming.' },
+    hero: { eyebrow: 'Miami', title: ['Not just our headquarters.', 'Miami is the platform to the Americas.'], lede: 'For decades Miami has been the business capital of Latin America — the meeting point of North America, LATAM, Europe and the Caribbean. Today it is booming.' },
     definition: { q: 'Why is BIZ & STYLE based in Miami?', a: ['Miami is the gateway of the Americas: the historic decision-making hub for Latin America, "Wall Street South" for international capital, home to PortMiami and MIA — the cargo gateway of the Americas — with no state income tax and a constant influx of high-net-worth individuals. Major companies and funds from Silicon Valley and New York are relocating here.', 'BIZ & STYLE has been headquartered in Miami Beach since 2017. Being on the ground here is, in itself, a decisive advantage — and the bonded warehouse turns it into a distribution advantage for the whole region.'] },
     statement: { lines: ['European roots.', 'American execution.', 'Latin American reach.'], body: ['Founded by an Italian entrepreneur, headquartered in Miami, operating across the United States, Mexico, the Caribbean, Brazil and the wider region — with Europe as the origin market for most of the companies we bring to the Americas.'] },
     cta: { eyebrow: 'Coming to Miami?', title: ["Let's meet", 'on the ground.'], primary: { label: "Let's connect", href: '/connect', name: 'connect' }, secondary: { label: "Tell us what you're building", href: TELL, name: 'tell_us' } },
