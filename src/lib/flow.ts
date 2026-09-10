@@ -65,13 +65,17 @@ export function initFlows() {
     own<HTMLElement>('[data-flow-next]').forEach((b) => b.addEventListener('click', () => go(Math.round(target) + 1)));
     cards.forEach((c, i) => c.addEventListener('click', (e) => {
       if (moved) { e.preventDefault(); return; }
-      if (norm(Math.round(pos)) !== i) { e.preventDefault(); go(wrap ? nearest(i) : i); return; }
+      if (norm(Math.round(pos)) !== i) {
+        const href = c.getAttribute('href') || '';
+        if (!details.length && href && !href.startsWith('#')) return; // let the link open its page
+        e.preventDefault(); go(wrap ? nearest(i) : i); return;
+      }
       if (details.length) { e.preventDefault(); details[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     }));
     const nearest = (i: number) => { let d = i - norm(Math.round(pos)); if (d > N / 2) d -= N; if (d < -N / 2) d += N; return Math.round(pos) + d; };
 
-    stage.addEventListener('pointerdown', (e) => { dragging = true; moved = false; x0 = lastX = e.clientX; p0 = pos; lastT = performance.now(); vel = 0; cancelAnimationFrame(raf); clearInterval(timer); stage.classList.add('is-dragging'); stage.setPointerCapture(e.pointerId); });
-    stage.addEventListener('pointermove', (e) => {
+    stage.addEventListener('pointerdown', (e) => { dragging = true; moved = false; x0 = lastX = e.clientX; p0 = pos; lastT = performance.now(); vel = 0; cancelAnimationFrame(raf); clearInterval(timer); stage.classList.add('is-dragging'); });
+    window.addEventListener('pointermove', (e) => {
       if (!dragging) return;
       const dx = e.clientX - x0;
       if (Math.abs(dx) > 6) moved = true;
@@ -94,8 +98,8 @@ export function initFlows() {
       go(Math.round(p0) + steps);
       setTimeout(() => (moved = false), 50);
     };
-    stage.addEventListener('pointerup', end);
-    stage.addEventListener('pointercancel', end);
+    window.addEventListener('pointerup', end);
+    window.addEventListener('pointercancel', end);
     stage.addEventListener('wheel', (e) => { if (Math.abs(e.deltaX) > Math.abs(e.deltaY) && Math.abs(e.deltaX) > 20) { e.preventDefault(); go(Math.round(target) + (e.deltaX > 0 ? 1 : -1)); } }, { passive: false });
     stage.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') go(Math.round(target) + 1); if (e.key === 'ArrowLeft') go(Math.round(target) - 1); });
     // deep link: #slug selects the matching card and brings the row into view
