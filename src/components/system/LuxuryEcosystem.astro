@@ -28,7 +28,7 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
       <h2 id="lux-title" class="display-2" data-reveal>{copy.title}</h2>
       <div class="lux__intro" data-reveal>
         {copy.not && <p class="editorial lux__not">{copy.not}</p>}
-        <p class="prose small muted">{copy.body}</p>
+        {copy.body && <p class="prose small muted">{copy.body}</p>}
       </div>
     </div>
 
@@ -402,6 +402,7 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
     .lux__list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0; padding: 0; border: 0; }
     .lux__list li { border: 0; padding: 0; margin: 0; }
     .lux__list li:first-child { grid-column: 1 / -1; }
+    .lux__list li:first-child button { text-align: center; justify-items: center; }
     .lux__list button {
       display: grid;
       gap: 0.25rem;

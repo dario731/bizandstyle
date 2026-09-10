@@ -309,8 +309,7 @@ export const en = {
       eyebrow: 'The seven verticals',
       title: 'Seven verticals. One client.',
       not: '',
-      body:
-        'We do not send a client to someone who needs a jet, a yacht or a table. B&S Luxury develops structured, long-term relationships among companies that serve the same high-net-worth client — governed, where appropriate, by business-development agreements.',
+      body: '',
       centre: 'HNWI',
       sameClient: ['Different industries.', 'The same client.'],
       verticals: [
