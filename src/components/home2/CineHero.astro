@@ -30,14 +30,11 @@ const { video } = Astro.props;
       <span class="ch__word ch__word--accent">We drive growth.</span>
     </h1>
     <p class="ch__statement" data-hero-lede>
-      <span>A Miami-based business development platform where expertise, commerce, technology and a global luxury ecosystem converge to compound growth and scale.</span>
+      <span>A Miami-based business development platform built around the luxury ecosystem, designed to compound growth and scale globally.</span>
     </p>
     <div class="cta-row ch__cta" data-hero-cta>
-      <a class="btn btn--flash" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="hero">
-        <span class="btn__ring" aria-hidden="true"></span>Tell us what you're building
-      </a>
-      <a class="btn btn--ghost-flash" href="/divisions" data-track="cta_click" data-track-cta-name="explore_divisions" data-track-cta-location="hero">Explore our divisions</a>
-      <a class="btn btn--ghost-flash ch__cta-3" href="/solutions" data-track="cta_click" data-track-cta-name="explore_solutions" data-track-cta-location="hero">Explore our solutions</a>
+      <a class="btn btn--flash" href="/platform" data-track="cta_click" data-track-cta-name="explore_platform" data-track-cta-location="hero">Explore the platform</a>
+      <a class="btn btn--ghost-flash" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="hero">Tell us what you're building</a>
     </div>
   </div>
 
@@ -54,7 +51,7 @@ const { video } = Astro.props;
     display: grid;
     align-items: end;
     padding-top: 4.5rem;
-    padding-bottom: clamp(3.5rem, 8vh, 5.5rem);
+    padding-bottom: clamp(4rem, 5vh, 4.5rem);
     overflow: hidden;
     background: var(--onyx);
     color: var(--paper);
@@ -170,14 +167,14 @@ const { video } = Astro.props;
   }
   .ch__cta-3 { animation-delay: 1.6s; }
   @media (max-width: 720px) {
-    /* phones: no buttons in the hero (the bottom bar carries the action); the copy sits in the lower half */
-    .ch__cta { display: none; }
-    .ch { align-items: center; padding-top: 5.5rem; padding-bottom: 6.5rem; }
+    .ch { align-items: end; padding-top: 5.5rem; padding-bottom: 5.25rem; }
     .ch__inner { padding-top: 0; gap: var(--space-5); }
     .ch__title { font-size: 1.75rem; }
     .ch__title :global(.ch__w) { white-space: normal; }
     .ch__statement { max-width: 30rem; }
     .ch__statement span:last-child { font-size: 1rem; line-height: 1.5; }
+    .ch__cta { display: grid; gap: 0.6rem; }
+    .ch__cta .btn { width: 100%; justify-content: center; }
   }
 
   .ch__foot {
