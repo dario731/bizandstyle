@@ -21,7 +21,11 @@ interface Props {
 
 const { title, description, path, type = 'website', image, noindex = false, publishedTime, modifiedTime, jsonLd = [], locale = 'en' } = Astro.props;
 const canonical = `${site.url}${path === '/' ? '' : path}`;
-const ogImage = image ?? `${site.url}/og-default.png`;
+// Share images must resolve on the host that actually serves this build: on Netlify branch and
+// deploy previews that is DEPLOY_PRIME_URL, in production the canonical domain.
+const deployOrigin = process.env.CONTEXT && process.env.CONTEXT !== 'production' && process.env.DEPLOY_PRIME_URL ? process.env.DEPLOY_PRIME_URL.replace(/\/+$/, '') : site.url;
+const absolute = (src: string) => (/^https?:\/\//.test(src) ? src : `${deployOrigin}${src}`);
+const ogImage = absolute(image ?? '/og-default.png');
 
 const organization = {
   '@type': 'Organization',
@@ -73,8 +77,11 @@ const graph = { '@context': 'https://schema.org', '@graph': [organization, websi
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImage} />
+<meta property="og:image:secure_url" content={ogImage} />
+<meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={`${site.name} — Business. Wealth. Lifestyle.`} />
 <meta property="og:locale" content={locale === 'en' ? 'en_US' : locale} />
 {publishedTime && <meta property="article:published_time" content={publishedTime} />}
 {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
