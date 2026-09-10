@@ -25,14 +25,12 @@ const { video } = Astro.props;
   </div>
 
   <div class="container ch__inner">
-    <p class="eyebrow ch__eyebrow" data-hero-eyebrow>Miami · USA · LATAM · Europe</p>
     <h1 class="ch__title" data-hero-title>
       <span class="ch__word">We build business.</span>
       <span class="ch__word ch__word--accent">We drive growth.</span>
     </h1>
     <p class="ch__statement" data-hero-lede>
-      <span class="ch__statement-k">Business. Wealth. Lifestyle.</span>
-      <span>A Miami-based business development platform integrating strategy, commerce, digital and luxury to build, scale and expand businesses across the U.S., Latin America and Europe.</span>
+      <span>A Miami-based business development platform where expertise, commerce, technology and a global luxury ecosystem converge to compound growth and scale.</span>
     </p>
     <div class="cta-row ch__cta" data-hero-cta>
       <a class="btn btn--flash" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="hero">
@@ -56,7 +54,7 @@ const { video } = Astro.props;
     display: grid;
     align-items: end;
     padding-top: 4.5rem;
-    padding-bottom: clamp(5rem, 12vh, 8rem);
+    padding-bottom: clamp(3.5rem, 8vh, 5.5rem);
     overflow: hidden;
     background: var(--onyx);
     color: var(--paper);
@@ -175,11 +173,10 @@ const { video } = Astro.props;
     /* phones: no buttons in the hero (the bottom bar carries the action); the copy sits in the lower half */
     .ch__cta { display: none; }
     .ch { align-items: center; padding-top: 5.5rem; padding-bottom: 6.5rem; }
-    .ch__inner { padding-top: 0; justify-items: center; text-align: center; gap: var(--space-5); }
+    .ch__inner { padding-top: 0; gap: var(--space-5); }
     .ch__title { font-size: 1.75rem; }
     .ch__title :global(.ch__w) { white-space: normal; }
-    .ch__statement { position: relative; padding-left: 0; border-left: 0; padding-top: 1.1rem; border-top: 0; max-width: 30rem; justify-items: center; }
-    .ch__statement::before { content: ''; position: absolute; top: 0; left: 50%; width: 3rem; height: 1px; transform: translateX(-50%); background: var(--brass); }
+    .ch__statement { max-width: 30rem; }
     .ch__statement span:last-child { font-size: 1rem; line-height: 1.5; }
   }
 
@@ -236,8 +233,8 @@ const { video } = Astro.props;
     if (!reduced()) {
       const split = new SplitText(title.querySelectorAll('.ch__word'), { type: 'words,chars', wordsClass: 'ch__w' });
       const tl = gsap.timeline({ delay: 0.15 });
-      tl.from(eyebrow, { autoAlpha: 0, y: 12, duration: 0.8 }, 0)
-        .from(split.chars, { yPercent: 120, rotateX: -40, autoAlpha: 0, stagger: { each: 0.028, from: 'start' }, duration: 1.2 }, 0.1)
+      if (eyebrow) tl.from(eyebrow, { autoAlpha: 0, y: 12, duration: 0.8 }, 0);
+      tl.from(split.chars, { yPercent: 120, rotateX: -40, autoAlpha: 0, stagger: { each: 0.028, from: 'start' }, duration: 1.2 }, 0.1)
         .from(lede, { autoAlpha: 0, y: 18, duration: 0.9 }, 0.9)
         .from(cta ? Array.from(cta.children) : [], { autoAlpha: 0, y: 14, stagger: 0.1, duration: 0.8 }, 1.05);
 
