@@ -368,11 +368,12 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
   @media (max-width: 720px) {
     /* phones: the radial map is unreadable at this width — a hub and seven tiles instead */
     .lux > .container { display: flex; flex-direction: column; }
-    .lux__stage { order: -1; margin-bottom: var(--space-6); display: block; }
+    .lux__stage { margin-top: var(--space-5); margin-bottom: 0; display: block; }
     .lux__net { display: none; }
     .lux__hint, .lux__next, .lux__active { display: none; }
     .lux__side { display: grid; gap: 1rem; }
-    .lux__same { font-size: 1.6rem; }
+    .lux__same { display: none; }
+    .lux__foot { margin-top: var(--space-6); padding-top: var(--space-5); }
     .lux__hub {
       display: grid;
       justify-items: center;
