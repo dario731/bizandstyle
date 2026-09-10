@@ -18,7 +18,7 @@ const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.descripti
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="hub" {jsonLd}>
   <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="HOME-HERO-01-POSTER" mediaAlt="Miami skyline at dawn" crumbs={[{ name: 'Platform', path }]} brief="Who BIZ & STYLE is, how the platform is organised, the three engines, and where to go next." />
-  <ModuleGrid eyebrow={p.engines.eyebrow} title={p.engines.title} items={p.engines.items} columns={3} ground="onyx" id="engines" trackAs="division_view" />
+  <ModuleGrid items={p.engines.items} columns={3} ground="onyx" id="engines" trackAs="division_view" />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <Statement eyebrow={p.mission.eyebrow} lines={p.mission.lines} body={p.mission.body} ground="onyx" size="display-2" />
   <Statement eyebrow="How the platform is organised" lines={['One platform.', 'Several companies.']} body={['BIZ & STYLE operates as a combination of companies: BIZ & STYLE DNA INC. in Miami Beach, its three operating divisions, and dedicated entities and joint ventures established with strategic partners for specific markets and ventures.', 'Every engagement is delivered through the entity built for it — with the same team, infrastructure and network behind all of them.']} ground="paper" size="display-2" />

@@ -7,7 +7,7 @@ const TELL = '/tell-us';
 export const pages = {
   platform: {
     seo: { title: 'The Platform — Who We Are | BIZ & STYLE', description: 'BIZ & STYLE is a Miami-based business development platform: three integrated divisions, one Investor Journey™, one team operating between Europe, the United States and Latin America.' },
-    hero: { eyebrow: 'The platform', title: ['One platform.', 'Three engines.'], lede: 'A Miami-based business development platform connecting strategy, execution, commerce, technology and high-value relationships across the Americas and beyond.' },
+    hero: { eyebrow: 'The platform', title: ['One platform.', 'Three divisions. Integrated.'], lede: 'A Miami-based business development platform connecting strategy, execution, commerce, technology and high-value relationships across the Americas and beyond.' },
     definition: {
       q: 'Who is BIZ & STYLE?',
       a: [

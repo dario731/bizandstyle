@@ -25,7 +25,7 @@ const { eyebrow, title, lede, items, ground = 'paper', id, numbered = true, trac
 const lines = title ? (Array.isArray(title) ? title : [title]) : [];
 ---
 
-<section class:list={['section mg', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} {id} aria-labelledby={id ? `${id}-title` : undefined}>
+<section class:list={['section mg', ground === 'onyx' ? 'ground-onyx' : 'ground-paper']} {id} aria-labelledby={id && lines.length ? `${id}-title` : undefined}>
   <div class="container">
     <div class="mg__head">
       <div class="mg__headtext">
