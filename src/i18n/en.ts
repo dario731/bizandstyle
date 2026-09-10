@@ -307,8 +307,8 @@ export const en = {
 
     luxury: {
       eyebrow: 'The seven verticals',
-      title: 'Business development at the highest level.',
-      not: 'This is not concierge.',
+      title: 'Seven verticals. One client.',
+      not: '',
       body:
         'We do not send a client to someone who needs a jet, a yacht or a table. B&S Luxury develops structured, long-term relationships among companies that serve the same high-net-worth client — governed, where appropriate, by business-development agreements.',
       centre: 'HNWI',
@@ -324,9 +324,9 @@ export const en = {
       ],
       relations: ['Relationships', 'Visibility', 'Access', 'Clients', 'Partnerships', 'Opportunities'],
       triplet: ['Business creates relationships.', 'Relationships create opportunities.', 'The ecosystem compounds.'],
-      ctaEyebrow: 'Exploring Miami investment opportunities?',
-      cta: { label: 'Start your Investor Journey', href: '/tell-us?intent=investor&persona=investor' },
-      link: { label: 'Explore B&S Luxury', href: '/luxury' },
+      ctaEyebrow: 'Serving the same client in Miami?',
+      cta: { label: 'Explore luxury real estate ↗', href: 'https://bns-luxury.com' },
+      link: { label: 'Explore a partnership', href: '/become-a-partner' },
       hint: 'Select a vertical to see its connections',
     },
 

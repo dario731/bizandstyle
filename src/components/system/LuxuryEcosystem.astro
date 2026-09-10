@@ -27,7 +27,7 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
       <p class="eyebrow eyebrow--marker" data-reveal>{copy.eyebrow}</p>
       <h2 id="lux-title" class="display-2" data-reveal>{copy.title}</h2>
       <div class="lux__intro" data-reveal>
-        <p class="editorial lux__not">{copy.not}</p>
+        {copy.not && <p class="editorial lux__not">{copy.not}</p>}
         <p class="prose small muted">{copy.body}</p>
       </div>
     </div>
@@ -65,8 +65,12 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
             {copy.relations.map((r) => <li>{r}</li>)}
           </ul>
         </div>
+        <div class="lux__hub" aria-hidden="true">
+          <span class="lux__hub-c">{copy.centre}</span>
+          <span class="lux__hub-t">One client at the centre. Seven verticals around it.</span>
+        </div>
         <ol class="lux__list" role="list">
-          {verts.map((v) => <li><button type="button" data-vertical={v.i} aria-pressed="false">{v.name}</button></li>)}
+          {verts.map((v) => <li><button type="button" data-vertical={v.i} aria-pressed="false"><span class="lux__list-n">{v.name}</span><span class="lux__list-r">{v.role}</span></button></li>)}
         </ol>
         <button class="link lux__next" type="button" data-next>
           Next vertical
@@ -358,12 +362,66 @@ for (let a = 0; a < verts.length; a++) for (let b = a + 1; b < verts.length; b++
     .lux__pulse { animation: none; opacity: 0; }
   }
   /* lux-mobile-fit: everything inside the phone screen */
+  .lux__hub { display: none; }
+  .lux__list-r { display: none; }
+
   @media (max-width: 720px) {
+    /* phones: the radial map is unreadable at this width — a hub and seven tiles instead */
     .lux > .container { display: flex; flex-direction: column; }
-    .lux__stage { order: -1; overflow: hidden; margin-bottom: var(--space-6); }
-    .lux__net { transform: scale(0.78); transform-origin: 50% 50%; margin-block: -8% 4%; margin-top: 2rem; }
-    .lux__v-role { display: none; }
-    .lux__v-name { font-size: 0.66rem; max-width: 6.5rem; white-space: normal; line-height: 1.1; }
+    .lux__stage { order: -1; margin-bottom: var(--space-6); display: block; }
+    .lux__net { display: none; }
+    .lux__hint, .lux__next, .lux__active { display: none; }
+    .lux__side { display: grid; gap: 1rem; }
+    .lux__same { font-size: 1.6rem; }
+    .lux__hub {
+      display: grid;
+      justify-items: center;
+      gap: 0.5rem;
+      padding: 1.1rem 1rem 1rem;
+      text-align: center;
+      border: 1px solid var(--card-line);
+      background: var(--card-bg);
+      position: relative;
+    }
+    .lux__hub::after { content: ''; position: absolute; left: 50%; bottom: -1rem; width: 1px; height: 1rem; background: var(--fg); opacity: 0.5; }
+    .lux__hub-c {
+      display: grid;
+      place-items: center;
+      width: 4.5rem;
+      height: 4.5rem;
+      border-radius: 50%;
+      border: 1.5px solid var(--fg);
+      font-family: var(--font-display);
+      font-variation-settings: 'wdth' 112, 'wght' 700;
+      font-size: 0.9rem;
+      letter-spacing: 0.08em;
+      box-shadow: 0 0 0 6px rgba(var(--ink-rgb), 0.06);
+    }
+    .lux__hub-t { font-size: 0.72rem; letter-spacing: 0.06em; color: var(--fg-muted); }
+    .lux__list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin: 0; padding: 0; border: 0; }
+    .lux__list li { border: 0; padding: 0; margin: 0; }
+    .lux__list li:first-child { grid-column: 1 / -1; }
+    .lux__list button {
+      display: grid;
+      gap: 0.25rem;
+      width: 100%;
+      min-height: 4.6rem;
+      padding: 0.75rem 0.8rem;
+      text-align: left;
+      border: 1px solid var(--card-line);
+      border-top: 2px solid rgba(var(--ink-rgb), 0.45);
+      border-radius: 2px;
+      background: var(--card-bg);
+      color: var(--fg);
+      font-family: var(--font-display);
+      font-variation-settings: 'wdth' 112, 'wght' 700;
+      font-size: 0.82rem;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+    .lux__list button[aria-pressed='true'] { border-top-color: var(--fg); background: rgba(var(--ink-rgb), 0.08); }
+    .lux__list-r { display: block; font-family: var(--font-body); font-size: 0.62rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); font-variation-settings: normal; }
+    .lux__foot .cta-row { display: grid; }
   }
 </style>
 
