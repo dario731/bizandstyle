@@ -238,6 +238,13 @@ const { eyebrow = 'The platform', title = ['Everything', 'connects.'], items, de
     max-width: 78ch;
   }
 
+  @media (min-width: 900px) {
+    .cf__stage { height: 21rem; }
+    .cf__card { --w: min(31rem, 60vw); height: 20.5rem; padding: 1.5rem 1.7rem; gap: 0.5rem; }
+    .cf__name { font-size: 1.7rem; margin-top: 1.8rem; }
+    .cf__line { font-size: 1.05rem; }
+  }
+
   @media (max-width: 720px) {
     .cf__stage { height: 12.5rem; }
     .cf__card { height: 11.75rem; padding: 0.9rem; gap: 0.3rem; }

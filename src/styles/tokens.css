@@ -58,8 +58,8 @@
   --space-7: 3rem;
   --space-8: 4rem;
   --space-9: 6rem;
-  --space-section: clamp(4rem, 9vw, 9rem);
-  --space-section-sm: clamp(3rem, 6vw, 5.5rem);
+  --space-section: clamp(3rem, 5.5vw, 5.5rem);
+  --space-section-sm: clamp(2.25rem, 4vw, 3.75rem);
 
   /* layout */
   --container: 1440px;
@@ -122,8 +122,8 @@
 /* mobile: tighter rhythm */
 @media (max-width: 720px) {
   :root {
-    --space-section: 3.25rem;
-    --space-section-sm: 2.25rem;
+    --space-section: 2.75rem;
+    --space-section-sm: 2rem;
     --space-7: 2rem;
     --space-8: 2.5rem;
     --space-9: 3.5rem;

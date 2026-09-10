@@ -4,7 +4,6 @@
  * lede and an optional media slot (manifest-aware). Ground is configurable so
  * divisions and landing pages can open on Onyx while hub pages open on Paper.
  */
-import FrameVisual from '@components/cinematic/FrameVisual.astro';
 
 interface Props {
   eyebrow?: string;
@@ -38,31 +37,18 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
       {lede && <p class="lede eh__lede" data-reveal>{lede}</p>}
       <div class="eh__slot" data-reveal><slot /></div>
     </div>
-    {
-      mediaId && (
-        <div class="eh__media" data-reveal>
-          <FrameVisual variant={visual} seed={mediaId} ratio="4 / 5" label={mediaId} />
-        </div>
-      )
-    }
   </div>
-  {toc && (
-    <nav class="eh__toc container" aria-label="On this page" data-page-toc hidden>
-      <span class="eh__toc-k">On this page</span>
-      <ul role="list" data-page-toc-list></ul>
-    </nav>
-  )}
 </section>
 
 <style>
   .eh {
-    padding-top: clamp(6rem, 11vh, 8rem);
-    padding-bottom: var(--space-section-sm);
+    padding-top: clamp(5.5rem, 9vh, 7rem);
+    padding-bottom: var(--space-6);
   }
 
   .eh__inner {
     display: grid;
-    gap: var(--space-7);
+    gap: var(--space-5);
   }
   .eh--tight { padding-bottom: var(--space-6); }
   .eh--tight .eh__inner { gap: var(--space-5); }
@@ -70,7 +56,7 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
 
   .eh__text {
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-4);
     min-width: 0;
   }
 
@@ -160,20 +146,3 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
   }
 </style>
 
-<script>
-  const toc = document.querySelector<HTMLElement>('[data-page-toc]');
-  if (toc) {
-    const list = toc.querySelector('[data-page-toc-list]')!;
-    const heads = Array.from(document.querySelectorAll<HTMLElement>('main section[id] h2')).filter((h) => !h.closest('.eh')).slice(0, 7);
-    for (const h of heads) {
-      const sec = h.closest('section')!;
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = '#' + sec.id;
-      a.textContent = (h.textContent || '').replace(/\s+/g, ' ').trim().slice(0, 42);
-      li.appendChild(a);
-      list.appendChild(li);
-    }
-    toc.hidden = heads.length < 2;
-  }
-</script>

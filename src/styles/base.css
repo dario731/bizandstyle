@@ -588,6 +588,11 @@ a.snapcard:hover,
   color: var(--fg-muted);
 }
 
+@media (min-width: 900px) {
+  .snapcard__name { font-size: 1.3rem; }
+  .snapcard__line { font-size: 0.98rem; }
+}
+
 .snapcard__arrow {
   position: absolute;
   right: 1rem;
