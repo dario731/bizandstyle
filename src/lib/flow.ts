@@ -65,11 +65,8 @@ export function initFlows() {
     own<HTMLElement>('[data-flow-next]').forEach((b) => b.addEventListener('click', () => go(Math.round(target) + 1)));
     cards.forEach((c, i) => c.addEventListener('click', (e) => {
       if (moved) { e.preventDefault(); return; }
-      if (norm(Math.round(pos)) !== i) {
-        const href = c.getAttribute('href') || '';
-        if (!details.length && href && !href.startsWith('#')) return; // let the link open its page
-        e.preventDefault(); go(wrap ? nearest(i) : i); return;
-      }
+      // a side card moves to the centre; the centred card opens (or shows its detail)
+      if (norm(Math.round(pos)) !== i) { e.preventDefault(); go(wrap ? nearest(i) : i); return; }
       if (details.length) { e.preventDefault(); details[i]?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     }));
     const nearest = (i: number) => { let d = i - norm(Math.round(pos)); if (d > N / 2) d -= N; if (d < -N / 2) d += N; return Math.round(pos) + d; };
