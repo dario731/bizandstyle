@@ -50,7 +50,6 @@ const jsonLd = graph(
         <dl class="art__meta num" data-reveal>
           <div><dt>{p.by}</dt><dd><a href={authorPath}>{author?.data.name}</a></dd></div>
           <div><dt>{p.published}</dt><dd><time datetime={d.publishDate.toISOString()}>{fmt(d.publishDate)}</time></dd></div>
-          {d.updatedDate && <div><dt>{p.updated}</dt><dd><time datetime={d.updatedDate.toISOString()}>{fmt(d.updatedDate)}</time></dd></div>}
           <div><dt>Reading</dt><dd>{minutes} {p.readingTime}</dd></div>
         </dl>
       </div>
@@ -87,14 +86,6 @@ const jsonLd = graph(
         </aside>
         <div class="art__body prose">
           <Content />
-          {
-            d.sources.length > 0 && (
-              <section class="art__sources">
-                <p class="eyebrow">{p.sources}</p>
-                <ol>{d.sources.map((s) => <li>{s.url ? <a href={s.url} rel="noopener">{s.label}</a> : s.label}</li>)}</ol>
-              </section>
-            )
-          }
           {
             author && (
               <section class="art__author">

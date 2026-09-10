@@ -29,9 +29,11 @@ const date = publishDate.toLocaleDateString('en-US', { year: 'numeric', month: '
       {hero?.image && <p class="eyebrow">{categoryName}</p>}
       {hero?.image && <h3 class="card__title">{title}</h3>}
       <p class="card__excerpt small muted">{excerpt}</p>
-      <p class="num card__meta">
-        <time datetime={publishDate.toISOString()}>{date}</time> · {readingTime} {readingLabel}
-      </p>
+      {hero?.image && (
+        <p class="num card__meta">
+          <time datetime={publishDate.toISOString()}>{date}</time> · {readingTime} {readingLabel}
+        </p>
+      )}
     </div>
   </a>
 </article>
