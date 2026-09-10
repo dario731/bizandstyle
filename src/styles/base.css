@@ -615,6 +615,11 @@ a.snapcard:hover .snapcard__arrow {
 [data-flow-stage] [data-flow-card] * {
   cursor: grab;
 }
+[data-flow-stage] [data-flow-card],
+[data-flow-stage] [data-flow-card] * {
+  -webkit-user-drag: none;
+  user-select: none;
+}
 [data-flow-stage].is-dragging,
 [data-flow-stage].is-dragging [data-flow-card],
 [data-flow-stage].is-dragging [data-flow-card] * {

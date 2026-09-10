@@ -71,6 +71,9 @@ export function initFlows() {
     }));
     const nearest = (i: number) => { let d = i - norm(Math.round(pos)); if (d > N / 2) d -= N; if (d < -N / 2) d += N; return Math.round(pos) + d; };
 
+    // link cards would otherwise start the browser's own drag-and-drop and swallow the swipe
+    stage.addEventListener('dragstart', (e) => e.preventDefault());
+    cards.forEach((c) => c.setAttribute('draggable', 'false'));
     stage.addEventListener('pointerdown', (e) => { dragging = true; moved = false; x0 = lastX = e.clientX; p0 = pos; lastT = performance.now(); vel = 0; cancelAnimationFrame(raf); clearInterval(timer); stage.classList.add('is-dragging'); });
     window.addEventListener('pointermove', (e) => {
       if (!dragging) return;
