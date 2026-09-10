@@ -15,6 +15,8 @@ const wa = `https://wa.me/${site.phoneHref.replace(/\D/g, '')}?text=${encodeURIC
 </div>
 
 <style>
+  .fc { transition: opacity 0.35s, transform 0.35s var(--ease-out); }
+  .fc.is-tucked { opacity: 0; transform: translateY(1rem); pointer-events: none; }
   .fc {
     position: fixed;
     right: max(var(--gutter), env(safe-area-inset-right));
@@ -114,3 +116,12 @@ const wa = `https://wa.me/${site.phoneHref.replace(/\D/g, '')}?text=${encodeURIC
     .fc__pulse { animation: none; }
   }
 </style>
+
+<script>
+  // On phones the pill would sit on the home hero buttons: keep it tucked while the hero is on screen.
+  const fc = document.querySelector<HTMLElement>("[data-floating-contacts]");
+  const hero = document.querySelector<HTMLElement>("[data-cine-hero]");
+  if (fc && hero && matchMedia("(max-width: 720px)").matches) {
+    new IntersectionObserver((es) => fc.classList.toggle("is-tucked", es[0].intersectionRatio > 0.3), { threshold: [0, 0.3, 0.6] }).observe(hero);
+  }
+</script>
