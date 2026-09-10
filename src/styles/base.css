@@ -608,3 +608,15 @@ a.snapcard:hover .snapcard__arrow {
   opacity: 1;
   transform: translateX(3px);
 }
+
+/* every carousel card drags: the open hand everywhere, never the link finger */
+[data-flow-stage],
+[data-flow-stage] [data-flow-card],
+[data-flow-stage] [data-flow-card] * {
+  cursor: grab;
+}
+[data-flow-stage].is-dragging,
+[data-flow-stage].is-dragging [data-flow-card],
+[data-flow-stage].is-dragging [data-flow-card] * {
+  cursor: grabbing;
+}
