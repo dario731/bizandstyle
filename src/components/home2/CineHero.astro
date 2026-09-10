@@ -10,8 +10,12 @@ interface Props {
   video?: string;
   /** Base name of the still in /public/media (jpg + webp, 768 variants) */
   image?: string;
+  /** Timelapse clip played only in the sky, blended over the still (clouds racing) */
+  sky?: string;
+  /** Playback rate of the sky clip */
+  skyRate?: number;
 }
-const { video, image = '/media/hero-miami-skyline' } = Astro.props;
+const { video, image = '/media/hero-miami-skyline', sky = '/media/test/miami-12028.mp4', skyRate = 2.2 } = Astro.props;
 ---
 
 <section class="ch ground-onyx" id="top" data-cine-hero>
@@ -20,6 +24,11 @@ const { video, image = '/media/hero-miami-skyline' } = Astro.props;
       <source type="image/webp" srcset={`${image}-768.webp 768w, ${image}.webp 1280w`} sizes="100vw" />
       <img class="ch__img" src={`${image}.jpg`} srcset={`${image}-768.jpg 768w, ${image}.jpg 1280w`} sizes="100vw" width="1280" height="958" alt="" fetchpriority="high" decoding="async" />
     </picture>
+    {sky && (
+      <video class="ch__sky" autoplay muted loop playsinline preload="auto" data-hero-sky data-rate={skyRate}>
+        <source src={sky} type="video/mp4" />
+      </video>
+    )}
     <div class="ch__sun"></div>
     <div class="ch__light"></div>
     {video && (
@@ -107,6 +116,23 @@ const { video, image = '/media/hero-miami-skyline' } = Astro.props;
   @keyframes ch-burns {
     from { transform: scale(1); }
     to { transform: scale(1.08); }
+  }
+  /* the sky in motion: the timelapse shows only above the skyline, screened over the still */
+  .ch__sky {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -4%;
+    width: 100%;
+    height: 78%;
+    object-fit: cover;
+    object-position: 50% 0%;
+    filter: grayscale(1) contrast(1.25) brightness(0.95);
+    mix-blend-mode: screen;
+    opacity: 0.9;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 34%, rgba(0, 0, 0, 0.5) 46%, transparent 58%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 34%, rgba(0, 0, 0, 0.5) 46%, transparent 58%);
+    will-change: transform;
   }
   /* the sun, kept alive behind the towers */
   .ch__sun {
@@ -278,6 +304,17 @@ const { video, image = '/media/hero-miami-skyline' } = Astro.props;
     const lede = hero.querySelector('[data-hero-lede]');
     const cta = hero.querySelector<HTMLElement>('[data-hero-cta]');
     const video = hero.querySelector<HTMLVideoElement>('[data-hero-video]');
+    const skyClip = hero.querySelector<HTMLVideoElement>('[data-hero-sky]');
+    if (skyClip) {
+      const rate = Number(skyClip.dataset.rate || 2);
+      const arm = () => { try { skyClip.playbackRate = rate; skyClip.play().catch(() => {}); } catch {} };
+      skyClip.addEventListener('loadedmetadata', arm, { once: true });
+      if (skyClip.readyState >= 1) arm();
+      // clouds pause when the hero is off screen
+      new IntersectionObserver((es) => (es[0].intersectionRatio > 0 ? arm() : skyClip.pause()), { threshold: [0, 0.01] }).observe(hero);
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) arm(); });
+      skyClip.addEventListener('canplay', arm, { once: true });
+    }
 
     if (!reduced()) {
       const split = new SplitText(title.querySelectorAll('.ch__word'), { type: 'words,chars', wordsClass: 'ch__w' });
@@ -289,6 +326,8 @@ const { video, image = '/media/hero-miami-skyline' } = Astro.props;
 
       const still = hero.querySelector('[data-hero-still]');
       if (still) gsap.to(still, { yPercent: 14, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
+      const sky = hero.querySelector<HTMLVideoElement>('[data-hero-sky]');
+      if (sky) gsap.to(sky, { yPercent: 10, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
       if (video) gsap.to(video, { yPercent: 12, scale: 1.08, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
       gsap.to(hero.querySelector('.ch__inner'), { yPercent: -18, autoAlpha: 0, ease: 'none', scrollTrigger: { trigger: hero, start: '35% top', end: 'bottom top', scrub: true } });
     }
