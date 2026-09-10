@@ -117,8 +117,8 @@ const o = copy.options;
       <fieldset class="lf__step" data-step="2" hidden>
         <legend class="lf__legend display-3">{copy.steps[2]}</legend>
         <div class="lf__fields">
-          <div class="field"><label for={`${id}-name`}>{f.name}</label><input id={`${id}-name`} name="name" type="text" autocomplete="name" required /></div>
-          <div class="field"><label for={`${id}-company`}>{f.company}</label><input id={`${id}-company`} name="company" type="text" autocomplete="organization" /></div>
+          <div class="field"><label for={`${id}-name`}>{f.name}</label><input id={`${id}-name`} name="full_name" type="text" autocomplete="name" required /></div>
+          <div class="field"><label for={`${id}-company`}>{f.company}</label><input id={`${id}-company`} name="company_name" type="text" autocomplete="organization" /></div>
           <div class="field"><label for={`${id}-email`}>{f.email}</label><input id={`${id}-email`} name="email" type="email" autocomplete="email" inputmode="email" required /></div>
           <div class="field"><label for={`${id}-phone`}>{f.phone}</label><input id={`${id}-phone`} name="phone" type="tel" autocomplete="tel" inputmode="tel" /></div>
           <div class="field field--wide field--check">

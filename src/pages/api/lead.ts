@@ -88,6 +88,12 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   if (body.hp) return json({ ok: true, id: 'ignored' }, 202); // bot filled the honeypot
+  // Form fields use CRM-friendly names (full_name, company_name) so on-page trackers read them; keep the plain keys too.
+  if (body.fields && typeof body.fields === 'object') {
+    const f = body.fields as Record<string, unknown>;
+    if (f.full_name && !f.name) f.name = f.full_name;
+    if (f.company_name && !f.company) f.company = f.company_name;
+  }
   if (!body.formId || typeof body.fields !== 'object') return json({ ok: false, error: 'missing_fields' }, 422);
   if (!isEmail(body.fields.email)) return json({ ok: false, error: 'invalid_email' }, 422);
   if (!body.consent?.privacy) return json({ ok: false, error: 'consent_required' }, 422);
