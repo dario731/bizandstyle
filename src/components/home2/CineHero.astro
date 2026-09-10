@@ -38,7 +38,8 @@ const { video } = Astro.props;
       <a class="btn btn--flash" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="hero">
         <span class="btn__ring" aria-hidden="true"></span>Tell us what you're building
       </a>
-      <a class="btn btn--ghost-flash" href="/tell-us?intent=investor&persona=investor" data-track="cta_click" data-track-cta-name="start_investor_journey" data-track-cta-location="hero">Start your Investor Journey</a>
+      <a class="btn btn--ghost-flash" href="/divisions" data-track="cta_click" data-track-cta-name="explore_divisions" data-track-cta-location="hero">Explore our divisions</a>
+      <a class="btn btn--ghost-flash ch__cta-3" href="/solutions" data-track="cta_click" data-track-cta-name="explore_solutions" data-track-cta-location="hero">Explore our solutions</a>
     </div>
   </div>
 
@@ -168,6 +169,11 @@ const { video } = Astro.props;
 
   .ch__cta {
     margin-top: var(--space-2);
+  }
+  .ch__cta-3 { animation-delay: 1.6s; }
+  @media (max-width: 720px) {
+    .ch__cta { display: grid; }
+    .ch__cta .btn { width: 100%; justify-content: center; }
   }
 
   .ch__foot {
