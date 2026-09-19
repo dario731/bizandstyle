@@ -8,14 +8,31 @@
  */
 import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import { byDivision, divisionMeta } from '@data/services';
 import { solutions } from '@data/solutions';
 import { programs } from '@data/programs';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import { webPageLd, breadcrumbLd, faqLd, graph, absoluteUrl } from '@lib/seo';
 
 const path = '/build';
-const title = 'Build Your Journey — Pick What You Want to Explore | BIZ & STYLE';
-const description = 'Say who you are, pick what you want to explore across Advisory, Commerce, Luxury, Solutions and Programs, watch your platform assemble, and send it to the team in one tap.';
+const title = 'Build Your Journey | BIZ & STYLE';
+const description = 'Pick who you are and what to explore across Advisory, Commerce, Luxury, Solutions and Programs — then send it in one tap.';
+const faqs = [
+  { q: 'Is Build a sales proposal generator?', a: 'It is an interactive way to assemble what you want to explore — then send that brief to the team in one tap.' },
+  { q: 'How is this different from Tell Us?', a: 'Tell Us is a classic intake form. Build is a chooser that maps live site areas as you pick.' },
+  { q: 'Does Build create a new programme?', a: 'No. Signature programmes remain three: International Expansion Boost™, Digital Growth Engine™, Fractional Executive.' },
+  { q: 'How do I talk to someone directly?', a: '+1 305-549-4289 or info@bizandstyledna.com · or /connect.' },
+];
+const relatedLinks = [
+  { href: '/advisory', label: 'B&S Advisory', line: 'Strategy and growth — one of the three engines.' },
+  { href: '/commerce', label: 'B&S Commerce', line: 'From product to market.' },
+  { href: '/luxury', label: 'B&S Luxury', line: 'Real estate and high-value ecosystems.' },
+  { href: '/solutions', label: 'five solution categories', line: 'À la carte or as an ecosystem.' },
+  { href: '/programs', label: 'three signature programmes', line: 'Exactly three. Never a fourth.' },
+  { href: '/tell-us', label: 'structured intake', line: 'Classic form when you already have a brief.' },
+  { href: '/connect', label: 'HQ contact', line: 'Phone, WhatsApp, email — Miami Beach.' },
+];
 
 const verticals = [
   { id: 'real-estate', name: 'Luxury real estate', line: 'Core operating division — Miami luxury and pre-construction.' },
@@ -48,18 +65,22 @@ const personas = [
   { id: 'partner', label: 'A professional / potential partner', picks: ['lux:ecosystem', 'adv:partnership-engineering', 'sol:management-business-development'] },
 ];
 
-const jsonLd = graph(webPageLd({ name: title, description, path }), breadcrumbLd([{ name: 'Build your journey', path }]));
+const jsonLd = graph(
+  webPageLd({ name: title, description, path }),
+  faqLd(faqs, `${absoluteUrl(path)}#faq`),
+  breadcrumbLd([{ name: 'Build', path }]),
+);
 const total = catalogue.reduce((n, c) => n + c.items.length, 0);
 ---
 
 <BaseLayout {title} {description} {path} pageType="build" {jsonLd}>
-  <EditorialHero eyebrow="Build your journey" title={['Pick what you want', 'to explore with us.']} lede={`${total} things we can do together. Choose freely, mix divisions, mess around — then send it to the team or book a call.`} ground="onyx" crumbs={[{ name: 'Build your journey', path }]} brief="An interactive way to tell us what you need: say who you are, select across all divisions and solutions, and send your selection." />
+  <EditorialHero eyebrow="Build your journey" title="Pick what you want to explore with us." lede={`${total} things we can do together across Advisory, Commerce, Luxury, Solutions and Programs in Miami and the Americas — then send it to the team in one tap.`} ground="onyx" crumbs={[{ name: 'Build', path }]} brief="An interactive way to tell us what you need: say who you are, select across all divisions and solutions, and send your selection." />
 
   <section class="bj ground-onyx" id="builder" aria-label="Journey builder" data-builder data-personas={JSON.stringify(personas.map((p) => ({ id: p.id, picks: p.picks })))}>
     <div class="container bj__layout">
       <div class="bj__main">
         <div class="bj__step" id="who">
-          <p class="bj__stepk"><span class="num">01</span>I am…</p>
+          <h2 class="bj__stepk"><span class="num">01</span>Who you are</h2>
           <div class="bj__chips" role="group" aria-label="Who you are">
             {personas.map((p) => <button class="bj__chip" type="button" data-persona={p.id} aria-pressed="false">{p.label}</button>)}
           </div>
@@ -69,7 +90,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
         </div>
 
         <div class="bj__step" id="pick">
-          <p class="bj__stepk"><span class="num">02</span>Pick everything you want to explore</p>
+          <h2 class="bj__stepk"><span class="num">02</span>What you want to explore (Advisory · Commerce · Luxury · Solutions · Programs)</h2>
           <div class="bj__tabs" role="tablist" aria-label="Categories">
             {catalogue.map((c, i) => <button class="bj__tab" role="tab" type="button" id={`bj-tab-${c.id}`} aria-selected={i === 0 ? 'true' : 'false'} aria-controls={`bj-panel-${c.id}`} data-bj-tab={c.id}>{c.name}<span class="bj__tabcount" data-tab-count={c.id}></span></button>)}
           </div>
@@ -94,8 +115,9 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
       </div>
 
       <aside class="bj__side" data-side aria-label="Your journey">
+        <h2 class="sr-only">Watch your platform assemble</h2>
         <button class="bj__sidehead" type="button" data-side-toggle aria-expanded="false">
-          <span class="eyebrow eyebrow--marker">Your journey</span>
+          <span class="eyebrow eyebrow--marker">Watch your platform assemble</span>
           <span class="bj__count"><strong data-count>0</strong> selected</span>
           <svg class="bj__chev" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 10l5-5 5 5" fill="none" stroke="currentColor" stroke-width="1.5" /></svg>
         </button>
@@ -113,6 +135,7 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
           </div>
           <ul class="bj__picks" role="list" data-picks></ul>
           <div class="bj__actions">
+            <h2 class="sr-only">Send to the team</h2>
             <button class="btn btn--flash" type="button" data-send>Send to the team</button>
             <button class="btn" type="button" data-book>Book a call</button>
             <button class="btn bj__keep" type="button" data-keep>Keep building</button>
@@ -124,6 +147,8 @@ const total = catalogue.reduce((n, c) => n + c.items.length, 0);
       </aside>
     </div>
   </section>
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={4} ground="paper" numbered={false} trackAs="navigation_click" />
+  <FaqBlock faqs={faqs} title="FAQ" ground="onyx" />
 </BaseLayout>
 
 <style is:global>

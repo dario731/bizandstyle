@@ -8,28 +8,38 @@ import ModuleGrid from '@components/editorial/ModuleGrid.astro';
 import LuxuryEcosystem from '@components/system/LuxuryEcosystem.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import { pages } from '@i18n/pages.en';
 import { getCopy } from '@i18n/index';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import { webPageLd, breadcrumbLd, faqLd, definedTermLd, graph, absoluteUrl } from '@lib/seo';
 
 const p = pages.investorJourney;
 const t = getCopy('en');
 const path = '/investor-journey';
 const jsonLd = graph(
   webPageLd({ name: p.seo.title, description: p.seo.description, path }),
-  breadcrumbLd([{ name: 'The Investor Journey™', path }]),
-  { '@type': 'DefinedTerm', name: 'The Investor Journey™', description: p.definition.a[0], url: `https://bizandstyledna.com${path}`, inDefinedTermSet: 'BIZ & STYLE frameworks' },
+  definedTermLd({
+    name: 'Investor Journey™',
+    description: 'BIZ & STYLE framework: business generates wealth, wealth shapes lifestyle, lifestyle opens new business.',
+    path,
+  }),
+  faqLd([...p.faqs], `${absoluteUrl(path)}#faq`),
+  breadcrumbLd([{ name: 'Investor Journey', path }]),
 );
 ---
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="signature" {jsonLd}>
-  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} ground="onyx" crumbs={[{ name: 'The Investor Journey™', path }]} size="display-2" />
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} ground="onyx" crumbs={[{ name: 'Investor Journey', path }]} size="display-2" />
   <JourneyLoop stages={t.home.journey.stages} eyebrow="The circle of growth" />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
-  <Statement eyebrow={p.how.eyebrow} lines={p.how.lines} body={p.how.body} ground="onyx" size="display-2" />
-  <Statement lines={p.experts.lines} body={p.experts.body} ground="paper" size="display-2" />
+  <ProseSections sections={p.sections} ground="onyx" idPrefix="investor-journey" />
+  <Statement eyebrow={p.how.eyebrow} lines={p.how.lines} body={p.how.body} ground="paper" size="display-2" />
+  <Statement lines={p.experts.lines} body={p.experts.body} ground="onyx" size="display-2" />
   <ModuleGrid eyebrow={p.entry.eyebrow} title={p.entry.title} items={p.entry.items} columns={3} ground="paper" id="entry" trackAs="cta_click" />
   <LuxuryEcosystem copy={{ ...t.home.luxury, eyebrow: 'The lifestyle stage · B&S Luxury' }} />
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="paper" numbered={false} trackAs="navigation_click" />
   <RelatedInsights clusterOf={['/luxury', '/investor-journey']} ground="paper" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="onyx" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="signature_cta" />
 </BaseLayout>

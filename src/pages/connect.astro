@@ -2,37 +2,47 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import LeadFormLite from '@components/conversion/LeadFormLite.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import { pages } from '@i18n/pages.en';
 import { site } from '@data/site';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import { webPageLd, breadcrumbLd, faqLd, localBusinessLd, graph, absoluteUrl } from '@lib/seo';
 
 const p = pages.connect;
 const path = '/connect';
-const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'ContactPage' }), breadcrumbLd([{ name: "Let's connect", path }]));
+const jsonLd = graph(
+  webPageLd({
+    name: p.seo.title,
+    description: 'Call, WhatsApp or email BIZ & STYLE at Miami Beach HQ — Thyssen Building, 1000 5th Street Suite 200.',
+    path,
+    type: 'ContactPage',
+  }),
+  localBusinessLd(),
+  faqLd([...p.faqs], `${absoluteUrl(path)}#faq`),
+  breadcrumbLd([{ name: 'Connect', path }]),
+);
 const f = p.fields;
 ---
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="conversion" {jsonLd}>
-  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="paper" crumbs={[{ name: "Let's connect", path }]} />
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="paper" crumbs={[{ name: 'Connect', path }]} />
   <section class="section ground-paper cn">
     <div class="container cn__grid">
       <div class="cn__details" data-reveal-group>
         <div class="cn__block">
-          <p class="eyebrow">{p.book}</p>
+          <h2 class="display-3">{p.phone}</h2>
+          <a class="cn__big" href={site.phoneHref} data-track="phone_click" data-track-cta-location="connect">{site.phone}</a>
+          <a class="link" href={site.whatsappHref} rel="noopener" data-track="whatsapp_click" data-track-cta-location="connect">WhatsApp</a>
+          <a class="cn__big" href={`mailto:${site.email}`} data-track="email_click" data-track-cta-location="connect">{site.email}</a>
+        </div>
+        <div class="cn__block">
+          <h2 class="display-3">{p.book}</h2>
           <a class="btn btn--solid" href={site.calendly} rel="noopener" data-track="calendar_click" data-track-cta-location="connect">
             <span class="btn__ring" aria-hidden="true"></span>{p.book}
           </a>
         </div>
-        <div class="cn__block">
-          <p class="eyebrow">{p.email}</p>
-          <a class="cn__big" href={`mailto:${site.email}`} data-track="email_click" data-track-cta-location="connect">{site.email}</a>
-        </div>
-        <div class="cn__block">
-          <p class="eyebrow">{p.phone}</p>
-          <a class="cn__big" href={site.phoneHref} data-track="phone_click" data-track-cta-location="connect">{site.phone}</a>
-        </div>
         <address class="cn__block">
-          <p class="eyebrow">{p.hq}</p>
+          <h2 class="display-3">{p.hq}</h2>
           <p class="cn__addr">
             {site.legalName}<br />
             {site.address.building}<br />
@@ -42,9 +52,10 @@ const f = p.fields;
           <a class="link" href={site.address.mapsUrl} rel="noopener">{p.map}</a>
         </address>
         <div class="cn__block cn__alt">
-          <p class="display-3">{p.alt.title}</p>
-          <p class="small muted">{p.alt.body}</p>
+          <h2 class="display-3">Prefer a form? Tell us / Build</h2>
+          <p class="small muted">{p.alt.body} Miami Beach is Eastern Time. Florida · Thyssen Building · Americas.</p>
           <a class="link" href="/tell-us" data-track="cta_click" data-track-cta-name="tell_us" data-track-cta-location="connect">{p.alt.cta}</a>
+          <a class="link" href="/build" data-track="cta_click" data-track-cta-name="build" data-track-cta-location="connect">build your journey</a>
         </div>
       </div>
       <div class="cn__form">
@@ -70,6 +81,8 @@ const f = p.fields;
       </div>
     </div>
   </section>
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={4} ground="onyx" numbered={false} trackAs="navigation_click" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="paper" />
 </BaseLayout>
 
 <style>

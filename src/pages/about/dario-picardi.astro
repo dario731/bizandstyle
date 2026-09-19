@@ -2,17 +2,31 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Definition from '@components/editorial/Definition.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
 import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
 import { getCollection } from 'astro:content';
 import { pages } from '@i18n/pages.en';
 import { site } from '@data/site';
-import { webPageLd, breadcrumbLd, personLd, graph } from '@lib/seo';
+import { webPageLd, breadcrumbLd, personLd, faqLd, graph, absoluteUrl } from '@lib/seo';
 
 const p = pages.dario;
 const path = '/about/dario-picardi';
-const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'ProfilePage' }), personLd(), breadcrumbLd([{ name: 'About', path: '/about' }, { name: 'Dario Picardi', path }]));
+const jsonLd = graph(
+  webPageLd({
+    name: p.seo.title,
+    description: p.seo.description,
+    path,
+    type: 'ProfilePage',
+    about: { '@id': `${site.url}/about/dario-picardi#person` },
+    mainEntity: { '@id': `${site.url}/about/dario-picardi#person` },
+  }),
+  personLd(),
+  faqLd([...p.faqs], `${absoluteUrl(path)}#faq`),
+  breadcrumbLd([{ name: 'About', path: '/about' }, { name: 'Dario Picardi', path }]),
+);
 const byDario = (await getCollection('insights', ({ data }) => !data.draft && data.author.id === 'dario-picardi')).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 ---
 
@@ -21,7 +35,7 @@ const byDario = (await getCollection('insights', ({ data }) => !data.draft && da
     <div class="container dp__grid">
       <div class="dp__text">
         <p class="eyebrow eyebrow--marker" data-reveal>{p.hero.eyebrow}</p>
-        <h1 class="display dp__title" data-reveal>{p.hero.title.map((l) => <span>{l}</span>)}</h1>
+        <h1 class="display dp__title" data-reveal>{p.hero.title}</h1>
         <p class="eyebrow" data-reveal>{site.founder.role} · {site.name}</p>
         <p class="lede muted" data-reveal>{p.hero.lede}</p>
       </div>
@@ -32,9 +46,12 @@ const byDario = (await getCollection('insights', ({ data }) => !data.draft && da
     </div>
   </section>
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <ProseSections sections={p.sections} ground="onyx" idPrefix="dario" />
   <ModuleGrid eyebrow={p.journey.eyebrow} title={p.journey.title} items={p.journey.items} columns={3} ground="paper" id="journey" />
   <Statement lines={['Everything connects.']} editorial={p.quote} ground="onyx" />
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="paper" numbered={false} trackAs="navigation_click" />
   <RelatedInsights entries={byDario} title="Written by Dario Picardi" ground="paper" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="onyx" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="person_cta" />
 </BaseLayout>
 
