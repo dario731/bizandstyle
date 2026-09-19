@@ -33,7 +33,12 @@ Environment variables (see `.env.example`):
 | Var | Purpose |
 |---|---|
 | `PUBLIC_GTM_ID` | When set, GTM loads and receives every `dataLayer` event from `src/lib/track.ts`. Leave empty until GA4/GTM are configured. |
-| `LEAD_WEBHOOK_URL` / `LEAD_WEBHOOK_TOKEN` | Where `/api/lead` forwards normalized, scored leads (Follow Up Boss, HubSpot, Zapier/Make…). Empty = dry run (202 + echo). |
+| `LEAD_WEBHOOK_URL` / `LEAD_WEBHOOK_TOKEN` | Optional secondary forward after the GHL write (Follow Up Boss, HubSpot, Zapier/Make…). Empty = skip. |
+| `GHL_LOCATION_ID` | HighLevel location (sub-account) for `/api/lead` Contact + Opportunity writes. Required. |
+| `GHL_PRIVATE_INTEGRATION_TOKEN` | HighLevel Private Integration token. Required — missing GHL vars return `503` / `ok: false` (no fake success). |
+| `GHL_PIPELINE_ID_DEFAULT` / `GHL_STAGE_ID_DISCOVERY` | Interim Marketing pipeline + Discovery/Qualified stage. Required. |
+| `GHL_STAGE_ID_NEW` | Optional New Lead stage for soft/unknown ICP. |
+| `GHL_PIPELINE_ID_*` / `GHL_STAGE_ID_DISCOVERY_*` (`INVESTOR`, `EXEC_RELOCATOR`, `INTRA_COMPANY`, `DEVELOPER`, `AVIATION`, `OVERSEAS`) | Optional ICP routing — used only when both pipeline and stage for that ICP are set. `GHL_STAGE_ID_*` is an accepted alias. |
 
 ## Where things live
 
@@ -46,7 +51,8 @@ src/i18n/pages.en.ts      hub / about / conversion page copy
 src/content/insights/en/  Insights articles (MDX) — see "Publishing" below
 src/content/categories.json · authors.json
 src/components/           layout · cinematic · editorial · system (Investor Journey, Luxury ecosystem, Digital engine, map…) · insights · conversion · story
-src/pages/api/lead.ts     CRM-agnostic lead endpoint (validation, honeypot, scoring, webhook)
+src/pages/api/lead.ts     Lead endpoint (validation, honeypot, scoring → GHL Contact + Opportunity; optional webhook)
+src/lib/ghl.ts · ghl-icp.ts  HighLevel writer + ICP tag/pipeline routing
 src/lib/track.ts          dataLayer bus + first-touch attribution (UTM, gclid, referrer, landing page)
 ```
 

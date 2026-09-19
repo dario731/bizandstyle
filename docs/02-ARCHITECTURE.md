@@ -162,9 +162,9 @@ Form payload (all forms share one envelope, posted to `/api/lead`):
 ```
 
 Attribution is captured on first visit into `sessionStorage`/first-party cookie by `track.ts`, invisibly.
-`/api/lead` validates, computes a provisional lead score, and forwards to `LEAD_WEBHOOK_URL` (env) — CRM vendor
-is chosen later (Follow Up Boss already runs for B&S Luxury; HubSpot/others plug in via the same webhook).
-Until a webhook exists the endpoint stores nothing and returns `202` with the normalized payload echoed for QA.
+`/api/lead` validates, computes a provisional lead score, and writes a GoHighLevel Contact + Opportunity
+(`GHL_*` env — fail closed if required vars are missing). `LEAD_WEBHOOK_URL` remains an optional secondary
+forward (Follow Up Boss, HubSpot, Zapier/Make). No client-facing SMS/email is sent from this endpoint.
 
 dataLayer events (brief §17) are emitted through `track(event, params)`; GTM/GA4 IDs are injected from
 `PUBLIC_GTM_ID` only when present. Nothing is hard-coded.

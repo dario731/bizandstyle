@@ -1,18 +1,16 @@
 import type { APIRoute } from 'astro';
+import { GhlUpstreamError, loadGhlConfig, writeLeadToGhl, type ScoredLead } from '@lib/ghl';
 
 export const prerender = false;
 
 /**
- * CRM-agnostic lead endpoint.
- * Validates the shared lead envelope (docs/02-ARCHITECTURE.md §6), computes a
- * provisional score and forwards to LEAD_WEBHOOK_URL when configured
- * (Follow Up Boss, HubSpot, Zapier/Make, or a custom worker — the vendor is a
- * later decision). Without a webhook it returns 202 with the normalized payload
- * so the front end and QA can verify the contract.
+ * Lead endpoint — GoHighLevel is the primary CRM write (Contact upsert +
+ * Opportunity). LEAD_WEBHOOK_URL remains an optional secondary forward.
+ * Calendar embed is separate (GHL DNA Discovery Call); this file does not
+ * send client-facing SMS/email.
  *
- * TODO: After the GHL calendar path is solid, wire this endpoint to GoHighLevel
- * Contact upsert + Opportunity at Discovery (internal team alert only — no
- * client-facing SMS/email). Coordinate with GoHighLevel for webhook/API details.
+ * Contact-lock field names (full_name, company_name) stay as the form posts
+ * them so the on-page HighLevel tracker still captures name and company.
  */
 
 type Envelope = {
@@ -64,6 +62,13 @@ function isEmail(v: unknown): v is string {
   return typeof v === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
 }
 
+function envString(name: string): string | undefined {
+  const fromProcess = typeof process !== 'undefined' ? process.env[name] : undefined;
+  if (fromProcess && fromProcess.trim()) return fromProcess.trim();
+  const meta = (import.meta.env as Record<string, unknown>)[name];
+  return typeof meta === 'string' && meta.trim() ? meta.trim() : undefined;
+}
+
 export const POST: APIRoute = async ({ request }) => {
   let body: Envelope;
   const ct = request.headers.get('content-type') ?? '';
@@ -110,7 +115,7 @@ export const POST: APIRoute = async ({ request }) => {
     (String(body.fields.message ?? '').length > 120 ? 8 : 0) +
     (body.fields.website ? 4 : 0);
 
-  const lead = {
+  const lead: ScoredLead = {
     id: crypto.randomUUID(),
     receivedAt: new Date().toISOString(),
     formId: body.formId,
@@ -130,24 +135,74 @@ export const POST: APIRoute = async ({ request }) => {
     userAgent: request.headers.get('user-agent') ?? undefined,
   };
 
-  const webhook = import.meta.env.LEAD_WEBHOOK_URL as string | undefined;
+  const ghlEnv = runtimeGhlEnv();
+  const configured = loadGhlConfig(ghlEnv);
+  if (!configured.ok) {
+    return json({ ok: false, error: 'ghl_not_configured', missing: configured.missing }, 503);
+  }
+
+  let ghl;
+  try {
+    ghl = await writeLeadToGhl(lead, { env: ghlEnv });
+  } catch (err) {
+    if (err instanceof GhlUpstreamError) {
+      const status = err.status >= 400 && err.status < 600 ? err.status : 502;
+      return json({ ok: false, error: err.step === 'config' ? 'ghl_not_configured' : 'upstream', step: err.step, status: err.status }, status === 503 ? 503 : 502);
+    }
+    return json({ ok: false, error: 'upstream_unreachable' }, 502);
+  }
+
+  const webhook = envString('LEAD_WEBHOOK_URL');
+  let webhookOk: boolean | undefined;
   if (webhook) {
     try {
       const res = await fetch(webhook, {
         method: 'POST',
-        headers: { 'content-type': 'application/json', ...(import.meta.env.LEAD_WEBHOOK_TOKEN ? { authorization: `Bearer ${import.meta.env.LEAD_WEBHOOK_TOKEN}` } : {}) },
-        body: JSON.stringify(lead),
+        headers: { 'content-type': 'application/json', ...(envString('LEAD_WEBHOOK_TOKEN') ? { authorization: `Bearer ${envString('LEAD_WEBHOOK_TOKEN')}` } : {}) },
+        body: JSON.stringify({ ...lead, ghl }),
       });
-      if (!res.ok) return json({ ok: false, error: 'upstream', status: res.status }, 502);
-      return json({ ok: true, id: lead.id, tier: lead.tier }, 200);
+      webhookOk = res.ok;
     } catch {
-      return json({ ok: false, error: 'upstream_unreachable' }, 502);
+      webhookOk = false;
     }
   }
 
-  // No CRM configured yet: accept and echo for QA. Nothing is persisted.
-  return json({ ok: true, id: lead.id, tier: lead.tier, dryRun: true, lead }, 202);
+  return json({ ok: true, id: lead.id, tier: lead.tier, ghl: { contactId: ghl.contactId, opportunityId: ghl.opportunityId, icp: ghl.icp }, webhookOk }, 200);
 };
+
+function runtimeGhlEnv(): Record<string, string | undefined> {
+  const names = [
+    'GHL_PRIVATE_INTEGRATION_TOKEN',
+    'GHL_LOCATION_ID',
+    'GHL_PIPELINE_ID_DEFAULT',
+    'GHL_STAGE_ID_DISCOVERY',
+    'GHL_STAGE_ID_NEW',
+    'GHL_PIPELINE_ID_INVESTOR',
+    'GHL_STAGE_ID_INVESTOR',
+    'GHL_STAGE_ID_DISCOVERY_INVESTOR',
+    'GHL_PIPELINE_ID_EXEC_RELOCATOR',
+    'GHL_STAGE_ID_EXEC_RELOCATOR',
+    'GHL_STAGE_ID_DISCOVERY_EXEC_RELOCATOR',
+    'GHL_PIPELINE_ID_INTRA_COMPANY',
+    'GHL_STAGE_ID_INTRA_COMPANY',
+    'GHL_STAGE_ID_DISCOVERY_INTRA_COMPANY',
+    'GHL_PIPELINE_ID_DEVELOPER',
+    'GHL_STAGE_ID_DEVELOPER',
+    'GHL_STAGE_ID_DISCOVERY_DEVELOPER',
+    'GHL_PIPELINE_ID_AVIATION',
+    'GHL_STAGE_ID_AVIATION',
+    'GHL_STAGE_ID_DISCOVERY_AVIATION',
+    'GHL_PIPELINE_ID_OVERSEAS',
+    'GHL_STAGE_ID_OVERSEAS',
+    'GHL_STAGE_ID_DISCOVERY_OVERSEAS',
+  ];
+  const out: Record<string, string | undefined> = { ...process.env };
+  for (const name of names) {
+    const v = envString(name);
+    if (v) out[name] = v;
+  }
+  return out;
+}
 
 function inferDivision(intent?: string): string | null {
   if (!intent) return null;
