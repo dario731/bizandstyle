@@ -1,13 +1,13 @@
 ---
 /**
  * ContactDrawer — one slide-in panel for every "connect" action on the site.
- * Tabs: Message (lead form → /api/lead), Book a call (Calendly embedded),
+ * Tabs: Message (lead form → /api/lead), Book a call (GHL DNA Discovery Call),
  * Call & WhatsApp. Opened by any element with data-open-contact="message|call|direct".
  */
 import LeadFormLite from './LeadFormLite.astro';
+import BookingEmbed from './BookingEmbed.astro';
 import { site } from '@data/site';
 const wa = `${site.whatsappHref}?text=${encodeURIComponent("Hi BIZ & STYLE — I'd like to talk about what I'm building.")}`;
-const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&text_color=f4f6f8&primary_color=f5f7f9`;
 ---
 
 <div class="cd" data-contact-drawer hidden>
@@ -52,10 +52,10 @@ const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&te
 
       <section class="cd__pane" role="tabpanel" id="cd-panel-call" aria-labelledby="cd-tab-call" data-cd-pane="call" hidden>
         <p class="small muted cd__lead">Pick a 30-minute slot with the team in Miami.</p>
-        <div class="cd__calendly">
-          <iframe title="Book a call with BIZ & STYLE" data-src={calendly} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="cd__booking">
+          <BookingEmbed id="dna-ghl-booking-drawer" lazy />
         </div>
-        <p class="small muted">Not loading? <a class="link" href={site.calendly} rel="noopener" data-track="calendar_click" data-track-cta-location="drawer">Open Calendly</a></p>
+        <p class="small muted">Not loading? <a class="link" href={site.booking} rel="noopener" data-track="calendar_click" data-track-cta-location="drawer">Open the calendar</a></p>
       </section>
 
       <section class="cd__pane" role="tabpanel" id="cd-panel-direct" aria-labelledby="cd-tab-direct" data-cd-pane="direct" hidden>
@@ -189,7 +189,7 @@ const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&te
     gap: var(--space-5);
   }
 
-  .cd__calendly {
+  .cd__booking {
     height: min(70vh, 720px);
     border: 1px solid rgba(244, 246, 248, 0.1);
     border-radius: 2px;
@@ -197,7 +197,7 @@ const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&te
     background: #0c0d0f;
   }
 
-  .cd__calendly iframe {
+  .cd__booking iframe {
     width: 100%;
     height: 100%;
     border: 0;

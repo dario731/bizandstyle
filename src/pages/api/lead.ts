@@ -9,6 +9,10 @@ export const prerender = false;
  * (Follow Up Boss, HubSpot, Zapier/Make, or a custom worker — the vendor is a
  * later decision). Without a webhook it returns 202 with the normalized payload
  * so the front end and QA can verify the contract.
+ *
+ * TODO: After the GHL calendar path is solid, wire this endpoint to GoHighLevel
+ * Contact upsert + Opportunity at Discovery (internal team alert only — no
+ * client-facing SMS/email). Coordinate with GoHighLevel for webhook/API details.
  */
 
 type Envelope = {

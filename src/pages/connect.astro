@@ -2,6 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import LeadFormLite from '@components/conversion/LeadFormLite.astro';
+import BookingEmbed from '@components/conversion/BookingEmbed.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
 import { pages } from '@i18n/pages.en';
@@ -37,7 +38,7 @@ const f = p.fields;
         </div>
         <div class="cn__block">
           <h2 class="display-3">{p.book}</h2>
-          <a class="btn btn--solid" href={site.calendly} rel="noopener" data-track="calendar_click" data-track-cta-location="connect">
+          <a class="btn btn--solid" href={site.booking} rel="noopener" data-track="calendar_click" data-track-cta-location="connect">
             <span class="btn__ring" aria-hidden="true"></span>{p.book}
           </a>
         </div>
@@ -81,6 +82,15 @@ const f = p.fields;
       </div>
     </div>
   </section>
+  <section class="section ground-onyx cn-book" id="book" aria-labelledby="cn-book-title">
+    <div class="container">
+      <p class="eyebrow eyebrow--marker" data-reveal>DNA Discovery Call</p>
+      <h2 id="cn-book-title" class="display-3" data-reveal>Book a 30-minute conversation.</h2>
+      <div class="cn__booker">
+        <BookingEmbed id="dna-ghl-booking-connect" />
+      </div>
+    </div>
+  </section>
   <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={4} ground="onyx" numbered={false} trackAs="navigation_click" />
   <FaqBlock faqs={p.faqs} title="FAQ" ground="paper" />
 </BaseLayout>
@@ -120,6 +130,23 @@ const f = p.fields;
     display: grid;
     gap: var(--space-6);
     align-content: start;
+  }
+  .cn-book .display-3 {
+    margin-block: var(--space-3) var(--space-6);
+  }
+  .cn__booker {
+    width: 100%;
+    min-height: 720px;
+    border: 1px solid rgba(244, 246, 248, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    background: #0c0d0f;
+  }
+  .cn__booker iframe {
+    width: 100%;
+    min-height: 720px;
+    height: 100%;
+    border: 0;
   }
   @media (min-width: 1024px) {
     .cn__grid {

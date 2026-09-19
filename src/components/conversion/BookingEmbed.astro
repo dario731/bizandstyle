@@ -1,0 +1,23 @@
+---
+/**
+ * DNA Discovery Call (30 min) — GoHighLevel booking iframe.
+ * URL comes from `site.booking` so the calendar path stays centralized.
+ */
+import { site } from '@data/site';
+
+interface Props {
+  id?: string;
+  /** Defer src until the host (e.g. contact drawer) sets it. */
+  lazy?: boolean;
+}
+
+const { id = 'dna-ghl-booking', lazy = false } = Astro.props;
+---
+
+<iframe
+  {...(lazy ? { 'data-src': site.booking } : { src: site.booking })}
+  style="width:100%;border:none;overflow:hidden;"
+  scrolling="no"
+  {id}
+  title="Book a DNA Discovery Call"
+></iframe>

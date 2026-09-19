@@ -21,7 +21,7 @@ No existing codebase for the corporate site existed. The current site is a Gamma
 | Legal entity **BIZ & STYLE DNA INC.** | site footer, disclosures |
 | Founded **2017**, Miami Beach | profile p.5 / p.7 |
 | HQ **1000 5th St, Suite 200, Miami Beach, FL 33139** (Thyssen Building) | profile p.28, site |
-| Contact `info@bizandstyledna.com`, `+1 305-549-4289`, Calendly `calendly.com/dario-bizandstyledna/30min` | site |
+| Contact `info@bizandstyledna.com`, `+1 305-549-4289`, GHL DNA Discovery Call `api.leadconnectorhq.com/widget/booking/n0KUU7bIfK2n0giuUOIl` | site |
 | Three divisions: **B&S Advisory · B&S Commerce · B&S Luxury** | profile p.19 |
 | Positioning "Business. Wealth. Lifestyle." (in the wordmark) | logo |
 | Lineage lines: "Your vision is our mission. Our vision is your success." / "Plug into B&S" | profile running footer |
