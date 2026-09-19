@@ -19,13 +19,22 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-# Permanent Lead Gen URL is /lead-generation/. Advisory slug 301s here.
+# Permanent Lead Gen URL is /lead-generation/. Pretty URLs would otherwise
+# 301 the trailing slash to /lead-generation; force a 200 so the slash URL stays.
+[[redirects]]
+  from = "/lead-generation/"
+  to = "/lead-generation"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/advisory/lead-generation"
   to = "/lead-generation/"
   status = 301
+  force = true
 
 [[redirects]]
   from = "/advisory/lead-generation/"
   to = "/lead-generation/"
   status = 301
+  force = true
