@@ -84,6 +84,14 @@ describe('routeOpportunity', () => {
       routeOpportunity('developer', cfg, { GHL_PIPELINE_ID_DEVELOPER: 'pipe_dev', GHL_STAGE_ID_DEVELOPER: 'stage_dev' }),
       { pipelineId: 'pipe_dev', stageId: 'stage_dev' },
     );
+    assert.deepEqual(
+      routeOpportunity('aviation', cfg, {
+        GHL_PIPELINE_ID_AVIATION: 'pipe_av',
+        GHL_STAGE_ID_DISCOVERY_AVIATION: 'stage_av',
+        GHL_STAGE_ID_AVIATION: 'stage_alias_ignored',
+      }),
+      { pipelineId: 'pipe_av', stageId: 'stage_av' },
+    );
   });
 });
 

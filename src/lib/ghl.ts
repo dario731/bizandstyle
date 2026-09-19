@@ -8,11 +8,17 @@
  * Version: 2021-07-28 — current Private Integration header (marketplace v3
  * docs label the generation "v3"; the wire value remains 2021-07-28).
  *
- * Interim IDs (comments only — never used as runtime fallbacks):
- *   GHL_LOCATION_ID            rnVDtPfXXCeL7FoX5khR
- *   GHL_PIPELINE_ID_DEFAULT    T0SSRAHXSGTLE1tRRvIZ   (Marketing)
- *   GHL_STAGE_ID_DISCOVERY     b39e3a01-a98a-4a68-a4d3-f9fe0e471251  (Qualified)
- *   GHL_STAGE_ID_NEW           7f649cea-935b-4ee9-b6a8-87ff9ad6dae6
+ * Live pipeline map (comments only — never used as runtime fallbacks):
+ *   GHL_LOCATION_ID                 rnVDtPfXXCeL7FoX5khR
+ *   GHL_PIPELINE_ID_DEFAULT         Hn3MtAszhBsXGbf2q6Tl   (Investors — unknown / appointment-led)
+ *   GHL_STAGE_ID_DISCOVERY          637e1321-0c7d-4976-8bc0-fb4f2bab6d5b
+ *   GHL_STAGE_ID_NEW                7f649cea-935b-4ee9-b6a8-87ff9ad6dae6
+ *   INVESTOR        Hn3MtAszhBsXGbf2q6Tl / 637e1321-0c7d-4976-8bc0-fb4f2bab6d5b
+ *   EXEC_RELOCATOR  gyRIzoQFKvc5pPSAbLV8 / 5619c439-0996-46fe-86a5-d49b55b45596
+ *   INTRA_COMPANY   KuhnLffVgezmQuFtNjII / b53203dd-effe-4906-a17c-3211cf13c322
+ *   DEVELOPER       jtQ9bzSStIhoOFBbKa29 / f43bb489-4603-4e6f-b9b1-e4809cb04c5c
+ *   AVIATION        qJP3o1NDIiQ62IqoOwR1 / f10eaa6e-f176-416b-96cb-40fb419d1600
+ *   OVERSEAS        Hp1aB8C9wBiW7A1qph3c / 5718c64f-daa7-4324-aefe-ef806ead4e28
  */
 
 import { ICP_ENV_SUFFIX, type IcpKey, icpTags, mapIcp } from './ghl-icp.ts';
@@ -110,7 +116,8 @@ export function routeOpportunity(
   }
   const suffix = ICP_ENV_SUFFIX[icp];
   const pipelineId = readEnv(`GHL_PIPELINE_ID_${suffix}`, env);
-  const stageId = readEnv(`GHL_STAGE_ID_${suffix}`, env);
+  // Prefer GHL_STAGE_ID_DISCOVERY_* (Netlify / GHL naming), fall back to GHL_STAGE_ID_*.
+  const stageId = readEnv(`GHL_STAGE_ID_DISCOVERY_${suffix}`, env) ?? readEnv(`GHL_STAGE_ID_${suffix}`, env);
   if (pipelineId && stageId) return { pipelineId, stageId };
   return { pipelineId: config.pipelineIdDefault, stageId: config.stageIdDiscovery };
 }

@@ -38,7 +38,7 @@ Environment variables (see `.env.example`):
 | `GHL_PRIVATE_INTEGRATION_TOKEN` | HighLevel Private Integration token. Required — missing GHL vars return `503` / `ok: false` (no fake success). |
 | `GHL_PIPELINE_ID_DEFAULT` / `GHL_STAGE_ID_DISCOVERY` | Interim Marketing pipeline + Discovery/Qualified stage. Required. |
 | `GHL_STAGE_ID_NEW` | Optional New Lead stage for soft/unknown ICP. |
-| `GHL_PIPELINE_ID_*` / `GHL_STAGE_ID_*` (`INVESTOR`, `EXEC_RELOCATOR`, `INTRA_COMPANY`, `DEVELOPER`, `AVIATION`, `OVERSEAS`) | Optional ICP routing — used only when both pipeline and stage for that ICP are set. |
+| `GHL_PIPELINE_ID_*` / `GHL_STAGE_ID_DISCOVERY_*` (`INVESTOR`, `EXEC_RELOCATOR`, `INTRA_COMPANY`, `DEVELOPER`, `AVIATION`, `OVERSEAS`) | Optional ICP routing — used only when both pipeline and stage for that ICP are set. `GHL_STAGE_ID_*` is an accepted alias. |
 
 ## Where things live
 
