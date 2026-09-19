@@ -2,23 +2,79 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import Statement from '@components/editorial/Statement.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import { byDivision, divisionMeta, type Division } from '@data/services';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import { webPageLd, breadcrumbLd, faqLd, itemListLd, graph, absoluteUrl } from '@lib/seo';
 
 const path = '/divisions';
-const title = 'Divisions — Advisory, Commerce, Luxury | BIZ & STYLE';
-const description = 'Three operating divisions inside one platform: B&S Advisory (strategy & growth), B&S Commerce (trade & distribution), B&S Luxury (real estate & high-value ecosystems). Choose where to start.';
+const title = 'Three Divisions · One Platform | BIZ & STYLE';
+const description = 'Advisory, Commerce and Luxury — three operating engines of the BIZ & STYLE platform in Miami. +1 305-549-4289.';
 const divisions: { id: Division; num: string; line: string; overview: string; visual: string }[] = [
   { id: 'advisory', num: '01', line: 'Strategy that ends in execution.', overview: 'Business strategy, international expansion, fractional executive leadership, business development and digital growth — delivered by a team that operates in-market.', visual: 'orbit' },
   { id: 'commerce', num: '02', line: 'From product to market.', overview: 'Import and export, distribution, marketplaces, domestic and bonded warehousing in Miami, fulfillment and brand representation for the Americas.', visual: 'flow' },
   { id: 'luxury', num: '03', line: 'Business development at the highest level.', overview: 'Miami luxury and pre-construction real estate, developer partnerships and a seven-vertical ecosystem serving the same high-net-worth client.', visual: 'grid' },
 ];
-const jsonLd = graph(webPageLd({ name: title, description, path, type: 'CollectionPage' }), breadcrumbLd([{ name: 'Divisions', path }]));
+const faqs = [
+  { q: 'What are the three divisions?', a: 'B&S Advisory (strategy and growth), B&S Commerce (trade and distribution) and B&S Luxury (real estate and high-value ecosystems).' },
+  { q: 'Is this the same as The Platform page?', a: 'No. `/platform` explains who BIZ & STYLE is and how the organisation is structured. `/divisions` helps you choose which operating engine to start with.' },
+  { q: 'Are Advisory, Commerce and Luxury separate companies?', a: 'They are operating divisions of one platform — sharing one team, infrastructure and network, with dedicated entities and JVs when a market or venture needs them.' },
+  { q: 'Where should an international brand start?', a: 'Often Advisory (entry + BD) plus Commerce (distribution / bonded hub). Luxury clients may start on B&S Luxury / bns-luxury.com for property search.' },
+  { q: 'How do I contact the right team?', a: 'One front door: +1 305-549-4289 or info@bizandstyledna.com — we route internally.' },
+];
+const relatedLinks = [
+  { href: '/platform', label: 'who we are — The Platform', line: 'Identity and org structure — not this chooser.' },
+  { href: '/advisory', label: 'B&S Advisory', line: 'Strategy and growth — start here for entry and BD.' },
+  { href: '/commerce', label: 'B&S Commerce', line: 'Trade and distribution — from product to market.' },
+  { href: '/luxury', label: 'B&S Luxury', line: 'Real estate and high-value ecosystems.' },
+  { href: '/', label: 'business development platform overview', line: 'The home brand-and-offers story.' },
+];
+const sections = [
+  {
+    title: 'B&S Advisory — strategy & growth',
+    paragraphs: [
+      'Strategy that ends in execution: international expansion, fractional leadership, business development and digital — operators in Miami, not advisors at a distance. United States, Latin America and Europe share one Advisory calendar from Miami Beach.',
+      'An international brand often starts here for entry and BD, then layers Commerce when product has to move. Explore B&S Advisory when the brief is capability and roadmap.',
+    ],
+  },
+  {
+    title: 'B&S Commerce — trade & distribution',
+    paragraphs: [
+      'From product to market: import/export, distribution, marketplaces, bonded warehousing and fulfillment from Miami for the Americas. The physical engine that lets a brand operate northbound and southbound from one hub.',
+      'Start on B&S Commerce when inventory, channels and the bonded hub are the first conversation.',
+    ],
+  },
+  {
+    title: 'B&S Luxury — real estate & high-value ecosystems',
+    paragraphs: [
+      'Luxury real estate and a seven-vertical ecosystem for high-net-worth clients in Miami. Property search lives on bns-luxury.com. This chooser points at the division — not a second listings site.',
+      'Luxury clients may start on B&S Luxury / bns-luxury.com for property search, then use the platform when the brief becomes partnership or acquisition infrastructure.',
+    ],
+  },
+  {
+    title: 'How divisions differ from The Platform page',
+    paragraphs: [
+      '/platform explains who BIZ & STYLE is and how the organisation is structured — identity, Investor Journey™, Business · Wealth · Lifestyle. /divisions is the chooser: which operating engine to start with among Advisory, Commerce and Luxury.',
+      'They are not three companies. They are operating divisions of one platform in Miami — sharing one team, infrastructure and network across the Americas, the United States, Latin America and Europe — with dedicated entities and JVs when a market or venture needs them. One front door: +1 305-549-4289 or info@bizandstyledna.com.',
+    ],
+  },
+];
+const jsonLd = graph(
+  webPageLd({ name: title, description, path, type: 'CollectionPage' }),
+  itemListLd(`${absoluteUrl(path)}#list`, [
+    { name: 'B&S Advisory', url: absoluteUrl('/advisory') },
+    { name: 'B&S Commerce', url: absoluteUrl('/commerce') },
+    { name: 'B&S Luxury', url: absoluteUrl('/luxury') },
+  ]),
+  breadcrumbLd([{ name: 'Divisions', path }]),
+  faqLd(faqs, `${absoluteUrl(path)}#faq`),
+);
 ---
 
 <BaseLayout {title} {description} {path} pageType="divisions" {jsonLd}>
-  <EditorialHero eyebrow="Divisions" title={['Three engines.', 'Choose where to start.']} ground="onyx" crumbs={[{ name: 'Divisions', path }]} size="display-2" toc={false} tight />
+  <EditorialHero eyebrow="Divisions" title={['Three engines.', 'Choose where to start.']} lede="Advisory, Commerce and Luxury — three operating engines of one BIZ & STYLE platform in Miami. Not three companies. One system." ground="onyx" crumbs={[{ name: 'Divisions', path }]} size="display-2" toc={false} tight />
 
   <section class="ground-onyx dv-tiles" aria-label="The three divisions">
     <div class="container">
@@ -62,7 +118,11 @@ const jsonLd = graph(webPageLd({ name: title, description, path, type: 'Collecti
     </div>
   </section>
 
-  <Statement eyebrow="One platform" lines={['Not three companies.', 'One system — several entities.']} body={['The divisions share one team, one infrastructure and one network. Behind them sit BIZ & STYLE DNA INC. and dedicated entities and joint ventures created with strategic partners — so what starts as a market-entry project can become distribution, and what starts as a property can become a business.']} ground="paper" size="display-2" />
+  <Statement eyebrow="One platform. Several entities" lines={['Shared team, infrastructure, network.']} body={['The divisions share one team, one infrastructure and one network across the Americas. Behind them sit BIZ & STYLE DNA INC. in Miami Beach and dedicated entities and joint ventures created with strategic partners — so what starts as a market-entry project can become distribution, and what starts as a property can become a business.']} ground="paper" size="display-2" />
+
+  <ProseSections {sections} ground="onyx" idPrefix="dv" />
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="paper" numbered={false} trackAs="navigation_click" />
+  <FaqBlock {faqs} title="FAQ" ground="paper" />
 
   <ContextualCta eyebrow="Not sure which division?" title={['Tell us', "what you're building."]} primary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} secondary={{ label: 'Solutions', href: '/solutions', name: 'solutions' }} location="divisions_cta" />
 </BaseLayout>

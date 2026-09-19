@@ -23,17 +23,24 @@ interface Props {
   faqs: readonly { q: string; a: string }[];
   cta: { eyebrow: string; title: readonly string[]; primary: { label: string; href: string; name: string }; secondary?: { label: string; href: string; name: string } };
   servicesTitle?: string;
+  extraCapabilities?: readonly { name: string; line: string; href: string }[];
   relatedLinks?: readonly { href: string; label: string; line?: string }[];
   schema?: {
     pageType?: string | readonly string[];
     serviceName?: string;
     serviceType?: string;
     areaServed?: readonly string[];
+    breadcrumbName?: string;
   };
 }
-const { division, seo, hero, definition, statement, faqs, cta, servicesTitle = 'Capabilities', relatedLinks, schema = {} } = Astro.props;
+const { division, seo, hero, definition, statement, faqs, cta, servicesTitle = 'Capabilities', extraCapabilities = [], relatedLinks, schema = {} } = Astro.props;
 const div = divisionMeta[division];
 const list = byDivision(division);
+const crumbName = schema.breadcrumbName ?? div.name;
+const capabilityItems = [
+  ...list.map((s) => ({ name: s.title, line: s.lede, href: servicePath(s) })),
+  ...extraCapabilities,
+];
 const jsonLd = graph(
   webPageLd({ name: seo.title, description: seo.description, path: div.path, type: schema.pageType ?? 'CollectionPage' }),
   serviceLd({
@@ -43,19 +50,19 @@ const jsonLd = graph(
     serviceType: schema.serviceType ?? div.role,
     areaServed: schema.areaServed,
   }),
-  breadcrumbLd([{ name: div.name, path: div.path }]),
+  breadcrumbLd([{ name: crumbName, path: div.path }]),
   faqLd([...faqs], `https://bizandstyledna.com${div.path}#faq`),
 );
 ---
 
 <BaseLayout title={seo.title} description={seo.description} path={div.path} pageType="division" {jsonLd}>
-  <EditorialHero eyebrow={hero.eyebrow} title={hero.title} lede={hero.lede} ground={div.ground} mediaId={hero.mediaId} mediaAlt={div.name} crumbs={[{ name: div.name, path: div.path }]} brief={`What ${div.name} does, the ${list.length} services inside it, how they are delivered, and how to start.`}>
+  <EditorialHero eyebrow={hero.eyebrow} title={hero.title} lede={hero.lede} ground={div.ground} mediaId={hero.mediaId} mediaAlt={div.name} crumbs={[{ name: crumbName, path: div.path }]} brief={`What ${div.name} does, the ${list.length} services inside it, how they are delivered, and how to start.`}>
     <a class="btn btn--solid" href={cta.primary.href} data-track="cta_click" data-track-cta-name={cta.primary.name} data-track-cta-location="division_hero" data-track-division={division}>
       <span class="btn__ring" aria-hidden="true"></span>{cta.primary.label}
     </a>
   </EditorialHero>
   <slot name="after-hero" />
-  <ModuleGrid eyebrow={div.role} title={servicesTitle} items={list.map((s) => ({ name: s.title, line: s.lede, href: servicePath(s) }))} columns={list.length >= 8 ? 4 : list.length >= 6 ? 3 : 3} ground="onyx" id="services" trackAs="service_view" />
+  <ModuleGrid eyebrow={div.role} title={servicesTitle} items={capabilityItems} columns={capabilityItems.length >= 8 ? 4 : capabilityItems.length >= 6 ? 3 : 3} ground="onyx" id="services" trackAs="service_view" />
   <Definition question={definition.q} answer={definition.a} ground="paper" id="definition" />
   <slot name="before-services" />
   <slot name="after-services" />

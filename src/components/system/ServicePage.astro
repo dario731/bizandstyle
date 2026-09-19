@@ -26,6 +26,8 @@ const div = divisionMeta[s.division];
 const path = servicePath(s);
 const related = (s.programs ?? []).map((slug) => programs.find((p) => p.slug === slug)).filter(Boolean);
 const schema = s.schema ?? {};
+const crumbParent = schema.breadcrumbParent ?? div.name;
+const crumbName = schema.breadcrumbName ?? s.title;
 const jsonLd = graph(
   webPageLd({
     name: s.seoTitle,
@@ -45,19 +47,19 @@ const jsonLd = graph(
     knowsAbout: schema.knowsAbout,
     audience: schema.audience,
   }),
-  breadcrumbLd([{ name: div.name, path: div.path }, { name: s.title, path }]),
+  breadcrumbLd([{ name: crumbParent, path: div.path }, { name: crumbName, path }]),
   faqLd([...s.faqs], `${absoluteUrl(path)}#faq`),
 );
 ---
 
 <BaseLayout title={s.seoTitle} description={s.seoDescription} {path} pageType="service" {jsonLd} {canonical}>
-  <EditorialHero eyebrow={s.eyebrow} title={s.title} lede={s.lede} ground={div.ground} mediaId={s.mediaId} mediaAlt={s.title} crumbs={[{ name: div.name, path: div.path }, { name: s.title, path }]} brief={`What ${s.title.toLowerCase()} means at BIZ & STYLE, what it includes, who delivers it, and how to start.`}>
+  <EditorialHero eyebrow={s.eyebrow} title={s.title} lede={s.lede} ground={div.ground} mediaId={s.mediaId} mediaAlt={s.title} crumbs={[{ name: crumbParent, path: div.path }, { name: crumbName, path }]} brief={`What ${s.title.toLowerCase()} means at BIZ & STYLE, what it includes, who delivers it, and how to start.`}>
     <a class="btn btn--solid" href={s.cta.href} data-track="cta_click" data-track-cta-name={s.cta.name} data-track-cta-location="service_hero" data-track-service={s.slug}>
       <span class="btn__ring" aria-hidden="true"></span>{s.cta.label}
     </a>
   </EditorialHero>
 
-  <ModuleGrid eyebrow="What it includes" items={s.modules} columns={s.modules.length >= 6 ? 3 : s.modules.length === 4 ? 4 : 3} ground="onyx" id="modules" />
+  <ModuleGrid eyebrow="What it includes" title={s.modulesTitle} items={s.modules} columns={s.modules.length >= 6 ? 3 : s.modules.length === 4 ? 4 : 3} ground="onyx" id="modules" />
 
   <Definition question={s.definition.q} answer={s.definition.a} ground="paper" id="definition" />
 

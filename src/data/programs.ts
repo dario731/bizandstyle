@@ -21,6 +21,7 @@ export interface Program {
     serviceType?: string;
     areaServed?: readonly string[];
     offers?: { url: string; availability?: string };
+    breadcrumbName?: string;
   };
 }
 
@@ -53,12 +54,46 @@ export const programs: readonly Program[] = [
     faqs: [
       { q: 'How is the programme structured?', a: 'It follows the BIZ & STYLE five-phase model — Understand, Build, Enter, Develop, Establish — with scope, deliverables and cadence defined in a proposal after a strategic conversation.' },
       { q: 'Does it include company formation?', a: 'The programme coordinates it; licensed lawyers and accountants deliver it. The same applies to tax, banking and immigration.' },
+      { q: 'How is this different from `/internationalization`?', a: 'That hub teaches the model (export vs internationalization, nine pillars). This page sells the packaged Boost™ programme.' },
+      { q: 'How is this different from `/advisory/international-expansion`?', a: 'Advisory is the service/capability page. Boost™ is the named commercial programme that packages intelligence, representation, digital, distribution and ongoing execution.' },
+      { q: 'Is this the same as temporary export management?', a: 'No. TEM is a focused export-manager mandate. Boost™ is the fuller market-entry programme across multiple workstreams.' },
     ],
     cta: { eyebrow: 'Planning your U.S. expansion?', label: 'Assess your market entry', href: '/tell-us?intent=market-entry&persona=international-company', name: 'ieb_assess' },
     services: ['/internationalization', '/advisory/international-expansion', '/commerce/bonded-warehouse', '/digital-engine'],
     mediaId: 'HOME-MIAMI-01',
-    seoTitle: 'International Expansion Boost™ — U.S. Market Entry Programme | BIZ & STYLE',
-    seoDescription: 'A turnkey programme to enter the United States and Latin America with an executive team, infrastructure, digital acquisition, distribution and business development from Miami.',
+    seoTitle: 'International Expansion Boost™ | BIZ & STYLE',
+    seoDescription: 'Turnkey U.S. & LATAM market-entry programme: intelligence, representation, digital, distribution from Miami. +1 305-549-4289.',
+    sections: [
+      {
+        title: 'How this differs from the internationalization hub and Advisory service',
+        paragraphs: [
+          'Three URLs, three jobs. /internationalization teaches the model — export is not internationalization, nine pillars, five phases. /advisory/international-expansion is the service that delivers U.S. and LATAM expansion. This page sells the packaged International Expansion Boost™ programme: intelligence, representation, digital, distribution and ongoing execution as a named commercial offer.',
+          'Temporary export management is a different mandate. TEM is a focused export-manager brief. Boost™ is the fuller market-entry programme across multiple workstreams — including digital infrastructure and the bonded hub in Miami when the brief needs product in the Americas, not only meetings.',
+        ],
+      },
+      {
+        title: 'Enter America. Build for the long term.',
+        paragraphs: [
+          'The programme is built for companies entering the United States and LATAM from Miami — Mexico, the Caribbean and Brazil on the southbound side, with Europe → Americas as the typical origin motion. Soft adjacency: founders relocating from New York or Silicon Valley / California use the same Miami node rather than standing up a second coastal organization.',
+          'PortMiami and MIA sit next to the bonded hub. Digital infrastructure — the owned loop — can run in the same engagement. Licensed professionals still deliver company formation, tax, banking and immigration; we coordinate the sequence. The eight workstreams above are how Enter America becomes a market you stay in.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/internationalization', label: 'export is not internationalization', line: 'The thought hub — export vs internationalization, nine pillars.' },
+      { href: '/advisory/international-expansion', label: 'international expansion service', line: 'The capability page that delivers U.S. and LATAM expansion.' },
+      { href: '/advisory/temporary-export-management', label: 'temporary export management', line: 'A focused TEM mandate — not a synonym of Boost™.' },
+      { href: '/commerce/bonded-warehouse', label: 'bonded hub in Miami', line: 'Duty-deferred storage next to PortMiami and MIA.' },
+      { href: '/digital-engine', label: 'digital infrastructure', line: 'The owned acquisition loop the programme can include.' },
+      { href: '/programs', label: 'all signature programmes', line: 'Exactly three — Expansion, Digital, Fractional.' },
+    ],
+    schema: {
+      serviceName: 'International Expansion Boost™',
+      serviceType: 'Market-entry programme',
+      areaServed: ['Miami', 'United States', 'Latin America', 'Caribbean', 'Europe'],
+      offers: { url: 'https://bizandstyledna.com/programs/international-expansion-boost', availability: 'https://schema.org/InStock' },
+      breadcrumbName: 'International Expansion Boost',
+    },
   },
   {
     slug: 'digital-growth-engine',

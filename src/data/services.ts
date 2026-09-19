@@ -28,6 +28,8 @@ export interface Service {
   sections?: readonly { title: string; paragraphs: readonly string[] }[];
   /** Differentiated internal links. */
   relatedLinks?: readonly { href: string; label: string; line?: string }[];
+  /** H2 over the modules grid (Wave 2 leaves). */
+  modulesTitle?: string;
   schema?: {
     serviceName?: string;
     serviceType?: string;
@@ -38,6 +40,8 @@ export interface Service {
     audience?: string;
     webPageType?: string | readonly string[];
     webPageAbout?: unknown;
+    breadcrumbParent?: string;
+    breadcrumbName?: string;
   };
 }
 
@@ -279,7 +283,7 @@ export const services: readonly Service[] = [
       q: 'What does BIZ & STYLE business development mean?',
       a: [
         'Business development at BIZ & STYLE is the continuous creation of commercial opportunity: partner scouting and acquisition, key-account development, trade missions, and the cultivation of relationships with retailers, distributors, buyers, institutions and industry leaders.',
-        'It is delivered through a proprietary network of more than 200 commercial partners across the United States and Latin America.',
+        'It is delivered through a proprietary network of more than 200 commercial partners across the United States and Latin America — from Miami Beach headquarters, with trade-mission cadence across key cities and buyer concentrations.',
       ],
     },
     modules: [
@@ -288,15 +292,60 @@ export const services: readonly Service[] = [
       { name: 'Trade missions', line: 'Structured, repeated presence in the market.' },
       { name: 'Commercial network', line: '200+ commercial partners across the U.S. and LATAM.' },
     ],
+    modulesTitle: 'What it includes',
     statement: ['Relationships', 'are capital.'],
     faqs: [
       { q: 'Do you publish your partner list?', a: 'No. Discretion is part of the relationship. Selected credentials are available on request and, when appropriate, under NDA.' },
+      { q: 'Is this the same as the International Expansion Boost™ programme?', a: 'No. This page explains the BD capability. International Expansion Boost™ is the packaged market-entry programme that can include BD among other workstreams.' },
+      { q: 'Which markets do you cover?', a: 'United States and Latin America from Miami HQ — with trade-mission cadence across key cities and buyer concentrations.' },
+      { q: 'Who is business development for?', a: 'Brands and manufacturers who need distributors, agents, retailers and key accounts opened — not a slide deck of “introductions.”' },
+      { q: 'How do I start?', a: 'Call or WhatsApp +1 305-549-4289, or email info@bizandstyledna.com. A strategic conversation scopes whether capability engagement or a signature programme fits.' },
     ],
     cta: { eyebrow: 'Need doors opened in the Americas?', label: "Tell us what you're building", href: `${TELL}?intent=business-development`, name: 'bd_tell_us' },
     programs: ['international-expansion-boost', 'fractional-executive'],
     mediaId: 'HOME-DIV-ADV',
-    seoTitle: 'Business Development in the U.S. and Latin America | BIZ & STYLE',
-    seoDescription: 'Partner scouting, key-account development and trade missions through a 200+ commercial network in the United States and Latin America.',
+    seoTitle: 'Business Development Americas | BIZ & STYLE',
+    seoDescription: 'Partner scouting, key accounts, trade missions and a 200+ commercial network across the U.S. and LATAM — from Miami. +1 305-549-4289.',
+    sections: [
+      {
+        title: 'Relationships are capital — how the Americas network works',
+        paragraphs: [
+          'A list of names is not a network. The BIZ & STYLE commercial network is more than 200 commercial partners across the United States and Latin America — distributors, agents, retailers, buyers and institutions cultivated over years of being in the room, not emailed from another continent.',
+          'Discretion is part of the relationship. We do not publish a partner directory. Selected credentials are available on request and, when appropriate, under NDA. What we do publish is the method: partner scouting and acquisition, key-account development, and trade missions that return to the same cities until doors stay open.',
+          'Business development here is not a slide deck of “introductions.” Brands and manufacturers who need distributors, agents, retailers and key accounts opened get operators who already know how those accounts buy — and who will follow through after the first meeting.',
+        ],
+      },
+      {
+        title: 'From Miami: U.S. · LATAM · Caribbean presence',
+        paragraphs: [
+          'Miami Beach is the platform. From headquarters we cover the United States and Latin America — LATAM in the commercial sense, including Mexico, Brazil and the Caribbean — with trade-mission cadence across key cities and buyer concentrations.',
+          'Europe → Americas is the typical motion: a company that already has a product and a reputation at home uses Miami as the node where U.S. and LATAM accounts can be opened without standing up a second organization. Presence is repeated. Continuity is the product.',
+          'The same Miami calendar serves northbound and southbound markets. That is why BD sits inside B&S Advisory as a capability — not as a travelling consultant’s itinerary — and why the 200+ commercial partners are an Americas network, not a U.S.-only Rolodex.',
+        ],
+      },
+      {
+        title: 'How BD connects to programmes and Commerce',
+        paragraphs: [
+          'This page explains the BD capability. It is not a programmes sales page. International Expansion Boost™ is the packaged market-entry programme that can include BD among other workstreams. Partnership engineering structures the lasting commercial relationship once the right counterpart is found.',
+          'When the opportunity becomes physical — product, inventory, channels — B&S Commerce takes from product to market: distribution, warehousing and fulfillment from the same Miami platform to the Americas. Advisory opens the door; Commerce moves the goods.',
+          'A strategic conversation scopes whether a capability engagement or a signature programme fits. Call or WhatsApp +1 305-549-4289, or email info@bizandstyledna.com.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/advisory', label: 'B&S Advisory capabilities', line: 'The capability index — strategy and growth, à la carte.' },
+      { href: '/advisory/partnership-engineering', label: 'partnership engineering for JVs and distribution', line: 'Structure the relationship once the right counterpart is found.' },
+      { href: '/programs/international-expansion-boost', label: 'International Expansion Boost™ programme', line: 'The packaged market-entry offer that can include BD.' },
+      { href: '/commerce', label: 'from product to market', line: 'Trade and distribution when the opportunity becomes physical.' },
+      { href: '/miami', label: 'Miami platform to the Americas', line: 'Why the geo hub and the commercial network share one city.' },
+    ],
+    schema: {
+      serviceName: 'Business Development — Americas',
+      serviceType: 'Business development / partner acquisition',
+      areaServed: ['Miami', 'United States', 'Latin America', 'Caribbean'],
+      breadcrumbParent: 'Advisory',
+      breadcrumbName: 'Business Development',
+    },
   },
   {
     slug: 'partnership-engineering',
@@ -317,15 +366,58 @@ export const services: readonly Service[] = [
       { name: 'Distribution agreements', line: 'Exclusivity, territories, targets and performance clauses that work in practice.' },
       { name: 'Governance', line: 'Reporting, reviews and exits designed before they are needed.' },
     ],
+    modulesTitle: 'What it includes',
     regulated: 'Contracts, legal compliance and intellectual-property registration are delivered by independent licensed lawyers coordinated by BIZ & STYLE.',
     faqs: [
       { q: 'Do you draft the contracts?', a: 'We design the commercial structure and coordinate the process. Contracts are drafted and reviewed by licensed corporate and commercial lawyers from our network.' },
+      { q: 'What types of partnerships do you engineer?', a: 'Joint ventures, alliances, licensing, distribution and representation — with economics, territories, targets, exclusivity and exits designed before they are needed.' },
+      { q: 'Is this the same as business development?', a: 'BD creates and opens opportunities. Partnership engineering structures the lasting commercial relationship once the right counterpart is found.' },
+      { q: 'Who is this for?', a: 'Brands and manufacturers entering the U.S. or LATAM who need durable partner models — not one-off intro emails.' },
+      { q: 'How do I start?', a: 'Contact info@bizandstyledna.com or +1 305-549-4289 for a scoping conversation.' },
     ],
     cta: { eyebrow: 'Structuring a partnership in the Americas?', label: "Tell us what you're building", href: `${TELL}?intent=partnership`, name: 'pe_tell_us' },
     programs: ['international-expansion-boost'],
     mediaId: 'HOME-DIV-ADV',
-    seoTitle: 'Partnership Engineering — JVs, Licensing, Distribution | BIZ & STYLE',
-    seoDescription: 'Joint ventures, alliances, licensing and distribution agreements engineered to last, with the commercial design by BIZ & STYLE and contracts by licensed lawyers.',
+    seoTitle: 'Partnership Engineering | BIZ & STYLE',
+    seoDescription: 'JVs, licensing, distribution and alliances engineered commercially in Miami — contracts by licensed lawyers. +1 305-549-4289.',
+    sections: [
+      {
+        title: 'Commercial logic first — then contracts',
+        paragraphs: [
+          'BIZ & STYLE engineers commercial logic; licensed lawyers draft contracts. The sequence matters. Economics, territories, targets, exclusivity and exits are designed as a commercial model before anyone opens a word processor — so the paper describes a relationship that can actually operate in the United States, Latin America and the wider Americas.',
+          'Joint ventures, alliances, licensing, distribution and representation each need a different shape. We pick the model, align incentives over years rather than quarters, and write the responsibilities so both sides can live with them. This is not legal advice. It is commercial design from Miami, for brands and manufacturers entering the U.S. or LATAM who need durable partner models — not one-off intro emails.',
+        ],
+      },
+      {
+        title: 'Delivered with licensed professionals',
+        paragraphs: [
+          'Contracts are drafted and reviewed by licensed corporate and commercial lawyers from our network. Intellectual-property registration and legal compliance follow the same rule: we coordinate the process; they deliver and remain responsible.',
+          'Territories and exclusivity are commercial terms in that design — who sells where, against what targets, with what exit — not a substitute for counsel. Europe-origin companies using Miami as the Americas node get one commercial structure that licensed professionals can then paper for the jurisdictions that apply.',
+        ],
+      },
+      {
+        title: 'When BD becomes a structured partnership',
+        paragraphs: [
+          'Business development and partner scouting create and open opportunities. Partnership engineering starts when the right counterpart is found and the relationship has to last: governance, reporting, reviews and exits designed before they are needed.',
+          'Brand expansion and representation on the Commerce side is often the operating expression of that structure. International expansion service delivers U.S. and LATAM presence; the packaged market-entry programme can include partnership workstreams when the brief is a named engagement rather than a single agreement.',
+          'A scoping conversation maps which of those doors fits. Contact info@bizandstyledna.com or +1 305-549-4289.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/advisory/business-development', label: 'business development and partner scouting', line: 'BD creates and opens the opportunity this page then structures.' },
+      { href: '/commerce/brand-expansion', label: 'brand expansion and representation', line: 'How a structured partnership often runs on the Commerce side.' },
+      { href: '/advisory/international-expansion', label: 'international expansion service', line: 'U.S. and LATAM delivery when the brief is market entry.' },
+      { href: '/programs/international-expansion-boost', label: 'packaged market-entry programme', line: 'The named Boost™ offer that can include partnership workstreams.' },
+      { href: '/advisory', label: 'B&S Advisory', line: 'The capability hub — strategy and growth.' },
+    ],
+    schema: {
+      serviceName: 'Partnership Engineering',
+      serviceType: 'Joint venture / licensing / distribution agreement design',
+      areaServed: ['Miami', 'United States', 'Latin America', 'Europe'],
+      breadcrumbParent: 'Advisory',
+      breadcrumbName: 'Partnership Engineering',
+    },
   },
   {
     slug: 'digital-growth',
@@ -398,6 +490,7 @@ export const services: readonly Service[] = [
       q: 'What does CRM and automation at BIZ & STYLE cover?',
       a: [
         'CRM and automation means designing how leads enter, are scored, routed, nurtured and followed up — with lead source, campaign, persona and intent recorded from the first visit — and automating the steps that should not depend on someone remembering.',
+        'It is a capability under Advisory that feeds the Digital Engine — vendor-agnostic, operated from Miami Beach HQ for companies across the Americas.',
       ],
     },
     modules: [
@@ -406,14 +499,55 @@ export const services: readonly Service[] = [
       { name: 'Automation & nurture', line: 'Email, retargeting and task automation that keep relationships warm.' },
       { name: 'Attribution & reporting', line: 'From click to closed opportunity.' },
     ],
+    modulesTitle: 'What it includes',
     faqs: [
       { q: 'Can you integrate with our existing CRM?', a: 'Yes. The lead architecture is vendor-agnostic and forwards normalized, scored leads to any CRM or automation platform through a webhook.' },
+      { q: 'Is this a marketing-agency retainer?', a: 'No. We design and operate CRM and automation as part of digital business infrastructure — the same loop we run for our own divisions.' },
+      { q: 'How does this relate to the Digital Growth Engine™?', a: 'CRM & automation is a capability. Digital Growth Engine™ is the packaged programme that can include CRM with web, paid, SEO/GEO and attribution.' },
+      { q: 'Do you replace our sales team’s process?', a: 'We design stages, fields, scoring and automation around your sales reality — then connect capture to pipeline so follow-up does not depend on memory.' },
+      { q: 'How do I start?', a: 'Email info@bizandstyledna.com or call +1 305-549-4289. Most clients enter via Digital Engine or a signature programme scoping call.' },
     ],
     cta: { eyebrow: 'Is your CRM a database or a system?', label: 'Request a digital growth review', href: `${TELL}?intent=digital-growth`, name: 'crm_review' },
     programs: ['digital-growth-engine'],
     mediaId: 'HOME-DIV-ADV',
-    seoTitle: 'CRM & Marketing Automation for Growth | BIZ & STYLE',
-    seoDescription: 'CRM design, lead routing and scoring, automation, nurture and attribution connected to acquisition — implemented by operators who run it themselves.',
+    seoTitle: 'CRM & Marketing Automation | BIZ & STYLE',
+    seoDescription: 'CRM setup, lead routing, nurture and attribution connected to acquisition — vendor-agnostic from Miami. +1 305-549-4289.',
+    sections: [
+      {
+        title: 'Connected to acquisition — not a standalone tool project',
+        paragraphs: [
+          'A CRM that nobody feeds is a database. BIZ & STYLE designs CRM and automation as part of digital business infrastructure — the same loop we run for our own divisions — so capture, scoring, routing and nurture sit next to acquisition rather than in a side project.',
+          'Stages, fields and automation are built around your sales reality in the United States and Latin America. Follow-up does not depend on memory. Attribution runs from click to closed opportunity. This is not a marketing-agency retainer and not a competing acquisition SERP.',
+        ],
+      },
+      {
+        title: 'Vendor-agnostic architecture (webhook → your CRM)',
+        paragraphs: [
+          'The lead architecture is vendor-agnostic. Normalized, scored leads forward to any CRM or automation platform through a webhook — your stack, your fields, your owners.',
+          'From Miami Beach HQ we implement the handshake: source, campaign, landing page, persona and intent on the first visit, then routing rules that send the right lead to the right person. You keep the system of record. We keep the loop honest.',
+        ],
+      },
+      {
+        title: 'Where this sits vs Digital Engine and Lead Generation',
+        paragraphs: [
+          'CRM & automation is a capability under Advisory. Digital business infrastructure — the owned loop from click to client — lives on the Digital Engine. Digital Growth Engine™ is the packaged programme that can include CRM with web, paid, SEO/GEO and attribution.',
+          'High-ticket lead generation remains a separate offer. This page does not rewrite it. Most clients enter via Digital Engine or a signature programme scoping call. Email info@bizandstyledna.com or call +1 305-549-4289.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/digital-engine', label: 'digital business infrastructure', line: 'The owned loop this capability feeds — from click to client.' },
+      { href: '/programs/digital-growth-engine', label: 'Digital Growth Engine™ programme', line: 'The packaged programme that can include CRM with the rest of the stack.' },
+      { href: '/lead-generation/', label: 'high-ticket lead generation', line: 'The dedicated demand offer — we do not rewrite that URL.' },
+      { href: '/advisory', label: 'B&S Advisory', line: 'The capability hub this leaf sits under.' },
+    ],
+    schema: {
+      serviceName: 'CRM & Marketing Automation',
+      serviceType: 'CRM setup / marketing automation',
+      areaServed: ['Miami', 'United States', 'Latin America', 'Americas'],
+      breadcrumbParent: 'Advisory',
+      breadcrumbName: 'CRM & Automation',
+    },
   },
   {
     slug: 'ai-digital-transformation',

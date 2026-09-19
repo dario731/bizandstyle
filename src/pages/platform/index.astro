@@ -8,21 +8,28 @@ import JourneyLoop from '@components/home2/JourneyLoop.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import { pages } from '@i18n/pages.en';
 import { getCopy } from '@i18n/index';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import { webPageLd, breadcrumbLd, faqLd, graph, absoluteUrl } from '@lib/seo';
 
 const p = pages.platform;
 const t = getCopy('en');
 const path = '/platform';
-const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'AboutPage' }), breadcrumbLd([{ name: 'Platform', path }]));
+const jsonLd = graph(
+  webPageLd({ name: p.seo.title, description: p.seo.description, path, type: ['WebPage', 'AboutPage'], about: { '@id': 'https://bizandstyledna.com/#organization' } }),
+  breadcrumbLd([{ name: 'Platform', path }]),
+  faqLd([...p.faqs], `${absoluteUrl(path)}#faq`),
+);
 ---
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="hub" {jsonLd}>
   <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="HOME-HERO-01-POSTER" mediaAlt="Miami skyline at dawn" crumbs={[{ name: 'Platform', path }]} brief="Who BIZ & STYLE is, how the platform is organised, the three engines, and where to go next." />
-  <ModuleGrid items={p.engines.items} columns={3} ground="onyx" id="engines" trackAs="division_view" />
+  <ModuleGrid title="Three divisions at a glance" items={p.engines.items} columns={3} ground="onyx" id="engines" trackAs="division_view" />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <Statement eyebrow={p.mission.eyebrow} lines={p.mission.lines} body={p.mission.body} ground="onyx" size="display-2" />
   <Statement eyebrow="How the platform is organised" lines={['One platform.', 'Several companies.']} body={['BIZ & STYLE operates as a combination of companies: BIZ & STYLE DNA INC. in Miami Beach, its three operating divisions, and dedicated entities and joint ventures established with strategic partners for specific markets and ventures.', 'Every engagement is delivered through the entity built for it — with the same team, infrastructure and network behind all of them.']} ground="paper" size="display-2" />
   <JourneyLoop stages={t.home.journey.stages} />
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="paper" numbered={false} trackAs="navigation_click" />
   <ModuleGrid eyebrow={p.links.eyebrow} title="Inside the platform." items={p.links.items} columns={4} ground="onyx" id="explore" numbered={false} trackAs="navigation_click" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} ground="paper" location="hub_cta" />
 </BaseLayout>

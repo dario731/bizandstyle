@@ -5,21 +5,39 @@ import OrbitCarousel from '@components/cinematic/OrbitCarousel.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import { solutions, solutionsIntro } from '@data/solutions';
-import { webPageLd, breadcrumbLd, serviceLd, faqLd, graph } from '@lib/seo';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import { webPageLd, breadcrumbLd, serviceLd, faqLd, itemListLd, graph, absoluteUrl } from '@lib/seo';
 
 const path = '/solutions';
-const title = 'Solutions — Tested, Turnkey Solutions Engineered for Results | BIZ & STYLE';
-const description = 'Five core solution categories — management & business development, corporate setup & legal, logistics & operations, relocation & immigration, real estate, wealth & lifestyle — as an integrated ecosystem or à la carte.';
+const title = 'Five Solutions · Americas | BIZ & STYLE';
+const description = 'Five turnkey categories: management & BD, corporate setup, logistics, relocation, real estate & lifestyle. Miami · +1 305-549-4289.';
 const faqs = [
   { q: 'Can I use a single solution, or do I need the full program?', a: 'Both. The five categories work as an integrated ecosystem or as standalone, à la carte services — the right tools at the right time.' },
   { q: 'Who delivers the legal, tax and immigration work?', a: 'Independent licensed lawyers, accountants, immigration attorneys and banking partners in our vetted network. BIZ & STYLE coordinates the sequence; they deliver and remain responsible for their services.' },
   { q: 'Where is the warehousing?', a: 'Domestic and bonded facilities in Miami — the gateway to the United States and Latin America.' },
+  { q: 'How do solutions relate to signature programmes?', a: 'Solutions are capability categories. Programmes (Expansion Boost, Digital Growth Engine, Fractional Executive) package selected capabilities into a named engagement.' },
+  { q: 'How do I start?', a: '+1 305-549-4289 or info@bizandstyledna.com — we map needs to solutions and/or a programme.' },
+];
+const relatedLinks = [
+  { href: '/lead-generation/', label: 'high-ticket lead generation', line: 'The dedicated demand offer — we do not change that page.' },
+  { href: '/commerce/bonded-warehouse', label: 'Miami bonded warehouse', line: 'Duty-deferred storage near PortMiami and MIA.' },
+  { href: '/programs', label: 'signature programmes', line: 'Three packaged offers — not a fourth solutions SKU.' },
+  { href: '/advisory', label: 'B&S Advisory capabilities', line: 'Strategy and growth, à la carte.' },
+  { href: '/luxury', label: 'B&S Luxury', line: 'Real estate and high-value ecosystems.' },
+  { href: '/miami', label: 'why Miami', line: 'The geo hub — Europe → Miami → the Americas.' },
 ];
 const jsonLd = graph(
   webPageLd({ name: title, description, path, type: 'CollectionPage' }),
+  itemListLd(`${absoluteUrl(path)}#list`, [
+    { name: 'Management & Business Development' },
+    { name: 'Corporate Setup & Legal Compliance' },
+    { name: 'Logistics & Operations' },
+    { name: 'Relocation & Immigration' },
+    { name: 'Real Estate, Wealth & Lifestyle' },
+  ]),
   ...solutions.map((s) => serviceLd({ name: s.name, description: s.tagline, path: `${path}#${s.slug}` })),
   breadcrumbLd([{ name: 'Solutions', path }]),
-  faqLd(faqs),
+  faqLd(faqs, `${absoluteUrl(path)}#faq`),
 );
 ---
 
@@ -65,14 +83,15 @@ const jsonLd = graph(
       </div>
       <div class="sol-leadgen__side" data-reveal>
         <p class="prose muted">Digital and offline acquisition for private aviation, yachting, luxury brands and international companies — websites, conversion UX, GTM/GA4, Google Ads, Meta, CRM handoff, events and relationships. Built in-house by a business company, not a media-buyer shop.</p>
-        <a class="btn btn--solid" href="/lead-generation" data-track="cta_click" data-track-cta-name="lead_generation" data-track-cta-location="solutions_leadgen">
-          <span class="btn__ring" aria-hidden="true"></span>Explore lead generation
+        <a class="btn btn--solid" href="/lead-generation/" data-track="cta_click" data-track-cta-name="lead_generation" data-track-cta-location="solutions_leadgen">
+          <span class="btn__ring" aria-hidden="true"></span>high-ticket lead generation
         </a>
       </div>
     </div>
   </section>
 
-  <FaqBlock {faqs} ground="paper" />
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="onyx" numbered={false} trackAs="navigation_click" />
+  <FaqBlock {faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow="Ready to transform ambition into reality?" title={['Schedule', 'a consultation.']} body="Our team is ready to build your customised growth solution. Whether you need a single service or a fully integrated program, we provide the expertise and infrastructure to help you succeed in new markets." primary={{ label: 'Schedule a consultation', href: '#connect', name: 'schedule_consultation' }} secondary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} location="solutions_cta" />
 </BaseLayout>
 
