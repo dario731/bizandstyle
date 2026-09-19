@@ -17,10 +17,11 @@ interface Props {
   modifiedTime?: string;
   jsonLd?: Record<string, unknown>[];
   locale?: string;
+  canonical?: string;
 }
 
-const { title, description, path, type = 'website', image, noindex = false, publishedTime, modifiedTime, jsonLd = [], locale = 'en' } = Astro.props;
-const canonical = `${site.url}${path === '/' ? '' : path}`;
+const { title, description, path, type = 'website', image, noindex = false, publishedTime, modifiedTime, jsonLd = [], locale = 'en', canonical: canonicalOverride } = Astro.props;
+const canonical = canonicalOverride ?? `${site.url}${path === '/' ? '' : path}`;
 // Share images must resolve on the host that actually serves this build: on Netlify branch and
 // deploy previews that is DEPLOY_PRIME_URL, in production the canonical domain.
 const deployOrigin = process.env.CONTEXT && process.env.CONTEXT !== 'production' && process.env.DEPLOY_PRIME_URL ? process.env.DEPLOY_PRIME_URL.replace(/\/+$/, '') : site.url;

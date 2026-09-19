@@ -31,7 +31,7 @@ export default defineConfig({
     }),
   ],
   redirects: {
-    '/advisory/lead-generation': '/lead-generation',
+    '/advisory/lead-generation': '/lead-generation/',
   },
   prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
   vite: { build: { cssMinify: 'lightningcss' } },

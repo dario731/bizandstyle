@@ -12,8 +12,9 @@ export const site = {
     'BIZ & STYLE is a Miami-based business development platform connecting strategy, execution, commerce, technology and high-value relationships across the Americas and beyond, through three integrated divisions: B&S Advisory, B&S Commerce and B&S Luxury.',
   foundingDate: '2017',
   email: 'info@bizandstyledna.com',
-  phone: '+1 786 870 7262',
-  phoneHref: 'tel:+17868707262',
+  phone: '+1 305-549-4289',
+  phoneHref: 'tel:+13055494289',
+  whatsappHref: 'https://wa.me/13055494289',
   calendly: 'https://calendly.com/dario-bizandstyledna/30min',
   address: {
     streetAddress: '1000 5th Street, Suite 200',

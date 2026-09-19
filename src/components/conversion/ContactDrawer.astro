@@ -6,7 +6,7 @@
  */
 import LeadFormLite from './LeadFormLite.astro';
 import { site } from '@data/site';
-const wa = `https://wa.me/${site.phoneHref.replace(/\D/g, '')}?text=${encodeURIComponent("Hi BIZ & STYLE — I'd like to talk about what I'm building.")}`;
+const wa = `${site.whatsappHref}?text=${encodeURIComponent("Hi BIZ & STYLE — I'd like to talk about what I'm building.")}`;
 const calendly = `${site.calendly}?hide_gdpr_banner=1&background_color=0b0e13&text_color=f4f6f8&primary_color=f5f7f9`;
 ---
 
