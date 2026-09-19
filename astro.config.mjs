@@ -28,6 +28,12 @@ export default defineConfig({
         locales: { en: 'en-US', it: 'it-IT', es: 'es', pt: 'pt-BR' },
       },
       filter: (page) => !page.includes('/api/') && !page.includes('/request-credentials/thanks'),
+      serialize(item) {
+        if (item.url === 'https://bizandstyledna.com/lead-generation') {
+          item.url = 'https://bizandstyledna.com/lead-generation/';
+        }
+        return item;
+      },
     }),
   ],
   redirects: {
