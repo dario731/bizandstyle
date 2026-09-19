@@ -19,7 +19,7 @@ const list = (await getCollection('insights', ({ data }) => !data.draft && data.
 const cards = list.map((entry) => ({ entry, readingTime: readingTime(entry.body ?? '') }));
 const title = `${category.data.name} — Insights | BIZ & STYLE`;
 const jsonLd = graph(webPageLd({ name: title, description: category.data.description, path, type: 'CollectionPage' }), breadcrumbLd([{ name: 'Insights', path: '/insights' }, { name: category.data.name, path }]));
-const clusterLabel: Record<string, string> = { '/internationalization': 'Internationalization', '/digital-engine': 'Digital engine', '/miami': 'Miami', '/luxury': 'B&S Luxury', '/commerce': 'B&S Commerce', '/advisory/business-development': 'Business development', '/advisory/fractional-executive': 'Fractional executive', '/advisory/lead-generation': 'Lead generation', '/advisory/ai-digital-transformation': 'AI & digital transformation' };
+const clusterLabel: Record<string, string> = { '/internationalization': 'Internationalization', '/digital-engine': 'Digital engine', '/lead-generation': 'Lead generation', '/miami': 'Miami', '/luxury': 'B&S Luxury', '/commerce': 'B&S Commerce', '/advisory/business-development': 'Business development', '/advisory/fractional-executive': 'Fractional executive', '/advisory/lead-generation': 'Lead generation', '/advisory/ai-digital-transformation': 'AI & digital transformation' };
 ---
 
 <BaseLayout {title} description={category.data.description} {path} pageType="insights_category" {jsonLd}>

@@ -3,7 +3,7 @@
  * FloatingContacts — the single WhatsApp pill at bottom right (silver, halo).
  */
 import { site } from '@data/site';
-const wa = `https://wa.me/${site.phoneHref.replace(/\D/g, '')}?text=${encodeURIComponent("Hi BIZ & STYLE — I'd like to talk about what I'm building.")}`;
+const wa = `${site.whatsappHref}?text=${encodeURIComponent("Hi BIZ & STYLE — I'd like to talk about what I'm building.")}`;
 ---
 
 <div class="fc" data-floating-contacts aria-label="Quick contact">

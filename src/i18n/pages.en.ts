@@ -26,6 +26,7 @@ export const pages = {
       { name: 'The Investor Journey™', line: 'Business → Wealth → Lifestyle → ∞. The circle of growth we lived first.', href: '/investor-journey' },
       { name: 'Internationalization', line: 'Export is not internationalization. Nine pillars, five phases.', href: '/internationalization' },
       { name: 'Digital engine', line: 'From click to client — digital business infrastructure.', href: '/digital-engine' },
+      { name: 'Lead generation', line: 'High-ticket acquisition — digital and offline — built in-house.', href: '/lead-generation' },
       { name: 'Infrastructure', line: 'HQ, team, warehouse, logistics, technology, network.', href: '/infrastructure' },
       { name: 'Miami', line: 'The platform to the Americas.', href: '/miami' },
       { name: 'Partner ecosystem', line: 'Great business rarely happens alone.', href: '/partners' },

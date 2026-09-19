@@ -28,8 +28,8 @@ const fmt = (x: Date) => x.toLocaleDateString('en-US', { year: 'numeric', month:
 const toc = headings.filter((h) => h.depth === 2);
 const relatedExplicit = d.related.length ? (await Promise.all(d.related.map((r) => getEntry(r)))).filter(Boolean) : null;
 const serviceLinks = d.relatedServices.map((sp) => {
-  const s = services.find((x) => `${divisionMeta[x.division].path}/${x.slug}` === sp);
-  const hub: Record<string, string> = { '/internationalization': 'Internationalization', '/digital-engine': 'Digital engine', '/miami': 'Miami', '/luxury': 'B&S Luxury', '/advisory': 'B&S Advisory', '/commerce': 'B&S Commerce', '/investor-journey': 'The Investor Journey™' };
+  const s = services.find((x) => `${divisionMeta[x.division].path}/${x.slug}` === sp || x.href === sp);
+  const hub: Record<string, string> = { '/internationalization': 'Internationalization', '/digital-engine': 'Digital engine', '/lead-generation': 'Lead generation', '/miami': 'Miami', '/luxury': 'B&S Luxury', '/advisory': 'B&S Advisory', '/commerce': 'B&S Commerce', '/investor-journey': 'The Investor Journey™' };
   return { href: sp, label: s?.title ?? hub[sp] ?? sp };
 });
 const authorPath = author?.id === 'dario-picardi' ? '/about/dario-picardi' : `/insights/authors/${author?.id}`;

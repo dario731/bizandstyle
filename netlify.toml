@@ -18,3 +18,14 @@
     X-Frame-Options = "SAMEORIGIN"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# Permanent Lead Gen URL is /lead-generation/. Advisory slug 301s here.
+[[redirects]]
+  from = "/advisory/lead-generation"
+  to = "/lead-generation/"
+  status = 301
+
+[[redirects]]
+  from = "/advisory/lead-generation/"
+  to = "/lead-generation/"
+  status = 301

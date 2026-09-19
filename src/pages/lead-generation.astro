@@ -1,0 +1,14 @@
+---
+/**
+ * Permanent Lead Generation URL. Content is the existing Advisory service
+ * page (title/meta/FAQ unchanged until Dario picks a merge). /advisory/lead-generation
+ * 301s here.
+ */
+import ServicePage from '@components/system/ServicePage.astro';
+import { getService } from '@data/services';
+
+const service = getService('advisory', 'lead-generation');
+if (!service) throw new Error('lead-generation service missing');
+---
+
+<ServicePage {service} canonical="https://bizandstyledna.com/lead-generation/" />

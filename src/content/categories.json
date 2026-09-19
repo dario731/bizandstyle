@@ -6,7 +6,7 @@
   { "id": "digital-growth", "name": "Digital Growth", "description": "Owned acquisition systems: websites, landing pages, paid media, SEO and GEO, CRM, automation and attribution.", "clusterOf": "/digital-engine", "locale": "en" },
   { "id": "ai-automation", "name": "AI & Automation", "description": "AI-enabled workflows inside sales, marketing and operations — what actually works for mid-sized international companies.", "clusterOf": "/advisory/ai-digital-transformation", "locale": "en" },
   { "id": "seo-geo", "name": "SEO / GEO", "description": "Being found by search engines and by AI systems: entity clarity, structured content and authority.", "clusterOf": "/digital-engine", "locale": "en" },
-  { "id": "lead-generation", "name": "Lead Generation", "description": "From click to client: capture, qualification, routing, nurture and pipeline.", "clusterOf": "/advisory/lead-generation", "locale": "en" },
+  { "id": "lead-generation", "name": "Lead Generation", "description": "From click to client: capture, qualification, routing, nurture and pipeline.", "clusterOf": "/lead-generation", "locale": "en" },
   { "id": "commerce", "name": "Commerce & E-commerce", "description": "Distribution, marketplaces, fulfillment and bonded warehousing for consumer brands in the Americas.", "clusterOf": "/commerce", "locale": "en" },
   { "id": "miami", "name": "Miami", "description": "Why Miami is the platform to the Americas: capital, trade, talent, lifestyle and connectivity.", "clusterOf": "/miami", "locale": "en" },
   { "id": "luxury-economy", "name": "Luxury Economy", "description": "How the businesses serving high-net-worth clients connect — and how relationships compound into business.", "clusterOf": "/luxury", "locale": "en" },

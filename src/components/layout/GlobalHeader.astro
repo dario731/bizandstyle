@@ -16,6 +16,7 @@ const current = Astro.url.pathname;
 const items = [
   { label: 'Platform', href: '/platform' },
   { label: 'Solutions', href: '/solutions' },
+  { label: 'Lead generation', href: '/lead-generation' },
   { label: 'Divisions', href: '/divisions' },
   { label: 'Investor Journey™', href: '/investor-journey' },
   { label: 'Why Miami', href: '/miami' },
@@ -140,7 +141,7 @@ const isActive = (href: string) => current === href || current.startsWith(href +
 
   .hdr__nav ul {
     display: flex;
-    gap: clamp(0.9rem, 1.6vw, 1.6rem);
+    gap: clamp(0.65rem, 1.25vw, 1.35rem);
   }
 
   .hdr__link {

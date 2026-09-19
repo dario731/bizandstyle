@@ -30,6 +30,9 @@ export default defineConfig({
       filter: (page) => !page.includes('/api/') && !page.includes('/request-credentials/thanks'),
     }),
   ],
+  redirects: {
+    '/advisory/lead-generation': '/lead-generation/',
+  },
   prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
   vite: { build: { cssMinify: 'lightningcss' } },
 });

@@ -11,6 +11,7 @@ search authority and user journeys, not for the menu.
 /platform/how-we-work               Built in the real world — operator philosophy, in-house vs licensed partners
 /internationalization               Export is not internationalization (flagship SEO/GEO landing)
 /digital-engine                     From click to client — digital business infrastructure
+/lead-generation                    High-ticket lead generation — digital + offline acquisition
 /infrastructure                     Capability already in place — HQ, warehouse, logistics, technology, network
 /miami                              Our platform to the Americas
 /partners                           Partner ecosystem hub → Become a partner

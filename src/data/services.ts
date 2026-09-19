@@ -20,6 +20,8 @@ export interface Service {
   mediaId: string;
   seoTitle: string;
   seoDescription: string;
+  /** Canonical public path when it is not `/{division}/{slug}`. */
+  href?: string;
 }
 
 const TELL = '/tell-us';
@@ -264,6 +266,7 @@ export const services: readonly Service[] = [
     cta: { eyebrow: 'Need qualified demand, not just traffic?', label: 'Request a digital growth review', href: `${TELL}?intent=digital-growth`, name: 'leadgen_review' },
     programs: ['digital-growth-engine'],
     mediaId: 'HOME-DIV-ADV',
+    href: '/lead-generation',
     seoTitle: 'Lead Generation Systems — Google, Meta, SEO, CRM | BIZ & STYLE',
     seoDescription: 'Qualified lead generation from paid, organic and AI search, captured and nurtured through CRM — built and operated in-house by BIZ & STYLE.',
   },
@@ -630,6 +633,7 @@ export const services: readonly Service[] = [
 
 export const byDivision = (d: Division) => services.filter((s) => s.division === d);
 export const getService = (d: Division, slug: string) => services.find((s) => s.division === d && s.slug === slug);
+export const servicePath = (s: Service) => s.href ?? `${divisionMeta[s.division].path}/${s.slug}`;
 
 export const divisionMeta: Record<Division, { name: string; role: string; path: string; ground: 'onyx' | 'paper' }> = {
   advisory: { name: 'B&S Advisory', role: 'Strategy & Growth', path: '/advisory', ground: 'paper' },
