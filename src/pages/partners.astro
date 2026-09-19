@@ -3,24 +3,33 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import Definition from '@components/editorial/Definition.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
 import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import { pages } from '@i18n/pages.en';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import { webPageLd, breadcrumbLd, faqLd, graph, absoluteUrl } from '@lib/seo';
 
 const p = pages.partners;
 const path = '/partners';
-const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path }), breadcrumbLd([{ name: 'Partner ecosystem', path }]));
+const jsonLd = graph(
+  webPageLd({ name: p.seo.title, description: p.seo.description, path }),
+  faqLd([...p.faqs], `${absoluteUrl(path)}#faq`),
+  breadcrumbLd([{ name: 'Partners', path }]),
+);
 ---
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
-  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="paper" crumbs={[{ name: 'Partner ecosystem', path }]}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="paper" crumbs={[{ name: 'Partners', path }]}>
     <a class="btn btn--solid" href="/become-a-partner" data-track="partner_inquiry" data-track-cta-location="landing_hero">
       <span class="btn__ring" aria-hidden="true"></span>Explore a partnership
     </a>
   </EditorialHero>
   <ModuleGrid eyebrow={p.audiences.eyebrow} title={p.audiences.title} items={p.audiences.items} columns={4} ground="onyx" id="audiences" />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+  <ProseSections sections={p.sections} ground="onyx" idPrefix="partners" />
   <Statement lines={p.principles.lines} body={p.principles.body} ground="paper" />
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="onyx" numbered={false} trackAs="navigation_click" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
 </BaseLayout>

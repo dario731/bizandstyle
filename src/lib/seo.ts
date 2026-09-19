@@ -23,9 +23,10 @@ export const faqLd = (faqs: { q: string; a: string }[], id?: string) =>
       }
     : null;
 
-export const itemListLd = (id: string, items: { name: string; url?: string }[]) => ({
+export const itemListLd = (id: string, items: { name: string; url?: string }[], name?: string) => ({
   '@type': 'ItemList',
   '@id': id,
+  ...(name ? { name } : {}),
   numberOfItems: items.length,
   itemListElement: items.map((it, i) => ({
     '@type': 'ListItem',
@@ -33,6 +34,32 @@ export const itemListLd = (id: string, items: { name: string; url?: string }[]) 
     name: it.name,
     ...(it.url ? { url: it.url } : {}),
   })),
+});
+
+export const definedTermLd = (o: { name: string; description: string; path: string; id?: string }) => ({
+  '@type': 'DefinedTerm',
+  '@id': o.id ?? `${absoluteUrl(o.path)}#term`,
+  name: o.name,
+  description: o.description,
+  inDefinedTermSet: absoluteUrl(o.path),
+});
+
+export const localBusinessLd = () => ({
+  '@type': 'LocalBusiness',
+  '@id': `${site.url}/#localbusiness`,
+  name: site.name,
+  url: `${site.url}/`,
+  telephone: site.phoneSchema,
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.streetAddress,
+    addressLocality: site.address.addressLocality,
+    addressRegion: site.address.addressRegion,
+    postalCode: site.address.postalCode,
+    addressCountry: site.address.addressCountry,
+  },
+  areaServed: ['Miami', 'United States', 'Latin America', 'Americas'],
 });
 
 export const serviceLd = (o: {
@@ -70,7 +97,7 @@ export const serviceLd = (o: {
   ...(o.audience ? { audience: { '@type': 'Audience', audienceType: o.audience } } : {}),
 });
 
-export const webPageLd = (o: { name: string; description: string; path: string; type?: string | readonly string[]; about?: unknown }) => ({
+export const webPageLd = (o: { name: string; description: string; path: string; type?: string | readonly string[]; about?: unknown; mainEntity?: unknown }) => ({
   '@type': o.type ?? 'WebPage',
   '@id': `${absoluteUrl(o.path)}#webpage`,
   url: absoluteUrl(o.path),
@@ -78,6 +105,7 @@ export const webPageLd = (o: { name: string; description: string; path: string; 
   description: o.description,
   isPartOf: { '@id': `${site.url}/#website` },
   about: o.about ?? { '@id': ORG },
+  ...(o.mainEntity ? { mainEntity: o.mainEntity } : {}),
   inLanguage: 'en',
 });
 
@@ -89,7 +117,13 @@ export const personLd = () => ({
   worksFor: { '@id': ORG },
   url: `${site.url}/about/dario-picardi`,
   nationality: 'Italian',
-  knowsAbout: ['Business development', 'Internationalization', 'U.S. market entry', 'Consumer goods', 'Distribution', 'Digital growth', 'Real estate', 'Luxury'],
+  knowsAbout: ['International business', 'Business development', 'Consumer goods distribution', 'Luxury real estate', 'Digital growth'],
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: site.address.addressLocality,
+    addressRegion: site.address.addressRegion,
+    addressCountry: site.address.addressCountry,
+  },
   ...(site.sameAs.length ? { sameAs: site.sameAs } : {}),
 });
 

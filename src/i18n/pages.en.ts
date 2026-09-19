@@ -50,19 +50,44 @@ export const pages = {
   },
 
   howWeWork: {
-    seo: { title: 'How We Work — Built in the Real World | BIZ & STYLE', description: 'We do not sell theory. Every BIZ & STYLE capability is built, operated, tested and optimized in our own ventures first. What we execute in-house, and where licensed specialists deliver.' },
-    hero: { eyebrow: 'How we work', title: ['Built in', 'the real world.'], lede: 'What BIZ & STYLE recommends is first built, operated, tested and optimized inside its own ventures. Then it is brought to clients.' },
+    seo: { title: 'How We Work · Operators First | BIZ & STYLE', description: 'Every capability is built, operated and tested in our own ventures first — then offered to clients from Miami Beach. +1 305-549-4289.' },
+    hero: { eyebrow: 'How we work', title: 'Built in the real world.', lede: 'What BIZ & STYLE recommends is first built, operated, tested and optimized inside its own ventures. Then it is brought to clients from Miami Beach.' },
+    inHouseTitle: 'What we operate in-house vs where licensed specialists deliver',
     statement: { lines: ["We don't sell theory.", 'We build it. We operate it.', 'We test it. We optimize it.', 'Then we bring it to our clients.'], body: ['The method comes from firsthand experience: building businesses, operating companies, entering international markets, managing distribution, running a warehouse, building digital acquisition, generating leads, developing commercial relationships, investing, working in real estate and operating inside luxury ecosystems.', 'That is why the platform is organized the way it is — the divisions mirror the journey we lived.'] },
-    process: { eyebrow: 'The engagement', title: 'From conversation to execution.', steps: [
+    process: { eyebrow: 'The engagement', title: 'From method to engagement', steps: [
       { name: 'Conversation', line: 'Tell us what you are building. We listen for where you are and where you want to go.' },
       { name: 'Roadmap', line: 'A clear proposal: scope, deliverables, timeline, and who delivers what — in-house or licensed partner.' },
       { name: 'Execution', line: 'The team that designed it runs it: market, distribution, digital, relationships.' },
       { name: 'Optimization', line: 'Continuous review against objectives. The system gets smarter with every interaction.' },
     ] },
+    sections: [
+      {
+        title: 'Tested in our own ventures first',
+        paragraphs: [
+          'Every capability we offer is built, operated, tested and optimized inside BIZ & STYLE ventures first — then made available to clients from Miami Beach. We do not sell theory or playbooks. Miami, the United States, Latin America and the wider Americas are where those ventures already run.',
+          'The method is operators-first: commercial, digital and trade systems in-house. Licensed lawyers, accountants, immigration counsel and other regulated professionals deliver where the law requires.',
+        ],
+      },
+      {
+        title: 'How this maps to Advisory · Commerce · Luxury',
+        paragraphs: [
+          'This page explains our operating method. It is not a Solutions catalogue and not an Advisory sales page. Solutions maps five solution categories à la carte or as an ecosystem. Divisions is the three-engines chooser. The platform page is who we are / the org story.',
+          'Advisory, Commerce and Luxury are the three engines that inherit the method. Our story lives on About. Talk to the team from Miami Beach when the next step is a conversation — +1 305-549-4289 or info@bizandstyledna.com.',
+        ],
+      },
+    ],
     faqs: [
-      { q: 'What makes BIZ & STYLE different from traditional consulting or advisory firms?', a: 'We are operators, not observers. We provide the infrastructure — team, warehouse, technology, network — and we execute, rather than handing over a plan. Everything we offer has been tested in our own ventures first.' },
-      { q: 'Does BIZ & STYLE provide legal, tax or immigration advice?', a: 'No. Legal, tax, accounting, immigration, banking, financial and wealth advisory are delivered by independent licensed professionals from our vetted network. We coordinate; they deliver and remain responsible for their services.' },
-      { q: 'Is BIZ & STYLE only for large corporations?', a: 'No. The platform is modular — a founder can start with a fractional executive or a digital engine; an international company can start with market entry; an investor can start with real estate — and expand as ambitions grow.' },
+      { q: 'Do you sell theory or playbooks?', a: 'No. Every capability we offer is built, operated, tested and optimized inside BIZ & STYLE ventures first — then made available to clients.' },
+      { q: 'What do you deliver yourselves vs through specialists?', a: 'We operate commercial, digital and trade systems in-house. Licensed lawyers, accountants, immigration counsel and other regulated professionals deliver where the law requires.' },
+      { q: 'Is How We Work the same as Solutions?', a: 'No. This page explains our operating method. /solutions maps five solution categories à la carte or as an ecosystem.' },
+      { q: 'How do I start?', a: 'Call or WhatsApp +1 305-549-4289, or email info@bizandstyledna.com.' },
+    ],
+    relatedLinks: [
+      { href: '/platform', label: 'who we are / org story', line: 'One platform. Three divisions. Integrated.' },
+      { href: '/solutions', label: 'five solution categories', line: 'À la carte or as an ecosystem — not this method page.' },
+      { href: '/divisions', label: 'three engines chooser', line: 'Advisory · Commerce · Luxury.' },
+      { href: '/about', label: 'our story', line: 'Built by operators. Not observers.' },
+      { href: '/connect', label: 'talk to the team', line: 'Miami Beach HQ — phone, WhatsApp, email.' },
     ],
     cta: { eyebrow: 'Start here', title: ['Tell us', "what you're building."], primary: { label: "Tell us what you're building", href: TELL, name: 'tell_us' }, secondary: { label: "Let's connect", href: '/connect', name: 'connect' } },
   },
@@ -312,10 +337,10 @@ export const pages = {
   },
 
   partners: {
-    seo: { title: 'Partner Ecosystem | BIZ & STYLE', description: 'BIZ & STYLE develops long-term relationships with companies and professionals whose expertise, clients and ambitions intersect with its ecosystem — luxury companies, professional firms, developers, brands, technology providers, qualified specialists.' },
-    hero: { eyebrow: 'Partner ecosystem', title: ['Great business', 'rarely happens alone.'], lede: 'BIZ & STYLE develops long-term relationships with companies and professionals whose expertise, clients and ambitions intersect with our ecosystem.' },
+    seo: { title: 'Partner Ecosystem | BIZ & STYLE', description: 'Companies and professionals whose expertise, clients and ambitions intersect with the BIZ & STYLE ecosystem. +1 305-549-4289.' },
+    hero: { eyebrow: 'Partner ecosystem', title: 'Great business rarely happens alone.', lede: 'BIZ & STYLE develops long-term relationships with companies and professionals whose expertise, clients and ambitions intersect with our ecosystem — an institutional showcase, not a become-a-partner form.' },
     definition: { q: 'Who partners with BIZ & STYLE?', a: ['Luxury companies, professional firms, real-estate developers, consumer brands, international organizations, technology providers, strategic businesses and qualified specialists — in Miami, across the Americas and in Europe. Relationships are structured for the long term and, where appropriate, governed by business-development agreements.'] },
-    audiences: { eyebrow: 'Who we work with', title: 'Ecosystems that intersect.', items: [
+    audiences: { eyebrow: 'Who we partner with', title: 'Luxury companies · professional firms · developers · brands · technology · specialists', items: [
       { name: 'Luxury companies', line: 'Aviation, yachting, interior design, luxury goods, media, entertainment — serving the same HNWI client.' },
       { name: 'Professional firms', line: 'Corporate lawyers, tax advisors, accountants, immigration attorneys, banks — licensed, independent, vetted.' },
       { name: 'Developers', line: 'Luxury and pre-construction developments in Miami seeking international buyers and strategic programmes.' },
@@ -326,12 +351,48 @@ export const pages = {
       { name: 'Qualified specialists', line: 'Individuals with expertise and relationships that extend the journey.' },
     ] },
     principles: { lines: ['Relationships are capital.', 'Discretion is part of the relationship.'], body: ['Not every relationship belongs on a website. We selectively showcase collaborations while protecting the confidentiality of our clients, partners and commercial relationships. Selected credentials are available when relevant.'] },
+    sections: [
+      {
+        title: 'How partnership works (discretion)',
+        paragraphs: [
+          'Discretion is part of the relationship. We do not publish a full partner list. Selected credentials are shared on request and, when appropriate, under NDA. The partner ecosystem is broader institutional relationships — luxury companies, professional firms, developers, brands, technology and specialists — around the platform in Miami, the United States, Latin America and the Americas.',
+          'It is not brand expansion (a Commerce capability for consumer-brand licensing and representation) and not the become-a-partner intake form. This page is the ecosystem showcase.',
+        ],
+      },
+      {
+        title: 'Become a partner',
+        paragraphs: [
+          'Companies and professionals whose expertise, clients and ambitions intersect with Advisory, Commerce or Luxury should apply — not cold affiliate spam. Use become-a-partner or tell us what you\'re building, or email info@bizandstyledna.com / call +1 305-549-4289.',
+          'The commercial network of 200+ partners powers BD and distribution. The partner ecosystem includes professional firms, developers, tech and specialists around the same platform.',
+        ],
+      },
+      {
+        title: 'Miami · Americas network',
+        paragraphs: [
+          'The network is Miami-based and Americas-wide. Partnership engineering structures JVs when the relationship needs a contract. Developer partnerships is the luxury-development BD programme. Contact HQ when the next step is a conversation, not a directory.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'Do you publish a full partner list?', a: 'No. Discretion is part of the relationship. Selected credentials are shared on request and, when appropriate, under NDA.' },
+      { q: 'Who should become a partner?', a: 'Companies and professionals whose expertise, clients and ambitions intersect with Advisory, Commerce or Luxury — not cold affiliate spam.' },
+      { q: 'Is this the same as brand expansion / representation?', a: 'Partner ecosystem is broader institutional relationships. Brand expansion is a Commerce capability for consumer brands.' },
+      { q: 'How do I apply?', a: 'Use /become-a-partner or /tell-us, or email info@bizandstyledna.com / call +1 305-549-4289.' },
+      { q: 'Where do partners sit vs the 200+ commercial network?', a: 'The commercial network powers BD and distribution; the partner ecosystem includes professional firms, developers, tech and specialists around the platform.' },
+    ],
+    relatedLinks: [
+      { href: '/become-a-partner', label: 'become a partner', line: 'The application path — Wave 4 will carry its own voice.' },
+      { href: '/tell-us', label: "tell us what you're building", line: 'Structured intake when the brief is already a project.' },
+      { href: '/advisory/partnership-engineering', label: 'partnership engineering', line: 'JVs and contract design when the relationship needs paper.' },
+      { href: '/luxury/developer-partnerships', label: 'developer partnerships', line: 'Selected luxury developments — not this showcase.' },
+      { href: '/connect', label: 'contact HQ', line: 'Phone, WhatsApp, email — Miami Beach.' },
+    ],
     cta: { eyebrow: 'Think our ecosystems intersect?', title: ['Explore', 'a partnership.'], primary: { label: 'Explore a partnership', href: '/become-a-partner', name: 'partner' }, secondary: { label: 'Request credentials', href: '/request-credentials', name: 'credentials' } },
   },
 
   investorJourney: {
-    seo: { title: 'The Investor Journey™ — Business → Wealth → Lifestyle → ∞ | BIZ & STYLE', description: 'The Investor Journey™ is the BIZ & STYLE framework: business generates wealth, wealth shapes lifestyle, and lifestyle opens new business. A circle of growth — lived firsthand, then built into a platform.' },
-    hero: { eyebrow: 'The Investor Journey™', title: ['We lived it', 'firsthand.'], lede: 'Business. Wealth. Lifestyle. A single circle that keeps turning — the pattern we observed in every successful entrepreneur and investor, and the philosophy the BIZ & STYLE platform was built around.' },
+    seo: { title: 'Investor Journey™ | BIZ & STYLE', description: 'Business → Wealth → Lifestyle → ∞ — the BIZ & STYLE framework lived firsthand, then built into a Miami platform. +1 305-549-4289.' },
+    hero: { eyebrow: 'The Investor Journey™', title: 'We lived it firsthand.', lede: 'Business. Wealth. Lifestyle. A single circle that keeps turning — the pattern we observed in every successful entrepreneur and investor, and the philosophy the BIZ & STYLE platform was built around.' },
     definition: { q: 'What is The Investor Journey™?', a: ['The Investor Journey™ is BIZ & STYLE’s proprietary framework describing how business, wealth and lifestyle connect. Business — creating, building, entering, expanding, scaling — generates capital, relationships, opportunities, knowledge and networks. That leads to wealth: generating, investing, diversifying, structuring and preserving, through real estate, strategic ventures and capital allocation with qualified professionals. Wealth seeks lifestyle: living, access, experience and connection — luxury real estate, private aviation, yachting, design, hospitality, luxury brands, events.', 'The journey is not linear. Lifestyle creates relationships; relationships create opportunities; opportunities create business. Business → Wealth → Lifestyle → Business. It is a circle of growth, and you can enter at any point.'] },
     how: { eyebrow: 'How the circle turns', lines: ['Where business becomes wealth.', 'And wealth becomes lifestyle.', 'And lifestyle opens new business.'], body: ['As ventures grow, they generate capital, relationships and entrepreneurial networks. Entrepreneurs naturally reinvest — business success leads to real estate, strategic ventures and luxury assets, with many spending increasing time in Miami, where investment and lifestyle converge.', 'The lifestyle, in turn, opens new business. Around this core sit the luxury verticals — real estate, yachting, private aviation, design, goods, media, entertainment — all sharing one denominator: high-net-worth individuals. Each engagement reveals connections often invisible from the outside, and continuously activates new journeys.'] },
     experts: { lines: ['One journey.', 'The right expert at every stage.'], body: ['We understand the Investor Journey because we have lived it firsthand. But understanding the complete journey does not mean pretending to be the specialist in every discipline. BIZ & STYLE executes where it has operating expertise — strategy, internationalization, commerce, distribution, digital growth, business development, luxury real estate — and works with carefully selected licensed professionals for legal, tax, accounting, immigration, banking, financial and wealth advisory.'] },
@@ -340,6 +401,47 @@ export const pages = {
       { name: 'Start with wealth', line: 'Acquire luxury or pre-construction real estate, and as trust grows tap into the ecosystem to launch ventures and expand.', href: `${TELL}?intent=investor&persona=investor` },
       { name: 'Start with lifestyle', line: 'Drawn by Miami’s energy and opportunity; what begins as a personal experience evolves into an investment, a business, a relocation.', href: `${TELL}?intent=investor&persona=investor` },
     ] },
+    sections: [
+      {
+        title: 'Business → Wealth → Lifestyle → ∞',
+        paragraphs: [
+          'The Investor Journey™ is the BIZ & STYLE framework — Business → Wealth → Lifestyle → ∞ — lived firsthand, then built into a Miami platform. It is not a paid programme and not a fourth signature offer. Business generates wealth, wealth shapes lifestyle, lifestyle opens new business.',
+          'Miami and Miami Beach are the origin. The Americas and Latin America are the operating theatre. Relocation is a soft door into the circle, not a visa product on this URL.',
+        ],
+      },
+      {
+        title: 'How the framework maps to three divisions',
+        paragraphs: [
+          'The platform page tells the org story (Business · Wealth · Lifestyle structure). This page defines the trademarked journey framework. Advisory, Commerce and Luxury are how engagements run — not a rewrite of those hubs.',
+          'Signature programmes remain three: International Expansion Boost™, Digital Growth Engine™, Fractional Executive. This framework links to them without inventing a fourth.',
+        ],
+      },
+      {
+        title: 'Where programmes fit (without inventing a fourth)',
+        paragraphs: [
+          'Founders, investors and operators who want growth as a circle — not a one-off project — enter through a division or a programme. The founder story and About sit next to this framework so the entity and the trademark stay readable.',
+        ],
+      },
+      {
+        title: 'Miami origin',
+        paragraphs: [
+          'The circle was lived in Miami before it was named. Miami HQ is where the platform still sits. Call +1 305-549-4289 or email info@bizandstyledna.com.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'Is the Investor Journey™ a paid programme?', a: 'No. It is the BIZ & STYLE framework — Business generates Wealth, Wealth shapes Lifestyle, Lifestyle opens new Business. Engagements run through Advisory, Commerce, Luxury or signature programmes.' },
+      { q: 'How does it relate to Platform?', a: '/platform tells the org story (Business · Wealth · Lifestyle structure). This page defines the trademarked journey framework.' },
+      { q: 'Who is it for?', a: 'Founders, investors and operators who want growth as a circle — not a one-off project.' },
+      { q: 'How do I start?', a: '+1 305-549-4289 or info@bizandstyledna.com.' },
+    ],
+    relatedLinks: [
+      { href: '/platform', label: 'one platform · org story', line: 'How the organization is structured.' },
+      { href: '/about', label: 'our story', line: 'Operators, not observers — Miami Beach, 2017.' },
+      { href: '/about/dario-picardi', label: 'founder', line: 'Dario Picardi · Founder / President.' },
+      { href: '/programs', label: 'signature programmes', line: 'Exactly three — never a fourth.' },
+      { href: '/miami', label: 'Miami HQ', line: 'The platform to the Americas.' },
+    ],
     cta: { eyebrow: 'Where are you on the journey?', title: ['Start your', 'Investor Journey.'], primary: { label: 'Start your Investor Journey', href: `${TELL}?intent=investor&persona=investor`, name: 'start_investor_journey' }, secondary: { label: 'Luxury real estate ↗', href: 'https://bns-luxury.com', name: 'bns_luxury' } },
   },
 
@@ -390,8 +492,8 @@ export const pages = {
   },
 
   about: {
-    seo: { title: 'Our Story — Built by Operators, Not Observers | BIZ & STYLE', description: 'BIZ & STYLE was founded in Miami Beach in 2017 by Dario Picardi. The platform came from the journey: international business, consumer goods, distribution, digital growth, investment, real estate and luxury.' },
-    hero: { eyebrow: 'About', title: ['Built by operators.', 'Not observers.'], lede: 'The company comes first. The founder story explains why it is organized the way it is.' },
+    seo: { title: 'Our Story · Operators | BIZ & STYLE', description: 'Built by operators, not observers — BIZ & STYLE since 2017 in Miami Beach. Three divisions, one platform. +1 305-549-4289.' },
+    hero: { eyebrow: 'About', title: 'Built by operators. Not observers.', lede: 'The company comes first. The founder story explains why it is organized the way it is.' },
     definition: { q: 'What is the story of BIZ & STYLE?', a: ['BIZ & STYLE DNA INC. was founded in Miami Beach in 2017 by Dario Picardi, an Italian entrepreneur with more than fifteen years in beauty, consumer goods, real estate and international business. The company began by developing and operating ventures and commercial partnerships across the Americas, appointed by international brands as their commercial partner for the United States and Latin America.', 'Those operations revealed a pattern: business creates wealth, wealth shapes lifestyle, and lifestyle opens new business. That became The Investor Journey™, and the platform — Advisory, Commerce, Luxury — was built around it, on infrastructure that already existed: the Miami headquarters, the warehouse, the technology and a network of relationships built over years.'] },
     timeline: { eyebrow: 'Milestones', title: 'The platform came from the journey.', steps: [
       { name: 'Operating', line: 'Building and scaling premium consumer brands; entering international markets from New York and Miami to São Paulo, Milan, London, Dubai and Singapore.' },
@@ -406,12 +508,54 @@ export const pages = {
       { name: 'The right expert at every stage', line: 'We execute what we know; licensed specialists deliver the rest.' },
       { name: 'Relationships are capital', line: 'Discretion is part of the relationship.' },
     ] },
+    sections: [
+      {
+        title: 'Founded in Miami Beach, 2017',
+        paragraphs: [
+          'BIZ & STYLE was founded in Miami Beach in 2017 by Dario Picardi, after years in international business, consumer goods, distribution, digital growth, investment, real estate and luxury. New York is a soft chapter in that journey; Italy is the founder origin, told fully on the Person page.',
+          'About is the origin story and operator identity. Platform explains how the organization is structured (Business · Wealth · Lifestyle) and how divisions fit. Do not duplicate the Platform H1 here.',
+        ],
+      },
+      {
+        title: 'From the journey: international business · commerce · digital · investment · luxury',
+        paragraphs: [
+          'Those operations revealed a pattern: business creates wealth, wealth shapes lifestyle, and lifestyle opens new business. That became the Investor Journey™. Three divisions — Advisory, Commerce, Luxury — sit on one platform, on infrastructure that already existed in Miami: headquarters, warehouse, technology and a network built over years.',
+          'Operators, not observers. Capabilities are built and tested in our own ventures first. How we work is the method page.',
+        ],
+      },
+      {
+        title: 'Three divisions · one platform',
+        paragraphs: [
+          'Meet the founder on the Dario Picardi profile. Contact the firm at Miami Beach HQ: +1 305-549-4289 · info@bizandstyledna.com · Connect. The United States, Latin America and the Americas are the operating map.',
+        ],
+      },
+      {
+        title: 'How we work',
+        paragraphs: [
+          'The method page explains what we operate in-house versus where licensed specialists deliver. About stays the origin story. Platform stays the org structure. How we work stays the operating method.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'When and where was BIZ & STYLE founded?', a: 'Miami Beach, 2017 — by Dario Picardi, after years in international business, consumer goods, distribution, digital growth, investment, real estate and luxury.' },
+      { q: 'Is About the same as Platform?', a: 'About is the origin story and operator identity. Platform explains how the organization is structured (Business · Wealth · Lifestyle) and how divisions fit.' },
+      { q: 'Are you consultants or operators?', a: 'Operators. Capabilities are built and tested in our own ventures first.' },
+      { q: 'Where can I read about the founder?', a: '/about/dario-picardi.' },
+      { q: 'How do I contact the firm?', a: '+1 305-549-4289 · info@bizandstyledna.com · /connect.' },
+    ],
+    relatedLinks: [
+      { href: '/about/dario-picardi', label: 'Dario Picardi · Founder / President', line: 'The Person profile — not a generic bio fluff page.' },
+      { href: '/platform', label: 'one platform', line: 'How the organization is structured.' },
+      { href: '/platform/how-we-work', label: 'how we work', line: 'Operators first — in-house vs licensed specialists.' },
+      { href: '/investor-journey', label: 'Investor Journey™', line: 'The trademarked framework.' },
+      { href: '/connect', label: 'Miami Beach HQ', line: 'Phone, WhatsApp, email, NAP.' },
+    ],
     cta: { eyebrow: "Let's build what's next", title: ['Tell us', "what you're building."], primary: { label: "Tell us what you're building", href: TELL, name: 'tell_us' }, secondary: { label: 'Leadership', href: '/about/dario-picardi', name: 'leadership' } },
   },
 
   dario: {
-    seo: { title: 'Dario Picardi — Founder / President | BIZ & STYLE', description: 'Dario Picardi, born in Italy, founded BIZ & STYLE in Miami in 2017 after fifteen years in beauty, consumer goods, real estate and international business. Two master’s degrees in Management, cum laude.' },
-    hero: { eyebrow: 'Leadership', title: ['Dario', 'Picardi'], lede: 'Founder / President, BIZ & STYLE. Entrepreneur, operator, and the person who lived the Investor Journey before building the platform around it.' },
+    seo: { title: 'Dario Picardi · Founder | BIZ & STYLE', description: 'Founder and President of BIZ & STYLE — Miami Beach platform connecting strategy, commerce, technology and luxury. +1 305-549-4289.' },
+    hero: { eyebrow: 'Founder / President', title: 'Dario Picardi', lede: 'Founder / President, BIZ & STYLE. Entrepreneur, operator, and the person who lived the Investor Journey before building the platform around it.' },
     definition: { q: 'Who is Dario Picardi?', a: ['Dario Picardi is the founder and president of BIZ & STYLE, the Miami-based business development platform. Born in Italy, he has spent more than fifteen years in beauty, consumer goods, real estate and international business, building and scaling premium consumer brands, structuring investment opportunities and navigating global trade and market entry. He holds two master’s degrees in Management, both earned cum laude.', 'He has personally built ventures and done business across the world’s major business hubs — New York, Miami, São Paulo, Milan, London, Dubai and Singapore — and every BIZ & STYLE solution was first tested in his own ventures.'] },
     journey: { eyebrow: 'The experience behind the platform', title: 'From the journey to the platform.', items: [
       { name: 'International executive experience', line: 'Building and scaling premium consumer brands across markets.' },
@@ -422,6 +566,47 @@ export const pages = {
       { name: 'Luxury & relationships', line: 'Operating inside luxury ecosystems where business, wealth and lifestyle meet.' },
     ] },
     quote: 'Everything connects: business growth, wealth creation, and the lifestyle that brings it all together. That’s the BIZ & STYLE way.',
+    sections: [
+      {
+        title: 'Italy → international business → Miami 2017',
+        paragraphs: [
+          'Born in Italy, Dario Picardi founded the Miami Beach platform in 2017 after fifteen years across beauty, consumer goods, real estate and international business. New York is already in the bio — one of the hubs he built and traded through, alongside São Paulo, Milan, London, Dubai and Singapore.',
+          'This is the founder profile inside the BIZ & STYLE platform, not a personal brand site. Company story lives on About. Engagements go through divisions and programmes.',
+        ],
+      },
+      {
+        title: 'Beauty · consumer goods · real estate · international business',
+        paragraphs: [
+          'Why operators, not observers: every BIZ & STYLE solution was first tested in his own ventures. Two master’s degrees in Management, both earned cum laude, are already on this page — stated, not invented.',
+          'The platform today connects strategy, commerce, technology and luxury from Miami Beach. The Investor Journey™ is the framework he lived before naming it.',
+        ],
+      },
+      {
+        title: 'Why operators, not observers',
+        paragraphs: [
+          'The firm line is +1 305-549-4289 · info@bizandstyledna.com. Requests are routed appropriately. Headquarters: Miami Beach, Florida — Thyssen Building, 1000 5th Street, Suite 200. Latin America and the United States are the operating theatre; Italy remains origin.',
+        ],
+      },
+      {
+        title: 'BIZ & STYLE platform today',
+        paragraphs: [
+          'Our story, the platform, the Investor Journey™ and Miami HQ sit next to this Person page so the entity graph stays complete. Contact routes through the team.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'Who is Dario Picardi?', a: 'Founder and President of BIZ & STYLE. Born in Italy; founded the Miami Beach platform in 2017 after fifteen years across beauty, consumer goods, real estate and international business.' },
+      { q: 'Is this a personal brand site?', a: 'No. This is the founder profile inside the BIZ & STYLE platform. Company story lives on /about; engagements go through divisions and programmes.' },
+      { q: 'How do I contact Dario or the firm?', a: 'Firm line: +1 305-549-4289 · info@bizandstyledna.com. Requests are routed appropriately.' },
+      { q: 'Where is the company based?', a: 'Miami Beach, Florida — Thyssen Building, 1000 5th Street, Suite 200.' },
+    ],
+    relatedLinks: [
+      { href: '/about', label: 'our story', line: 'Organization origin — operators, not observers.' },
+      { href: '/platform', label: 'the platform', line: 'How the organization is structured.' },
+      { href: '/investor-journey', label: 'Investor Journey™', line: 'The framework lived firsthand.' },
+      { href: '/miami', label: 'Miami HQ', line: 'The platform to the Americas.' },
+      { href: '/connect', label: 'contact', line: 'Phone, WhatsApp, email — Miami Beach HQ.' },
+    ],
     cta: { eyebrow: 'Talk to the team', title: ["Let's", 'connect.'], primary: { label: "Let's connect", href: '/connect', name: 'connect' }, secondary: { label: "Tell us what you're building", href: TELL, name: 'tell_us' } },
   },
 
@@ -462,7 +647,43 @@ export const pages = {
   },
 
   tellUs: {
-    seo: { title: "Tell Us What You're Building | BIZ & STYLE", description: 'Every business starts from a different point. Tell us where you are and where you are trying to go — international company, U.S. company, founder, consumer brand, luxury company, developer, investor or partner.' },
+    seo: { title: "Tell Us What You're Building | BIZ & STYLE", description: "Tell us where you are and where you're going — international company, brand, founder, developer, investor or partner. +1 305-549-4289." },
+    sections: [
+      {
+        title: 'Where you are trying to go',
+        paragraphs: [
+          'Tell us is structured intake — international company, U.S. company, founder, brand, luxury, developer, investor or partner. It does not compete with Connect for phone NAP. After you submit, the team reviews the brief and routes it to Advisory, Commerce or Luxury.',
+          'Commercial briefs are handled with discretion; NDAs are available when appropriate. International companies and Americas-bound operators use this form when the brief is already a project, not a phone call.',
+        ],
+      },
+      {
+        title: 'What happens after you submit',
+        paragraphs: [
+          'Expect a follow-up to scope fit — not an automated spam sequence. Partners can apply here (select partner / ecosystem intent) or visit the partner ecosystem and become-a-partner if that path is live.',
+          'Signature programmes sit next to the form when the destination is already a named engagement.',
+        ],
+      },
+      {
+        title: 'Prefer to call?',
+        paragraphs: [
+          'Call or WhatsApp HQ: +1 305-549-4289 · info@bizandstyledna.com. Built by operators — the same team reads the brief. Miami, the United States, Latin America and the Americas are the map.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'What happens after I submit?', a: 'The team reviews your brief and routes it to Advisory, Commerce or Luxury. Expect a follow-up to scope fit — not an automated spam sequence.' },
+      { q: 'Is my information confidential?', a: 'Yes. Commercial briefs are handled with discretion; NDAs are available when appropriate.' },
+      { q: 'Should I use Tell Us or Connect?', a: 'Use Tell Us for a structured brief. Use Connect for phone, WhatsApp, email or NAP.' },
+      { q: 'Can partners apply here?', a: 'Yes — select partner / ecosystem intent, or visit /partners and /become-a-partner if that path is live.' },
+      { q: 'How else can I reach you?', a: '+1 305-549-4289 · info@bizandstyledna.com.' },
+    ],
+    relatedLinks: [
+      { href: '/connect', label: 'call or WhatsApp HQ', line: 'Direct contact + NAP — Miami Beach.' },
+      { href: '/build', label: 'interactive journey builder', line: 'A chooser that maps live site areas as you pick.' },
+      { href: '/partners', label: 'partner ecosystem', line: 'Institutional relationships around the platform.' },
+      { href: '/programs', label: 'signature programmes', line: 'Three named engagements — never a fourth.' },
+      { href: '/about', label: 'built by operators', line: 'Origin story before the brief.' },
+    ],
   },
 
   becomePartner: {
@@ -481,9 +702,22 @@ export const pages = {
   },
 
   connect: {
-    seo: { title: "Let's Connect | BIZ & STYLE", description: 'BIZ & STYLE, 1000 5th Street, Suite 200, Miami Beach, FL 33139. Book a call, email or phone the team.' },
-    hero: { eyebrow: "Let's connect", title: ["Let's", 'connect.'], lede: 'A conversation is where every engagement starts. Book a call, write to us, or come and see the platform in Miami.' },
-    book: 'Book a call', email: 'Email', phone: 'Phone', hq: 'Headquarters', map: 'Open in maps',
+    seo: { title: 'Connect · Miami Beach HQ | BIZ & STYLE', description: 'Call, WhatsApp or email BIZ & STYLE at Miami Beach HQ — Thyssen Building, 1000 5th Street Suite 200. +1 305-549-4289.' },
+    hero: { eyebrow: "Let's connect", title: "Let's connect.", lede: 'A conversation is where every engagement starts. Book a call, write to us, or come and see the platform in Miami Beach.' },
+    book: 'Book a strategic conversation', email: 'Email', phone: 'Phone · WhatsApp · email', hq: 'Miami Beach headquarters (NAP)', map: 'Open in maps',
+    faqs: [
+      { q: 'What is the best way to reach you?', a: 'Call or WhatsApp +1 305-549-4289, or email info@bizandstyledna.com. For a structured brief, use /tell-us.' },
+      { q: 'Where is the office?', a: 'Thyssen Building, 1000 5th Street, Suite 200, Miami Beach, FL 33139.' },
+      { q: 'Do you take international calls?', a: 'Yes — WhatsApp and email are often easiest across time zones; Miami Beach is Eastern Time (ET).' },
+      { q: 'Is Connect the same as Tell Us?', a: 'Connect is direct contact + NAP. Tell Us is a structured intake about what you are building.' },
+      { q: 'Who will answer?', a: 'The BIZ & STYLE team routes to the right division — Advisory, Commerce or Luxury — after a short scoping conversation.' },
+    ],
+    relatedLinks: [
+      { href: '/tell-us', label: "tell us what you're building", line: 'Structured intake — not this NAP page.' },
+      { href: '/build', label: 'build your journey', line: 'Interactive chooser across the platform.' },
+      { href: '/about', label: 'our story', line: 'Operators, not observers.' },
+      { href: '/miami', label: 'why Miami', line: 'The platform to the Americas.' },
+    ],
     formTitle: 'Send a message',
     fields: { name: 'Your name', company: 'Company (optional)', email: 'Email', phone: 'Phone (optional)', message: 'Message' },
     submit: 'Send',

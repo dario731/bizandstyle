@@ -15,7 +15,7 @@ import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
 import { divisionMeta, servicePath, type Service } from '@data/services';
 import { programs } from '@data/programs';
-import { breadcrumbLd, faqLd, serviceLd, webPageLd, graph, absoluteUrl } from '@lib/seo';
+import { breadcrumbLd, faqLd, serviceLd, webPageLd, itemListLd, graph, absoluteUrl } from '@lib/seo';
 
 interface Props {
   service: Service;
@@ -49,6 +49,13 @@ const jsonLd = graph(
   }),
   breadcrumbLd([{ name: crumbParent, path: div.path }, { name: crumbName, path }]),
   faqLd([...s.faqs], `${absoluteUrl(path)}#faq`),
+  schema.itemList
+    ? itemListLd(
+        schema.itemList.id,
+        [...schema.itemList.items],
+        schema.itemList.name,
+      )
+    : null,
 );
 ---
 

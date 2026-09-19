@@ -3,26 +3,62 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import Definition from '@components/editorial/Definition.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
 import FounderStory from '@components/story/FounderStory.astro';
 import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import { pages } from '@i18n/pages.en';
 import { getCopy } from '@i18n/index';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import { site } from '@data/site';
+import { webPageLd, breadcrumbLd, faqLd, graph, absoluteUrl } from '@lib/seo';
 
 const p = pages.about;
 const t = getCopy('en');
 const path = '/about';
-const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'AboutPage' }), breadcrumbLd([{ name: 'About', path }]));
+const jsonLd = graph(
+  webPageLd({
+    name: p.seo.title,
+    description: p.seo.description,
+    path,
+    type: 'AboutPage',
+    about: { '@id': `${site.url}/#organization` },
+    mainEntity: { '@id': `${site.url}/#organization` },
+  }),
+  {
+    '@type': 'Organization',
+    '@id': `${site.url}/#organization`,
+    name: site.name,
+    url: `${site.url}/`,
+    telephone: site.phoneSchema,
+    email: site.email,
+    foundingDate: site.foundingDate,
+    founder: { '@id': `${site.url}/about/dario-picardi#person` },
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: site.address.streetAddress,
+      addressLocality: site.address.addressLocality,
+      addressRegion: site.address.addressRegion,
+      postalCode: site.address.postalCode,
+      addressCountry: site.address.addressCountry,
+    },
+    areaServed: ['Miami', 'United States', 'Latin America', 'Americas'],
+  },
+  faqLd([...p.faqs], `${absoluteUrl(path)}#faq`),
+  breadcrumbLd([{ name: 'About', path }]),
+);
 ---
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="about" {jsonLd}>
   <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="INFRA-TEAM" mediaAlt="BIZ & STYLE executive team in the Miami office" crumbs={[{ name: 'About', path }]} brief="The story of BIZ & STYLE, how it is structured, what it believes, and who leads it." />
-  <ModuleGrid eyebrow={p.timeline.eyebrow} title={p.timeline.title} items={p.timeline.steps.map((st, i) => ({ name: st.name, line: st.line, tag: `Chapter 0${i + 1}` }))} columns={3} ground="onyx" id="timeline" numbered={false} />
+  <ModuleGrid eyebrow={p.timeline.eyebrow} title="From the journey: international business · commerce · digital · investment · luxury" items={p.timeline.steps.map((st, i) => ({ name: st.name, line: st.line, tag: `Chapter 0${i + 1}` }))} columns={3} ground="onyx" id="timeline" numbered={false} />
   <FounderStory copy={t.home.founder} />
+  <ProseSections sections={p.sections} ground="paper" idPrefix="about" />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <ModuleGrid eyebrow={p.values.eyebrow} title={p.values.title} items={p.values.items} columns={4} ground="paper" id="values" numbered={false} />
-  <Statement eyebrow="Structure" lines={['A combination', 'of companies.']} body={['BIZ & STYLE DNA INC., its three divisions, and dedicated entities and joint ventures created with strategic partners — one platform, several companies, the same team behind all of them.']} ground="paper" size="display-2" />
-  <Statement lines={['Your vision is our mission.', 'Our vision is your success.']} ground="onyx" size="display-2" />
+  <Statement eyebrow="Structure" lines={['Three divisions · one platform']} body={['BIZ & STYLE DNA INC., its three divisions, and dedicated entities and joint ventures created with strategic partners — one platform, several companies, the same team behind all of them.']} ground="paper" size="display-2" />
+  <ModuleGrid eyebrow="Continue" title="Meet the founder" items={p.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="onyx" numbered={false} trackAs="navigation_click" />
+  <Statement lines={['Your vision is our mission.', 'Our vision is your success.']} ground="paper" size="display-2" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="onyx" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} ground="paper" location="about_cta" />
 </BaseLayout>
