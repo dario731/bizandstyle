@@ -1,18 +1,30 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import { webPageLd, breadcrumbLd, faqLd, graph, absoluteUrl } from '@lib/seo';
 
 interface Props {
   title: string;
   description: string;
   path: string;
   updated: string;
+  breadcrumbName?: string;
+  seoTitle?: string;
+  faqs?: readonly { q: string; a: string }[];
+  relatedLinks?: readonly { href: string; label: string; line: string }[];
 }
-const { title, description, path, updated } = Astro.props;
-const jsonLd = graph(webPageLd({ name: title, description, path }), breadcrumbLd([{ name: title, path }]));
+const { title, description, path, updated, breadcrumbName, seoTitle, faqs = [], relatedLinks = [] } = Astro.props;
+const documentTitle = seoTitle ?? `${title} | BIZ & STYLE`;
+const crumb = breadcrumbName ?? title;
+const jsonLd = graph(
+  webPageLd({ name: documentTitle, description, path }),
+  faqLd([...faqs], `${absoluteUrl(path)}#faq`),
+  breadcrumbLd([{ name: crumb, path }]),
+);
 ---
 
-<BaseLayout title={`${title} | BIZ & STYLE`} {description} {path} pageType="legal" {jsonLd} headerOverlay={false}>
+<BaseLayout title={documentTitle} {description} {path} pageType="legal" {jsonLd} headerOverlay={false}>
   <section class="legal ground-paper">
     <div class="container legal__grid">
       <header class="legal__head">
@@ -25,6 +37,12 @@ const jsonLd = graph(webPageLd({ name: title, description, path }), breadcrumbLd
       </div>
     </div>
   </section>
+  {
+    relatedLinks.length > 0 && (
+      <ModuleGrid eyebrow="Continue" title="Related on the platform." items={relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="onyx" numbered={false} trackAs="navigation_click" />
+    )
+  }
+  <FaqBlock {faqs} title="FAQ" ground="paper" />
 </BaseLayout>
 
 <style>

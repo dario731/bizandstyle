@@ -17,12 +17,13 @@ const p = pages.insightsIndex;
 const path = `/insights/category/${category.id}`;
 const list = (await getCollection('insights', ({ data }) => !data.draft && data.locale === 'en' && data.category.id === category.id)).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
 const cards = list.map((entry) => ({ entry, readingTime: readingTime(entry.body ?? '') }));
-const title = `${category.data.name} — Insights | BIZ & STYLE`;
-const jsonLd = graph(webPageLd({ name: title, description: category.data.description, path, type: 'CollectionPage' }), breadcrumbLd([{ name: 'Insights', path: '/insights' }, { name: category.data.name, path }]));
+const title = category.data.seoTitle ?? `${category.data.name} — Insights | BIZ & STYLE`;
+const description = category.data.seoDescription ?? category.data.description;
+const jsonLd = graph(webPageLd({ name: title, description, path, type: 'CollectionPage' }), breadcrumbLd([{ name: 'Insights', path: '/insights' }, { name: category.data.name, path }]));
 const clusterLabel: Record<string, string> = { '/internationalization': 'Internationalization', '/digital-engine': 'Digital engine', '/lead-generation': 'Lead generation', '/miami': 'Miami', '/luxury': 'B&S Luxury', '/commerce': 'B&S Commerce', '/advisory/business-development': 'Business development', '/advisory/fractional-executive': 'Fractional executive', '/advisory/lead-generation': 'Lead generation', '/advisory/ai-digital-transformation': 'AI & digital transformation' };
 ---
 
-<BaseLayout {title} description={category.data.description} {path} pageType="insights_category" {jsonLd}>
+<BaseLayout {title} {description} {path} pageType="insights_category" {jsonLd}>
   <EditorialHero eyebrow="Insights · Topic" title={category.data.name} lede={category.data.description} ground="onyx" size="display-2" crumbs={[{ name: 'Insights', path: '/insights' }, { name: category.data.name, path }]}>
     {category.data.clusterOf && <a class="link" href={category.data.clusterOf}>{clusterLabel[category.data.clusterOf] ?? 'On the platform'}<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></a>}
   </EditorialHero>
