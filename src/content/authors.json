@@ -5,13 +5,17 @@
     "role": "Founder / President, BIZ & STYLE",
     "bio": "Born in Italy, Dario Picardi has spent more than fifteen years in beauty, consumer goods, real estate and international business, building and scaling premium brands and entering the U.S. and Latin American markets. He founded BIZ & STYLE in Miami in 2017.",
     "image": "/media/founder-dario-picardi-tmp.jpg",
-    "sameAs": []
+    "sameAs": [],
+    "seoTitle": "Dario Picardi — Insights | BIZ & STYLE",
+    "seoDescription": "Founder of BIZ & STYLE (Miami, 2017). Insights on international business, beauty, CPG, real estate and Americas expansion."
   },
   {
     "id": "biz-and-style",
     "name": "BIZ & STYLE",
     "role": "Editorial",
     "bio": "Perspectives from the BIZ & STYLE team on internationalization, U.S. market entry, digital growth, commerce, Miami and the luxury economy.",
-    "sameAs": []
+    "sameAs": [],
+    "seoTitle": "BIZ & STYLE — Insights Author | BIZ & STYLE",
+    "seoDescription": "Perspectives from the BIZ & STYLE team on internationalization, U.S. entry, digital growth, commerce and Miami."
   }
 ]

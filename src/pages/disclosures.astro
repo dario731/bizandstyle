@@ -1,8 +1,11 @@
 ---
 import LegalPage from '@components/editorial/LegalPage.astro';
+import { pages } from '@i18n/pages.en';
+
+const p = pages.disclosures;
 ---
 
-<LegalPage title="Disclosures & Disclaimers" description="Important disclosures and disclaimers of BIZ & STYLE DNA INC.: informational content only; no investment, legal or tax advice; independent licensed professionals." path="/disclosures" updated="September 2026">
+<LegalPage title="Disclosures & Disclaimers" description={p.seo.description} path="/disclosures" updated="September 2026" breadcrumbName="Disclosures" seoTitle={p.seo.title} faqs={p.faqs} relatedLinks={p.relatedLinks}>
   <p>The views, opinions, and recommendations expressed on this website are subject to change without notice. All content is provided for informational purposes only and should not be interpreted as investment advice, legal advice, tax advice, or an offer of any security or professional service.</p>
   <p>BIZ & STYLE DNA INC. ("B&S") and its representatives are not your investment advisers unless we have entered into a formal, written advisory services agreement. Information presented may not take into account your individual investment goals, financial situation, or specific needs.</p>
 

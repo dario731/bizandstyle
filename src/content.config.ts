@@ -58,6 +58,8 @@ const categories = defineCollection({
     description: z.string(),
     clusterOf: z.string().optional(), // the service landing page this category strengthens
     locale,
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
   }),
 });
 
@@ -70,6 +72,8 @@ const authors = defineCollection({
     bio: z.string(),
     image: z.string().optional(),
     sameAs: z.array(z.url()).default([]),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
   }),
 });
 

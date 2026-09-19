@@ -261,14 +261,50 @@ export const pages = {
   },
 
   infrastructure: {
-    seo: { title: 'Infrastructure — Capability Already in Place | BIZ & STYLE', description: 'Miami HQ since 2017, an executive team on the ground, domestic and bonded warehousing, fulfillment and logistics, technology and CRM, marketing, a 200+ commercial network and a licensed professional network.' },
-    hero: { eyebrow: 'Infrastructure', title: ['Not advice from a distance.', 'Capability already in place.'], lede: 'Plug into a complete ecosystem — operational from day one.' },
+    seo: { title: 'Infrastructure Already in Place | BIZ & STYLE', description: 'Miami HQ since 2017, executive team, bonded + domestic warehouse, fulfillment, CRM, 200+ network — capability already in place. +1 305-549-4289.' },
+    hero: { eyebrow: 'Infrastructure', title: ['Not advice from a distance.', 'Capability already in place.'], lede: 'Plug into a complete ecosystem — operational from day one. Miami Beach HQ since 2017, with operating bases in Mexico and Brazil.' },
     definition: { q: 'What infrastructure does BIZ & STYLE operate?', a: ['BIZ & STYLE operates its headquarters in Miami Beach (since 2017), an executive team on the ground, domestic and bonded warehousing in Miami, fulfillment and logistics (customs, freight, B2B and B2C), technology and CRM systems for acquisition and e-commerce, marketing and PR, a proprietary network of more than 200 commercial partners, and a coordinated network of licensed professionals for legal, tax, immigration, banking and financial matters.'] },
-    presence: { eyebrow: 'Our presence', title: 'Three bases to cover the Americas.', items: [
-      { name: 'Miami', line: 'Headquarters and bonded warehouse — base to manage the United States, Canada and the Caribbean.', tag: 'HQ' },
+    presence: { eyebrow: 'Our presence', title: 'Three bases across the Americas.', items: [
+      { name: 'Miami', line: 'Headquarters and bonded warehouse — base to manage the United States, Canada and the Caribbean. PortMiami and MIA sit next door.', tag: 'HQ' },
       { name: 'Mexico', line: 'Operating base to manage Mexico and Central America.', tag: 'Base' },
       { name: 'Brazil', line: 'Operating base to manage Brazil and the wider LATAM region.', tag: 'Base' },
     ] },
+    sections: [
+      {
+        title: 'Miami HQ · executive team · technology & CRM',
+        paragraphs: [
+          'Headquarters have been in Miami Beach since 2017 — not a mailbox, and not advice delivered from another continent. An in-market executive team runs the platform. Technology and CRM — acquisition, e-commerce and analytics — are built and operated in-house.',
+        ],
+      },
+      {
+        title: 'Domestic + bonded warehousing · fulfillment + logistics',
+        paragraphs: [
+          'Domestic storage holds goods already in U.S. commerce. Bonded storage holds imports until release — duty deferral, re-export without U.S. duty, in-bond consolidation near PortMiami. Fulfillment and logistics cover customs, air and ocean freight, B2B and B2C.',
+        ],
+      },
+      {
+        title: 'Commercial network (200+) · licensed professional network',
+        paragraphs: [
+          'A proprietary network of more than 200 commercial partners across the United States and Latin America. Regulated work — legal, tax, immigration, banking — is delivered by independent licensed professionals. BIZ & STYLE coordinates; they deliver.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'What infrastructure does BIZ & STYLE operate?', a: 'Miami Beach HQ since 2017, an in-market executive team, domestic and bonded warehousing, fulfillment and logistics, in-house technology/CRM, marketing, a 200+ commercial network, and a coordinated licensed professional network.' },
+      { q: 'Is this consulting or operating capability?', a: 'Operating capability. Plug into systems and teams already running — not advice delivered from another continent.' },
+      { q: 'Do you deliver legal, tax and immigration yourselves?', a: 'No. Regulated disciplines are delivered by independent licensed professionals. BIZ & STYLE coordinates; they deliver.' },
+      { q: 'How does this relate to the bonded warehouse page?', a: '/commerce/bonded-warehouse deepens duty-deferral. This page inventories the full stack, including bonded storage as one block.' },
+      { q: 'Where are your operating bases?', a: 'HQ Miami (U.S., Canada, Caribbean), Mexico base (Mexico & Central America), Brazil base (Brazil & wider LATAM).' },
+      { q: 'How do I start?', a: '/tell-us or /connect · +1 305-549-4289 · info@bizandstyledna.com.' },
+    ],
+    relatedLinks: [
+      { href: '/miami', label: 'Miami platform to the Americas', line: 'The geo hub — HQ, bonded, operators. Not this inventory page.' },
+      { href: '/commerce/bonded-warehouse', label: 'bonded warehouse', line: 'Duty-deferral depth — one block in this stack.' },
+      { href: '/commerce/warehousing', label: 'domestic warehousing', line: 'Goods already in U.S. commerce.' },
+      { href: '/commerce/fulfillment', label: 'fulfillment', line: 'B2B and B2C from the Miami hub.' },
+      { href: '/digital-engine', label: 'digital engine', line: 'From click to client — the owned acquisition loop.' },
+      { href: '/platform', label: 'the platform', line: 'Who we are — three divisions, integrated.' },
+    ],
     cta: { eyebrow: 'Ready to plug in?', title: ['Tell us', "what you're building."], primary: { label: "Tell us what you're building", href: TELL, name: 'tell_us' }, secondary: { label: 'Talk to B&S Commerce', href: `${TELL}?intent=distribution`, name: 'talk_commerce' } },
   },
 
@@ -381,7 +417,7 @@ export const pages = {
       { q: 'Where do partners sit vs the 200+ commercial network?', a: 'The commercial network powers BD and distribution; the partner ecosystem includes professional firms, developers, tech and specialists around the platform.' },
     ],
     relatedLinks: [
-      { href: '/become-a-partner', label: 'become a partner', line: 'The application path — Wave 4 will carry its own voice.' },
+      { href: '/become-a-partner', label: 'become a partner', line: 'The application / intake path — not this showcase.' },
       { href: '/tell-us', label: "tell us what you're building", line: 'Structured intake when the brief is already a project.' },
       { href: '/advisory/partnership-engineering', label: 'partnership engineering', line: 'JVs and contract design when the relationship needs paper.' },
       { href: '/luxury/developer-partnerships', label: 'developer partnerships', line: 'Selected luxury developments — not this showcase.' },
@@ -611,9 +647,30 @@ export const pages = {
   },
 
   relationships: {
-    seo: { title: 'Relationships & Discretion | BIZ & STYLE', description: 'Relationships are capital. Not every relationship belongs on a website. How BIZ & STYLE protects the confidentiality of its clients, partners and commercial relationships — and how to request credentials.' },
-    hero: { eyebrow: 'Relationships & discretion', title: ['Relationships', 'are capital.'], lede: 'Our ecosystem has been built over years through trusted relationships with companies, executives, entrepreneurs, investors and specialized professionals across multiple industries and markets.' },
+    seo: { title: 'Relationships & Discretion | BIZ & STYLE', description: 'Relationships are capital. How BIZ & STYLE protects client and partner confidentiality — and how to request selected credentials. +1 305-549-4289.' },
+    hero: { eyebrow: 'Relationships & discretion', title: ['Relationships', 'are capital.'], lede: 'Our ecosystem has been built over years through trusted relationships with companies, executives, entrepreneurs, investors and specialized professionals across multiple industries and markets — United States, Latin America and Miami.' },
     statement: { lines: ['Discretion is part', 'of the relationship.'], body: ['Not every relationship belongs on a website. We selectively showcase collaborations while protecting the confidentiality of our clients, partners and commercial relationships.', 'Our track record spans premium brands, distributors and private clients across the United States and Latin America — market entry, distribution, luxury real estate and brand representation. Detailed references and case studies are available on request, and shared subject to a mutual non-disclosure agreement.'] },
+    sections: [
+      {
+        title: 'What we selectively showcase',
+        paragraphs: [
+          'This is not a public portfolio page. It explains our discretion standard and how to request relevant proof. Selected credentials and case studies are available on request via /request-credentials, and under NDA when appropriate.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'Why don’t you list every client and partner?', a: 'Not every relationship belongs on a website. Discretion protects clients, partners and commercial relationships.' },
+      { q: 'Can I see credentials anyway?', a: 'Yes — selected credentials and case studies are available on request via /request-credentials, and under NDA when appropriate.' },
+      { q: 'What geographies does the track record cover?', a: 'United States and Latin America — market entry, distribution, luxury real estate and brand representation.' },
+      { q: 'Is this a public portfolio page?', a: 'No. It explains our discretion standard and how to request relevant proof.' },
+      { q: 'How do I contact the firm?', a: '+1 305-549-4289 · info@bizandstyledna.com · /connect.' },
+    ],
+    relatedLinks: [
+      { href: '/request-credentials', label: 'request credentials', line: 'The form — selected proof, under NDA when appropriate.' },
+      { href: '/about', label: 'our story', line: 'Operators, not observers — Miami Beach, 2017.' },
+      { href: '/become-a-partner', label: 'become a partner', line: 'Apply when ecosystems intersect.' },
+      { href: '/partners', label: 'partner ecosystem', line: 'The institutional showcase — not this policy page.' },
+    ],
     cta: { eyebrow: 'Selected credentials. Available when relevant.', title: ['Request', 'credentials.'], primary: { label: 'Request credentials', href: '/request-credentials', name: 'credentials' }, secondary: { label: 'Become a partner', href: '/become-a-partner', name: 'partner' } },
   },
 
@@ -687,9 +744,55 @@ export const pages = {
   },
 
   becomePartner: {
-    seo: { title: 'Become a Partner | BIZ & STYLE', description: 'BIZ & STYLE develops long-term relationships with companies and professionals whose expertise, clients and ambitions intersect with its ecosystem. Explore a partnership.' },
-    hero: { eyebrow: 'Become a partner', title: ['Great business', 'rarely happens alone.'], lede: 'BIZ & STYLE develops long-term relationships with companies and professionals whose expertise, clients and ambitions intersect with our ecosystem.' },
-    formTitle: 'Explore a partnership',
+    seo: { title: 'Become a Partner | BIZ & STYLE', description: 'Partner with BIZ & STYLE — luxury firms, developers, brands, tech and specialists whose clients intersect our Miami–Americas ecosystem. +1 305-549-4289.' },
+    hero: { eyebrow: 'Become a partner', title: 'Explore a partnership.', lede: 'Partner with BIZ & STYLE — luxury firms, developers, brands, technology and specialists whose clients intersect our Miami–Americas ecosystem. /partners is the showcase; this page is where you apply.' },
+    formTitle: 'Apply',
+    sections: [
+      {
+        title: 'Who this partnership is for',
+        paragraphs: [
+          'Companies and professionals whose expertise, clients and ambitions already intersect Advisory, Commerce or Luxury — not cold affiliate spam. If your work meets the same rooms we already work in Miami, the United States and Latin America, apply.',
+        ],
+      },
+      {
+        title: 'Luxury companies · professional firms · developers · brands · technology · specialists',
+        paragraphs: [
+          'Luxury companies serving the same high-net-worth client. Licensed professional firms. Developers who need international buyers. Consumer brands entering the Americas. Technology providers that plug into the engine. Qualified specialists whose relationships extend the journey.',
+        ],
+      },
+      {
+        title: 'Discretion is part of the relationship',
+        paragraphs: [
+          'We do not publish every partner. Relationships are capital. Selected credentials may be shared under NDA when relevant. The partner ecosystem showcase lives on /partners — same family, different intent.',
+        ],
+      },
+      {
+        title: 'How we review inquiries',
+        paragraphs: [
+          'Every inquiry is reviewed personally. We look for a real intersection — clients, geography, capability — not volume. Where ecosystems intersect, relationships may be governed by business-development agreements.',
+        ],
+      },
+      {
+        title: 'What happens after you apply',
+        paragraphs: [
+          'If ecosystems intersect, we come back to structure the relationship. If they do not, we will say so. Call or WhatsApp +1 305-549-4289, email info@bizandstyledna.com, or use /connect.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'Who should become a partner?', a: 'Companies and professionals whose expertise, clients and ambitions intersect with Advisory, Commerce or Luxury — not cold affiliate spam.' },
+      { q: 'Is this the same as the Partners page?', a: '/partners showcases the ecosystem. /become-a-partner is where you apply. Same family; different intent.' },
+      { q: 'Do you publish every partner publicly?', a: 'No. Discretion is part of the relationship. Selected credentials may be shared under NDA when relevant.' },
+      { q: 'Are partnerships governed by agreements?', a: 'Where ecosystems intersect, relationships may be governed by business-development agreements.' },
+      { q: 'How do I contact someone directly?', a: 'Call or WhatsApp +1 305-549-4289, or email info@bizandstyledna.com. Or use /connect.' },
+    ],
+    relatedLinks: [
+      { href: '/partners', label: 'partner ecosystem', line: 'The institutional showcase — not this intake form.' },
+      { href: '/about/relationships', label: 'relationships & discretion', line: 'Why we stay selective — policy voice.' },
+      { href: '/advisory/partnership-engineering', label: 'partnership engineering', line: 'JVs and contract design when the relationship needs paper.' },
+      { href: '/luxury/developer-partnerships', label: 'developer partnerships', line: 'Selected luxury developments — a programme, not this form.' },
+      { href: '/connect', label: 'contact HQ', line: 'Phone, WhatsApp, email — Miami Beach.' },
+    ],
     fields: { company: 'Company', name: 'Contact name', email: 'Work email', phone: 'Phone (optional)', website: 'Relevant website', industry: 'Industry', geography: 'Geography', capabilities: 'Capabilities', bring: 'What you bring', build: 'What you want to build together', message: 'Message' },
     industries: [
       { id: 'luxury', label: 'Luxury company' }, { id: 'professional', label: 'Professional firm' }, { id: 'developer', label: 'Developer' }, { id: 'brand', label: 'Brand' },
@@ -728,13 +831,88 @@ export const pages = {
   },
 
   credentials: {
-    seo: { title: 'Request Credentials | BIZ & STYLE', description: 'Selected credentials — market entry, distribution, luxury real estate, brand representation — available on request and, when appropriate, under NDA.' },
-    hero: { eyebrow: 'Request credentials', title: ['Selected credentials.', 'Available when relevant.'], lede: 'Case studies and detailed references across market entry, distribution, luxury real estate and brand representation are available on request — and, when appropriate, under a mutual non-disclosure agreement.' },
+    seo: { title: 'Request Credentials | BIZ & STYLE', description: 'Selected credentials — market entry, distribution, luxury RE, brand representation — on request and under NDA when appropriate. +1 305-549-4289.' },
+    hero: { eyebrow: 'Request credentials', title: ['Selected credentials.', 'Available when relevant.'], lede: 'Case studies and detailed references across market entry, distribution, luxury real estate and brand representation — Miami, United States, Latin America and the Americas — on request and, when appropriate, under NDA.' },
+    sections: [
+      {
+        title: 'Areas we can reference',
+        paragraphs: [
+          'Market entry · distribution · luxury real estate · brand representation · digital growth — only what clients and partners in the United States and Latin America have agreed to share.',
+        ],
+      },
+      {
+        title: 'What to tell us you’re evaluating',
+        paragraphs: [
+          'The project, the geography, and which proof would actually help the decision. We do not send a generic PDF dump. Relationships & Discretion explains why we stay selective; this page is the request form.',
+        ],
+      },
+      {
+        title: 'How we respond',
+        paragraphs: [
+          'We review personally and come back with what is relevant. Call or WhatsApp +1 305-549-4289, email info@bizandstyledna.com, or use /connect.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'Will you share credentials without an NDA?', a: 'Sometimes for high-level references. Detailed case studies are shared subject to a mutual NDA when appropriate.' },
+      { q: 'What areas can I request?', a: 'Market entry, distribution, luxury real estate, brand representation and digital growth — only what clients and partners have agreed to share.' },
+      { q: 'How is this different from Relationships & Discretion?', a: 'That page explains why we stay selective. This page is the request form.' },
+      { q: 'How fast do you respond?', a: 'We review personally and come back with what is relevant to your project — not a generic PDF dump.' },
+      { q: 'Other ways to reach you?', a: '+1 305-549-4289 · info@bizandstyledna.com · /connect.' },
+    ],
+    relatedLinks: [
+      { href: '/about/relationships', label: 'relationships & discretion', line: 'Why we stay selective — policy voice, not this form.' },
+      { href: '/become-a-partner', label: 'become a partner', line: 'Apply when ecosystems intersect.' },
+      { href: '/about', label: 'about BIZ & STYLE', line: 'Operators, not observers.' },
+      { href: '/privacy', label: 'privacy policy', line: 'How form data is handled.' },
+    ],
     fields: { name: 'Your name', company: 'Company', role: 'Role', email: 'Work email', area: 'Area of interest', context: 'Context — what are you evaluating, and for which project?' },
     areas: [{ id: 'market-entry', label: 'Market entry' }, { id: 'distribution', label: 'Distribution' }, { id: 'luxury-real-estate', label: 'Luxury real estate' }, { id: 'brand-representation', label: 'Brand representation' }, { id: 'digital', label: 'Digital growth' }],
     submit: 'Request credentials',
     consent: 'I understand that references may be shared subject to a mutual NDA, and I agree to be contacted.',
     success: { title: 'Received.', body: 'Thank you. We will come back to you personally with what is relevant to your project.' },
     error: 'Something went wrong. Please try again, or email us directly.',
+  },
+
+  disclosures: {
+    seo: { title: 'Disclosures & Disclaimers | BIZ & STYLE', description: 'Disclosures for BIZ & STYLE DNA INC.: informational content only; not investment, legal or tax advice. Independent licensed professionals. +1 305-549-4289.' },
+    faqs: [
+      { q: 'Is website content investment or legal advice?', a: 'No. Content is informational only and should not be interpreted as investment, legal or tax advice, or an offer of any security or professional service.' },
+      { q: 'Who delivers regulated professional services?', a: 'Independent licensed professionals. BIZ & STYLE coordinates; they deliver — unless a separate written agreement says otherwise.' },
+      { q: 'How do I contact BIZ & STYLE about these disclosures?', a: '+1 305-549-4289 · info@bizandstyledna.com · Thyssen Building, 1000 5th Street, Suite 200, Miami Beach, FL 33139.' },
+    ],
+    relatedLinks: [
+      { href: '/privacy', label: 'privacy policy', line: 'How we collect and use personal data.' },
+      { href: '/terms', label: 'terms of use', line: 'Access and use of this website.' },
+      { href: '/connect', label: 'contact HQ', line: 'Miami Beach — phone, WhatsApp, email.' },
+    ],
+  },
+
+  privacy: {
+    seo: { title: 'Privacy Policy | BIZ & STYLE', description: 'How BIZ & STYLE DNA INC. collects, uses, stores and discloses personal data on its website and services. Contact: info@bizandstyledna.com.' },
+    faqs: [
+      { q: 'Who is the data controller?', a: 'BIZ & STYLE DNA INC., based in Florida — contact info@bizandstyledna.com or +1 305-549-4289.' },
+      { q: 'Does this policy cover website forms and marketing tools?', a: 'Yes — visitors, digital services, online forms, marketing tools, email communications and third-party integrations as described in the policy.' },
+      { q: 'Where are related legal pages?', a: '/terms and /disclosures.' },
+    ],
+    relatedLinks: [
+      { href: '/terms', label: 'terms of use', line: 'Access and use of this website.' },
+      { href: '/disclosures', label: 'disclosures', line: 'Informational content only — not advice.' },
+      { href: '/connect', label: 'contact HQ', line: 'Miami Beach — phone, WhatsApp, email.' },
+    ],
+  },
+
+  terms: {
+    seo: { title: 'Terms of Use | BIZ & STYLE', description: 'Terms governing access to and use of the website operated by BIZ & STYLE DNA INC. Miami Beach · info@bizandstyledna.com.' },
+    faqs: [
+      { q: 'What do these Terms cover?', a: 'Access to and use of the website operated by BIZ & STYLE DNA INC. By using the site, you agree to the Terms.' },
+      { q: 'Where is the privacy policy?', a: '/privacy.' },
+      { q: 'How do I contact you about the Terms?', a: 'info@bizandstyledna.com · +1 305-549-4289.' },
+    ],
+    relatedLinks: [
+      { href: '/privacy', label: 'privacy policy', line: 'How we collect and use personal data.' },
+      { href: '/disclosures', label: 'disclosures', line: 'Informational content only — not advice.' },
+      { href: '/connect', label: 'contact HQ', line: 'Miami Beach — phone, WhatsApp, email.' },
+    ],
   },
 } as const;

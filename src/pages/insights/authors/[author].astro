@@ -13,11 +13,12 @@ export async function getStaticPaths() {
 const { author } = Astro.props;
 const path = `/insights/authors/${author.id}`;
 const list = (await getCollection('insights', ({ data }) => !data.draft && data.author.id === author.id)).sort((a, b) => b.data.publishDate.valueOf() - a.data.publishDate.valueOf());
-const title = `${author.data.name} — Insights | BIZ & STYLE`;
-const jsonLd = graph(webPageLd({ name: title, description: author.data.bio, path, type: 'ProfilePage' }), author.id === 'dario-picardi' ? personLd() : null, breadcrumbLd([{ name: 'Insights', path: '/insights' }, { name: author.data.name, path }]));
+const title = author.data.seoTitle ?? `${author.data.name} — Insights | BIZ & STYLE`;
+const description = author.data.seoDescription ?? author.data.bio;
+const jsonLd = graph(webPageLd({ name: title, description, path, type: 'ProfilePage' }), author.id === 'dario-picardi' ? personLd() : null, breadcrumbLd([{ name: 'Insights', path: '/insights' }, { name: author.data.name, path }]));
 ---
 
-<BaseLayout {title} description={author.data.bio} {path} pageType="author" {jsonLd}>
+<BaseLayout {title} {description} {path} pageType="author" {jsonLd}>
   <EditorialHero eyebrow={author.data.role} title={author.data.name} lede={author.data.bio} ground="onyx" size="display-2" crumbs={[{ name: 'Insights', path: '/insights' }, { name: author.data.name, path }]}>
     {author.id === 'dario-picardi' && <a class="link" href="/about/dario-picardi">Leadership profile<svg class="btn__arrow" viewBox="0 0 16 16" aria-hidden="true"><path d="M2 8h11M9 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.4" /></svg></a>}
   </EditorialHero>
