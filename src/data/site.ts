@@ -17,7 +17,14 @@ export const site = {
   phoneSchema: '+1-305-549-4289',
   phoneHref: 'tel:+13055494289',
   whatsappHref: 'https://wa.me/13055494289',
-  calendly: 'https://calendly.com/dario-bizandstyledna/30min',
+  /**
+   * DNA Discovery Call (30 min) — GoHighLevel. One constant drives every
+   * embed and outbound booker on DNA. Permanent widget URL is preferred for
+   * iframes; slug is the public booking alias.
+   */
+  booking: 'https://api.leadconnectorhq.com/widget/booking/n0KUU7bIfK2n0giuUOIl',
+  bookingSlug: 'https://api.leadconnectorhq.com/widget/bookings/dna-discovery-call-30-min',
+  bookingCalendarId: 'n0KUU7bIfK2n0giuUOIl',
   address: {
     streetAddress: '1000 5th Street, Suite 200',
     addressLocality: 'Miami Beach',

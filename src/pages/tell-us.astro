@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import DynamicLeadForm from '@components/conversion/DynamicLeadForm.astro';
+import BookingEmbed from '@components/conversion/BookingEmbed.astro';
 import ProseSections from '@components/editorial/ProseSections.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
@@ -28,10 +29,17 @@ const jsonLd = graph(
   <div class="tu-top ground-onyx"></div>
   <DynamicLeadForm copy={{ ...t.home.tellUs, eyebrow: 'Who you are' }} id="tell-us-page" headingLevel="h1" />
   <ProseSections sections={p.sections} ground="paper" idPrefix="tell-us" />
-  <section class="section--tight ground-onyx tu-alt">
-    <div class="container tu-alt__grid">
-      <p class="small muted">Prefer a conversation? <a class="link" href={site.calendly} rel="noopener" data-track="calendar_click" data-track-cta-location="tell_us">Book a call</a></p>
-      <p class="small muted"><a href={`mailto:${site.email}`} data-track="email_click">{site.email}</a> · <a href={site.phoneHref} data-track="phone_click">{site.phone}</a></p>
+  <section class="section ground-onyx tu-book" id="book" aria-labelledby="tu-book-title">
+    <div class="container">
+      <p class="eyebrow eyebrow--marker">DNA Discovery Call</p>
+      <h2 id="tu-book-title" class="display-3">Prefer a conversation? Book a 30-minute call.</h2>
+      <div class="tu__booker">
+        <BookingEmbed id="dna-ghl-booking-tell-us" />
+      </div>
+      <div class="tu-alt__grid">
+        <p class="small muted">Not loading? <a class="link" href={site.booking} rel="noopener" data-track="calendar_click" data-track-cta-location="tell_us">Open the calendar</a></p>
+        <p class="small muted"><a href={`mailto:${site.email}`} data-track="email_click">{site.email}</a> · <a href={site.phoneHref} data-track="phone_click">{site.phone}</a></p>
+      </div>
     </div>
   </section>
   <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="paper" numbered={false} trackAs="navigation_click" />
@@ -42,17 +50,32 @@ const jsonLd = graph(
   .tu-top {
     height: 4.5rem;
   }
-  .tu-alt {
-    padding-block: var(--space-6) var(--space-8);
+  .tu-book {
+    padding-block: var(--space-8) var(--space-9);
     border-top: 1px solid var(--rule-deep);
+  }
+  .tu-book .display-3 {
+    margin-block: var(--space-3) var(--space-6);
+  }
+  .tu__booker {
+    width: 100%;
+    min-height: 720px;
+    border: 1px solid rgba(244, 246, 248, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    background: #0c0d0f;
+    margin-bottom: var(--space-6);
+  }
+  .tu__booker iframe {
+    width: 100%;
+    min-height: 720px;
+    height: 100%;
+    border: 0;
   }
   .tu-alt__grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     gap: var(--space-4);
-  }
-  .tu-alt .link {
-    margin-left: 0.5rem;
   }
 </style>
