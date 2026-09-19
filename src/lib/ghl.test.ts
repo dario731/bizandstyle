@@ -112,7 +112,7 @@ describe('writeLeadToGhl', () => {
         return json({ new: true, contact: { id: 'ct_1' } });
       }
       if (url.endsWith('/contacts/ct_1/tags')) {
-        assert.deepEqual(body.tags, ['Investor', 'Source: Site Form']);
+        assert.deepEqual(body.tags, ['ICP: Investor', 'Source: Site Form']);
         return json({ tags: body.tags });
       }
       if (url.endsWith('/opportunities/')) {

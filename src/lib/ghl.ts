@@ -233,7 +233,7 @@ export async function writeLeadToGhl(
   const fetchImpl = options.fetchImpl ?? ((input, init) => fetch(input, init));
 
   const icp = mapIcp(lead.persona, lead.intent, lead.fields);
-  const tags = icpTags(icp);
+  const tags = icpTags(icp, lead.formId, lead.attribution);
   const route = routeOpportunity(icp, config, env);
   const name = fieldString(lead.fields, 'name', 'full_name');
   const email = fieldString(lead.fields, 'email');
