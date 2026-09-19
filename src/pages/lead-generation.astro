@@ -1,14 +1,98 @@
 ---
 /**
- * Permanent Lead Generation URL. Content is the existing Advisory service
- * page (title/meta/FAQ unchanged until Dario picks a merge). /advisory/lead-generation
- * 301s here.
+ * Draft SEO pass (Natasha Pillar 5). Permanent path /lead-generation/.
+ * Do not publish to production until Cathy → Dario OK.
  */
-import ServicePage from '@components/system/ServicePage.astro';
-import { getService } from '@data/services';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { pages } from '@i18n/pages.en';
+import { site } from '@data/site';
 
-const service = getService('advisory', 'lead-generation');
-if (!service) throw new Error('lead-generation service missing');
+const p = pages.leadGeneration;
+const path = '/lead-generation';
+const canonical = `${site.url}/lead-generation/`;
+const jsonLd = [
+  {
+    '@type': 'WebPage',
+    '@id': `${canonical}#webpage`,
+    url: canonical,
+    name: p.seo.title,
+    description: p.seo.description,
+    isPartOf: { '@id': `${site.url}/#website` },
+    about: { '@id': `${site.url}/#organization` },
+    inLanguage: 'en',
+  },
+  {
+    '@type': 'Service',
+    '@id': `${canonical}#service`,
+    name: 'High-Ticket Lead Generation',
+    description: p.seo.description,
+    url: canonical,
+    serviceType: 'Lead generation / performance marketing',
+    provider: { '@id': `${site.url}/#organization` },
+    areaServed: ['Miami', 'United States', 'Latin America', 'Caribbean'],
+    audience: { '@type': 'Audience', audienceType: 'High-ticket B2B and luxury consumer brands' },
+    knowsAbout: ['Lead generation', 'Google Ads', 'Meta Ads', 'Conversion tracking', 'Private aviation', 'Yachting', 'Luxury real estate', 'Miami'],
+  },
+  {
+    '@type': 'FAQPage',
+    '@id': `${canonical}#faq`,
+    mainEntity: p.faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+  {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${site.url}/` },
+      { '@type': 'ListItem', position: 2, name: 'Lead Generation', item: canonical },
+    ],
+  },
+];
 ---
 
-<ServicePage {service} canonical="https://bizandstyledna.com/lead-generation/" />
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd} {canonical} ogImageAlt={p.ogImageAlt}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'Lead generation', path }]}>
+    <a class="btn btn--solid" href={p.cta.primary.href} data-track="cta_click" data-track-cta-name={p.cta.primary.name} data-track-cta-location="landing_hero">
+      <span class="btn__ring" aria-hidden="true"></span>{p.cta.primary.label}
+    </a>
+    <a class="btn" href="/digital-engine" data-track="cta_click" data-track-cta-name="digital_engine" data-track-cta-location="landing_hero">Digital engine</a>
+  </EditorialHero>
+
+  <ModuleGrid eyebrow="01" title={p.engines.title} lede={p.engines.lede} items={p.engines.items} columns={3} ground="paper" id="online-offline" />
+  <ModuleGrid eyebrow="02" title={p.paid.title} lede={p.paid.lede} items={p.paid.items} columns={3} ground="onyx" id="google-meta" />
+  <ModuleGrid eyebrow="03" title={p.convert.title} lede={p.convert.lede} items={p.convert.items} columns={3} ground="paper" id="convert-track" />
+  <ModuleGrid eyebrow="04" title={p.verticals.title} lede={p.verticals.lede} items={p.verticals.items} columns={4} ground="onyx" id="verticals" numbered={false} trackAs="navigation_click" />
+  <section class="section ground-paper miami" id="miami-agency" aria-labelledby="miami-title">
+    <div class="container miami__grid">
+      <h2 id="miami-title" class="display-2" data-reveal>{p.miami.title}</h2>
+      <div class="prose muted" data-reveal>
+        {p.miami.body.map((para) => <p>{para}</p>)}
+      </div>
+    </div>
+  </section>
+  <ModuleGrid eyebrow="06" title={p.folds.title} lede={p.folds.lede} items={p.folds.items} columns={3} ground="onyx" id="folds" numbered={false} trackAs="navigation_click" />
+  <RelatedInsights clusterOf={[path, '/advisory/lead-generation', '/digital-engine']} ground="paper" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
+</BaseLayout>
+
+<style>
+  .miami__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  @media (min-width: 900px) {
+    .miami__grid {
+      grid-template-columns: 5fr 7fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: start;
+    }
+  }
+</style>
