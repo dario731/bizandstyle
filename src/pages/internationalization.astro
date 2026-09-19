@@ -6,20 +6,20 @@ import ModuleGrid from '@components/editorial/ModuleGrid.astro';
 import Steps from '@components/editorial/Steps.astro';
 import Statement from '@components/editorial/Statement.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
 import { pages } from '@i18n/pages.en';
 import { getCopy } from '@i18n/index';
-import { webPageLd, breadcrumbLd, faqLd, serviceLd, graph } from '@lib/seo';
+import { webPageLd, breadcrumbLd, faqLd, graph, absoluteUrl } from '@lib/seo';
 
 const p = pages.internationalization;
 const t = getCopy('en');
 const path = '/internationalization';
 const jsonLd = graph(
-  webPageLd({ name: p.seo.title, description: p.seo.description, path }),
-  serviceLd({ name: 'Internationalization', description: p.definition.a[0], path, division: 'B&S Advisory' }),
+  webPageLd({ name: p.seo.title, description: p.seo.description, path, about: ['Internationalization', 'Export', 'Market entry', 'Miami'] }),
   breadcrumbLd([{ name: 'Internationalization', path }]),
-  faqLd([...p.faqs]),
+  faqLd([...p.faqs], `${absoluteUrl(path)}#faq`),
 );
 const cmp = t.home.internationalization.compare;
 ---
@@ -58,8 +58,10 @@ const cmp = t.home.internationalization.compare;
   <ModuleGrid eyebrow={p.ingredients.eyebrow} title={p.ingredients.title} items={p.ingredients.items} columns={3} ground="paper" id="ingredients" />
   <Steps eyebrow={p.model.eyebrow} title={p.model.title} steps={p.model.steps} ground="onyx" id="model" />
   <Statement lines={['Not export.', 'Internationalization.']} body={[p.model.closing]} ground="onyx" />
+  <ProseSections sections={[p.miamiPlatform]} ground="paper" idPrefix="intl-miami" />
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.links.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={4} ground="onyx" numbered={false} trackAs="navigation_click" />
   <RelatedInsights clusterOf={[path]} ground="paper" />
-  <FaqBlock faqs={p.faqs} ground="paper" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
 </BaseLayout>
 

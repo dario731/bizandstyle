@@ -8,34 +8,65 @@ import WhoWhatWhy from '@components/home2/WhoWhatWhy.astro';
 import OrbitCarousel from '@components/cinematic/OrbitCarousel.astro';
 import JourneyLoop from '@components/home2/JourneyLoop.astro';
 import CaptureBand from '@components/home2/CaptureBand.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import { getCopy } from '@i18n/index';
 import { site } from '@data/site';
 import { solutions } from '@data/solutions';
+import { breadcrumbLd, faqLd, graph } from '@lib/seo';
 
 const t = getCopy('en');
-const jsonLd = [
+const title = 'Business Development Platform · Miami | BIZ & STYLE';
+const description = 'Miami business development platform: Advisory, Commerce, Luxury. Market entry, bonded distribution, digital engine, luxury RE. Americas · +1 305-549-4289.';
+const faqs = [
+  { q: 'What is BIZ & STYLE?', a: 'A Miami-based business development platform founded in 2017 — Advisory, Commerce and Luxury sharing one team, infrastructure and network across the United States, Latin America and Europe.' },
+  { q: 'Who do you work with?', a: 'International companies, U.S. companies, founders, consumer and luxury brands, developers, investors and strategic partners.' },
+  { q: 'Where are you based?', a: 'Headquarters in Miami Beach (Thyssen Building). Operating reach across the U.S., Mexico, Brazil, the Caribbean and Europe.' },
+  { q: 'How is this different from a consulting firm?', a: 'Everything we offer was built and tested in our own ventures first — operators with infrastructure, not advisors at a distance.' },
+  { q: 'How do I start?', a: 'Open the journey form or contact info@bizandstyledna.com / +1 305-549-4289.' },
+];
+const jsonLd = graph(
   {
     '@type': 'WebPage',
     '@id': `${site.url}/#webpage`,
     url: site.url,
-    name: t.meta.home.title,
-    description: t.meta.home.description,
+    name: title,
+    description,
     isPartOf: { '@id': `${site.url}/#website` },
     about: { '@id': `${site.url}/#organization` },
     inLanguage: 'en',
   },
-];
+  faqLd(faqs, `${site.url}/#faq`),
+  breadcrumbLd([]),
+);
 
 const orbitItems = solutions.map((s) => ({ num: s.num, name: s.name, line: s.tagline, href: `/solutions#${s.slug}`, tag: 'Solution' }));
 ---
 
-<BaseLayout title={t.meta.home.title} description={t.meta.home.description} path="/" pageType="home" {jsonLd}>
+<BaseLayout {title} {description} path="/" pageType="home" {jsonLd}>
   <CineHero />
   <ProofTicker />
   <WhoWhatWhy ground="paper" />
   <EnginesConnected />
-  <OrbitCarousel ground="paper" eyebrow="Solutions" title={['Five solutions.', 'Integrated or à la carte.']} items={orbitItems} id="orbit" />
+  <OrbitCarousel ground="paper" eyebrow="Solutions" title={['Five solutions —', 'integrated or à la carte.']} items={orbitItems} id="orbit" />
   <WorldConnect />
+  <ModuleGrid
+    eyebrow="Explore"
+    title="The platform, mapped."
+    items={[
+      { name: 'Miami is the platform to the Americas', line: 'HQ since 2017 — Miami Beach, bonded hub, NY & Silicon Valley relocation, LATAM reach.', href: '/miami' },
+      { name: 'Fractional Executive programme', line: 'The primary commercial offer for embedded senior leadership.', href: '/programs/fractional-executive' },
+      { name: 'digital acquisition engine', line: 'From click to client — owned infrastructure in Miami.', href: '/digital-engine' },
+      { name: 'bonded warehouse solutions in Miami', line: 'Duty-deferred storage for the United States and LATAM.', href: '/commerce/bonded-warehouse' },
+      { name: 'B&S Luxury', line: 'Miami luxury real estate, developer partnerships, seven verticals.', href: '/luxury' },
+    ]}
+    columns={3}
+    ground="onyx"
+    numbered={false}
+    trackAs="navigation_click"
+    id="platform-map"
+  />
   <JourneyLoop stages={t.home.journey.stages} />
+  <FaqBlock {faqs} title="FAQ" ground="paper" />
   <CaptureBand ground="paper" />
 </BaseLayout>

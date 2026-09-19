@@ -22,6 +22,23 @@ export interface Service {
   seoDescription: string;
   /** Canonical public path when it is not `/{division}/{slug}`. */
   href?: string;
+  /** Hide from hub grids and static paths (demoted / redirected URLs). */
+  unlisted?: boolean;
+  /** Extra H2 body sections (content deepen). */
+  sections?: readonly { title: string; paragraphs: readonly string[] }[];
+  /** Differentiated internal links. */
+  relatedLinks?: readonly { href: string; label: string; line?: string }[];
+  schema?: {
+    serviceName?: string;
+    serviceType?: string;
+    areaServed?: readonly string[];
+    url?: string;
+    offers?: { url: string; availability?: string };
+    knowsAbout?: readonly string[];
+    audience?: string;
+    webPageType?: string | readonly string[];
+    webPageAbout?: unknown;
+  };
 }
 
 const TELL = '/tell-us';
@@ -65,7 +82,7 @@ export const services: readonly Service[] = [
     division: 'advisory',
     title: 'International expansion',
     eyebrow: 'B&S Advisory · Internationalization',
-    lede: 'U.S. market entry and LATAM expansion with an executive team, real infrastructure and a commercial network already operating in Miami.',
+    lede: 'U.S. market entry and LATAM expansion with an executive team, real infrastructure and a commercial network already operating in Miami — including founders relocating from New York and Silicon Valley / California.',
     definition: {
       q: 'What is international expansion with BIZ & STYLE?',
       a: [
@@ -84,21 +101,52 @@ export const services: readonly Service[] = [
     regulated: 'Entity formation, EIN and licences, U.S. bank accounts, tax filings and immigration are delivered by independent licensed professionals whom BIZ & STYLE coordinates.',
     statement: ['Make the U.S. a market.', 'Not an experiment.'],
     faqs: [
-      { q: 'Do you help with company formation and visas?', a: 'We coordinate the whole sequence — entity, EIN, bank account, licences, contracts, visa strategy — and licensed lawyers, accountants and immigration attorneys from our vetted network deliver each regulated step.' },
-      { q: 'Why start from Miami?', a: 'Miami is the capital of Latin America and the trade gateway of the Americas: PortMiami, MIA, a bonded warehouse for duty-efficient distribution, international capital and a constant flow of decision makers. Our HQ has been here since 2017.' },
+      { q: 'Do you help with company formation and visas?', a: 'We coordinate the sequence — entity, EIN, bank account, licences, contracts, visa strategy — and licensed lawyers, accountants and immigration attorneys deliver each regulated step.' },
+      { q: 'Why start from Miami?', a: 'Miami is the capital of Latin America and the trade gateway of the Americas: PortMiami, MIA, bonded distribution, international capital and decision makers. HQ since 2017.' },
+      { q: 'Can this support founders moving from New York or California / Silicon Valley?', a: 'Yes. Many clients use Miami as operating base while entering the U.S. and LATAM; we sequence presence, infrastructure and partner introductions.' },
+      { q: 'How is this different from the internationalization page?', a: '/internationalization explains the model (export vs internationalization, nine pillars). This page is the service that delivers U.S. and LATAM expansion.' },
+      { q: 'What about temporary export management?', a: 'TEM is a focused export-manager mandate. International expansion covers the fuller Enter → Establish journey.' },
     ],
     cta: { eyebrow: 'Planning your U.S. expansion?', label: 'Assess your market entry', href: `${TELL}?intent=market-entry&persona=international-company`, name: 'assess_market_entry' },
     programs: ['international-expansion-boost'],
     mediaId: 'HOME-MIAMI-01',
-    seoTitle: 'International Expansion & U.S. Market Entry from Miami | BIZ & STYLE',
-    seoDescription: 'U.S. market entry and LATAM expansion delivered by an executive team, real infrastructure and a 200+ commercial network already operating in Miami.',
+    seoTitle: 'International Expansion from Miami | BIZ & STYLE',
+    seoDescription: 'U.S. market entry and LATAM expansion with Miami team, infrastructure and network. Five phases, licensed partners · +1 305-549-4289.',
+    sections: [
+      {
+        title: 'Five phases — Understand → Establish',
+        paragraphs: [
+          'Understand: study the company, define objectives, assess resources and readiness for the United States and Latin America. Build: market strategy, brand positioning, country prioritization, entry model and a business plan meant to be executed.',
+          'Enter: introduce the company to key accounts, distributors, retailers and trade shows. Develop: continuous visits, negotiations, training and relationship management. Establish: long-term customers, reputation, local network and organic growth — Europe → Americas, not a one-off shipment.',
+        ],
+      },
+      {
+        title: 'Why start from Miami (incl. NY / Silicon Valley relocators)',
+        paragraphs: [
+          'Miami is the capital of Latin America and the trade gateway of the Americas: PortMiami, MIA, bonded distribution, international capital and a constant flow of decision makers. Headquarters has been here since 2017 — operators on the ground, not a slide deck from abroad.',
+          'Founders relocating from New York or Silicon Valley / California use Miami as the operating base while they enter the U.S. market and open LATAM — Mexico, the Caribbean, Brazil and wider Latin America — with presence, infrastructure and partner introductions sequenced together.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/internationalization', label: 'export is not internationalization', line: 'The model: export vs internationalization, nine pillars, five phases.' },
+      { href: '/miami', label: 'why Miami', line: 'The geo hub — platform to the Americas.' },
+      { href: '/advisory/temporary-export-management', label: 'temporary export management', line: 'A focused TEM mandate for U.S. and LATAM development.' },
+      { href: '/programs/fractional-executive', label: 'fractional expansion leadership', line: 'Embed senior expansion leadership when the mandate is broader than TEM.' },
+      { href: '/commerce/bonded-warehouse', label: 'bonded hub', line: 'Duty-deferred storage next to PortMiami and MIA.' },
+    ],
+    schema: {
+      serviceName: 'International Expansion & U.S. Market Entry',
+      serviceType: 'International expansion / market entry',
+      areaServed: ['Miami', 'United States', 'Latin America', 'Caribbean', 'Europe'],
+    },
   },
   {
     slug: 'fractional-executive',
     division: 'advisory',
     title: 'Fractional executive',
-    eyebrow: 'B&S Advisory · Leadership',
-    lede: 'Senior commercial, expansion and project leadership — embedded in your company when you need it, without building an entire executive organization on day one.',
+    eyebrow: 'B&S Advisory · Capability',
+    lede: 'Capability — how a fractional executive works in the Americas: senior commercial, expansion and project leadership from Miami, without building an entire executive organization on day one.',
     definition: {
       q: 'What is a fractional executive from BIZ & STYLE?',
       a: [
@@ -114,14 +162,45 @@ export const services: readonly Service[] = [
     ],
     statement: ['Senior leadership.', 'Embedded when you need it.'],
     faqs: [
-      { q: 'How does a fractional mandate work?', a: 'We define the role, the objectives and the cadence. The executive works inside your organization with your team and reports to your leadership, backed by the BIZ & STYLE platform.' },
+      { q: 'How does a fractional mandate work?', a: 'We define the role, objectives and cadence. The executive works inside your organization with your team and reports to your leadership, backed by the BIZ & STYLE platform.' },
       { q: 'Is it suitable for smaller companies?', a: 'Yes. It is designed for companies that need senior capability before they can justify a full executive team in a new market.' },
+      { q: 'What roles can a fractional executive cover?', a: 'Fractional commercial leadership, international expansion leadership, strategic project leadership, or market representation in the Americas.' },
+      { q: 'Where do I buy / start the programme?', a: 'The packaged Fractional Executive programme lives at /programs/fractional-executive — role definition, embedded leadership, platform backing and transition.' },
+      { q: 'How is this different from temporary export management?', a: 'Fractional is senior leadership across commercial/expansion/projects. TEM is specifically export-market development for U.S./LATAM.' },
     ],
-    cta: { eyebrow: 'Need senior leadership in the Americas?', label: 'Discuss a fractional mandate', href: `${TELL}?intent=fractional-executive`, name: 'fractional_tell_us' },
+    cta: { eyebrow: 'Ready to embed senior leadership?', label: 'Start with the Fractional Executive programme', href: '/programs/fractional-executive', name: 'fractional_programme' },
     programs: ['fractional-executive'],
     mediaId: 'HOME-DIV-ADV',
-    seoTitle: 'Fractional Executive for the Americas | BIZ & STYLE',
-    seoDescription: 'Fractional commercial, expansion and project leadership embedded in your company — senior operators backed by the BIZ & STYLE platform in Miami.',
+    seoTitle: 'Fractional Executive Explained · Americas | BIZ & STYLE',
+    seoDescription: 'What a fractional executive does in the Americas — commercial, expansion and project leadership from Miami. Capability · +1 305-549-4289.',
+    sections: [
+      {
+        title: 'Capability vs programme — when to start the programme',
+        paragraphs: [
+          'This page explains the capability: what a fractional executive is and how the mandate works inside your company. It is not a package SKU, not pricing, and not the place to “buy a programme.”',
+          'When you are ready to start — role definition, embedded leadership, platform backing and a transition plan — the packaged Fractional Executive programme is the commercial offer. Start there. This page stays the explainer.',
+        ],
+      },
+      {
+        title: 'Market representation in Miami and the Americas',
+        paragraphs: [
+          'A fractional executive can represent your company in Miami and across the Americas: United States and Latin America, with a senior presence that buyers, distributors and partners can meet.',
+          'Leadership arrives with the platform — so market representation is not a lone consultant with a laptop. It is an operator backed by headquarters, infrastructure and a commercial network already on the ground.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/programs/fractional-executive', label: 'Start with the Fractional Executive programme', line: 'The packaged programme — role, cadence, platform, transition.' },
+      { href: '/advisory/temporary-export-management', label: 'temporary export management', line: 'Export-market development for U.S. and LATAM — a different mandate.' },
+      { href: '/advisory/international-expansion', label: 'international expansion leadership', line: 'The fuller Enter → Establish service when the brief is market entry.' },
+    ],
+    schema: {
+      serviceName: 'Fractional Executive Capability',
+      serviceType: 'Fractional executive / embedded senior leadership',
+      areaServed: ['Miami', 'United States', 'Latin America'],
+      url: 'https://bizandstyledna.com/programs/fractional-executive',
+      webPageAbout: 'Capability explainer — what a fractional executive does for Americas expansion from Miami.',
+    },
   },
   {
     slug: 'temporary-export-management',
@@ -144,13 +223,51 @@ export const services: readonly Service[] = [
     ],
     statement: ['Export management', 'with infrastructure behind it.'],
     faqs: [
-      { q: 'How long is a typical TEM engagement?', a: 'Long enough to move from introduction to established customers — usually more than one season. The cadence is agreed at the start and reviewed against objectives.' },
+      { q: 'How long is a typical TEM engagement?', a: 'Long enough to move from introduction to established customers — usually more than one season. Cadence is agreed at the start and reviewed against objectives.' },
+      { q: 'What does a temporary export manager actually do?', a: 'Prospect and qualify distributors, retailers and key accounts; run commercial development in-market; cover trade shows and visits; document relationships for handover.' },
+      { q: 'How is TEM different from a fractional executive?', a: 'TEM is export- and market-development focused for U.S./LATAM. Fractional executive is broader senior commercial, expansion or project leadership. See both pages — pick by mandate.' },
+      { q: 'Why Miami?', a: 'Warehousing, logistics and a commercial network already operate here, so development is not limited to introductions.' },
+      { q: 'Who is TEM for?', a: 'Brands ready to open the Americas seriously but not yet ready to hire a full in-house export organization.' },
     ],
     cta: { eyebrow: 'Looking for a temporary export manager for the Americas?', label: 'Assess your market entry', href: `${TELL}?intent=market-entry&persona=international-company`, name: 'tem_tell_us' },
     programs: ['international-expansion-boost'],
     mediaId: 'HOME-DIV-COM',
-    seoTitle: 'Temporary Export Manager for the U.S. and LATAM | BIZ & STYLE',
-    seoDescription: 'Temporary export management from Miami: prospecting, distributors, key accounts and trade shows, backed by warehousing and logistics already in place.',
+    seoTitle: 'Temporary Export Manager · U.S. & LATAM | BIZ & STYLE',
+    seoDescription: 'Temporary export manager from Miami for U.S. and LATAM: prospecting, key accounts, trade shows, handover. Infrastructure included · +1 305-549-4289.',
+    sections: [
+      {
+        title: 'Why TEM from Miami beats remote export consultants',
+        paragraphs: [
+          'A remote export consultant writes lists. A temporary export manager from Miami works the market: distributors, retailers and key accounts in the United States, LATAM and the Caribbean — Mexico and Brazil included — with trade-show cadence and in-market visits.',
+          'Warehousing, logistics and a commercial network already operate here. Development is not limited to introductions. The temporary export manager can move product conversation into real operating infrastructure when the account is ready.',
+        ],
+      },
+      {
+        title: 'U.S. and LATAM development with infrastructure behind it',
+        paragraphs: [
+          'TEM at BIZ & STYLE is export- and market-development focused: prospecting, qualification, commercial development, trade shows and documented handover. It is not “fractional” and it is not the internationalization thought-hub — those live on their own pages.',
+          'United States and Latin America share one Miami cadence. The same temporary export manager can open northbound and southbound accounts without standing up a second organization, because the platform — team, warehouse, network — is already on the ground.',
+        ],
+      },
+      {
+        title: 'Handover — when your own structure takes over',
+        paragraphs: [
+          'The engagement lasts long enough to move from introduction to established customers — usually more than one season. Cadence is agreed at the start and reviewed against objectives.',
+          'Handover is the point: documented relationships, terms, next actions and a structure your own export organization can take in-house when the Americas justify the hire. TEM is temporary by design.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/programs/fractional-executive', label: 'broader fractional executive programme', line: 'When the mandate is senior commercial, expansion or project leadership — not TEM.' },
+      { href: '/advisory/international-expansion', label: 'full international expansion service', line: 'The fuller Enter → Establish journey beyond an export-manager mandate.' },
+      { href: '/commerce/bonded-warehouse', label: 'Miami bonded infrastructure', line: 'Duty-deferred storage behind the commercial development.' },
+      { href: '/internationalization', label: 'export vs internationalization', line: 'The model that explains why TEM is not the same as becoming part of the market.' },
+    ],
+    schema: {
+      serviceName: 'Temporary Export Management',
+      serviceType: 'Temporary export manager / export management',
+      areaServed: ['United States', 'Latin America', 'Caribbean', 'Miami'],
+    },
   },
   {
     slug: 'business-development',
@@ -238,6 +355,7 @@ export const services: readonly Service[] = [
     cta: { eyebrow: 'Want to see where your acquisition system is leaking?', label: 'Request a digital growth review', href: `${TELL}?intent=digital-growth`, name: 'digital_growth_review' },
     programs: ['digital-growth-engine'],
     mediaId: 'HOME-DIV-ADV',
+    unlisted: true,
     seoTitle: 'Digital Growth — Digital Business Infrastructure | BIZ & STYLE',
     seoDescription: 'Websites, landing pages, Google and Meta, SEO and GEO, CRM and automation — an owned acquisition system built and optimized in-house in Miami.',
   },
@@ -480,13 +598,41 @@ export const services: readonly Service[] = [
     ],
     statement: ['One warehouse.', 'Two markets.'],
     faqs: [
-      { q: 'How does bonded storage help during tariff changes?', a: 'Because duty is only paid on release, goods can wait in bond while tariff conditions change, and be redirected to Latin America without U.S. duty if the U.S. release no longer makes sense.' },
-      { q: 'Can I sell the same stock into the U.S. and LATAM?', a: 'Yes. Release part of the inventory into U.S. commerce when it makes sense and re-export the rest duty-efficiently — from a single Miami hub.' },
+      { q: 'How does bonded storage help during tariff changes?', a: 'Duty is only paid on release — goods can wait in bond while tariff conditions change, or be redirected to Latin America without U.S. duty.' },
+      { q: 'Can I sell the same stock into the U.S. and LATAM?', a: 'Yes. Release part into U.S. commerce when it makes sense and re-export the rest duty-efficiently from a single Miami hub.' },
+      { q: 'Where is the warehouse positioned?', a: 'Miami — strategic access to PortMiami and MIA for logistics across the Americas.' },
+      { q: 'Who is this for?', a: 'Brands distributing into the United States and Latin America / Caribbean who need cash-flow-efficient, duty-aware storage and consolidation.' },
     ],
     cta: { eyebrow: 'Distributing across the U.S. and LATAM?', label: 'Talk to B&S Commerce', href: `${TELL}?intent=distribution`, name: 'talk_commerce' },
     mediaId: 'INFRA-WAREHOUSE',
-    seoTitle: 'Miami Bonded Warehouse — Duty-Deferred LATAM Hub | B&S Commerce',
-    seoDescription: 'Bonded warehousing in Miami: defer U.S. duty, re-export to Latin America and the Caribbean without paying it, consolidate in bond. One warehouse, two markets.',
+    seoTitle: 'Miami Bonded Warehouse · LATAM Hub | B&S Commerce',
+    seoDescription: 'Duty-deferred Miami bonded warehouse: re-export to LATAM without U.S. duty, consolidate in bond near PortMiami & MIA · +1 305-549-4289.',
+    sections: [
+      {
+        title: 'One warehouse. Two markets (U.S. + LATAM)',
+        paragraphs: [
+          'Duty-deferred storage in Miami means you pay U.S. duty only on release into U.S. commerce. Re-export to Latin America and the Caribbean without U.S. duty. Consolidate, sort, label and repackage while still in bond.',
+          'One Miami hub serves two markets: release what belongs in the United States; move the rest duty-efficiently into LATAM. Cash-flow stays with the goods until the market decision is made.',
+        ],
+      },
+      {
+        title: 'PortMiami · MIA · tariff flexibility',
+        paragraphs: [
+          'The warehouse sits with strategic access to PortMiami and MIA — the cargo gateway of the Americas — so inbound ocean and air and outbound U.S. and LATAM legs share one node.',
+          'Tariff conditions change. Duty deferral is the flexibility: goods wait in bond, or redirect to Latin America, without having prepaid a U.S. entry that no longer makes sense.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/miami', label: 'Miami platform to the Americas', line: 'Why the geo hub and the bonded hub are the same decision.' },
+      { href: '/advisory/international-expansion', label: 'distribution with market entry', line: 'Bonded infrastructure as part of U.S. and LATAM expansion.' },
+      { href: '/internationalization', label: 'infrastructure pillar', line: 'Warehousing is one of the nine pillars of internationalization.' },
+    ],
+    schema: {
+      serviceName: 'Miami Bonded Warehouse',
+      serviceType: 'Bonded warehouse / duty-deferred storage',
+      areaServed: ['Miami', 'United States', 'Latin America', 'Caribbean'],
+    },
   },
   {
     slug: 'fulfillment',
@@ -595,12 +741,43 @@ export const services: readonly Service[] = [
     ],
     statement: ['Not registration.', 'Relationship.'],
     faqs: [
-      { q: 'Where is the property search?', a: 'Listings, neighbourhoods and new developments live on the dedicated B&S Luxury site, bns-luxury.com. This page explains the business-development relationship.' },
+      { q: 'Where is the property search?', a: 'Listings, neighbourhoods and new developments live on bns-luxury.com. This page explains the business-development relationship.' },
+      { q: 'Is this just buyer registration?', a: 'No. Baseline registration is not the offer — we pursue selective, long-term BD and marketing programmes with selected luxury and ultra-luxury developments.' },
+      { q: 'What does proprietary digital acquisition include?', a: 'Google, Meta, SEO and GEO with international targeting; dedicated development pages; CRM nurture — connected to the wider BIZ & STYLE engine.' },
+      { q: 'Which Miami segments do you focus on?', a: 'Luxury and ultra-luxury pre-construction and selected developments serving international and HNW buyers across Miami Beach, Brickell and the wider Miami market.' },
     ],
     cta: { eyebrow: 'Developing a luxury project in Miami?', label: "Tell us what you're building", href: `${TELL}?persona=developer&intent=partnership`, name: 'developer_tell_us' },
     mediaId: 'HOME-DIV-LUX',
-    seoTitle: 'Developer Partnerships — B&S Luxury Miami | BIZ & STYLE',
-    seoDescription: 'Strategic business-development and marketing programmes with selected luxury developments in Miami: proprietary digital acquisition, international buyers, events and ecosystem.',
+    seoTitle: 'Developer Partnerships · Miami Luxury | BIZ & STYLE',
+    seoDescription: 'Not registration — relationship. Dedicated BD and marketing programmes with selected Miami luxury developments · +1 305-549-4289.',
+    sections: [
+      {
+        title: 'Proprietary digital acquisition for international buyers',
+        paragraphs: [
+          'The buyer of Miami rarely lives in Miami — local, out of state, and international, including LATAM and Europe. Developer partnerships include proprietary digital acquisition: Google, Meta, SEO and GEO with international targeting; dedicated development pages; CRM nurture.',
+          'That stack is the same BIZ & STYLE engine — not a rented campaign and not a rewrite of high-ticket lead generation. Property search stays on bns-luxury.com. This page is the business-development relationship with the development.',
+        ],
+      },
+      {
+        title: 'Ecosystem introductions (aviation · yachts · design · media)',
+        paragraphs: [
+          'B&S Luxury sits inside a seven-vertical ecosystem: luxury real estate at the core, plus private aviation, yachting, interior design, luxury goods, luxury media, and celebrity · sports · entertainment.',
+          'Developer partnerships open those introductions for selected Miami Beach, Brickell and wider Miami luxury and ultra-luxury pre-construction — HNW and international buyers who already move through the same rooms.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/luxury', label: 'B&S Luxury ecosystem', line: 'Seven verticals. One HNW client. The division hub.' },
+      { href: '/digital-engine', label: 'proprietary digital acquisition', line: 'The owned engine behind development-page demand.' },
+      { href: '/lead-generation/', label: 'high-ticket lead generation', line: 'The dedicated high-ticket demand offer — unchanged.' },
+      { href: 'https://bns-luxury.com', label: 'property search', line: 'Listings, neighbourhoods and new developments.' },
+    ],
+    schema: {
+      serviceName: 'Developer Partnerships — B&S Luxury',
+      serviceType: 'Luxury developer business development and marketing programmes',
+      areaServed: ['Miami', 'Miami Beach', 'Brickell', 'United States', 'Latin America'],
+      audience: 'Luxury real estate developers',
+    },
   },
   {
     slug: 'ecosystem',
@@ -631,7 +808,7 @@ export const services: readonly Service[] = [
   },
 ];
 
-export const byDivision = (d: Division) => services.filter((s) => s.division === d);
+export const byDivision = (d: Division) => services.filter((s) => s.division === d && !s.unlisted);
 export const getService = (d: Division, slug: string) => services.find((s) => s.division === d && s.slug === slug);
 export const servicePath = (s: Service) => s.href ?? `${divisionMeta[s.division].path}/${s.slug}`;
 

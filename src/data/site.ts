@@ -13,6 +13,8 @@ export const site = {
   foundingDate: '2017',
   email: 'info@bizandstyledna.com',
   phone: '+1 305-549-4289',
+  /** Schema.org telephone (E.164-style hyphenated). Display uses `phone`. */
+  phoneSchema: '+1-305-549-4289',
   phoneHref: 'tel:+13055494289',
   whatsappHref: 'https://wa.me/13055494289',
   calendly: 'https://calendly.com/dario-bizandstyledna/30min',

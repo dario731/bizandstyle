@@ -27,7 +27,10 @@ export default defineConfig({
         defaultLocale: 'en',
         locales: { en: 'en-US', it: 'it-IT', es: 'es', pt: 'pt-BR' },
       },
-      filter: (page) => !page.includes('/api/') && !page.includes('/request-credentials/thanks'),
+      filter: (page) =>
+        !page.includes('/api/') &&
+        !page.includes('/request-credentials/thanks') &&
+        !page.includes('/advisory/digital-growth'),
       serialize(item) {
         if (item.url === 'https://bizandstyledna.com/lead-generation') {
           item.url = 'https://bizandstyledna.com/lead-generation/';
@@ -38,6 +41,7 @@ export default defineConfig({
   ],
   redirects: {
     '/advisory/lead-generation': '/lead-generation/',
+    '/advisory/digital-growth': '/digital-engine',
   },
   prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
   vite: { build: { cssMinify: 'lightningcss' } },

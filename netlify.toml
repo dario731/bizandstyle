@@ -38,3 +38,16 @@
   to = "/lead-generation/"
   status = 301
   force = true
+
+# Wave 1 demote: digital-growth cannibalized /digital-engine
+[[redirects]]
+  from = "/advisory/digital-growth"
+  to = "/digital-engine"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/advisory/digital-growth/"
+  to = "/digital-engine"
+  status = 301
+  force = true
