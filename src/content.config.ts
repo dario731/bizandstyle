@@ -39,6 +39,7 @@ const insights = defineCollection({
       updatedDate: z.coerce.date().optional(),
       category: reference('categories'),
       tags: z.array(z.string()).default([]),
+      about: z.array(z.string()).default([]),
       sources: z.array(z.object({ label: z.string(), url: z.url().optional() })).default([]),
       faqs: z.array(z.object({ q: z.string(), a: z.string() })).default([]),
       related: z.array(reference('insights')).default([]),

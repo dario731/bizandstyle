@@ -25,6 +25,7 @@ interface Props {
   servicesTitle?: string;
   extraCapabilities?: readonly { name: string; line: string; href: string }[];
   relatedLinks?: readonly { href: string; label: string; line?: string }[];
+  insightsCluster?: readonly string[];
   schema?: {
     pageType?: string | readonly string[];
     serviceName?: string;
@@ -33,7 +34,7 @@ interface Props {
     breadcrumbName?: string;
   };
 }
-const { division, seo, hero, definition, statement, faqs, cta, servicesTitle = 'Capabilities', extraCapabilities = [], relatedLinks, schema = {} } = Astro.props;
+const { division, seo, hero, definition, statement, faqs, cta, servicesTitle = 'Capabilities', extraCapabilities = [], relatedLinks, insightsCluster = [], schema = {} } = Astro.props;
 const div = divisionMeta[division];
 const list = byDivision(division);
 const crumbName = schema.breadcrumbName ?? div.name;
@@ -72,7 +73,7 @@ const jsonLd = graph(
       <ModuleGrid eyebrow="Continue" title="Related on the platform." items={relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={relatedLinks.length >= 4 ? 4 : 3} ground="paper" numbered={false} trackAs="navigation_click" />
     )
   }
-  <RelatedInsights clusterOf={[div.path, ...list.map((s) => servicePath(s)), ...list.map((s) => `${div.path}/${s.slug}`)]} ground="paper" />
+  <RelatedInsights clusterOf={[div.path, ...list.map((s) => servicePath(s)), ...list.map((s) => `${div.path}/${s.slug}`), ...insightsCluster]} ground="paper" />
   <FaqBlock {faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow={cta.eyebrow} title={cta.title} primary={cta.primary} secondary={cta.secondary} location="division_cta" />
 </BaseLayout>

@@ -9,8 +9,17 @@ import ModuleGrid from '@components/editorial/ModuleGrid.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { getEntry } from 'astro:content';
 import { pages } from '@i18n/pages.en';
 import { site } from '@data/site';
+
+const relatedLeadGen = (
+  await Promise.all([
+    getEntry('insights', 'en/why-advisory-lead-generation-is-different'),
+    getEntry('insights', 'en/lead-gen-without-strategy-is-just-traffic'),
+    getEntry('insights', 'en/from-click-to-client-anatomy-of-a-lead-engine'),
+  ])
+).filter((e): e is NonNullable<typeof e> => Boolean(e));
 
 const p = pages.leadGeneration;
 const path = '/lead-generation';
@@ -78,7 +87,7 @@ const jsonLd = [
     </div>
   </section>
   <ModuleGrid eyebrow="06" title={p.folds.title} lede={p.folds.lede} items={p.folds.items} columns={3} ground="onyx" id="folds" numbered={false} trackAs="navigation_click" />
-  <RelatedInsights clusterOf={[path, '/advisory/lead-generation', '/digital-engine']} ground="paper" />
+  <RelatedInsights entries={relatedLeadGen} clusterOf={[path, '/advisory/lead-generation', '/digital-engine']} ground="paper" />
   <FaqBlock faqs={p.faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
 </BaseLayout>
