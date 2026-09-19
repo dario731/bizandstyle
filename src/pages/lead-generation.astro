@@ -1,0 +1,138 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import EditorialHero from '@components/editorial/EditorialHero.astro';
+import Definition from '@components/editorial/Definition.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import Steps from '@components/editorial/Steps.astro';
+import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
+import ContextualCta from '@components/conversion/ContextualCta.astro';
+import RelatedInsights from '@components/insights/RelatedInsights.astro';
+import { pages } from '@i18n/pages.en';
+import { webPageLd, breadcrumbLd, faqLd, serviceLd, graph } from '@lib/seo';
+
+const p = pages.leadGeneration;
+const path = '/lead-generation';
+const jsonLd = graph(
+  webPageLd({ name: p.seo.title, description: p.seo.description, path }),
+  serviceLd({ name: 'Lead generation', description: p.definition.a[0], path, division: 'B&S Advisory' }),
+  breadcrumbLd([{ name: 'Lead generation', path }]),
+  faqLd([...p.faqs]),
+);
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'Lead generation', path }]}>
+    <a class="btn btn--solid" href={p.cta.primary.href} data-track="cta_click" data-track-cta-name={p.cta.primary.name} data-track-cta-location="landing_hero">
+      <span class="btn__ring" aria-hidden="true"></span>{p.cta.primary.label}
+    </a>
+  </EditorialHero>
+
+  <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
+
+  <section class="section ground-paper cmp" aria-labelledby="cmp-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--marker" data-reveal>{p.contrast.eyebrow}</p>
+        <h2 id="cmp-title" class="display-2" data-reveal>{p.contrast.title}</h2>
+      </div>
+      <div class="cmp__grid" data-reveal>
+        {
+          [p.contrast.shop, p.contrast.ours].map((col, i) => (
+            <div class:list={['cmp__col', { 'cmp__col--strong': i === 1 }]}>
+              <h3 class="display-3">{col.title}</h3>
+              <ul role="list">{col.rows.map((r) => <li>{r}</li>)}</ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <ModuleGrid eyebrow={p.stack.eyebrow} title={p.stack.title} lede={p.stack.lede} items={p.stack.items} columns={3} ground="onyx" id="stack" />
+
+  <ModuleGrid eyebrow={p.verticals.eyebrow} title={p.verticals.title} lede={p.verticals.lede} items={p.verticals.items} columns={3} ground="paper" id="verticals" numbered={false} trackAs="navigation_click" />
+
+  <section class="section ground-onyx engines" aria-labelledby="engines-title">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow eyebrow--marker" data-reveal>{p.engines.eyebrow}</p>
+        <h2 id="engines-title" class="display-2" data-reveal>{p.engines.title}</h2>
+      </div>
+      <div class="engines__grid" data-reveal>
+        <article class="engines__col">
+          <p class="eyebrow">01 — Online</p>
+          <h3 class="display-3">{p.engines.online.title}</h3>
+          <p class="prose muted">{p.engines.online.body}</p>
+        </article>
+        <article class="engines__col engines__col--strong">
+          <p class="eyebrow">02 — Offline</p>
+          <h3 class="display-3">{p.engines.offline.title}</h3>
+          <p class="prose muted">{p.engines.offline.body}</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <Steps eyebrow={p.model.eyebrow} title={p.model.title} steps={p.model.steps} ground="paper" id="model" />
+  <Statement lines={p.proof.lines} body={p.proof.body} ground="onyx" size="display-2" />
+  <ModuleGrid eyebrow={p.related.eyebrow} title={p.related.title} items={p.related.items} columns={3} ground="paper" id="related" numbered={false} trackAs="navigation_click" />
+  <RelatedInsights clusterOf={[path, '/advisory/lead-generation', '/digital-engine']} ground="paper" />
+  <FaqBlock faqs={p.faqs} ground="paper" />
+  <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
+</BaseLayout>
+
+<style>
+  .cmp__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-4);
+    border-top: 1px solid var(--line);
+    padding-top: var(--space-5);
+  }
+  @media (max-width: 720px) {
+    .cmp__grid { grid-template-columns: 1fr; }
+    .cmp__col h3 { font-size: 1rem; }
+    .cmp__col li { font-size: 0.8rem; padding: 0.5rem 0; }
+  }
+  .cmp__col h3 {
+    margin-bottom: var(--space-4);
+    color: var(--smoke);
+  }
+  .cmp__col--strong h3 {
+    color: var(--ink);
+  }
+  .cmp__col li {
+    padding: 0.7rem 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 0.95rem;
+    color: var(--smoke);
+  }
+  .cmp__col--strong li {
+    color: var(--ink);
+  }
+  @media (min-width: 720px) {
+    .cmp__grid { column-gap: var(--space-8); }
+  }
+
+  .engines__grid {
+    display: grid;
+    gap: var(--space-7);
+    border-top: 1px solid var(--line);
+    padding-top: var(--space-5);
+  }
+  .engines__col {
+    display: grid;
+    gap: var(--space-4);
+    align-content: start;
+  }
+  .engines__col .prose {
+    max-width: 56ch;
+  }
+  @media (min-width: 900px) {
+    .engines__grid {
+      grid-template-columns: 1fr 1fr;
+      column-gap: calc(var(--gutter) * 2);
+    }
+  }
+</style>

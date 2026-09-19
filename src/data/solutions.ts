@@ -31,7 +31,7 @@ export const solutions: readonly Solution[] = [
     groups: [
       { title: 'Strategy & planning', items: ['Market research & feasibility studies', 'Go-to-market strategy planning'] },
       { title: 'Partnership & growth', items: ['Business partner scouting & acquisition', 'Partnership engineering (JVs, licensing)', 'New market development'] },
-      { title: 'Execution & operations', items: ['Fractional C-level management', 'Lead generation & CRM setup', 'E-commerce setup & digital marketing', 'PR, event marketing & influencer outreach'] },
+      { title: 'Execution & operations', items: ['Fractional C-level management', 'Lead generation — digital + offline acquisition & CRM', 'E-commerce setup & digital marketing', 'PR, event marketing & influencer outreach'] },
     ],
     href: '/advisory',
   },

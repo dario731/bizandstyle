@@ -26,6 +26,7 @@ export const pages = {
       { name: 'The Investor Journey™', line: 'Business → Wealth → Lifestyle → ∞. The circle of growth we lived first.', href: '/investor-journey' },
       { name: 'Internationalization', line: 'Export is not internationalization. Nine pillars, five phases.', href: '/internationalization' },
       { name: 'Digital engine', line: 'From click to client — digital business infrastructure.', href: '/digital-engine' },
+      { name: 'Lead generation', line: 'High-ticket acquisition — digital and offline — built in-house.', href: '/lead-generation' },
       { name: 'Infrastructure', line: 'HQ, team, warehouse, logistics, technology, network.', href: '/infrastructure' },
       { name: 'Miami', line: 'The platform to the Americas.', href: '/miami' },
       { name: 'Partner ecosystem', line: 'Great business rarely happens alone.', href: '/partners' },
@@ -104,6 +105,133 @@ export const pages = {
       { q: 'What is GEO?', a: 'Generative Engine Optimization: being understood and cited by AI-search systems. It rewards entity clarity, structured content and consistent facts — the same discipline that makes classic SEO work.' },
     ],
     cta: { eyebrow: 'Want to understand where your acquisition system is leaking?', title: ['Request a', 'digital growth review.'], primary: { label: 'Request a digital growth review', href: `${TELL}?intent=digital-growth`, name: 'digital_growth_review' }, secondary: { label: 'Digital Growth Engine™', href: '/programs/digital-growth-engine', name: 'dge' } },
+  },
+
+  leadGeneration: {
+    seo: {
+      title: 'High-Ticket Lead Generation in Miami — Digital + Offline Acquisition | BIZ & STYLE',
+      description: 'High-ticket lead generation from Miami: digital and offline acquisition for private aviation, yachting, luxury brands and international companies. Websites, conversion UX, GTM/GA4, Google Ads, Meta and CRM — built in-house.',
+    },
+    hero: {
+      eyebrow: 'Lead generation',
+      title: ['High-ticket lead generation.', 'Digital and offline.'],
+      lede: 'Acquisition for private aviation, yachting, luxury brands and international companies — run by a business company with an integrated in-house agency. Knowledge and infrastructure, not a media-buyer shop.',
+    },
+    definition: {
+      q: 'What is lead generation at BIZ & STYLE?',
+      a: [
+        'Lead generation at BIZ & STYLE is a high-ticket acquisition system that connects digital channels with offline, relationship-driven ones: website creation, conversion UX, tracking through GTM and GA4, Google Ads and Meta, CRM handoff, and events or introductions in the markets we already operate. It is delivered in-house from Miami — by the same company that runs advisory, commerce and luxury.',
+        'The parallel is the real-estate practice. B&S Luxury is not an isolated brokerage; it is a division of a business-development platform. Acquisition is the same idea: an operating capability, tested first on our own ventures, including proprietary digital acquisition that generated high-net-worth opportunities in some of the most relationship-driven segments of the Miami market.',
+      ],
+    },
+    contrast: {
+      eyebrow: 'The core distinction',
+      title: 'A media-buyer shop vs. a business company with an in-house agency.',
+      shop: {
+        title: 'Media-buyer shop',
+        rows: [
+          'Campaigns without the business behind them',
+          'Rented accounts and borrowed infrastructure',
+          'Traffic as the product',
+          'Little category knowledge',
+          'No CRM, or a form that goes nowhere',
+          'Digital only — and often one channel',
+        ],
+      },
+      ours: {
+        title: 'BIZ & STYLE',
+        rows: [
+          'Operators who already run the verticals',
+          'Websites, tracking, ads and CRM owned in-house',
+          'Qualified pipeline as the product',
+          'Aviation, yacht, luxury, real estate, international companies',
+          'CRM handoff with source, intent and attribution',
+          'Digital plus events, relationships and introductions',
+        ],
+      },
+    },
+    stack: {
+      eyebrow: 'The capability stack',
+      title: 'Everything required to turn attention into a qualified conversation.',
+      lede: 'Seven capabilities, one loop. We build and operate the stack — we do not rent a slice of it.',
+      items: [
+        { name: 'Website creation', line: 'Dedicated sites and landing pages designed as destinations — fast, indexable, and built to convert, not to decorate.' },
+        { name: 'Conversion UX', line: 'Forms, offers and page logic that match high-ticket intent: the right question, at the right depth, for the right visitor.' },
+        { name: 'Tracking · GTM · GA4', line: 'Measurement before media. Tagging, events and attribution so every inquiry can be traced to its source.' },
+        { name: 'Google Ads', line: 'Search and demand capture for high-ticket categories — including international targeting from Miami.' },
+        { name: 'Meta', line: 'Paid social for luxury and international audiences, connected to the same destinations and CRM.' },
+        { name: 'CRM handoff', line: 'Capture, qualification and routing with source, campaign, landing page and intent — into the system of record, not a spreadsheet.' },
+        { name: 'Offline · events & relationships', line: 'Events, partner introductions and relationship channels in the luxury and international ecosystems we already operate.' },
+      ],
+    },
+    verticals: {
+      eyebrow: 'Where it is used',
+      title: 'High-ticket verticals we already understand.',
+      lede: 'We do not arrive as a generalist media team. These are categories BIZ & STYLE already works in — commercially, operationally, or through the luxury ecosystem.',
+      items: [
+        { name: 'Private aviation', line: 'High-net-worth demand, relationship-driven sales, international targeting — a B&S Luxury strategic vertical.', href: '/luxury/seven-verticals' },
+        { name: 'Yachting', line: 'A signature of the Miami lifestyle, and a category where introductions and digital demand have to work together.', href: '/luxury/seven-verticals' },
+        { name: 'Luxury brands', line: 'Brands serving the same client as real estate, aviation and yachting — visibility connected to pipeline.', href: '/luxury' },
+        { name: 'International companies', line: 'U.S. and LATAM demand before a local team exists — acquisition as part of market entry, not a side project.', href: '/internationalization' },
+        { name: 'Luxury real estate', line: 'The core B&S Luxury practice: proprietary digital acquisition for international buyers, tested on our own developments.', href: 'https://bns-luxury.com' },
+        { name: 'Advisory · Commerce · platform', line: 'The existing BIZ & STYLE lanes — expansion, distribution, digital growth — using the same acquisition infrastructure.', href: '/solutions' },
+      ],
+    },
+    engines: {
+      eyebrow: 'Two engines, one pipeline',
+      title: 'Online and offline are not two vendors. They are one system.',
+      online: {
+        title: 'Digital acquisition',
+        body: 'Websites and landing pages, conversion UX, GTM and GA4, Google Ads, Meta, SEO and GEO, capture, CRM, automation, retargeting and attribution — built, owned and optimized in-house.',
+      },
+      offline: {
+        title: 'Events & relationships',
+        body: 'Strategic partnerships, luxury events, developer and brand introductions, private aviation and yachting networks, trade presence — the relationship channels that high-ticket categories still run on.',
+      },
+    },
+    model: {
+      eyebrow: 'How the system runs',
+      title: 'From the first conversation to a pipeline you can read.',
+      steps: [
+        { name: 'Understand', items: ['The offer and the buyer', 'Category and geography', 'What already exists', 'Where the system leaks'] },
+        { name: 'Build', items: ['Website and destinations', 'Conversion UX', 'GTM / GA4 tracking', 'CRM fields and routing'] },
+        { name: 'Acquire', items: ['Google Ads', 'Meta', 'International targeting', 'Events and introductions'] },
+        { name: 'Handoff', items: ['Capture with attribution', 'Qualification and scoring', 'Routing to the right person', 'Nurture until ready'] },
+        { name: 'Optimize', items: ['Read the pipeline', 'Close the loops', 'Reallocate spend', 'The system gets smarter'] },
+      ],
+    },
+    proof: {
+      lines: ['Built in-house.', 'Run on our own ventures first.'],
+      body: [
+        'B&S Luxury runs on this engine. Proprietary digital acquisition generated high-net-worth opportunities in some of the most relationship-driven segments of the Miami market — including at the top of the market — before the same capability is offered to clients.',
+        'That is why the page sits next to Internationalization and the Digital engine, not in a menu of rented media products. The knowledge and the infrastructure are already here.',
+      ],
+    },
+    related: {
+      eyebrow: 'On the platform',
+      title: 'The rest of the system.',
+      items: [
+        { name: 'Digital engine', line: 'The owned loop from click to client — websites, Google and Meta, SEO and GEO, CRM, automation.', href: '/digital-engine' },
+        { name: 'Digital Growth Engine™', line: 'The programme that builds the infrastructure as one engagement.', href: '/programs/digital-growth-engine' },
+        { name: 'CRM & automation', line: 'Capture, routing, nurture and attribution connected to acquisition.', href: '/advisory/crm-automation' },
+        { name: 'Luxury ecosystem', line: 'Offline relationships across aviation, yachting, brands and real estate.', href: '/luxury/ecosystem' },
+        { name: 'Solutions', line: 'Lead generation inside the wider management and business-development stack.', href: '/solutions' },
+        { name: 'Digital growth', line: 'The advisory service behind websites, media, SEO and conversion.', href: '/advisory/digital-growth' },
+      ],
+    },
+    faqs: [
+      { q: 'Is BIZ & STYLE a marketing agency?', a: 'No. We are a Miami-based business company with an integrated in-house agency: the same team that operates advisory, commerce and luxury also builds and runs acquisition. We are not a thin media-buyer shop.' },
+      { q: 'Do you only run Google Ads and Meta?', a: 'Those are two capabilities in a longer stack. Website creation, conversion UX, GTM/GA4 tracking, CRM handoff, and offline channels — events and relationships — sit in the same system. Media without destinations and handoff is not lead generation.' },
+      { q: 'Which high-ticket categories do you work in?', a: 'Private aviation, yachting, luxury brands and international companies, plus the lanes BIZ & STYLE already operates: luxury real estate, advisory and commerce. Category knowledge is part of the offer.' },
+      { q: 'Which CRM do you hand off to?', a: 'The architecture is CRM-agnostic. Forms capture source, campaign, landing page, persona and intent so any CRM can score and route. We implement and operate the handoff; you own the records.' },
+      { q: 'Is this the same as the Digital engine?', a: 'The Digital engine is the owned infrastructure — the loop from click to client. This page is the acquisition offer on top of it: high-ticket lead generation, digital plus offline, for the verticals we already understand.' },
+    ],
+    cta: {
+      eyebrow: 'Need qualified demand — not just traffic?',
+      title: ['Request a', 'digital growth review.'],
+      primary: { label: 'Request a digital growth review', href: `${TELL}?intent=digital-growth`, name: 'leadgen_review' },
+      secondary: { label: 'Digital Growth Engine™', href: '/programs/digital-growth-engine', name: 'dge' },
+    },
   },
 
   infrastructure: {

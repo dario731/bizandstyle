@@ -57,6 +57,21 @@ const jsonLd = graph(
     </div>
   </section>
 
+  <section class="section ground-onyx sol-leadgen" id="lead-generation" aria-labelledby="lg-title">
+    <div class="container sol-leadgen__grid">
+      <div>
+        <p class="eyebrow eyebrow--marker" data-reveal>Acquisition</p>
+        <h2 id="lg-title" class="display-2" data-reveal>High-ticket lead generation.</h2>
+      </div>
+      <div class="sol-leadgen__side" data-reveal>
+        <p class="prose muted">Digital and offline acquisition for private aviation, yachting, luxury brands and international companies — websites, conversion UX, GTM/GA4, Google Ads, Meta, CRM handoff, events and relationships. Built in-house by a business company, not a media-buyer shop.</p>
+        <a class="btn btn--solid" href="/lead-generation" data-track="cta_click" data-track-cta-name="lead_generation" data-track-cta-location="solutions_leadgen">
+          <span class="btn__ring" aria-hidden="true"></span>Explore lead generation
+        </a>
+      </div>
+    </div>
+  </section>
+
   <FaqBlock {faqs} ground="paper" />
   <ContextualCta eyebrow="Ready to transform ambition into reality?" title={['Schedule', 'a consultation.']} body="Our team is ready to build your customised growth solution. Whether you need a single service or a fully integrated program, we provide the expertise and infrastructure to help you succeed in new markets." primary={{ label: 'Schedule a consultation', href: '#connect', name: 'schedule_consultation' }} secondary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} location="solutions_cta" />
 </BaseLayout>
@@ -123,6 +138,24 @@ const jsonLd = graph(
   }
   @media (min-width: 900px) {
     .sol-intro__grid { grid-template-columns: 4fr 8fr; column-gap: calc(var(--gutter) * 2); }
+  }
+  .sol-leadgen {
+    border-top: 1px solid var(--rule-deep);
+  }
+  .sol-leadgen__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .sol-leadgen__side {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+  }
+  .sol-leadgen__side .btn {
+    justify-self: start;
+  }
+  @media (min-width: 900px) {
+    .sol-leadgen__grid { grid-template-columns: 5fr 7fr; column-gap: calc(var(--gutter) * 2); align-items: end; }
   }
 </style>
 

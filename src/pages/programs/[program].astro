@@ -18,8 +18,8 @@ const { program: p } = Astro.props;
 const path = `/programs/${p.slug}`;
 const relatedServices = p.services
   .map((sp) => {
-    const s = services.find((x) => `${divisionMeta[x.division].path}/${x.slug}` === sp);
-    return s ? { name: s.title, line: s.lede, href: sp } : sp === '/internationalization' ? { name: 'Internationalization', line: 'Export is not internationalization. Nine pillars, five phases.', href: sp } : sp === '/digital-engine' ? { name: 'Digital engine', line: 'From click to client — digital business infrastructure.', href: sp } : null;
+    const s = services.find((x) => `${divisionMeta[x.division].path}/${x.slug}` === sp || x.href === sp);
+    return s ? { name: s.title, line: s.lede, href: s.href ?? sp } : sp === '/internationalization' ? { name: 'Internationalization', line: 'Export is not internationalization. Nine pillars, five phases.', href: sp } : sp === '/digital-engine' ? { name: 'Digital engine', line: 'From click to client — digital business infrastructure.', href: sp } : sp === '/lead-generation' ? { name: 'Lead generation', line: 'High-ticket acquisition — digital and offline — built in-house.', href: sp } : null;
   })
   .filter(Boolean) as { name: string; line: string; href: string }[];
 const jsonLd = graph(

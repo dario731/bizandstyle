@@ -10,7 +10,7 @@ import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
 import { pages } from '@i18n/pages.en';
 import { getCopy } from '@i18n/index';
-import { byDivision } from '@data/services';
+import { byDivision, servicePath } from '@data/services';
 import { webPageLd, breadcrumbLd, faqLd, serviceLd, graph } from '@lib/seo';
 
 const p = pages.digitalEngine;
@@ -33,9 +33,9 @@ const jsonLd = graph(
   </EditorialHero>
   <DigitalEngine copy={{ ...t.home.digital, eyebrow: 'The system' }} />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
-  <ModuleGrid eyebrow="Capabilities" title="Digital growth services." items={digitalServices.map((s) => ({ name: s.title, line: s.lede, href: `/advisory/${s.slug}` }))} columns={4} ground="paper" numbered={false} trackAs="service_view" />
+  <ModuleGrid eyebrow="Capabilities" title="Digital growth services." items={digitalServices.map((s) => ({ name: s.title, line: s.lede, href: servicePath(s) }))} columns={4} ground="paper" numbered={false} trackAs="service_view" />
   <Statement lines={['Built in-house.', 'Owned in-house.', 'Optimized in-house.']} ground="onyx" body={['B&S Luxury runs on this engine. Proprietary digital acquisition generated high-net-worth opportunities in some of the most relationship-driven segments of the Miami market — proof that the system works before it is offered to clients.']} />
-  <RelatedInsights clusterOf={[path, '/advisory/lead-generation', '/advisory/ai-digital-transformation']} ground="paper" />
+  <RelatedInsights clusterOf={[path, '/lead-generation', '/advisory/lead-generation', '/advisory/ai-digital-transformation']} ground="paper" />
   <FaqBlock faqs={p.faqs} ground="paper" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
 </BaseLayout>

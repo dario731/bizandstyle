@@ -78,7 +78,7 @@ export const programs: readonly Program[] = [
       { q: 'Do we own the system afterwards?', a: 'Yes. Websites, accounts, CRM and data are built in your name. BIZ & STYLE can continue to operate and optimize it, or hand it over.' },
     ],
     cta: { eyebrow: 'Want to see where your acquisition system is leaking?', label: 'Request a digital growth review', href: '/tell-us?intent=digital-growth', name: 'dge_review' },
-    services: ['/digital-engine', '/advisory/digital-growth', '/advisory/lead-generation', '/advisory/crm-automation'],
+    services: ['/digital-engine', '/lead-generation', '/advisory/digital-growth', '/advisory/crm-automation'],
     mediaId: 'HOME-DIV-ADV',
     seoTitle: 'Digital Growth Engine™ — Owned Acquisition System | BIZ & STYLE',
     seoDescription: 'Website, landing pages, Google and Meta, SEO and GEO, CRM, automation and attribution built as one owned system — the programme BIZ & STYLE runs for itself.',

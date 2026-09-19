@@ -12,7 +12,7 @@ import Statement from '@components/editorial/Statement.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
-import { divisionMeta, type Service } from '@data/services';
+import { divisionMeta, servicePath, type Service } from '@data/services';
 import { programs } from '@data/programs';
 import { breadcrumbLd, faqLd, serviceLd, webPageLd, graph } from '@lib/seo';
 
@@ -21,7 +21,7 @@ interface Props {
 }
 const { service: s } = Astro.props;
 const div = divisionMeta[s.division];
-const path = `${div.path}/${s.slug}`;
+const path = servicePath(s);
 const related = (s.programs ?? []).map((slug) => programs.find((p) => p.slug === slug)).filter(Boolean);
 const jsonLd = graph(
   webPageLd({ name: s.seoTitle, description: s.seoDescription, path }),

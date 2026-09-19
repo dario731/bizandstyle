@@ -32,6 +32,7 @@ export const en = {
             links: [
               { label: 'Internationalization', href: '/internationalization' },
               { label: 'Digital engine', href: '/digital-engine' },
+              { label: 'Lead generation', href: '/lead-generation' },
               { label: 'Infrastructure', href: '/infrastructure' },
               { label: 'Miami / Global reach', href: '/miami' },
             ],
@@ -58,7 +59,7 @@ export const en = {
             title: 'Digital growth',
             links: [
               { label: 'Digital growth', href: '/advisory/digital-growth' },
-              { label: 'Lead generation', href: '/advisory/lead-generation' },
+              { label: 'Lead generation', href: '/lead-generation' },
               { label: 'CRM & automation', href: '/advisory/crm-automation' },
               { label: 'AI / digital transformation', href: '/advisory/ai-digital-transformation' },
             ],
@@ -496,7 +497,7 @@ export const en = {
   footer: {
     statement: 'Business. Wealth. Lifestyle.',
     groups: [
-      { title: 'Platform', links: [['Who we are', '/platform'], ['How we work', '/platform/how-we-work'], ['Internationalization', '/internationalization'], ['Digital engine', '/digital-engine'], ['Infrastructure', '/infrastructure'], ['Miami', '/miami'], ['Partner ecosystem', '/partners']] },
+      { title: 'Platform', links: [['Who we are', '/platform'], ['How we work', '/platform/how-we-work'], ['Internationalization', '/internationalization'], ['Digital engine', '/digital-engine'], ['Lead generation', '/lead-generation'], ['Infrastructure', '/infrastructure'], ['Miami', '/miami'], ['Partner ecosystem', '/partners']] },
       { title: 'Divisions', links: [['B&S Advisory', '/advisory'], ['B&S Commerce', '/commerce'], ['B&S Luxury', '/luxury'], ['The Investor Journey™', '/investor-journey'], ['Luxury real estate ↗', 'https://bns-luxury.com']] },
       { title: 'Programs', links: [['International Expansion Boost™', '/programs/international-expansion-boost'], ['Digital Growth Engine™', '/programs/digital-growth-engine'], ['Fractional Executive', '/programs/fractional-executive']] },
       { title: 'Company', links: [['Our story', '/about'], ['Dario Picardi', '/about/dario-picardi'], ['Relationships & discretion', '/about/relationships'], ['Insights', '/insights'], ['Request credentials', '/request-credentials']] },
