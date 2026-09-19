@@ -107,6 +107,89 @@ export const pages = {
     cta: { eyebrow: 'Want to understand where your acquisition system is leaking?', title: ['Request a', 'digital growth review.'], primary: { label: 'Request a digital growth review', href: `${TELL}?intent=digital-growth`, name: 'digital_growth_review' }, secondary: { label: 'Digital Growth Engine™', href: '/programs/digital-growth-engine', name: 'dge' } },
   },
 
+  leadGeneration: {
+    seo: {
+      title: 'High-Ticket Lead Generation Agency · Miami | BIZ & STYLE',
+      description: 'Sophisticated lead generation for high-ticket brands — private aviation, yachts, luxury real estate, and B2B. Online + offline acquisition, Google Ads & Meta, conversion tracking. Integrated agency + business company in Miami serving the Americas.',
+    },
+    ogImageAlt: 'BIZ & STYLE Lead Generation · Miami · Americas',
+    hero: {
+      eyebrow: 'Lead generation',
+      title: 'Lead generation for sophisticated, high-ticket growth.',
+      lede: 'Qualified demand for private aviation, yachts, luxury real estate and high-value B2B — digital and offline, from a Miami business company with an integrated in-house agency.',
+    },
+    engines: {
+      title: 'Online + offline acquisition in one system',
+      lede: 'Digital campaigns, web conversion, and events or relationship channels feed one pipeline so Miami and Americas opportunities do not live in separate silos.',
+      items: [
+        { name: 'Digital', line: 'Websites, landing pages, Google Ads, Meta, capture and conversion tracking — one owned loop.' },
+        { name: 'Offline', line: 'Events, introductions and relationship channels in the luxury and international ecosystems we already operate.' },
+        { name: 'One pipeline', line: 'Every inquiry carries source, intent and attribution into CRM — not a spreadsheet on the side.' },
+      ],
+    },
+    paid: {
+      title: 'Google Ads & Meta for high-intent demand',
+      lede: 'Paid search and social are part of the stack, not a campaign rented from a media-buyer shop.',
+      items: [
+        { name: 'Google Ads', line: 'Search and demand capture for high-ticket categories, including international targeting from Miami.' },
+        { name: 'Meta', line: 'Paid social for luxury and international audiences, connected to the same destinations and CRM.' },
+        { name: 'Not ads in isolation', line: 'Landing pages, CRM handoff and conversion tracking sit in the same system as the media.' },
+      ],
+    },
+    convert: {
+      title: 'Websites that convert — and tracking that proves it',
+      lede: 'Destinations and measurement before spend. We design for measurable conversion — forms, calls, CRM — so spend maps to pipeline.',
+      items: [
+        { name: 'Website creation', line: 'Dedicated sites and landing pages built to convert, not to decorate.' },
+        { name: 'Conversion UX', line: 'Forms and offers matched to high-ticket intent — the right depth for the visitor.' },
+        { name: 'Conversion tracking', line: 'Source, campaign and landing page on every inquiry. GTM/GA4 property create remains on hold until that workstream is approved.' },
+      ],
+    },
+    verticals: {
+      title: 'Built for private aviation, yachts, luxury RE, and B2B',
+      lede: 'Category knowledge is part of the offer — these are lanes BIZ & STYLE already works in.',
+      items: [
+        { name: 'Private aviation', line: 'High-net-worth demand and relationship-driven sales — a B&S Luxury strategic vertical.', href: '/luxury/seven-verticals' },
+        { name: 'Yachts', line: 'Introductions and digital demand together, in a category that still runs on relationships.', href: '/luxury/seven-verticals' },
+        { name: 'Luxury real estate', line: 'Qualified buyer and investor demand — proprietary digital acquisition tested on our own Miami practice.', href: '/luxury' },
+        { name: 'High-value B2B', line: 'International companies, operators and brands who need U.S. and LATAM pipeline, not traffic.', href: '/internationalization' },
+      ],
+    },
+    miami: {
+      title: 'An integrated agency + business company in Miami',
+      body: [
+        'BIZ & STYLE is not a thin media-buyer shop. It is a Miami-based business company with an integrated in-house agency: Advisory, Commerce and Luxury share infrastructure, so lead generation can connect to market entry, distribution and luxury ecosystems across the Americas.',
+        'The parallel is the real-estate practice. B&S Luxury is a division of the platform, not an isolated brokerage. Acquisition is the same idea — an operating capability, run on our own ventures first.',
+      ],
+    },
+    folds: {
+      title: 'How Lead Gen folds into Advisory, Commerce & Luxury',
+      lede: 'The same team that generates the lead can take the company into the market, into distribution, or into the luxury ecosystem.',
+      items: [
+        { name: 'Digital engine', line: 'The owned loop from click to client — websites, Google and Meta, SEO and GEO, CRM, automation.', href: '/digital-engine' },
+        { name: 'Digital Growth Engine™', line: 'The programme that builds that infrastructure as one engagement.', href: '/programs/digital-growth-engine' },
+        { name: 'B&S Advisory', line: 'Market entry, fractional executive and business development when the lead is an international company.', href: '/advisory' },
+        { name: 'B&S Luxury', line: 'Aviation, yachting and luxury real estate — offline relationships on the same pipeline.', href: '/luxury' },
+        { name: 'Miami', line: 'The platform to the Americas — HQ, infrastructure and the market where high-ticket demand concentrates.', href: '/miami' },
+        { name: 'Tell us what you are building', line: 'A conversation is where every engagement starts.', href: '/tell-us?intent=digital-growth' },
+      ],
+    },
+    faqs: [
+      { q: 'What is “sophisticated” or high-ticket lead generation?', a: 'Demand systems built for expensive, considered purchases — private aviation, yachts, luxury property, B2B services — where trust, qualification, and follow-up matter more than volume.' },
+      { q: 'Do you run Google Ads and Meta Ads?', a: 'Yes. Paid search and social are part of an integrated acquisition stack with landing pages, CRM handoff, and conversion tracking — not ads in isolation.' },
+      { q: 'Online and offline — how do they connect?', a: 'Digital campaigns, web conversion, and events/relationship channels feed one pipeline so Miami and Americas opportunities don’t live in separate silos.' },
+      { q: 'How is BIZ & STYLE different from a typical marketing agency?', a: 'We are an integrated agency and business company: Advisory, Commerce, and Luxury share infrastructure, so lead gen can connect to market entry, distribution, and luxury ecosystems.' },
+      { q: 'Who is this for?', a: 'Brands and operators in private aviation, yachting, luxury real estate, and high-value B2B who need qualified demand in Miami and across the Americas.' },
+      { q: 'What about tracking and attribution?', a: 'We design for measurable conversion (forms, calls, CRM) so spend maps to pipeline — GTM/GA4 property create remains on hold until Dario/Cathy approve that workstream.' },
+    ],
+    cta: {
+      eyebrow: 'Need qualified demand — not just traffic?',
+      title: ['Request a', 'digital growth review.'],
+      primary: { label: 'Request a digital growth review', href: `${TELL}?intent=digital-growth`, name: 'leadgen_review' },
+      secondary: { label: 'Digital Growth Engine™', href: '/programs/digital-growth-engine', name: 'dge' },
+    },
+  },
+
   infrastructure: {
     seo: { title: 'Infrastructure — Capability Already in Place | BIZ & STYLE', description: 'Miami HQ since 2017, an executive team on the ground, domestic and bonded warehousing, fulfillment and logistics, technology and CRM, marketing, a 200+ commercial network and a licensed professional network.' },
     hero: { eyebrow: 'Infrastructure', title: ['Not advice from a distance.', 'Capability already in place.'], lede: 'Plug into a complete ecosystem — operational from day one.' },
