@@ -2,18 +2,113 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import SignaturePrograms from '@components/system/SignaturePrograms.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import { pages } from '@i18n/pages.en';
 import { getCopy } from '@i18n/index';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import { programs } from '@data/programs';
+import { webPageLd, breadcrumbLd, faqLd, itemListLd, graph, absoluteUrl } from '@lib/seo';
 
 const p = pages.programsIndex;
 const t = getCopy('en');
-const jsonLd = graph(webPageLd({ name: p.seo.title, description: p.seo.description, path: '/programs', type: 'CollectionPage' }), breadcrumbLd([{ name: 'Programs', path: '/programs' }]));
+const path = '/programs';
+const jsonLd = graph(
+  webPageLd({ name: p.seo.title, description: p.seo.description, path, type: 'CollectionPage' }),
+  itemListLd(`${absoluteUrl(path)}#list`, [
+    { name: 'International Expansion Boost™', url: absoluteUrl('/programs/international-expansion-boost') },
+    { name: 'Digital Growth Engine™', url: absoluteUrl('/programs/digital-growth-engine') },
+    { name: 'Fractional Executive', url: absoluteUrl('/programs/fractional-executive') },
+  ]),
+  breadcrumbLd([{ name: 'Programs', path }]),
+  faqLd([...p.faqs], `${absoluteUrl(path)}#faq`),
+);
 ---
 
-<BaseLayout title={p.seo.title} description={p.seo.description} path="/programs" pageType="programs" {jsonLd}>
-  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'Programs', path: '/programs' }]} />
+<BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="programs" {jsonLd}>
+  <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" crumbs={[{ name: 'Programs', path }]} brief="Exactly three signature programmes — Expansion, Digital, Fractional — packaged offers from Miami Beach." />
   <SignaturePrograms copy={{ ...t.home.programs, eyebrow: 'Signature programs', title: 'Expansion · Digital · Fractional' }} />
+
+  <section class="section ground-paper cmp" id="compare" aria-labelledby="cmp-title">
+    <div class="container cmp__grid">
+      <h2 id="cmp-title" class="display-2" data-reveal>Three programmes. No fourth.</h2>
+      <div class="cmp__body" data-reveal>
+        <p class="prose muted">Advisory pages explain capabilities. Programmes are packaged commercial offers with defined scope and cadence — delivered from Miami Beach headquarters, with operating reach across the United States, Latin America and Europe. There are exactly three. We do not invent a fourth.</p>
+        <table class="cmp__table">
+          <caption class="sr-only">The three signature programmes</caption>
+          <thead>
+            <tr>
+              <th scope="col">Programme</th>
+              <th scope="col">Owns</th>
+              <th scope="col">Start</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              programs.map((pr) => (
+                <tr>
+                  <th scope="row"><a href={`/programs/${pr.slug}`}>{pr.name}</a></th>
+                  <td>{pr.tagline}</td>
+                  <td><a href={`/programs/${pr.slug}`}>Open the programme</a></td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <ProseSections sections={p.sections} ground="onyx" idPrefix="prg" />
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={3} ground="paper" numbered={false} trackAs="navigation_click" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow="Not sure which one?" title={['Tell us', "what you're building."]} primary={{ label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' }} secondary={{ label: "Let's connect", href: '/connect', name: 'connect' }} location="programs_cta" />
 </BaseLayout>
+
+<style>
+  .cmp__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .cmp__body {
+    display: grid;
+    gap: var(--space-5);
+  }
+  .cmp__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .cmp__table th,
+  .cmp__table td {
+    text-align: left;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .cmp__table thead th {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--smoke);
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  @media (min-width: 900px) {
+    .cmp__grid {
+      grid-template-columns: 5fr 7fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: start;
+    }
+  }
+</style>

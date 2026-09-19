@@ -6,7 +6,21 @@ const TELL = '/tell-us';
 
 export const pages = {
   platform: {
-    seo: { title: 'The Platform — Who We Are | BIZ & STYLE', description: 'BIZ & STYLE is a Miami-based business development platform: three integrated divisions, one Investor Journey™, one team operating between Europe, the United States and Latin America.' },
+    seo: { title: 'The Platform · Who We Are | BIZ & STYLE', description: 'BIZ & STYLE DNA INC.: Miami business development platform since 2017 — Advisory, Commerce, Luxury. +1 305-549-4289.' },
+    faqs: [
+      { q: 'What is BIZ & STYLE?', a: 'A Miami-based business development platform founded in 2017 by entrepreneur Dario Picardi — developing ventures and commercial partnerships across the Americas.' },
+      { q: 'How is the platform organised?', a: 'BIZ & STYLE DNA INC. in Miami Beach, three operating divisions (Advisory, Commerce, Luxury), and dedicated entities / JVs with strategic partners when needed.' },
+      { q: 'What is The Investor Journey™?', a: 'The proprietary framework connecting Business, Wealth and Lifestyle across the platform — detail and trademark narrative live on related journey pages.' },
+      { q: 'How is this different from Divisions?', a: 'This page is identity and structure. `/divisions` is the chooser into Advisory, Commerce or Luxury.' },
+      { q: 'How do I get in touch?', a: '+1 305-549-4289 · info@bizandstyledna.com · Thyssen Building, 1000 5th Street, Suite 200, Miami Beach, FL 33139.' },
+    ],
+    relatedLinks: [
+      { href: '/divisions', label: 'choose Advisory, Commerce or Luxury', line: 'The three-engines chooser — where to start.' },
+      { href: '/miami', label: 'Miami is the platform to the Americas', line: 'The geo hub — HQ since 2017, bonded, operators.' },
+      { href: '/solutions', label: 'five turnkey solution categories', line: 'The à la carte map — not this identity page.' },
+      { href: '/programs', label: 'three signature programmes', line: 'Expansion · Digital · Fractional — packaged offers.' },
+      { href: '/investor-journey', label: 'The Investor Journey™', line: 'Business · Wealth · Lifestyle — the circle of growth.' },
+    ],
     hero: { eyebrow: 'The platform', title: ['One platform.', 'Three divisions. Integrated.'], lede: 'A Miami-based business development platform connecting strategy, execution, commerce, technology and high-value relationships across the Americas and beyond.' },
     definition: {
       q: 'Who is BIZ & STYLE?',
@@ -330,8 +344,49 @@ export const pages = {
   },
 
   programsIndex: {
-    seo: { title: 'Signature Programs — Expansion · Digital · Fractional | BIZ & STYLE', description: 'International Expansion Boost™, Digital Growth Engine™ and the Fractional Executive programme — three understandable ways to start with BIZ & STYLE.' },
-    hero: { eyebrow: 'Signature programs', title: ['Three ways', 'to start.'], lede: 'Each programme is a complete, understandable engagement — and each connects to the rest of the platform when you need more.' },
+    seo: { title: 'Signature Programs · Miami | BIZ & STYLE', description: 'Three programmes: International Expansion Boost™, Digital Growth Engine™ and Fractional Executive — Miami. +1 305-549-4289.' },
+    hero: { eyebrow: 'Signature programs', title: ['Three ways', 'to start.'], lede: 'Each programme is a complete, understandable engagement — and each connects to the rest of the platform when you need more. Exactly three. Never a fourth.' },
+    faqs: [
+      { q: 'How many signature programmes are there?', a: 'Three: International Expansion Boost™, Digital Growth Engine™ and Fractional Executive. Each is a complete engagement that can connect to the rest of the platform.' },
+      { q: 'Is a programme the same as an Advisory capability page?', a: 'No. Advisory pages explain capabilities. Programmes are packaged commercial offers with defined scope and cadence.' },
+      { q: 'Can I start with one programme and add another?', a: 'Yes. Many clients start with Fractional or Digital and layer Expansion — or the reverse — as the market develops.' },
+      { q: 'Where is delivery based?', a: 'Miami Beach headquarters, with operating reach across the United States, Latin America and Europe.' },
+      { q: 'How do I choose?', a: 'A strategic conversation maps goals to the right programme — contact +1 305-549-4289 or info@bizandstyledna.com.' },
+    ],
+    relatedLinks: [
+      { href: '/programs/international-expansion-boost', label: 'International Expansion Boost™', line: 'Enter America. Build for the long term.' },
+      { href: '/programs/digital-growth-engine', label: 'Digital Growth Engine™', line: 'The packaged owned-acquisition programme.' },
+      { href: '/programs/fractional-executive', label: 'Fractional Executive programme', line: 'Senior leadership embedded when you need it.' },
+      { href: '/advisory', label: 'explore capabilities à la carte', line: 'Advisory explains capabilities; programmes package them.' },
+      { href: '/digital-engine', label: 'Digital Engine infrastructure', line: 'The owned loop Digital Growth Engine™ builds.' },
+    ],
+    sections: [
+      {
+        title: 'International Expansion Boost™ — enter America, build for the long term',
+        paragraphs: [
+          'International Expansion Boost™ is the packaged market-entry programme: intelligence, representation, digital, distribution and ongoing execution from Miami Beach. It is the offer. The internationalization hub teaches the model. Advisory international expansion is the service.',
+          'United States and Latin America — the Americas — with Europe as the typical origin market. Delivery is from Miami, not a remote workbook.',
+        ],
+      },
+      {
+        title: 'Digital Growth Engine™ — owned acquisition system',
+        paragraphs: [
+          'Digital Growth Engine™ is the packaged programme that builds the owned acquisition loop: web, paid, SEO/GEO, CRM and attribution. The Digital Engine page explains the infrastructure. High-ticket lead generation stays a separate offer.',
+        ],
+      },
+      {
+        title: 'Fractional Executive — senior leadership embedded when you need it',
+        paragraphs: [
+          'Fractional Executive is the packaged programme — role definition, embedded leadership, platform backing, transition. The Advisory fractional page explains the capability. The primary commercial URL is this programme.',
+        ],
+      },
+      {
+        title: 'How programmes connect to Advisory, Commerce and the Digital Engine',
+        paragraphs: [
+          'Advisory pages explain capabilities à la carte. Commerce runs physical trade from the Miami hub. The Digital Engine is the owned infrastructure story. A programme is how those pieces become a named engagement with scope and cadence — still only three programmes, delivered from Miami Beach across the United States, Latin America and Europe.',
+        ],
+      },
+    ],
   },
 
   about: {
@@ -378,8 +433,21 @@ export const pages = {
   },
 
   insightsIndex: {
-    seo: { title: 'Insights — Intelligence for Operators | BIZ & STYLE', description: 'Perspectives on internationalization, U.S. market entry, business development, digital growth, commerce, Miami and the luxury economy — written by people who run these systems.' },
-    hero: { eyebrow: 'Insights', title: ['Intelligence', 'for operators.'], lede: 'Perspectives on internationalization, U.S. market entry, digital growth, commerce, Miami and the luxury economy — written by people who run these systems.' },
+    seo: { title: 'Insights for Operators | BIZ & STYLE', description: 'Operator perspectives on internationalization, U.S. market entry, commerce, Miami and luxury — BIZ & STYLE Insights.' },
+    hero: { eyebrow: 'Insights', title: ['Intelligence', 'for operators.'], lede: 'Operator perspectives on internationalization, U.S. market entry, commerce, Miami and the luxury economy — written by people who run these systems across the Americas.' },
+    faqs: [
+      { q: 'Who writes BIZ & STYLE Insights?', a: 'Operators who run internationalization, commerce, digital and luxury systems — not a separate content desk writing about markets it does not touch.' },
+      { q: 'Are Insights the same as Advisory pages?', a: 'No. Insights are editorial perspectives. Advisory and Programmes are commercial pages for engagements.' },
+      { q: 'How do I talk to the team after reading?', a: '+1 305-549-4289 or info@bizandstyledna.com.' },
+    ],
+    relatedLinks: [
+      { href: '/internationalization', label: 'export is not internationalization', line: 'The model the editorial often returns to.' },
+      { href: '/miami', label: 'why Miami', line: 'The geo hub behind the operator view.' },
+      { href: '/commerce/bonded-warehouse', label: 'bonded warehouse in Miami', line: 'Duty-deferred proof of the commerce thesis.' },
+      { href: '/programs', label: 'signature programmes', line: 'When reading turns into a packaged engagement.' },
+    ],
+    topicsTitle: 'Topics we write about',
+    topicsLede: 'Internationalization, U.S. entry, commerce, Miami, luxury and digital — operator perspectives from the Americas, not a thin content desk.',
     all: 'All insights',
     categories: 'Topics',
     readingTime: 'min read',

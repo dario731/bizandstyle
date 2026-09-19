@@ -6,8 +6,9 @@
 interface Props {
   ground?: 'onyx' | 'paper';
   id?: string;
+  title?: string;
 }
-const { ground = 'onyx', id = 'how-we-deliver' } = Astro.props;
+const { ground = 'onyx', id = 'how-we-deliver', title } = Astro.props;
 
 const inHouse = [
   'Business strategy, go-to-market and international expansion',
@@ -32,8 +33,16 @@ const partners = [
     <div class="section-head">
       <p class="eyebrow eyebrow--marker" data-reveal>How we deliver</p>
       <h2 id={`${id}-title`} class="display-2" data-reveal>
-        <span>One journey.</span>
-        <span class="muted">The right expert at every stage.</span>
+        {
+          title ? (
+            <span>{title}</span>
+          ) : (
+            <>
+              <span>One journey.</span>
+              <span class="muted">The right expert at every stage.</span>
+            </>
+          )
+        }
       </h2>
       <p class="lede" data-reveal>We do what we do best. For everything else, we work with professionals who do the same.</p>
     </div>

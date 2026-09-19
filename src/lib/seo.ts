@@ -23,6 +23,18 @@ export const faqLd = (faqs: { q: string; a: string }[], id?: string) =>
       }
     : null;
 
+export const itemListLd = (id: string, items: { name: string; url?: string }[]) => ({
+  '@type': 'ItemList',
+  '@id': id,
+  numberOfItems: items.length,
+  itemListElement: items.map((it, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: it.name,
+    ...(it.url ? { url: it.url } : {}),
+  })),
+});
+
 export const serviceLd = (o: {
   name: string;
   description: string;

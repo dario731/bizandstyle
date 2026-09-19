@@ -39,7 +39,8 @@
   status = 301
   force = true
 
-# Wave 1 demote: digital-growth cannibalized /digital-engine
+# Wave 1 + Wave 2 demote: hard 301 /advisory/digital-growth → /digital-engine
+# (with and without trailing slash). Do not compete with /digital-engine titles.
 [[redirects]]
   from = "/advisory/digital-growth"
   to = "/digital-engine"
