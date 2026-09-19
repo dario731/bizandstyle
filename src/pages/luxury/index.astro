@@ -2,6 +2,7 @@
 import DivisionPage from '@components/system/DivisionPage.astro';
 import LuxuryEcosystem from '@components/system/LuxuryEcosystem.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
 import Statement from '@components/editorial/Statement.astro';
 import { getCopy } from '@i18n/index';
 const t = getCopy('en');
@@ -9,34 +10,64 @@ const t = getCopy('en');
 
 <DivisionPage
   division="luxury"
-  seo={{ title: 'B&S Luxury — Business Development at the Highest Level | BIZ & STYLE', description: 'B&S Luxury: Miami luxury and pre-construction real estate, developer partnerships and a seven-vertical business-development ecosystem serving the same high-net-worth client.' }}
-  hero={{ eyebrow: 'Division 03 · B&S Luxury', title: ['Business development', 'at the highest level.'], lede: 'Real estate. Relationships. Business development. Luxury real estate in Miami, developer partnerships and an ecosystem across seven luxury verticals — a platform where relationships compound.', mediaId: 'HOME-DIV-LUX' }}
+  seo={{ title: 'B&S Luxury — Miami Business Development | BIZ & STYLE', description: 'Luxury real estate, developer partnerships and a seven-vertical ecosystem for HNW clients in Miami. B&S Luxury · bns-luxury.com · +1 305-549-4289.' }}
+  hero={{ eyebrow: 'Division 03 · B&S Luxury', title: ['Business development', 'at the highest level.'], lede: 'Real estate. Relationships. Business development. Luxury real estate in Miami, developer partnerships and an ecosystem across seven luxury verticals — a platform where relationships compound. Brickell, Miami Beach, pre-construction, LATAM investors and international buyers.', mediaId: 'HOME-DIV-LUX' }}
   definition={{
     q: 'What is B&S Luxury?',
     a: [
       'B&S Luxury is the real-estate and high-value-ecosystem division of BIZ & STYLE — not an isolated real-estate team but a division of a business-development group. It focuses on luxury and ultra-luxury pre-construction opportunities in Miami for international buyers and private clients, develops strategic relationships with leading developers, and builds a business-development ecosystem across seven luxury verticals that serve the same high-net-worth client.',
-      'Property search, neighbourhoods and new developments live on the dedicated B&S Luxury site, bns-luxury.com. Investment, wealth structuring and tax matters are coordinated through licensed professionals.',
+      'Property search, neighbourhoods and new developments live on the dedicated B&S Luxury site, bns-luxury.com. This page explains the business-development ecosystem behind it. Investment, wealth structuring and tax matters are coordinated through licensed professionals.',
     ],
   }}
-  statement={{ lines: ['Relationships compound.', 'So does business.'], body: ['B&S Luxury develops structured, long-term relationships among companies that serve the same high-net-worth client — relationships, partnerships, visibility and commercial opportunity, governed where appropriate by business-development agreements.'] }}
+  statement={{ lines: ['Relationships compound.', 'So does business.'], body: ['B&S Luxury develops structured, long-term relationships among companies that serve the same high-net-worth client — relationships, partnerships, visibility and commercial opportunity, governed where appropriate by business-development agreements. Listings stay on bns-luxury.com.'] }}
   faqs={[
-    { q: 'Where can I search Miami properties?', a: 'On the dedicated B&S Luxury website, bns-luxury.com — listings, neighbourhood guides and new developments. This corporate site explains the business-development ecosystem behind it.' },
+    { q: 'Where can I search Miami properties?', a: 'On the dedicated B&S Luxury website, bns-luxury.com — listings, neighbourhood guides and new developments. This page explains the business-development ecosystem behind it.' },
     { q: 'Does B&S Luxury provide investment or tax advice?', a: 'No. Real estate is presented as a stage of the Investor Journey; investment, wealth structuring and tax matters are handled by independent licensed professionals.' },
-    { q: 'How do developers work with B&S Luxury?', a: 'Beyond buyer registration: dedicated business-development and marketing programmes with selected luxury developments — proprietary digital acquisition targeting international buyers, events and ecosystem introductions.' },
+    { q: 'How do developers work with B&S Luxury?', a: 'Beyond buyer registration: dedicated business-development and marketing programmes with selected luxury developments — proprietary digital acquisition, events and ecosystem introductions.' },
+    { q: 'Who is the typical buyer?', a: 'The buyer of Miami rarely lives in Miami — local, out of state, and international (including LATAM and Europe).' },
+    { q: 'What are the seven verticals?', a: 'Luxury real estate at the core, plus private aviation, yachting, interior design, luxury goods, luxury media, and celebrity · sports · entertainment — strategic partners serving the same HNW client.' },
   ]}
   cta={{ eyebrow: 'Exploring Miami?', title: ['Explore', 'Miami luxury real estate.'], primary: { label: 'Explore luxury real estate ↗', href: 'https://bns-luxury.com', name: 'bns_luxury' }, secondary: { label: "Tell us what you're building", href: '/tell-us', name: 'tell_us' } }}
   servicesTitle="Inside the division"
+  schema={{
+    pageType: 'WebPage',
+    serviceName: 'B&S Luxury — Business Development Ecosystem',
+    serviceType: 'Luxury real estate advisory and HNW ecosystem business development',
+    areaServed: ['Miami', 'Miami Beach', 'Brickell', 'United States', 'Latin America'],
+  }}
+  relatedLinks={[
+    { href: '/luxury/developer-partnerships', label: 'developer partnerships', line: 'Not registration — relationship. Dedicated BD with selected developments.' },
+    { href: 'https://bns-luxury.com', label: 'search Miami properties', line: 'Listings, neighbourhoods and new developments — off-domain.' },
+    { href: '/digital-engine', label: 'in-house digital acquisition engine', line: 'The owned stack B&S Luxury already runs.' },
+    { href: '/miami', label: 'Miami platform', line: 'Why the geo hub and the luxury market are the same city.' },
+  ]}
 >
   <LuxuryEcosystem slot="after-hero" copy={t.home.luxury} />
-  <Statement slot="after-services" eyebrow="Official website" lines={['Luxury real estate', 'lives on bns-luxury.com.']} body={['Listings, neighbourhood guides, new developments and the B&S Luxury team — on the dedicated site of the division.']} ground="onyx" size="display-2">
+  <Statement slot="after-services" eyebrow="Official website" lines={['Luxury real estate', 'lives on bns-luxury.com.']} body={['Listings, neighbourhood guides, new developments and the B&S Luxury team — on the dedicated site of the division. Property search is there. This site is the business-development ecosystem.']} ground="onyx" size="display-2">
     <a class="btn btn--flash" href="https://bns-luxury.com" target="_blank" rel="noopener" data-track="outbound_click" data-track-cta-name="bns_luxury_site">Visit bns-luxury.com</a>
   </Statement>
-  <ModuleGrid slot="after-services" eyebrow="Real estate" title="Luxury real estate. Miami." ground="paper" numbered={false} columns={3} items={[
-    { name: 'Luxury real estate', line: 'Curated acquisition for international buyers and private clients.', href: 'https://bns-luxury.com' },
-    { name: 'Pre-construction', line: 'Early access to luxury and ultra-luxury developments.', href: 'https://bns-luxury.com' },
-    { name: 'Developer partnerships', line: 'Strategic relationships with leading developers.', href: '/luxury/developer-partnerships' },
-    { name: 'Private clients', line: 'Discreet, deeply personal end-to-end representation.' },
-    { name: 'International buyer ecosystem', line: 'The buyer of Miami rarely lives in Miami — local, out of state, international.' },
-    { name: 'Digital lead generation & CRM', line: 'Proprietary acquisition and nurturing, built in-house.', href: '/lead-generation' },
+  <ModuleGrid slot="after-services" eyebrow="Real estate" title="Luxury real estate · Miami & pre-construction" ground="paper" numbered={false} columns={3} items={[
+    { name: 'Luxury real estate', line: 'Curated acquisition for international buyers and private clients — Miami Beach, Brickell and the wider Miami market.', href: 'https://bns-luxury.com' },
+    { name: 'Pre-construction', line: 'Early access to luxury and ultra-luxury developments for LATAM investors and international buyers.', href: 'https://bns-luxury.com' },
+    { name: 'Developer partnerships', line: 'Not registration — relationship. Dedicated BD programmes with selected developments.', href: '/luxury/developer-partnerships' },
+    { name: 'Private clients', line: 'Discreet, deeply personal end-to-end representation for HNW and UHNW buyers.' },
+    { name: 'International buyer ecosystem', line: 'The buyer of Miami rarely lives in Miami — local, out of state, international, including LATAM and Europe.' },
+    { name: 'Digital lead generation & CRM', line: 'Proprietary acquisition and nurturing, built in-house — the same engine, not a rewrite of the lead-gen offer.', href: '/digital-engine' },
   ]} />
+  <ProseSections slot="after-services" sections={[
+    {
+      title: 'Developer partnerships — not registration, relationship',
+      paragraphs: [
+        'Registering buyers with developments is the baseline. B&S Luxury pursues selective, long-term business-development and marketing programmes with selected luxury and ultra-luxury developments in Miami — Miami Beach, Brickell and the wider market.',
+        'Dedicated development pages, proprietary digital acquisition for international buyers, events and ecosystem introductions. The commercial offer lives on developer partnerships. Listings stay on bns-luxury.com.',
+      ],
+    },
+    {
+      title: 'Offline ecosystem + in-house digital acquisition',
+      paragraphs: [
+        'Two engines, one client. Offline: strategic partnerships, events, developer relationships, luxury brands, private aviation and yachting — network, visibility and HNW relationships across the Americas and Europe.',
+        'Online: the in-house digital acquisition engine — Google, Meta, SEO, GEO / AI search, dedicated websites and landing pages, CRM. B&S Luxury runs on that engine. High-ticket lead generation remains a separate offer; this hub does not compete with it.',
+      ],
+    },
+  ]} ground="onyx" idPrefix="lux" />
 </DivisionPage>

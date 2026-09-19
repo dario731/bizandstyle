@@ -1,0 +1,45 @@
+---
+/**
+ * ProseSections — H2 + paragraph blocks for Wave 1 content deepen.
+ * Server-rendered so FAQ-adjacent body copy stays crawlable.
+ */
+interface Props {
+  sections: readonly { title: string; paragraphs: readonly string[] }[];
+  ground?: 'onyx' | 'paper';
+  idPrefix?: string;
+}
+const { sections, ground = 'paper', idPrefix = 'section' } = Astro.props;
+---
+
+{
+  sections.map((s, i) => (
+    <section
+      class:list={['section prose-sec', (i + (ground === 'paper' ? 0 : 1)) % 2 === 0 ? 'ground-paper' : 'ground-onyx']}
+      id={`${idPrefix}-${i + 1}`}
+      aria-labelledby={`${idPrefix}-${i + 1}-title`}
+    >
+      <div class="container prose-sec__grid">
+        <h2 id={`${idPrefix}-${i + 1}-title`} class="display-2" data-reveal>
+          {s.title}
+        </h2>
+        <div class="prose muted" data-reveal>
+          {s.paragraphs.map((p) => <p>{p}</p>)}
+        </div>
+      </div>
+    </section>
+  ))
+}
+
+<style>
+  .prose-sec__grid {
+    display: grid;
+    gap: var(--space-6);
+  }
+  @media (min-width: 900px) {
+    .prose-sec__grid {
+      grid-template-columns: 5fr 7fr;
+      column-gap: calc(var(--gutter) * 2);
+      align-items: start;
+    }
+  }
+</style>

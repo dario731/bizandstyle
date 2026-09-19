@@ -3,29 +3,62 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import Definition from '@components/editorial/Definition.astro';
 import WorldConnect from '@components/home2/WorldConnect.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
+import ModuleGrid from '@components/editorial/ModuleGrid.astro';
 import Statement from '@components/editorial/Statement.astro';
+import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
 import { pages } from '@i18n/pages.en';
-import { getCopy } from '@i18n/index';
 import { site } from '@data/site';
-import { webPageLd, breadcrumbLd, graph } from '@lib/seo';
+import { webPageLd, breadcrumbLd, faqLd, graph, absoluteUrl } from '@lib/seo';
 
 const p = pages.miami;
-const t = getCopy('en');
 const path = '/miami';
 const jsonLd = graph(
-  webPageLd({ name: p.seo.title, description: p.seo.description, path }),
+  webPageLd({
+    name: p.seo.title,
+    description: "Miami is BIZ & STYLE's platform to the Americas — HQ since 2017, bonded hub, NY & Silicon Valley relocation, LATAM reach.",
+    path,
+    type: ['WebPage', 'AboutPage'],
+    about: { '@id': `${absoluteUrl(path)}#place` },
+  }),
+  {
+    '@type': ['LocalBusiness', 'ProfessionalService'],
+    '@id': `${site.url}/#organization`,
+    name: site.legalName,
+    url: `${site.url}/`,
+    telephone: site.phoneSchema,
+    email: site.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: site.address.streetAddress,
+      addressLocality: site.address.addressLocality,
+      addressRegion: site.address.addressRegion,
+      postalCode: site.address.postalCode,
+      addressCountry: site.address.addressCountry,
+    },
+    areaServed: ['Miami', 'United States', 'Latin America', 'Caribbean', 'Europe'],
+  },
+  {
+    '@type': 'Place',
+    '@id': `${absoluteUrl(path)}#place`,
+    name: 'Miami',
+    description: 'Platform to the Americas — business capital of Latin America, PortMiami and MIA cargo gateway.',
+  },
+  faqLd([...p.faqs], `${absoluteUrl(path)}#faq`),
   breadcrumbLd([{ name: 'Miami', path }]),
-  { '@type': 'Place', name: 'BIZ & STYLE Headquarters', address: { '@type': 'PostalAddress', streetAddress: site.address.streetAddress, addressLocality: site.address.addressLocality, addressRegion: site.address.addressRegion, postalCode: site.address.postalCode, addressCountry: 'US' } },
 );
 ---
 
 <BaseLayout title={p.seo.title} description={p.seo.description} {path} pageType="landing" {jsonLd}>
   <EditorialHero eyebrow={p.hero.eyebrow} title={p.hero.title} lede={p.hero.lede} ground="onyx" mediaId="HOME-MIAMI-01" mediaAlt="Miami at night seen from above" crumbs={[{ name: 'Miami', path }]} />
   <WorldConnect headless />
+  <ProseSections sections={p.sections} ground="paper" idPrefix="miami" />
   <Definition question={p.definition.q} answer={p.definition.a} ground="paper" id="definition" />
   <Statement lines={p.statement.lines} body={p.statement.body} ground="onyx" />
+  <ModuleGrid eyebrow="Continue" title="Related on the platform." items={p.links.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={4} ground="paper" numbered={false} trackAs="navigation_click" />
   <RelatedInsights clusterOf={[path]} ground="paper" />
+  <FaqBlock faqs={p.faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow={p.cta.eyebrow} title={p.cta.title} primary={p.cta.primary} secondary={p.cta.secondary} location="landing_cta" />
 </BaseLayout>

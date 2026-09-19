@@ -23,15 +23,28 @@ interface Props {
   faqs: readonly { q: string; a: string }[];
   cta: { eyebrow: string; title: readonly string[]; primary: { label: string; href: string; name: string }; secondary?: { label: string; href: string; name: string } };
   servicesTitle?: string;
+  relatedLinks?: readonly { href: string; label: string; line?: string }[];
+  schema?: {
+    pageType?: string | readonly string[];
+    serviceName?: string;
+    serviceType?: string;
+    areaServed?: readonly string[];
+  };
 }
-const { division, seo, hero, definition, statement, faqs, cta, servicesTitle = 'Capabilities' } = Astro.props;
+const { division, seo, hero, definition, statement, faqs, cta, servicesTitle = 'Capabilities', relatedLinks, schema = {} } = Astro.props;
 const div = divisionMeta[division];
 const list = byDivision(division);
 const jsonLd = graph(
-  webPageLd({ name: seo.title, description: seo.description, path: div.path, type: 'CollectionPage' }),
-  serviceLd({ name: div.name, description: definition.a[0], path: div.path, serviceType: div.role }),
+  webPageLd({ name: seo.title, description: seo.description, path: div.path, type: schema.pageType ?? 'CollectionPage' }),
+  serviceLd({
+    name: schema.serviceName ?? div.name,
+    description: definition.a[0],
+    path: div.path,
+    serviceType: schema.serviceType ?? div.role,
+    areaServed: schema.areaServed,
+  }),
   breadcrumbLd([{ name: div.name, path: div.path }]),
-  faqLd([...faqs]),
+  faqLd([...faqs], `https://bizandstyledna.com${div.path}#faq`),
 );
 ---
 
@@ -47,7 +60,12 @@ const jsonLd = graph(
   <slot name="before-services" />
   <slot name="after-services" />
   <Statement lines={statement.lines} body={statement.body} editorial={statement.editorial} ground="onyx" eyebrow={div.name} />
+  {
+    relatedLinks && relatedLinks.length > 0 && (
+      <ModuleGrid eyebrow="Continue" title="Related on the platform." items={relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={relatedLinks.length >= 4 ? 4 : 3} ground="paper" numbered={false} trackAs="navigation_click" />
+    )
+  }
   <RelatedInsights clusterOf={[div.path, ...list.map((s) => servicePath(s)), ...list.map((s) => `${div.path}/${s.slug}`)]} ground="paper" />
-  <FaqBlock {faqs} ground="paper" />
+  <FaqBlock {faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow={cta.eyebrow} title={cta.title} primary={cta.primary} secondary={cta.secondary} location="division_cta" />
 </BaseLayout>

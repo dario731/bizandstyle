@@ -8,13 +8,14 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import EditorialHero from '@components/editorial/EditorialHero.astro';
 import Definition from '@components/editorial/Definition.astro';
 import ModuleGrid from '@components/editorial/ModuleGrid.astro';
+import ProseSections from '@components/editorial/ProseSections.astro';
 import Statement from '@components/editorial/Statement.astro';
 import FaqBlock from '@components/editorial/FaqBlock.astro';
 import ContextualCta from '@components/conversion/ContextualCta.astro';
 import RelatedInsights from '@components/insights/RelatedInsights.astro';
 import { divisionMeta, servicePath, type Service } from '@data/services';
 import { programs } from '@data/programs';
-import { breadcrumbLd, faqLd, serviceLd, webPageLd, graph } from '@lib/seo';
+import { breadcrumbLd, faqLd, serviceLd, webPageLd, graph, absoluteUrl } from '@lib/seo';
 
 interface Props {
   service: Service;
@@ -24,11 +25,28 @@ const { service: s, canonical } = Astro.props;
 const div = divisionMeta[s.division];
 const path = servicePath(s);
 const related = (s.programs ?? []).map((slug) => programs.find((p) => p.slug === slug)).filter(Boolean);
+const schema = s.schema ?? {};
 const jsonLd = graph(
-  webPageLd({ name: s.seoTitle, description: s.seoDescription, path }),
-  serviceLd({ name: s.title, description: s.definition.a[0], path, division: div.name }),
+  webPageLd({
+    name: s.seoTitle,
+    description: typeof schema.webPageAbout === 'string' ? schema.webPageAbout : s.seoDescription,
+    path,
+    type: schema.webPageType,
+  }),
+  serviceLd({
+    name: schema.serviceName ?? s.title,
+    description: s.definition.a[0],
+    path,
+    division: div.name,
+    serviceType: schema.serviceType,
+    areaServed: schema.areaServed,
+    url: schema.url,
+    offers: schema.offers,
+    knowsAbout: schema.knowsAbout,
+    audience: schema.audience,
+  }),
   breadcrumbLd([{ name: div.name, path: div.path }, { name: s.title, path }]),
-  faqLd([...s.faqs]),
+  faqLd([...s.faqs], `${absoluteUrl(path)}#faq`),
 );
 ---
 
@@ -42,6 +60,8 @@ const jsonLd = graph(
   <ModuleGrid eyebrow="What it includes" items={s.modules} columns={s.modules.length >= 6 ? 3 : s.modules.length === 4 ? 4 : 3} ground="onyx" id="modules" />
 
   <Definition question={s.definition.q} answer={s.definition.a} ground="paper" id="definition" />
+
+  {s.sections && s.sections.length > 0 && <ProseSections sections={s.sections} ground="onyx" idPrefix={`${s.slug}-sec`} />}
 
   {
     s.regulated && (
@@ -62,8 +82,14 @@ const jsonLd = graph(
     )
   }
 
+  {
+    s.relatedLinks && s.relatedLinks.length > 0 && (
+      <ModuleGrid eyebrow="Continue" title="Related on the platform." items={s.relatedLinks.map((l) => ({ name: l.label, line: l.line, href: l.href }))} columns={s.relatedLinks.length >= 4 ? 4 : 3} ground="paper" numbered={false} trackAs="navigation_click" />
+    )
+  }
+
   <RelatedInsights clusterOf={[path, div.path]} ground="paper" />
-  <FaqBlock faqs={s.faqs} ground="paper" />
+  <FaqBlock faqs={s.faqs} title="FAQ" ground="paper" />
   <ContextualCta eyebrow={s.cta.eyebrow} title={[s.title, 'in the Americas.']} primary={{ label: s.cta.label, href: s.cta.href, name: s.cta.name }} secondary={{ label: `Explore ${div.name}`, href: div.path, name: 'division' }} location="service_cta" />
 </BaseLayout>
 

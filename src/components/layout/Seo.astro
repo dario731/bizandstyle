@@ -30,7 +30,7 @@ const absolute = (src: string) => (/^https?:\/\//.test(src) ? src : `${deployOri
 const ogImage = absolute(image ?? '/og-default.png');
 
 const organization = {
-  '@type': 'Organization',
+  '@type': ['Organization', 'LocalBusiness', 'ProfessionalService'],
   '@id': `${site.url}/#organization`,
   name: site.name,
   legalName: site.legalName,
@@ -40,7 +40,7 @@ const organization = {
   foundingDate: site.foundingDate,
   founder: { '@type': 'Person', '@id': `${site.url}/about/dario-picardi#person`, name: site.founder.name, jobTitle: site.founder.role },
   email: site.email,
-  telephone: site.phone,
+  telephone: site.phoneSchema,
   address: {
     '@type': 'PostalAddress',
     streetAddress: site.address.streetAddress,
@@ -50,7 +50,19 @@ const organization = {
     addressCountry: site.address.addressCountry,
   },
   areaServed: site.areaServed,
-  knowsAbout: ['Business development', 'Internationalization', 'U.S. market entry', 'Distribution', 'Bonded warehousing', 'Digital growth', 'Lead generation', 'CRM', 'Luxury real estate', 'Miami'],
+  knowsAbout: [
+    'International expansion',
+    'U.S. market entry',
+    'Fractional executive',
+    'Temporary export management',
+    'Bonded warehouse Miami',
+    'Luxury real estate Miami',
+    'Digital acquisition',
+    'High-ticket lead generation',
+    'Business development',
+    'Internationalization',
+    'Miami',
+  ],
   department: site.divisions.map((d) => ({ '@type': 'Organization', name: d.name, url: `${site.url}/${d.slug}`, parentOrganization: { '@id': `${site.url}/#organization` } })),
   ...(site.sameAs.length ? { sameAs: site.sameAs } : {}),
 };

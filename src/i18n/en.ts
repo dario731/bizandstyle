@@ -6,9 +6,8 @@
 export const en = {
   meta: {
     home: {
-      title: 'BIZ & STYLE — Business Development Platform · Miami · Americas',
-      description:
-        'BIZ & STYLE is a Miami-based business development platform connecting strategy, execution, commerce, technology and high-value relationships across the Americas and beyond. Three integrated divisions: B&S Advisory, B&S Commerce, B&S Luxury.',
+      title: 'Business Development Platform · Miami | BIZ & STYLE',
+      description: 'Miami business development platform: Advisory, Commerce, Luxury. Market entry, bonded distribution, digital engine, luxury RE. Americas · +1 305-549-4289.',
     },
   },
 
@@ -58,7 +57,7 @@ export const en = {
           {
             title: 'Digital growth',
             links: [
-              { label: 'Digital growth', href: '/advisory/digital-growth' },
+              { label: 'Digital engine', href: '/digital-engine' },
               { label: 'Lead generation', href: '/lead-generation' },
               { label: 'CRM & automation', href: '/advisory/crm-automation' },
               { label: 'AI / digital transformation', href: '/advisory/ai-digital-transformation' },

@@ -14,6 +14,14 @@ export interface Program {
   mediaId: string;
   seoTitle: string;
   seoDescription: string;
+  sections?: readonly { title: string; paragraphs: readonly string[] }[];
+  relatedLinks?: readonly { href: string; label: string; line?: string }[];
+  schema?: {
+    serviceName?: string;
+    serviceType?: string;
+    areaServed?: readonly string[];
+    offers?: { url: string; availability?: string };
+  };
 }
 
 export const programs: readonly Program[] = [
@@ -47,7 +55,7 @@ export const programs: readonly Program[] = [
       { q: 'Does it include company formation?', a: 'The programme coordinates it; licensed lawyers and accountants deliver it. The same applies to tax, banking and immigration.' },
     ],
     cta: { eyebrow: 'Planning your U.S. expansion?', label: 'Assess your market entry', href: '/tell-us?intent=market-entry&persona=international-company', name: 'ieb_assess' },
-    services: ['/internationalization', '/advisory/international-expansion', '/commerce/bonded-warehouse', '/advisory/digital-growth'],
+    services: ['/internationalization', '/advisory/international-expansion', '/commerce/bonded-warehouse', '/digital-engine'],
     mediaId: 'HOME-MIAMI-01',
     seoTitle: 'International Expansion Boost™ — U.S. Market Entry Programme | BIZ & STYLE',
     seoDescription: 'A turnkey programme to enter the United States and Latin America with an executive team, infrastructure, digital acquisition, distribution and business development from Miami.',
@@ -75,13 +83,38 @@ export const programs: readonly Program[] = [
     ],
     who: ['Companies whose acquisition depends on agencies they do not control', 'International companies that need U.S. demand before they have a U.S. team', 'Luxury and real-estate businesses reaching international buyers'],
     faqs: [
-      { q: 'Do we own the system afterwards?', a: 'Yes. Websites, accounts, CRM and data are built in your name. BIZ & STYLE can continue to operate and optimize it, or hand it over.' },
+      { q: 'Do we own the system afterwards?', a: 'Yes. Websites, accounts, CRM and data are built in your name. BIZ & STYLE can continue to operate and optimize, or hand it over.' },
+      { q: 'What is included?', a: 'Strategy and positioning, website and landing pages, Google and Meta, SEO and GEO, CRM and automation, analytics and conversion.' },
+      { q: 'How is this different from the Digital Engine page?', a: '/digital-engine explains the system. This page is the packaged Digital Growth Engine™ programme to build it.' },
+      { q: 'How does this relate to lead generation?', a: 'The programme can power high-ticket lead generation; the dedicated lead-gen offer remains at /lead-generation/.' },
+      { q: 'Is BIZ & STYLE a marketing agency?', a: 'No. We build and operate digital business infrastructure — acquisition connected to CRM and pipeline — run on our own ventures first.' },
     ],
     cta: { eyebrow: 'Want to see where your acquisition system is leaking?', label: 'Request a digital growth review', href: '/tell-us?intent=digital-growth', name: 'dge_review' },
-    services: ['/digital-engine', '/lead-generation', '/advisory/digital-growth', '/advisory/crm-automation'],
+    services: ['/digital-engine', '/lead-generation', '/advisory/crm-automation', '/luxury'],
     mediaId: 'HOME-DIV-ADV',
-    seoTitle: 'Digital Growth Engine™ — Owned Acquisition System | BIZ & STYLE',
-    seoDescription: 'Website, landing pages, Google and Meta, SEO and GEO, CRM, automation and attribution built as one owned system — the programme BIZ & STYLE runs for itself.',
+    seoTitle: 'Digital Growth Engine™ Programme | BIZ & STYLE',
+    seoDescription: 'Digital Growth Engine™: strategy, sites, Google/Meta, SEO/GEO, CRM and attribution as one owned loop. Programme · +1 305-549-4289.',
+    sections: [
+      {
+        title: 'You own the system afterwards',
+        paragraphs: [
+          'Websites, accounts, CRM and data are built in your name. BIZ & STYLE can continue to operate and optimize, or hand the loop over. That is the difference from a rented agency stack.',
+          'The programme is how you build the engine. /digital-engine explains the system. High-ticket lead generation remains a separate offer at /lead-generation/. Miami-based, with international targeting and SEO / GEO for AI search across the Americas.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/digital-engine', label: 'from click to client — the engine', line: 'The primary system page — owned acquisition infrastructure.' },
+      { href: '/lead-generation/', label: 'high-ticket lead generation', line: 'The dedicated P5 offer. This programme can power it; that page stays the offer.' },
+      { href: '/advisory/fractional-executive', label: 'fractional executive capability', line: 'Operator plus digital — when leadership and the engine travel together.' },
+      { href: '/luxury', label: 'same system B&S Luxury runs', line: 'Proof the engine was operated on our own division first.' },
+    ],
+    schema: {
+      serviceName: 'Digital Growth Engine™ Programme',
+      serviceType: 'Digital growth / owned acquisition programme',
+      areaServed: ['Miami', 'United States', 'Latin America'],
+      offers: { url: 'https://bizandstyledna.com/programs/digital-growth-engine' },
+    },
   },
   {
     slug: 'fractional-executive',
@@ -103,13 +136,45 @@ export const programs: readonly Program[] = [
     ],
     who: ['Companies entering the Americas that need a senior lead before a full team', 'Founders who need commercial leadership while they focus on product', 'Businesses running a strategic project without a senior owner'],
     faqs: [
-      { q: 'How much time does the executive dedicate?', a: 'It depends on the mandate — from a few days a month to a majority of the week during a launch. The cadence is defined with objectives and reviewed regularly.' },
+      { q: 'How much time does the executive dedicate?', a: 'It depends on the mandate — from a few days a month to a majority of the week during a launch. Cadence is defined with objectives and reviewed regularly.' },
+      { q: 'What is included in the programme?', a: 'Role definition, embedded leadership inside your organization, the BIZ & STYLE platform behind the person, and a transition plan when you build in-house.' },
+      { q: 'Do we get infrastructure or only a person?', a: 'Leadership arrives with capability — Miami HQ, warehouse and logistics, digital engine and commercial network.' },
+      { q: 'How is the programme different from the advisory page?', a: '/advisory/fractional-executive explains the capability. This page is the packaged programme to start with.' },
+      { q: 'How do we begin?', a: 'Contact info@bizandstyledna.com or +1 305-549-4289 to define role, objectives and cadence.' },
     ],
     cta: { eyebrow: 'Need senior leadership in the Americas?', label: 'Discuss a fractional mandate', href: '/tell-us?intent=fractional-executive', name: 'fx_tell_us' },
-    services: ['/advisory/fractional-executive', '/advisory/business-development'],
+    services: ['/advisory/fractional-executive', '/miami', '/digital-engine', '/commerce/bonded-warehouse'],
     mediaId: 'HOME-DIV-ADV',
     seoTitle: 'Fractional Executive Programme | BIZ & STYLE',
-    seoDescription: 'Senior operators embedded in your company for a defined mandate — commercial, expansion and project leadership backed by the BIZ & STYLE platform in Miami.',
+    seoDescription: 'Embed a senior BIZ & STYLE operator as your fractional executive — role, cadence, platform backing, transition. Programme offer · +1 305-549-4289.',
+    sections: [
+      {
+        title: 'Platform behind the person (Miami HQ, warehouse, digital, network)',
+        paragraphs: [
+          'The Fractional Executive programme is the commercial offer: a senior BIZ & STYLE operator embedded in your company for a defined mandate — commercial, expansion or project leadership — across the Americas.',
+          'Leadership arrives with capability already in place: Miami headquarters, warehouse and logistics, the digital engine, and a commercial network in the United States and Latin America. Not a lone consultant. The platform behind the person.',
+        ],
+      },
+      {
+        title: 'Transition — build internal organization when the market justifies it',
+        paragraphs: [
+          'The programme includes a transition plan. When the United States or Latin America justifies an in-house organization, the fractional executive helps you hire and hand over — HQ, warehouse and network still available as infrastructure.',
+          'Start here when you want the packaged programme. Read what a fractional executive is on the capability page if you are still mapping the role.',
+        ],
+      },
+    ],
+    relatedLinks: [
+      { href: '/advisory/fractional-executive', label: 'what a fractional executive is', line: 'The capability explainer — not the programme SKU.' },
+      { href: '/miami', label: 'Miami platform behind the person', line: 'HQ, bonded hub and the geo reason the executive is not remote.' },
+      { href: '/digital-engine', label: 'digital engine', line: 'Owned acquisition infrastructure the executive can run.' },
+      { href: '/commerce/bonded-warehouse', label: 'warehouse and logistics', line: 'Duty-deferred Miami infrastructure behind commercial leadership.' },
+    ],
+    schema: {
+      serviceName: 'Fractional Executive Programme',
+      serviceType: 'Fractional executive programme',
+      areaServed: ['Miami', 'United States', 'Latin America', 'Americas'],
+      offers: { url: 'https://bizandstyledna.com/programs/fractional-executive', availability: 'https://schema.org/InStock' },
+    },
   },
 ];
 

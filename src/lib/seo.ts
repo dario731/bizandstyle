@@ -2,44 +2,70 @@ import { site } from '@data/site';
 
 const ORG = `${site.url}/#organization`;
 
+export const absoluteUrl = (path: string) => `${site.url}${path === '/' ? '' : path}`;
+
 export const breadcrumbLd = (items: { name: string; path: string }[]) => ({
   '@type': 'BreadcrumbList',
   itemListElement: [{ name: 'Home', path: '/' }, ...items].map((it, i) => ({
     '@type': 'ListItem',
     position: i + 1,
     name: it.name,
-    item: `${site.url}${it.path === '/' ? '' : it.path}`,
+    item: absoluteUrl(it.path),
   })),
 });
 
-export const faqLd = (faqs: { q: string; a: string }[]) =>
+export const faqLd = (faqs: { q: string; a: string }[], id?: string) =>
   faqs.length
     ? {
         '@type': 'FAQPage',
+        ...(id ? { '@id': id } : {}),
         mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
       }
     : null;
 
-export const serviceLd = (o: { name: string; description: string; path: string; division?: string; serviceType?: string }) => ({
+export const serviceLd = (o: {
+  name: string;
+  description: string;
+  path: string;
+  division?: string;
+  serviceType?: string;
+  areaServed?: readonly string[];
+  url?: string;
+  offers?: { url: string; availability?: string };
+  knowsAbout?: readonly string[];
+  audience?: string;
+}) => ({
   '@type': 'Service',
-  '@id': `${site.url}${o.path}#service`,
+  '@id': `${absoluteUrl(o.path)}#service`,
   name: o.name,
   description: o.description,
-  url: `${site.url}${o.path}`,
+  url: o.url ?? absoluteUrl(o.path),
   serviceType: o.serviceType ?? o.name,
   provider: { '@id': ORG },
-  areaServed: site.areaServed,
+  telephone: site.phoneSchema,
+  areaServed: o.areaServed ?? site.areaServed,
   ...(o.division ? { category: o.division } : {}),
+  ...(o.offers
+    ? {
+        offers: {
+          '@type': 'Offer',
+          url: o.offers.url,
+          ...(o.offers.availability ? { availability: o.offers.availability } : {}),
+        },
+      }
+    : {}),
+  ...(o.knowsAbout ? { knowsAbout: [...o.knowsAbout] } : {}),
+  ...(o.audience ? { audience: { '@type': 'Audience', audienceType: o.audience } } : {}),
 });
 
-export const webPageLd = (o: { name: string; description: string; path: string; type?: string }) => ({
+export const webPageLd = (o: { name: string; description: string; path: string; type?: string | readonly string[]; about?: unknown }) => ({
   '@type': o.type ?? 'WebPage',
-  '@id': `${site.url}${o.path === '/' ? '' : o.path}#webpage`,
-  url: `${site.url}${o.path === '/' ? '' : o.path}`,
+  '@id': `${absoluteUrl(o.path)}#webpage`,
+  url: absoluteUrl(o.path),
   name: o.name,
   description: o.description,
   isPartOf: { '@id': `${site.url}/#website` },
-  about: { '@id': ORG },
+  about: o.about ?? { '@id': ORG },
   inLanguage: 'en',
 });
 

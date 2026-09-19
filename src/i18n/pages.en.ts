@@ -54,7 +54,7 @@ export const pages = {
   },
 
   internationalization: {
-    seo: { title: 'Internationalization — Export Is Not Internationalization | BIZ & STYLE', description: 'Export sells products. Internationalization builds a long-term commercial presence until your company becomes part of the market. Six mistakes, three ingredients, nine pillars, five phases — delivered from Miami.' },
+    seo: { title: 'Internationalization vs Export | BIZ & STYLE', description: 'Export sells products. Internationalization builds market presence. Nine pillars and five phases from Miami · +1 305-549-4289.' },
     hero: { eyebrow: 'Internationalization', title: ['Export is not', 'internationalization.'], lede: 'Export sells products. Internationalization builds a long-term commercial presence — until your company becomes part of the market.' },
     definition: { q: 'What is the difference between export and internationalization?', a: ['Export looks for orders: short-term, transactional, product-focused, price-driven, usually through one distributor, reactive. Internationalization looks for a position in the market: long-term, relationship-driven, market-focused, value-driven, built with the entire ecosystem, proactive.', 'Real internationalization begins when your company is no longer perceived as a foreign supplier, but as a trusted participant in the local business ecosystem.'] },
     mistakes: { eyebrow: 'Why most fail', title: ['International expansion fails when it is treated', 'as an attempt — not a clear objective.'], items: [
@@ -88,21 +88,52 @@ export const pages = {
       { name: 'Develop', items: ['Continuous visits', 'Follow-up meetings', 'Training & negotiations', 'Commercial support', 'Relationship management'] },
       { name: 'Establish', items: ['Long-term customers', 'Strong reputation', 'Local network', 'Sustainable sales', 'Organic growth'] },
     ], closing: "This is why BIZ & STYLE is the partner for internationalization — not export. We don't sell introductions or distributor searches; we build the infrastructure, relationships and credibility to make your company part of the market." },
+    miamiPlatform: {
+      title: 'Miami as platform (U.S. + LATAM; NY/SV adjacency)',
+      paragraphs: [
+        'Miami is the platform for both the United States and Latin America: U.S. from headquarters; Mexico, the Caribbean, Brazil and wider LATAM through operating bases and the bonded hub. Europe remains the origin market for most of the companies we bring.',
+        'Founders relocating from New York or Silicon Valley / California use the same Miami node — team, infrastructure and experience already in-market — so relocation is not a second project from the expansion. Three things you need in-market — Miami already has them.',
+      ],
+    },
     faqs: [
-      { q: 'How long does internationalization take?', a: 'Longer than an export deal and shorter than most companies fear when infrastructure already exists. The five phases run from understanding the company to established, organic growth; the Enter and Develop phases are where consistency matters most.' },
-      { q: 'Can we start with the U.S. and add Latin America later?', a: 'Yes. Miami is the platform for both: the U.S. market from the headquarters, and Mexico, the Caribbean, Brazil and the wider region through our operating bases and the bonded hub.' },
-      { q: 'Who handles company formation, tax and visas?', a: 'BIZ & STYLE coordinates the sequence; licensed lawyers, accountants and immigration attorneys from our vetted network deliver each regulated step.' },
+      { q: 'How long does internationalization take?', a: 'Longer than an export deal and shorter than most companies fear when infrastructure already exists. Enter and Develop phases are where consistency matters most.' },
+      { q: 'Can we start with the U.S. and add Latin America later?', a: 'Yes. Miami is the platform for both: U.S. from headquarters; Mexico, Caribbean, Brazil and wider LATAM through operating bases and the bonded hub.' },
+      { q: 'Who handles company formation, tax and visas?', a: 'BIZ & STYLE coordinates the sequence; licensed professionals deliver each regulated step.' },
+      { q: 'Where do I go to buy the service?', a: 'Start with /advisory/international-expansion for delivery; use /advisory/temporary-export-management for a TEM mandate.' },
+      { q: 'Is there a programmes boost offer?', a: 'Yes. International Expansion Boost™ is the packaged market-entry programme at /programs/international-expansion-boost. Other programme options live via Advisory and Programs.' },
+    ],
+    links: [
+      { href: '/advisory/international-expansion', label: 'international expansion service', line: 'The service that delivers U.S. and LATAM expansion.' },
+      { href: '/advisory/temporary-export-management', label: 'temporary export manager', line: 'A focused TEM mandate — not the thought hub.' },
+      { href: '/miami', label: 'three things in-market — Miami', line: 'Team, infrastructure and experience already on the ground.' },
+      { href: '/commerce/bonded-warehouse', label: 'infrastructure · bonded warehouse', line: 'The infrastructure pillar, duty-deferred in Miami.' },
     ],
     cta: { eyebrow: 'Make the U.S. a market. Not an experiment.', title: ['Planning your', 'U.S. expansion?'], primary: { label: 'Assess your expansion', href: `${TELL}?intent=market-entry&persona=international-company`, name: 'assess_expansion' }, secondary: { label: 'International Expansion Boost™', href: '/programs/international-expansion-boost', name: 'ieb' } },
   },
 
   digitalEngine: {
-    seo: { title: 'Digital Engine — From Click to Client | BIZ & STYLE', description: 'Digital business infrastructure built, owned and optimized in-house: website, landing pages, Google and Meta, SEO and GEO, CRM, automation, attribution — one loop that gets smarter with every interaction.' },
-    hero: { eyebrow: 'Digital engine', title: ['From click', 'to client.'], lede: 'Not a marketing agency. Digital business infrastructure — built, owned and optimized in-house, and run for our own divisions before it is offered to anyone else.' },
+    seo: { title: 'Digital Engine — From Click to Client | BIZ & STYLE', description: 'Owned digital acquisition: websites, Google & Meta, SEO/GEO, CRM — built in-house. From click to client · Miami · +1 305-549-4289.' },
+    hero: { eyebrow: 'Digital engine', title: ['From click', 'to client.'], lede: 'Not a marketing agency. Digital business infrastructure — built, owned and optimized in-house, and run for our own divisions before it is offered to anyone else. Miami-based, with international targeting and GEO for AI search.' },
     definition: { q: 'What is the BIZ & STYLE digital engine?', a: ['The digital engine is an owned acquisition system that connects attention to pipeline: intelligence, positioning, website and landing pages, content with SEO and GEO, Google and Meta acquisition, lead capture, CRM, qualification, automation, nurture, sales pipeline, attribution and optimization — as one loop.', 'B&S Luxury runs on it: proprietary digital acquisition generated high-net-worth opportunities in some of the most relationship-driven segments of the Miami market.'] },
+    leadGen: {
+      title: 'How the engine connects to lead generation',
+      paragraphs: [
+        'Lead generation is the high-ticket demand offer at /lead-generation/. The digital engine is the broader owned acquisition infrastructure that can power lead gen and other divisions — Advisory, Commerce and Luxury — from the same Miami-based platform.',
+        'If you need the packaged build, the Digital Growth Engine™ programme is the commercial offer. If you need high-ticket demand in aviation, yachts, luxury real estate or B2B, that page stays the offer. This page owns from click to client.',
+      ],
+    },
     faqs: [
       { q: 'Do you replace our agency?', a: 'We build and operate infrastructure you own — websites, accounts, CRM, data. Agencies can plug into it; the system no longer depends on them.' },
-      { q: 'What is GEO?', a: 'Generative Engine Optimization: being understood and cited by AI-search systems. It rewards entity clarity, structured content and consistent facts — the same discipline that makes classic SEO work.' },
+      { q: 'What is GEO?', a: 'Generative Engine Optimization: being understood and cited by AI-search systems. It rewards entity clarity, structured content and consistent facts.' },
+      { q: 'Is this the same as lead generation?', a: 'Lead generation is the high-ticket demand offer at /lead-generation/. The digital engine is the broader owned acquisition infrastructure that can power lead gen and other divisions.' },
+      { q: 'Where is the packaged programme?', a: 'Digital Growth Engine™ programme: /programs/digital-growth-engine.' },
+      { q: 'Who is this for?', a: 'Brands and operators who need owned digital business infrastructure in Miami and across the Americas — not rented campaigns alone.' },
+    ],
+    links: [
+      { href: '/programs/digital-growth-engine', label: 'Digital Growth Engine™ programme', line: 'The packaged programme that builds the engine.' },
+      { href: '/lead-generation/', label: 'high-ticket lead generation', line: 'The P5 offer. We do not rewrite that page from here.' },
+      { href: '/luxury', label: 'B&S Luxury runs on this engine', line: 'Proof — proprietary digital acquisition on our own division.' },
+      { href: '/miami', label: 'Miami-based platform', line: 'HQ, operators and the geo node behind the stack.' },
     ],
     cta: { eyebrow: 'Want to understand where your acquisition system is leaking?', title: ['Request a', 'digital growth review.'], primary: { label: 'Request a digital growth review', href: `${TELL}?intent=digital-growth`, name: 'digital_growth_review' }, secondary: { label: 'Digital Growth Engine™', href: '/programs/digital-growth-engine', name: 'dge' } },
   },
@@ -203,10 +234,66 @@ export const pages = {
   },
 
   miami: {
-    seo: { title: 'Miami — Our Platform to the Americas | BIZ & STYLE', description: 'Miami is the business capital of Latin America and the gateway of the Americas. Why BIZ & STYLE has been headquartered here since 2017, and how it connects Europe, the U.S., the Caribbean and LATAM.' },
-    hero: { eyebrow: 'Miami', title: ['Not just our headquarters.', 'Miami is the platform to the Americas.'], lede: 'For decades Miami has been the business capital of Latin America — the meeting point of North America, LATAM, Europe and the Caribbean. Today it is booming.' },
+    seo: { title: 'Miami Platform to the Americas | BIZ & STYLE', description: "Miami is BIZ & STYLE's platform to the Americas — HQ since 2017, bonded hub, NY & Silicon Valley relocation, LATAM reach. Miami Beach · +1 305-549-4289." },
+    hero: { eyebrow: 'Miami', title: ['Not just our headquarters.', 'Miami is the platform to the Americas.'], lede: 'For decades Miami has been the business capital of Latin America — the meeting point of North America, LATAM, Europe and the Caribbean. Today it is booming. Headquarters in Miami Beach since 2017.' },
     definition: { q: 'Why is BIZ & STYLE based in Miami?', a: ['Miami is the gateway of the Americas: the historic decision-making hub for Latin America, "Wall Street South" for international capital, home to PortMiami and MIA — the cargo gateway of the Americas — with no state income tax and a constant influx of high-net-worth individuals. Major companies and funds from Silicon Valley and New York are relocating here.', 'BIZ & STYLE has been headquartered in Miami Beach since 2017. Being on the ground here is, in itself, a decisive advantage — and the bonded warehouse turns it into a distribution advantage for the whole region.'] },
-    statement: { lines: ['European roots.', 'American execution.', 'Latin American reach.'], body: ['Founded by an Italian entrepreneur, headquartered in Miami, operating across the United States, Mexico, the Caribbean, Brazil and the wider region — with Europe as the origin market for most of the companies we bring to the Americas.'] },
+    statement: { lines: ['European roots.', 'American execution.', 'Latin American reach.'], body: ['Founded by an Italian entrepreneur, headquartered in Miami, operating across the United States, Mexico, the Caribbean, Brazil and the wider region — with Europe as the origin market for most of the companies we bring to the Americas. Relationships extend to Dubai and Singapore.'] },
+    sections: [
+      {
+        title: 'Why companies choose Miami for the Americas',
+        paragraphs: [
+          'Companies do not come to Miami for a postcard. They come because Miami is the business capital of Latin America and the trade gateway of the Americas — a city where United States, Latin America / LATAM, the Caribbean and Europe already share calendars, capital and cargo.',
+          'Florida has no state income tax. Brickell concentrates international finance — Wall Street South. Decision makers pass through Miami Beach and the mainland every week. For an international company, a U.S. brand expanding into LATAM, or a founder who needs operators — not advisors at a distance — Miami is the shortest path to both northbound and southbound markets.',
+          'BIZ & STYLE chose Miami Beach in 2017 for that reason. The headquarters is not a mailbox. It is the platform: executive team, bonded warehouse, digital engine and a commercial network that already works the Americas.',
+        ],
+      },
+      {
+        title: 'Gateway of the Americas — PortMiami, MIA, capital flows',
+        paragraphs: [
+          'PortMiami and Miami International Airport (MIA) make the city the cargo gateway of the Americas. Ocean and air meet one metro; Europe, the United States, Mexico, Brazil, the Caribbean and wider LATAM can be served from a single logistics node.',
+          'Capital follows the same map. Family offices, funds and international banks sit in Brickell and Miami Beach. Trade lanes and money lanes occupy the same city — which is why a bonded hub here is not a warehouse story alone. It is a market-entry and redistribution story.',
+          'When companies ask where to plant the first serious Americas flag, the answer is rarely “somewhere in the U.S.” It is Miami: gateway infrastructure, international capital, and a talent pool that already speaks the region.',
+        ],
+      },
+      {
+        title: 'Europe → Miami → United States · LATAM · Caribbean',
+        paragraphs: [
+          'The operating pattern is Europe → Miami → the Americas. Most of the companies we bring arrived from Europe with a product and a reputation at home. Miami is where they become part of the United States and, from the same headquarters, open Mexico, the Caribbean, Brazil and wider Latin America.',
+          'One HQ serves northbound (United States and Canada) and southbound (LATAM and the Caribbean). Beyond the hemisphere, relationships extend to Dubai and Singapore — useful when the same group already trades those hubs, without pretending Miami is those cities.',
+          'Export is not internationalization. Selling a container is not the same as building presence. Miami is where we keep team, infrastructure and experience in-market so the company can stop being a foreign supplier. Read export vs internationalization, then the service that delivers U.S. market entry from Miami.',
+        ],
+      },
+      {
+        title: 'NY and Silicon Valley / California relocating to Miami',
+        paragraphs: [
+          'New York and Silicon Valley / California keep sending founders, funds and headquarters south. The move is not lifestyle-only. Operators want a U.S. base that also opens Latin America — without a second coastal organization.',
+          'We coordinate market presence, corporate setup sequencing and local operating infrastructure for founders relocating from New York or Silicon Valley. Licensed professionals deliver regulated legal, tax and immigration steps. The platform supplies what a relocation deck cannot: warehouse, team, digital engine and people to meet.',
+          'If you are leaving NY or California for Miami, the question is not whether the city is busy. It is whether you land with operators on the ground. That is the conversation.',
+        ],
+      },
+      {
+        title: 'Bonded warehouse + executive team on the ground',
+        paragraphs: [
+          'Duty-deferred storage near PortMiami and MIA is the commerce proof of the geo thesis: pay U.S. duty only on release, re-export to LATAM without U.S. duty, consolidate while in bond. The bonded warehouse in Miami turns a headquarters into a two-market hub.',
+          'The executive team is here — not on a quarterly flight. Temporary export management, international expansion, fractional leadership and the digital engine all run from the same Miami Beach address: Thyssen Building, 1000 5th Street, Suite 200, Miami Beach, FL 33139.',
+          'Who should talk to us in Miami: international companies, U.S. brands expanding into LATAM, founders and investors who need operators. Call or WhatsApp +1 305-549-4289, or email info@bizandstyledna.com — or tell us what you\'re building.',
+        ],
+      },
+    ],
+    faqs: [
+      { q: 'Why is BIZ & STYLE based in Miami?', a: 'Miami is the business capital of Latin America and the trade gateway of the Americas — PortMiami, MIA, international capital, and no state income tax. We have been headquartered in Miami Beach since 2017.' },
+      { q: 'Is Miami useful for U.S. market entry and LATAM expansion?', a: 'Yes. One HQ serves the United States and Canada northbound and Mexico, the Caribbean, Brazil and wider LATAM southbound — with Dubai and Singapore relationships beyond.' },
+      { q: 'Do you help founders relocating from New York or Silicon Valley?', a: 'We coordinate market presence, corporate setup sequencing and local operating infrastructure; licensed professionals deliver regulated legal, tax and immigration steps.' },
+      { q: 'What is the bonded warehouse advantage from Miami?', a: 'Duty-deferred storage near PortMiami and MIA: pay U.S. duty only on release, re-export to LATAM without U.S. duty, consolidate while in bond.' },
+      { q: 'Who should talk to BIZ & STYLE in Miami?', a: 'International companies, U.S. brands expanding into LATAM, founders and investors who need operators — not advisors at a distance.' },
+      { q: 'How do I contact headquarters?', a: 'Call or WhatsApp +1 305-549-4289, or email info@bizandstyledna.com. Thyssen Building, 1000 5th Street, Suite 200, Miami Beach, FL 33139.' },
+    ],
+    links: [
+      { href: '/commerce/bonded-warehouse', label: 'bonded warehouse in Miami', line: 'Duty-deferred storage near PortMiami and MIA.' },
+      { href: '/advisory/international-expansion', label: 'U.S. market entry from Miami', line: 'The service that delivers expansion — five phases, licensed partners.' },
+      { href: '/internationalization', label: 'internationalization vs export', line: 'The model: becoming part of the market, not shipping product.' },
+      { href: '/tell-us', label: "tell us what you're building", line: 'A conversation is where every engagement starts.' },
+    ],
     cta: { eyebrow: 'Coming to Miami?', title: ["Let's meet", 'on the ground.'], primary: { label: "Let's connect", href: '/connect', name: 'connect' }, secondary: { label: "Tell us what you're building", href: TELL, name: 'tell_us' } },
   },
 
