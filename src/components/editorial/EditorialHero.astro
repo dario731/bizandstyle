@@ -32,7 +32,11 @@ const groundClass = ground === 'onyx' ? 'ground-onyx' : 'ground-paper';
     <div class="eh__text">
       {eyebrow && <p class="eyebrow eyebrow--marker" data-reveal>{eyebrow}</p>}
       <h1 class:list={[size, 'eh__title']} data-reveal>
-        {lines.map((l, i) => <span class:list={{ thin: i > 0 && lines.length > 1 }}>{l}</span>)}
+        {lines.map((l, i) => (
+          <span class:list={{ thin: i > 0 && lines.length > 1 }}>
+            {l}{i < lines.length - 1 ? ' ' : ''}
+          </span>
+        ))}
       </h1>
       {lede && <p class="lede eh__lede" data-reveal>{lede}</p>}
       <div class="eh__slot" data-reveal><slot /></div>
