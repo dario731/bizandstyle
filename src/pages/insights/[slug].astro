@@ -29,12 +29,12 @@ const toc = headings.filter((h) => h.depth === 2);
 const relatedExplicit = d.related.length ? (await Promise.all(d.related.map((r) => getEntry(r)))).filter(Boolean) : null;
 const serviceLinks = d.relatedServices.map((sp) => {
   const s = services.find((x) => `${divisionMeta[x.division].path}/${x.slug}` === sp || x.href === sp);
-  const hub: Record<string, string> = { '/internationalization': 'Internationalization', '/digital-engine': 'Digital engine', '/lead-generation': 'Lead generation', '/miami': 'Miami', '/luxury': 'B&S Luxury', '/advisory': 'B&S Advisory', '/commerce': 'B&S Commerce', '/investor-journey': 'The Investor Journey™' };
+  const hub: Record<string, string> = { '/internationalization': 'Internationalization', '/digital-engine': 'Digital engine', '/lead-generation': 'Lead generation', '/miami': 'Miami', '/luxury': 'B&S Luxury', '/advisory': 'B&S Advisory', '/commerce': 'B&S Commerce', '/investor-journey': 'The Investor Journey™', '/platform': 'Platform' };
   return { href: sp, label: s?.title ?? hub[sp] ?? sp };
 });
 const authorPath = author?.id === 'dario-picardi' ? '/about/dario-picardi' : `/insights/authors/${author?.id}`;
 const jsonLd = graph(
-  articleLd({ title: d.title, description: d.excerpt, path, published: d.publishDate, modified: d.updatedDate, authorName: author?.data.name ?? site.name, authorPath, section: category?.data.name, tags: [...d.tags], image: d.hero?.image?.src ? `${site.url}${d.hero.image.src}` : undefined }),
+  articleLd({ title: d.title, description: d.excerpt, path, published: d.publishDate, modified: d.updatedDate, authorName: author?.data.name ?? site.name, authorPath, section: category?.data.name, tags: [...d.tags], about: d.about.length ? [...d.about] : undefined, image: d.hero?.image?.src ? `${site.url}${d.hero.image.src}` : undefined }),
   breadcrumbLd([{ name: 'Insights', path: '/insights' }, ...(category ? [{ name: category.data.name, path: `/insights/category/${category.id}` }] : []), { name: d.title, path }]),
   faqLd([...d.faqs]),
 );
@@ -218,6 +218,27 @@ const jsonLd = graph(
     text-decoration: underline;
     text-underline-offset: 0.2em;
     text-decoration-color: var(--rule);
+  }
+  .art__body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+    margin-block: 1.6em;
+    display: block;
+    overflow-x: auto;
+  }
+  .art__body :global(th),
+  .art__body :global(td) {
+    text-align: left;
+    padding: 0.75rem 0.85rem 0.75rem 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .art__body :global(thead th) {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--smoke);
   }
   .art__sources {
     margin-top: var(--space-8);

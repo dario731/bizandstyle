@@ -138,6 +138,7 @@ export const articleLd = (o: {
   image?: string;
   section?: string;
   tags?: string[];
+  about?: string[];
 }) => ({
   '@type': 'Article',
   '@id': `${site.url}${o.path}#article`,
@@ -152,6 +153,7 @@ export const articleLd = (o: {
   ...(o.image ? { image: o.image } : {}),
   ...(o.section ? { articleSection: o.section } : {}),
   ...(o.tags?.length ? { keywords: o.tags.join(', ') } : {}),
+  ...(o.about?.length ? { about: o.about } : {}),
   inLanguage: 'en',
 });
 
