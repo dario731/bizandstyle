@@ -24,12 +24,13 @@ interface Props {
   publishedTime?: string;
   modifiedTime?: string;
   canonical?: string;
+  ogImageAlt?: string;
   /** Header starts transparent over a dark hero */
   headerOverlay?: boolean;
   bodyClass?: string;
 }
 
-const { title, description, path, pageType, locale = 'en', type, image, noindex, jsonLd, publishedTime, modifiedTime, headerOverlay = true, bodyClass = '', canonical } = Astro.props;
+const { title, description, path, pageType, locale = 'en', type, image, noindex, jsonLd, publishedTime, modifiedTime, headerOverlay = true, bodyClass = '', canonical, ogImageAlt } = Astro.props;
 const gtmId = import.meta.env.PUBLIC_GTM_ID as string | undefined;
 ---
 
@@ -47,7 +48,7 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID as string | undefined;
     <link rel="preload" as="font" type="font/woff2" href={archivoUrl} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={interUrl} crossorigin />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <Seo {title} {description} {path} {type} {image} {noindex} {jsonLd} {publishedTime} {modifiedTime} {locale} {canonical} />
+    <Seo {title} {description} {path} {type} {image} {noindex} {jsonLd} {publishedTime} {modifiedTime} {locale} {canonical} {ogImageAlt} />
     {
       gtmId && (
         <script is:inline define:vars={{ gtmId }}>
