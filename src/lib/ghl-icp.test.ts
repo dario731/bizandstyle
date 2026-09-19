@@ -1,6 +1,6 @@
 import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
-import { ICP_TAGS, icpTags, mapIcp, SOURCE_SITE_FORM_TAG } from './ghl-icp.ts';
+import { ICP_TAGS, icpTags, mapIcp, SOURCE_SITE_FORM_TAG, SOURCE_TAGS, sourceTags } from './ghl-icp.ts';
 
 describe('mapIcp', () => {
   it('maps luxury-company and aviation language to Aviation Yacht', () => {
@@ -27,10 +27,11 @@ describe('mapIcp', () => {
     assert.equal(mapIcp('us-company', 'business-development'), 'intra_company');
   });
 
-  it('maps international / frac-exec / market-entry / distribution to overseas', () => {
+  it('maps international / frac-exec / market-entry / distribution / bonded to overseas', () => {
     assert.equal(mapIcp('international-company', 'market-entry'), 'overseas');
     assert.equal(mapIcp('founder', 'fractional-executive'), 'overseas');
     assert.equal(mapIcp('consumer-brand', 'distribution'), 'overseas');
+    assert.equal(mapIcp('partner', 'other', { message: 'Bonded warehouse and logistics' }), 'overseas');
   });
 
   it('returns null for soft/unknown (partner, other)', () => {
@@ -39,8 +40,14 @@ describe('mapIcp', () => {
     assert.equal(mapIcp(undefined, undefined), null);
   });
 
-  it('always includes Source: Site Form and the ICP tag when known', () => {
+  it('uses official ICP: prefix tags plus Source: Site Form', () => {
+    assert.equal(ICP_TAGS.investor, 'ICP: Investor');
+    assert.equal(ICP_TAGS.aviation, 'ICP: Aviation Yacht');
     assert.deepEqual(icpTags('investor'), [ICP_TAGS.investor, SOURCE_SITE_FORM_TAG]);
     assert.deepEqual(icpTags(null), [SOURCE_SITE_FORM_TAG]);
+  });
+
+  it('adds Source: Partner on the partner form', () => {
+    assert.deepEqual(sourceTags('partner'), [SOURCE_TAGS.site_form, SOURCE_TAGS.partner]);
   });
 });
