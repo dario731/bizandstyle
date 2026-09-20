@@ -59,18 +59,22 @@ const jsonLd = graph(
   }
   .tu__booker {
     width: 100%;
-    min-height: 720px;
+    min-height: max(700px, min(90vh, 900px));
     border: 1px solid rgba(244, 246, 248, 0.1);
     border-radius: 2px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
     background: #0c0d0f;
     margin-bottom: var(--space-6);
   }
   .tu__booker iframe {
+    display: block;
     width: 100%;
-    min-height: 720px;
-    height: 100%;
+    min-height: max(700px, min(90vh, 900px));
+    height: max(700px, min(90vh, 900px));
     border: 0;
+    overflow-y: auto;
   }
   .tu-alt__grid {
     display: flex;

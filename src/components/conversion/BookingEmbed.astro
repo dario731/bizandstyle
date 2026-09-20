@@ -2,6 +2,9 @@
 /**
  * DNA Discovery Call (30 min) — GoHighLevel booking iframe.
  * URL comes from `site.booking` so the calendar path stays centralized.
+ *
+ * Height/overflow matter: GHL stacks the calendar above time slots. A short
+ * iframe with scrolling=no + overflow:hidden clips the slots into a black void.
  */
 import { site } from '@data/site';
 
@@ -15,9 +18,25 @@ const { id = 'dna-ghl-booking', lazy = false } = Astro.props;
 ---
 
 <iframe
+  class="ghl-booking"
   {...(lazy ? { 'data-src': site.booking } : { src: site.booking })}
-  style="width:100%;border:none;overflow:hidden;"
-  scrolling="no"
   {id}
   title="Book a DNA Discovery Call"
+  scrolling="yes"
+  loading={lazy ? undefined : 'lazy'}
 ></iframe>
+
+<style>
+  .ghl-booking {
+    display: block;
+    width: 100%;
+    min-width: 100%;
+    min-height: max(700px, min(90vh, 900px));
+    height: max(700px, min(90vh, 900px));
+    border: none;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: #0c0d0f;
+    color-scheme: dark;
+  }
+</style>
