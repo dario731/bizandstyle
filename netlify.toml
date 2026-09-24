@@ -19,23 +19,24 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
 
-# Permanent Lead Gen URL is /lead-generation/. Pretty URLs would otherwise
-# 301 the trailing slash to /lead-generation; force a 200 so the slash URL stays.
+# /lead-generation.html is a file, like every other page. Pretty URLs 301s
+# /lead-generation/ to /lead-generation. Do not force that slash URL to 200.
+# /index.html is the homepage file and is not covered by Pretty URLs.
 [[redirects]]
-  from = "/lead-generation/"
-  to = "/lead-generation"
-  status = 200
+  from = "/index.html"
+  to = "/"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/advisory/lead-generation"
-  to = "/lead-generation/"
+  to = "/lead-generation"
   status = 301
   force = true
 
 [[redirects]]
   from = "/advisory/lead-generation/"
-  to = "/lead-generation/"
+  to = "/lead-generation"
   status = 301
   force = true
 

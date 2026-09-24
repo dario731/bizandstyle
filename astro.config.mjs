@@ -31,16 +31,10 @@ export default defineConfig({
         !page.includes('/api/') &&
         !page.includes('/request-credentials/thanks') &&
         !page.includes('/advisory/digital-growth'),
-      serialize(item) {
-        if (item.url === 'https://bizandstyledna.com/lead-generation') {
-          item.url = 'https://bizandstyledna.com/lead-generation/';
-        }
-        return item;
-      },
     }),
   ],
   redirects: {
-    '/advisory/lead-generation': '/lead-generation/',
+    '/advisory/lead-generation': '/lead-generation',
     '/advisory/digital-growth': '/digital-engine',
   },
   prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
