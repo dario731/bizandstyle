@@ -166,8 +166,10 @@ Attribution is captured on first visit into `sessionStorage`/first-party cookie 
 (`GHL_*` env — fail closed if required vars are missing). `LEAD_WEBHOOK_URL` remains an optional secondary
 forward (Follow Up Boss, HubSpot, Zapier/Make). No client-facing SMS/email is sent from this endpoint.
 
-dataLayer events (brief §17) are emitted through `track(event, params)`; GTM/GA4 IDs are injected from
-`PUBLIC_GTM_ID` only when present. Nothing is hard-coded.
+dataLayer events (brief §17) are emitted through `track(event, params)`. Container `GTM-P456JCB9`
+is installed in `BaseLayout` (standard head snippet and body noscript). GA4 loads through that container.
+`generate_lead` is pushed only after `/api/lead` stores a lead, or after the GoHighLevel calendar
+posts `msgsndr-booking-complete`.
 
 ## 7. Multilingual architecture
 

@@ -441,7 +441,7 @@ const o = copy.options;
 </style>
 
 <script>
-  import { track, getAttribution } from '@lib/track';
+  import { track, getAttribution, leadStored, trackGenerateLead } from '@lib/track';
 
   const FIELDS_FOR: Record<string, string[]> = {
     'international-company': ['country', 'currentMarkets', 'targetMarket', 'usPresence', 'size'],
@@ -562,6 +562,7 @@ const o = copy.options;
         const res = await fetch(form.action, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(envelope) });
         const data = await res.json();
         if (!res.ok || !data.ok) throw new Error(data.error ?? 'failed');
+        if (leadStored(res.ok, data)) trackGenerateLead(formId);
         if (data.tier === 'A' || data.tier === 'B') track('qualified_lead', { cta_name: formId, persona, lead_type: data.tier });
         steps.forEach((s) => (s.hidden = true));
         form.querySelector<HTMLElement>('[data-steps]')!.hidden = true;

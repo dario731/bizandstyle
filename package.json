@@ -10,7 +10,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "test": "node --experimental-strip-types --test src/lib/ghl-icp.test.ts src/lib/ghl.test.ts"
+    "test": "node --experimental-strip-types --test src/lib/ghl-icp.test.ts src/lib/ghl.test.ts src/lib/track.test.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^8.0.1",
