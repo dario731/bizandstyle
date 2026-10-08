@@ -40,3 +40,8 @@ const { id = 'dna-ghl-booking', lazy = false } = Astro.props;
     color-scheme: dark;
   }
 </style>
+
+<script>
+  import { bindGhlBookingLeadTracking } from '@lib/track';
+  bindGhlBookingLeadTracking();
+</script>

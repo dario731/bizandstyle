@@ -260,7 +260,7 @@ const uid = formId.replace(/[^a-z0-9]/gi, '');
 </style>
 
 <script>
-  import { track, getAttribution } from '@lib/track';
+  import { track, getAttribution, leadStored, trackGenerateLead } from '@lib/track';
 
   document.querySelectorAll<HTMLFormElement>('[data-lead-lite]').forEach((form) => {
     const formId = form.dataset.formId!;
@@ -307,6 +307,7 @@ const uid = formId.replace(/[^a-z0-9]/gi, '');
         const res = await fetch(form.action, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(envelope) });
         const data = await res.json();
         if (!res.ok || !data.ok) throw new Error(data.error ?? 'failed');
+        if (leadStored(res.ok, data)) trackGenerateLead(formId);
         form.querySelector<HTMLElement>('.lfl__fields')!.hidden = true;
         form.querySelector<HTMLElement>('.lfl__nav')!.hidden = true;
         success.hidden = false;

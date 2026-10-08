@@ -31,12 +31,18 @@ interface Props {
 }
 
 const { title, description, path, pageType, locale = 'en', type, image, noindex, jsonLd, publishedTime, modifiedTime, headerOverlay = true, bodyClass = '', canonical, ogImageAlt } = Astro.props;
-const gtmId = import.meta.env.PUBLIC_GTM_ID as string | undefined;
 ---
 
 <!doctype html>
 <html lang={locale} dir="ltr">
   <head>
+    <!-- Google Tag Manager -->
+    <script is:inline>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-P456JCB9');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0c0d0f" />
@@ -49,26 +55,14 @@ const gtmId = import.meta.env.PUBLIC_GTM_ID as string | undefined;
     <link rel="preload" as="font" type="font/woff2" href={interUrl} crossorigin />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <Seo {title} {description} {path} {type} {image} {noindex} {jsonLd} {publishedTime} {modifiedTime} {locale} {canonical} {ogImageAlt} />
-    {
-      gtmId && (
-        <script is:inline define:vars={{ gtmId }}>
-          window.dataLayer = window.dataLayer || [];
-          (function (w, d, s, l, i) {
-            w[l] = w[l] || [];
-            w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-            var f = d.getElementsByTagName(s)[0],
-              j = d.createElement(s);
-            j.async = true;
-            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i;
-            f.parentNode.insertBefore(j, f);
-          })(window, document, 'script', 'dataLayer', gtmId);
-        </script>
-      )
-    }
     <!-- GoHighLevel external tracking -->
     <script is:inline src="https://link.msgsndr.com/js/external-tracking.js" data-tracking-id="tk_e97ee062db0c4bce968834ba919a93be"></script>
   </head>
   <body data-page-type={pageType} class:list={[bodyClass]}>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P456JCB9"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <a class="skip-link" href="#main">Skip to content</a>
     <GlobalHeader {locale} overlay={headerOverlay} />
     <main id="main" tabindex="-1">

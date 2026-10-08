@@ -32,7 +32,7 @@ Environment variables (see `.env.example`):
 
 | Var | Purpose |
 |---|---|
-| `PUBLIC_GTM_ID` | When set, GTM loads and receives every `dataLayer` event from `src/lib/track.ts`. Leave empty until GA4/GTM are configured. |
+| GTM | Container `GTM-P456JCB9` is in `BaseLayout` (head snippet + body noscript) on every page. `src/lib/track.ts` pushes `dataLayer` events, including `generate_lead` only after a lead is stored. Do not add `gtag.js`. |
 | `LEAD_WEBHOOK_URL` / `LEAD_WEBHOOK_TOKEN` | Optional secondary forward after the GHL write (Follow Up Boss, HubSpot, Zapier/Make…). Empty = skip. |
 | `GHL_LOCATION_ID` | HighLevel location (sub-account) for `/api/lead` Contact + Opportunity writes. Required. |
 | `GHL_PRIVATE_INTEGRATION_TOKEN` | HighLevel Private Integration token. Required — missing GHL vars return `503` / `ok: false` (no fake success). |

@@ -1,8 +1,11 @@
 /**
- * Centralised tracking bus. Nothing here knows about GA4 or GTM IDs; it only
- * pushes typed events to window.dataLayer so GTM (when configured through
- * PUBLIC_GTM_ID) can map them. Attribution is captured once per session and
- * attached to every lead payload — invisibly to the visitor.
+ * Centralised tracking bus. Pushes typed events to window.dataLayer for the
+ * sitewide GTM container (GTM-P456JCB9 in BaseLayout). GA4 is loaded by GTM;
+ * this file does not load gtag.js. Attribution is captured once per session
+ * and attached to every lead payload — invisibly to the visitor.
+ *
+ * `generate_lead` is not a general track() event. Call `trackGenerateLead`
+ * only after a lead submit actually succeeds.
  */
 export type TrackEvent =
   | 'cta_click'
@@ -145,6 +148,64 @@ export function track(event: TrackEvent, params: TrackParams = {}): void {
     language: document.documentElement.lang,
     page_type: document.body.dataset.pageType,
     ...params,
+  });
+}
+
+/**
+ * GA4 recommended lead event. Call only after /api/lead returns ok for a real
+ * lead, or after the GoHighLevel calendar posts `msgsndr-booking-complete`.
+ * Not for clicks, validation failures, pageviews, or the honeypot reply.
+ */
+export function trackGenerateLead(formName: string): void {
+  if (typeof window === 'undefined') return;
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: 'generate_lead', form_name: formName });
+}
+
+/** /api/lead accepted a stored lead. `{ ok: true, id: 'ignored' }` is the honeypot, not a lead. */
+export function leadStored(statusOk: boolean, data: { ok?: unknown; id?: unknown } | null | undefined): boolean {
+  return statusOk && !!data && data.ok === true && data.id !== 'ignored';
+}
+
+const GHL_BOOKING_COMPLETE = 'msgsndr-booking-complete';
+
+function isTrustedGhlOrigin(origin: string): boolean {
+  let url: URL;
+  try {
+    url = new URL(origin);
+  } catch {
+    return false;
+  }
+  if (url.protocol !== 'https:') return false;
+  const host = url.hostname;
+  return host === 'leadconnectorhq.com' || host.endsWith('.leadconnectorhq.com') || host === 'msgsndr.com' || host.endsWith('.msgsndr.com');
+}
+
+/**
+ * Documented GoHighLevel calendar completion postMessage:
+ * `['msgsndr-booking-complete', { calendarId }]`.
+ * Other widget messages (resize, form-field echoes) are not completions.
+ */
+export function isGhlBookingCompleteMessage(origin: string, data: unknown): boolean {
+  return isTrustedGhlOrigin(origin) && Array.isArray(data) && data[0] === GHL_BOOKING_COMPLETE;
+}
+
+/** Listen for a completed DNA Discovery Call inside a `.ghl-booking` iframe. */
+export function bindGhlBookingLeadTracking(): void {
+  if (typeof window === 'undefined') return;
+  const flag = window as Window & { __bsGhlLeadBound?: boolean };
+  if (flag.__bsGhlLeadBound) return;
+  flag.__bsGhlLeadBound = true;
+  const seen = new WeakSet<object>();
+  window.addEventListener('message', (event) => {
+    if (!isGhlBookingCompleteMessage(event.origin, event.data)) return;
+    const source = event.source;
+    if (source && typeof source === 'object') {
+      if (seen.has(source)) return;
+      seen.add(source);
+    }
+    const frame = Array.from(document.querySelectorAll<HTMLIFrameElement>('iframe.ghl-booking')).find((el) => el.contentWindow === source);
+    trackGenerateLead(frame?.id || 'ghl-booking');
   });
 }
 
